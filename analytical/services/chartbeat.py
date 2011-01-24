@@ -6,6 +6,7 @@ import re
 
 from django.contrib.sites.models import Site, RequestSite
 from django.core.exceptions import ImproperlyConfigured
+from django.utils import simplejson
 
 from analytical.services.base import AnalyticalService
 
@@ -14,7 +15,7 @@ USER_ID_RE = re.compile(r'^\d{5}$')
 INIT_CODE = """<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>"""
 SETUP_CODE = """
 <script type="text/javascript">
-    var _sf_async_config={uid:%(user_id)s,domain:"%(domain)s"};
+    var _sf_async_config=%(config)s;
     (function(){
       function loadChartbeat() {
         window._sf_endpt=(new Date()).getTime();
@@ -45,22 +46,12 @@ class ChartbeatService(AnalyticalService):
         return INIT_CODE
 
     def render_body_bottom(self, context):
-        return SETUP_CODE % {'user_id': self.user_id,
-                'domain': self._get_domain(context)}
-
-    def _get_domain(self, context):
+        config = {'uid': self.user_id}
         try:
-            return context[DOMAIN_CONTEXT_KEY]
+            config['domain'] = context[DOMAIN_CONTEXT_KEY]
         except KeyError:
-            pass
-        try:
-            return Site.objects.get_current().domain
-        except ImproperlyConfigured:
-            pass
-        try:
-            request = context['request']
-            return RequestSite(request).domain
-        except (KeyError, AttributeError):
-            raise KeyError("could not find access either '%s' or 'request' "
-                    "in the template context and 'django.contrib.sites' is "
-                    "not in INSTALLED_APPS" % DOMAIN_CONTEXT_KEY)
+            try:
+                config['domain'] = Site.objects.get_current().domain
+            except (ImproperlyConfigured, Site.DoesNotExist, AttributeError):
+                pass
+        return SETUP_CODE % {'config': simplejson.dumps(config)}

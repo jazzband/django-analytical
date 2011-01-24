@@ -2,6 +2,8 @@
 Tests for the Chartbeat service.
 """
 
+import re
+
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
@@ -45,15 +47,17 @@ class ChartbeatTestCase(TestCase):
 
     def test_rendering_setup(self):
         r = self.service.render_body_bottom({'chartbeat_domain': "test.com"})
-        self.assertTrue('var _sf_async_config={uid:12345,domain:"test.com"};'
-                in r, r)
+        self.assertTrue(re.search(
+                'var _sf_async_config={.*"uid": "12345".*};', r), r)
+        self.assertTrue(re.search(
+                'var _sf_async_config={.*"domain": "test.com".*};', r), r)
 
-    def test_rendering_setup_request_domain(self):
-        req = HttpRequest()
-        req.META['HTTP_HOST'] = 'test.com'
-        r = self.service.render_body_bottom({'request': req})
-        self.assertTrue('var _sf_async_config={uid:12345,domain:"test.com"};'
-                in r, r)
+    def test_rendering_setup_no_site(self):
+        installed_apps = [a for a in settings.INSTALLED_APPS
+                if a != 'django.contrib.sites']
+        self.settings_manager.set(INSTALLED_APPS=installed_apps)
+        r = self.service.render_body_bottom({})
+        self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
     def test_rendering_setup_site(self):
         installed_apps = list(settings.INSTALLED_APPS)
@@ -62,5 +66,7 @@ class ChartbeatTestCase(TestCase):
         site = Site.objects.create(domain="test.com", name="test")
         self.settings_manager.set(SITE_ID=site.id)
         r = self.service.render_body_bottom({})
-        self.assertTrue('var _sf_async_config={uid:12345,domain:"test.com"};'
-                in r, r)
+        self.assertTrue(re.search(
+                'var _sf_async_config={.*"uid": "12345".*};', r), r)
+        self.assertTrue(re.search(
+                'var _sf_async_config={.*"domain": "test.com".*};', r), r)

@@ -9,7 +9,10 @@ slows to a crawl.
 .. _Chartbeat: http://www.chartbeat.com/
 
 The Chartbeat service adds code both to the top of the head section and
-the bottom of the body section.
+the bottom of the body section.  If the project uses the sites
+framework, the domain name of the current website will be passed to
+Chartbeat.  Otherwise, Chartbeat will detect the domain name from the
+URL.
 
 
 Required settings
