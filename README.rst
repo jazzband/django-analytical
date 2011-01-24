@@ -4,6 +4,7 @@ django-analytical
 The django-analytical application integrates various analytics services
 into a Django_ project.  Currently supported services:
 
+* `Chartbeat`_ -- traffic analysis
 * `Clicky`_ -- traffic analysis
 * `Crazy Egg`_ -- visual click tracking
 * `Google Analytics`_ traffic analysis
@@ -23,6 +24,7 @@ Joshua Krall's all-purpose analytics front-end for Rails.  The work on
 Crazy Egg was made possible by `Bateau Knowledge`_.
 
 .. _Django: http://www.djangoproject.com/
+.. _Chartbeat: http://www.chartbeat.com/
 .. _Clicky: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
 .. _`Google Analytics`: http://www.google.com/analytics/

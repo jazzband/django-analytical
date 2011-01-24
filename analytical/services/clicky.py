@@ -4,14 +4,17 @@ Clicky service.
 
 import re
 
+from django.utils import simplejson
+
 from analytical.services.base import AnalyticalService
 
 
 SITE_ID_RE = re.compile(r'^\d{8}$')
-TRACKING_CODE = """
+SETUP_CODE = """
     <script type="text/javascript">
     var clicky = { log: function(){ return; }, goal: function(){ return; }};
     var clicky_site_id = %(site_id)s;
+    var clicky_custom = %(custom)s;
     (function() {
       var s = document.createElement('script');
       s.type = 'text/javascript';
@@ -22,14 +25,23 @@ TRACKING_CODE = """
     </script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="http://in.getclicky.com/%(site_id)sns.gif" /></p></noscript>
 """
+CUSTOM_CONTEXT_KEY = 'clicky_custom'
 
 
 class ClickyService(AnalyticalService):
-    KEY = 'clicky'
-
     def __init__(self):
         self.site_id = self.get_required_setting('CLICKY_SITE_ID', SITE_ID_RE,
                 "must be a string containing an eight-digit number")
 
     def render_body_bottom(self, context):
-        return TRACKING_CODE % {'site_id': self.site_id}
+        custom = {
+            'session': {
+                'username': self.get_identity(context),
+            }
+        }
+        custom.update(context.get(CUSTOM_CONTEXT_KEY, {}))
+        return SETUP_CODE % {'site_id': self.site_id,
+                'custom': simplejson.dumps(custom)}
+
+    def _convert_properties(self):
+        pass

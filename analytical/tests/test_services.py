@@ -18,30 +18,18 @@ class GetEnabledServicesTestCase(TestCase):
 
     def setUp(self):
         services.enabled_services = None
-        services.load_services = self._dummy_load_services_1
+        services.load_services = lambda: 'test'
 
     def tearDown(self):
+        services.enabled_services = None
         services.load_services = load_services
 
-    def test_no_reload(self):
+    def test_get_enabled_services(self):
         result = services.get_enabled_services()
-        self.assertEqual(result, 'test1')
-        services.load_services = self._dummy_load_services_2
+        self.assertEqual(result, 'test')
+        services.load_services = lambda: 'test2'
         result = services.get_enabled_services()
-        self.assertEqual(result, 'test1')
-
-    def test_reload(self):
-        result = services.get_enabled_services()
-        self.assertEqual(result, 'test1')
-        services.load_services = self._dummy_load_services_2
-        result = services.get_enabled_services(reload=True)
-        self.assertEqual(result, 'test2')
-
-    def _dummy_load_services_1(self):
-        return 'test1'
-
-    def _dummy_load_services_2(self):
-        return 'test2'
+        self.assertEqual(result, 'test')
 
 
 class LoadServicesTestCase(TestCase):
@@ -53,6 +41,7 @@ class LoadServicesTestCase(TestCase):
         self.settings_manager = TestSettingsManager()
         self.settings_manager.delete('ANALYTICAL_SERVICES')
         self.settings_manager.delete('CLICKY_SITE_ID')
+        self.settings_manager.delete('CHARTBEAT_USER_ID')
         self.settings_manager.delete('CRAZY_EGG_ACCOUNT_NUMBER')
         self.settings_manager.delete('GOOGLE_ANALYTICS_PROPERTY_ID')
         self.settings_manager.delete('KISSINSIGHTS_ACCOUNT_NUMBER')
@@ -60,9 +49,11 @@ class LoadServicesTestCase(TestCase):
         self.settings_manager.delete('KISSMETRICS_API_KEY')
         self.settings_manager.delete('MIXPANEL_TOKEN')
         self.settings_manager.delete('OPTIMIZELY_ACCOUNT_NUMBER')
+        services.enabled_services = None
 
     def tearDown(self):
         self.settings_manager.revert()
+        services.enabled_services = None
 
     def test_no_services(self):
         self.assertEqual(load_services(), [])

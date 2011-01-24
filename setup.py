@@ -1,4 +1,5 @@
 from distutils.core import setup, Command
+import os
 
 cmdclass = {}
 
@@ -33,6 +34,9 @@ class TestCommand(Command):
 cmdclass['test'] = TestCommand
 
 
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
 import analytical
 
 setup(
@@ -40,7 +44,7 @@ setup(
     version = analytical.__version__,
     license = analytical.__license__,
     description = 'Analytics services for Django projects',
-    long_description = analytical.__doc__,
+    long_description = read('README.rst'),
     author = analytical.__author__,
     author_email = analytical.__email__,
     packages = [

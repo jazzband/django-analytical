@@ -10,6 +10,7 @@ into a Django_ project.
 :Download: http://pypi.python.org/pypi/django-analytical/
 :Source:   http://github.com/jcassee/django-analytical
 
+
 Overview
 ========
 
@@ -22,14 +23,13 @@ the different analytics services behind a generic interface.  It is
 designed to make the common case easy while allowing advanced users to
 customize tracking.
 
-
-Features
---------
-
-* Easy installation.  See the :doc:`quick`.
-* Supports many services.  See :doc:`services/index`.
-* Automatically identifies logged-in users (not implemented yet)
-* Disables tracking on internal IP addresses (not implemented yet)
+The application provides four generic template tags that are added to
+the top and bottom of the head and body section of the base template.
+Configured services will be enabled automatically by adding Javascript
+code at these locations.  The installation will follow the
+recommendations from the analytics services, using an asynchronous
+version of the code if possible.  See :doc:`services/index` for detailed
+information about each individual analytics service.
 
 
 Contents
@@ -38,7 +38,7 @@ Contents
 .. toctree::
     :maxdepth: 2
 
-    quick
     install
     services/index
+    settings
     history

@@ -31,7 +31,7 @@ class CrazyEggTestCase(TestCase):
         self.settings_manager.delete('CRAZY_EGG_ACCOUNT_NUMBER')
         self.assertRaises(ImproperlyConfigured, CrazyEggService)
 
-    def test_wrong_id(self):
+    def test_wrong_account_number(self):
         self.settings_manager.set(CRAZY_EGG_ACCOUNT_NUMBER='1234567')
         self.assertRaises(ImproperlyConfigured, CrazyEggService)
         self.settings_manager.set(CRAZY_EGG_ACCOUNT_NUMBER='123456789')
@@ -40,3 +40,9 @@ class CrazyEggTestCase(TestCase):
     def test_rendering(self):
         r = self.service.render_body_bottom({})
         self.assertTrue('/1234/5678.js' in r, r)
+
+    def test_uservars(self):
+        context = {'crazy_egg_uservars': {1: 'foo', 2: 'bar'}}
+        r = self.service.render_body_bottom(context)
+        self.assertTrue("CE2.set(1, 'foo');" in r, r)
+        self.assertTrue("CE2.set(2, 'bar');" in r, r)

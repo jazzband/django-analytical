@@ -4,6 +4,7 @@
 # directory.
 
 import sys, os
+sys.path.append(os.path.join(os.path.abspath('.'), '.ext'))
 sys.path.append(os.path.dirname(os.path.abspath('.')))
 
 import analytical
@@ -26,7 +27,10 @@ master_doc = 'index'
 add_function_parentheses = True
 pygments_style = 'sphinx'
 
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {
+    'http://docs.python.org/2.6': None,
+    'http://docs.djangoproject.com/en/1.2': 'http://docs.djangoproject.com/en/1.2/_objects/',
+}
 
 
 # -- Options for HTML output ---------------------------------------------------
