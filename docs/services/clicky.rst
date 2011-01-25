@@ -8,6 +8,10 @@ designed to be very easy to use.
 
 .. _Clicky: http://getclicky.com/
 
+The setup code is added to the bottom of the HTML body.  By default, the
+username of a logged-in user is passed to Clicky.  See
+:data:`ANALYTICAL_AUTO_IDENTIFY`.
+
 
 Required settings
 -----------------

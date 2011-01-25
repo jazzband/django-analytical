@@ -7,6 +7,10 @@ analysis of visitor retention or funnels.
 
 .. _Mixpanel: http://www.mixpanel.com/
 
+The code is added to the bottom of the HTML head.  By default, the
+username of a logged-in user is passed to Mixpanel.  See
+:data:`ANALYTICAL_AUTO_IDENTIFY`.
+
 
 Required settings
 -----------------

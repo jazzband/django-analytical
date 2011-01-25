@@ -97,6 +97,10 @@ to specify the used services explicitly.  Services are configured in the
 project ``settings.py`` file.  The settings required to enable each
 service are listed here.  See the service documentation for details.
 
+* :doc:`Chartbeat <services/chartbeat>`::
+
+	CHARTBEAT_USER_ID = '12345'
+
 * :doc:`Clicky <services/clicky>`::
 
 	CLICKY_SITE_ID = '12345678'

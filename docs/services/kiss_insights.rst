@@ -7,6 +7,11 @@ the targeted, actionable feedback you need to make your site better.
 
 .. _KISSinsights: http://www.kissinsights.com/
 
+The code is added to the top of the HTML body.  By default, the
+username of a logged-in user is passed to KISSinsights.  See
+:data:`ANALYTICAL_AUTO_IDENTIFY`.
+
+
 
 Required settings
 -----------------

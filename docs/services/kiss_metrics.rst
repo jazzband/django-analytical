@@ -8,6 +8,10 @@ many drop out at each stage.
 
 .. _KISSmetrics: http://www.kissmetrics.com/
 
+The code is added to the top of the HTML head.  By default, the
+username of a logged-in user is passed to KISSmetrics.  See
+:data:`ANALYTICAL_AUTO_IDENTIFY`.
+
 
 Required settings
 -----------------
