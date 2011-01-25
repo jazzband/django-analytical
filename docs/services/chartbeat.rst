@@ -32,3 +32,9 @@ Required settings
   Here, ``XXXXX`` is your User ID.
 
 .. _`Add New Site`: http://chartbeat.com/code/
+
+
+----
+
+Thanks go to Chartbeat for their support with the development of this
+application.

@@ -24,3 +24,9 @@ Required settings
 
   You can find the Site ID in the Info tab of the website Preferences
   page on your Clicky account.
+
+
+----
+
+Thanks go to Clicky for their support with the development of this
+application.

@@ -19,3 +19,9 @@ Required settings
 
   You can find the account number by clicking the link named "What's my
   code?" in the dashboard of your Crazy Egg account.
+
+
+----
+
+Thanks go to Crazy Egg for their support with the development of this
+application.

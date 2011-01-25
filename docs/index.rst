@@ -7,8 +7,9 @@ into a Django_ project.
 
 .. _Django: http://www.djangoproject.com/
 
-:Download: http://pypi.python.org/pypi/django-analytical/
-:Source:   http://github.com/jcassee/django-analytical
+:Package: http://pypi.python.org/pypi/django-analytical/
+:Source:  http://github.com/jcassee/django-analytical
+:Issues:  http://github.com/jcassee/django-analytical/issues
 
 
 Overview

@@ -26,7 +26,6 @@ class TestCommand(Command):
         pass
 
     def run(self):
-        import os
         os.environ['DJANGO_SETTINGS_MODULE'] = 'analytical.tests.settings'
         from analytical.tests.utils import run_tests
         run_tests()
@@ -53,9 +52,9 @@ setup(
         'analytical.templatetags',
         'analytical.tests',
     ],
-    keywords = ['django', 'analytics]'],
+    keywords = ['django', 'analytics'],
     classifiers = [
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
