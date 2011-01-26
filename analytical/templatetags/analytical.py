@@ -12,7 +12,7 @@ from django.utils.importlib import import_module
 
 
 DEFAULT_SERVICES = [
-    'analytical.chartbeat.ChartbeatService',
+    'analytical.chartbeat.chartbeat_service',
     'analytical.clicky.clicky_service',
     'analytical.crazy_egg.CrazyEggService',
     'analytical.google_analytics.GoogleAnalyticsService',

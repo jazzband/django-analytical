@@ -11,7 +11,7 @@ designed to be very easy to use.
 .. _Clicky: http://getclicky.com/
 
 
-.. clicky-template-tag:
+.. clicky-installation:
 
 Installation
 ============
@@ -37,6 +37,7 @@ have the tag, it is useful to add it to your base template.  Insert
 the tag at the bottom of the HTML body::
 
     {% load clicky %}
+
     ...
 
     {% clicky %}
@@ -55,8 +56,8 @@ website Site ID.  You can also customize the data that Clicky tracks.
 
 .. _clicky-site-id:
 
-The Site ID
------------
+Setting the Site ID
+-------------------
 
 Every website you track with Clicky gets its own Site ID, and the
 :ttag:`clicky` tag will include it in the rendered Javascript code.
@@ -64,15 +65,21 @@ You can find the Site ID in the *Info* tab of the website *Preferences*
 page, in your Clicky account.  Set :const:`CLICKY_SITE_ID` in the
 project :file:`settings.py` file::
 
-    CLICKY_SITE_ID = '12345678'
+    CLICKY_SITE_ID = 'XXXXXXXX'
 
 If you do not set a Site ID, the tracking code will not be rendered.
 
-Often you do not want to track clicks from your development or internal
-IP addresses.  By default, if the tag detects that the client comes from
-any address in the :const:`INTERNAL_IPS` setting, the tracking code is
-commented out.  See :const:`ANALYTICAL_INTERNAL_IPS` for important
-information about detecting the visitor IP address.
+
+.. _clicky-internal-ips:
+
+Internal IP addresses
+---------------------
+
+Usually you do not want to track clicks from your development or
+internal IP addresses.  By default, if the tags detect that the client
+comes from any address in the :const:`INTERNAL_IPS` setting, the
+tracking code is commented out.  See :const:`ANALYTICAL_INTERNAL_IPS`
+for important information about detecting the visitor IP address.
 
 
 .. _clicky-custom-data:
@@ -106,33 +113,33 @@ Here is a table with the most important variables.  All variable listed
 on the `customized tracking`_ documentation page can be set by replacing
 ``clicky_custom.`` with ``clicky_``.
 
-================  ===============  =====================================
-Context variable  Clicky property  Description
-================  ===============  =====================================
-clicky_session    session_         Session data.  A dictionary
-                                   containing ``username`` and/or
-                                   ``group`` keys.
-----------------  ---------------  -------------------------------------
-clicky_goal       goal_            A succeeded goal.  A dictionary
-                                   containing ``id`` and ``revenue``
-                                   keys.
-----------------  ---------------  -------------------------------------
-clicky_href       href_            The URL as tracked by Clicky. Default
-                                   is the page URL.
-----------------  ---------------  -------------------------------------
-clicky_title      title_           The page title as tracked by Clicky.
-                                   Default is the HTML title.
-================  ===============  =====================================
+==================  ===============  ===================================
+Context variable    Clicky property  Description
+==================  ===============  ===================================
+``clicky_session``  session_         Session data.  A dictionary
+                                     containing ``username`` and/or
+                                     ``group`` keys.
+------------------  ---------------  -----------------------------------
+``clicky_goal``     goal_            A succeeded goal.  A dictionary
+                                     containing ``id`` and ``revenue``
+                                     keys.
+------------------  ---------------  -----------------------------------
+``clicky_href``     href_            The URL as tracked by Clicky.
+                                     Default is the page URL.
+------------------  ---------------  -----------------------------------
+``clicky_title``    title_           The page title as tracked by
+                                     Clicky.  Default is the HTML title.
+==================  ===============  ===================================
+
+By default, the username of an authenticated user is passed to Clicky
+automatically in the session_ property, unless that property was set
+explicitly.  See :data:`ANALYTICAL_AUTO_IDENTIFY`.
 
 .. _`customized tracking`: http://getclicky.com/help/customization
-.. _session: http://getclicky.com/help/customization#goal
+.. _session: http://getclicky.com/help/customization#session
 .. _goal: http://getclicky.com/help/customization#goal
 .. _href: http://getclicky.com/help/customization#href
 .. _title: http://getclicky.com/help/customization#title
-
-By default, the username of an authenticated user is passed to Clicky
-automatically in the ``session.username`` property, unless that property
-was set explicitly.  See :data:`ANALYTICAL_AUTO_IDENTIFY`.
 
 
 ----
