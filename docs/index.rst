@@ -9,7 +9,6 @@ into a Django_ project.
 
 :Package: http://pypi.python.org/pypi/django-analytical/
 :Source:  http://github.com/jcassee/django-analytical
-:Issues:  http://github.com/jcassee/django-analytical/issues
 
 
 Overview

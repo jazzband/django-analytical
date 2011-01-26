@@ -19,7 +19,7 @@ release = analytical.__version__
 # The short X.Y version.
 version = release.rsplit('.', 1)[0]
 
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'local']
 templates_path = ['.templates']
 source_suffix = '.rst'
 master_doc = 'index'

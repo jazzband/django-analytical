@@ -64,18 +64,18 @@ Your base template should look like this::
 	<!DOCTYPE ... >
 	<html>
 		<head>
-			{% analytical_setup_head_top %}
+			{% analytical_head_top %}
 
 			...
 
-			{% analytical_setup_head_bottom %}
+			{% analytical_head_bottom %}
 		</head>
 		<body>
-			{% analytical_setup_body_top %}
+			{% analytical_body_top %}
 
 			...
 
-			{% analytical_setup_body_bottom %}
+			{% analytical_body_bottom %}
 		</body>
 	</html>
 

@@ -1,20 +1,30 @@
 """
 Analytical template tags.
 """
-from __future__ import absolute_import
+
+import logging
 
 from django import template
 from django.conf import settings
-from django.template import Node, TemplateSyntaxError, Variable
-
-from analytical.services import get_enabled_services
-
-
-HTML_COMMENT_CODE = "<!-- Analytical disabled on internal IP address\n%s\n-->"
-JS_COMMENT_CODE = "/* %s */"
-SCRIPT_CODE = """<script type="text/javascript">%s</script>"""
+from django.core.exceptions import ImproperlyConfigured
+from django.template import Node, TemplateSyntaxError
+from django.utils.importlib import import_module
 
 
+DEFAULT_SERVICES = [
+    'analytical.chartbeat.ChartbeatService',
+    'analytical.clicky.clicky_service',
+    'analytical.crazy_egg.CrazyEggService',
+    'analytical.google_analytics.GoogleAnalyticsService',
+    'analytical.kiss_insights.KissInsightsService',
+    'analytical.kiss_metrics.KissMetricsService',
+    'analytical.mixpanel.MixpanelService',
+    'analytical.optimizely.OptimizelyService',
+]
+LOCATIONS = ['head_top', 'head_bottom', 'body_top', 'body_bottom']
+
+
+_log = logging.getLogger(__name__)
 register = template.Library()
 
 
@@ -26,74 +36,46 @@ def _location_tag(location):
         return AnalyticalNode(location)
     return tag
 
-for l in ['head_top', 'head_bottom', 'body_top', 'body_bottom']:
-    register.tag('analytical_setup_%s' % l, _location_tag(l))
+for loc in LOCATIONS:
+    register.tag('analytical_%s' % loc, _location_tag(loc))
 
 
 class AnalyticalNode(Node):
     def __init__(self, location):
-        self.location = location
-        self.render_func_name = "render_%s" % self.location
-        self.internal_ips = getattr(settings, 'ANALYTICAL_INTERNAL_IPS',
-                getattr(settings, 'INTERNAL_IPS', ()))
+        self.nodes = template_nodes[location]
 
     def render(self, context):
-        result = "".join([self._render_service(service, context)
-                for service in get_enabled_services()])
-        if not result:
-            return ""
-        if self._is_internal_ip(context):
-            return HTML_COMMENT_CODE % result
-        return result
+        return "".join([node.render(context) for node in self.nodes])
 
-    def _render_service(self, service, context):
-        func = getattr(service, self.render_func_name)
-        return func(context)
 
-    def _is_internal_ip(self, context):
+def _load_template_nodes():
+    location_nodes = dict((loc, []) for loc in LOCATIONS)
+    try:
+        service_paths = settings.ANALYTICAL_SERVICES
+        autoload = False
+    except AttributeError:
+        service_paths = DEFAULT_SERVICES
+        autoload = True
+    for path in service_paths:
         try:
-            request = context['request']
-            remote_ip = request.META.get('HTTP_X_FORWARDED_FOR',
-                    request.META.get('REMOTE_ADDR', ''))
-            return remote_ip in self.internal_ips
-        except KeyError, AttributeError:
-            return False
+            service = _import_path(path)
+            for location in LOCATIONS:
+                node_path = service.get(location)
+                if node_path is not None:
+                    node_cls = _import_path(node_path)
+                    node = node_cls()
+                    location_nodes[location].append(node)
+        except ImproperlyConfigured, e:
+            if autoload:
+                _log.debug("not loading analytical service '%s': %s",
+                        path, e)
+            else:
+                raise
+    return location_nodes
 
+def _import_path(path):
+    mod_name, attr_name = path.rsplit('.', 1)
+    mod = import_module(mod_name)
+    return getattr(mod, attr_name)
 
-def event(parser, token):
-    bits = token.split_contents()
-    if len(bits) < 2:
-        raise TemplateSyntaxError("'%s' tag takes at least one argument"
-                % bits[0])
-    properties = _parse_properties(bits[0], bits[2:])
-    return EventNode(bits[1], properties)
-
-register.tag('event', event)
-
-
-class EventNode(Node):
-    def __init__(self, name, properties):
-        self.name = name
-        self.properties = properties
-
-    def render(self, context):
-        props = dict((var, Variable(val).resolve(context))
-                for var, val in self.properties)
-        result = "".join([service.render_js_event(props)
-                for service in get_enabled_services()])
-        if not result:
-            return ""
-        if self._is_internal_ip(context):
-            return JS_COMMENT_CODE % result
-        return result
-
-
-def _parse_properties(tag_name, bits):
-    properties = []
-    for bit in bits:
-        try:
-            properties.append(bit.split('=', 1))
-        except IndexError:
-            raise TemplateSyntaxError("'%s' tag argument must be of the form "
-                    " property=value: '%s'" % (tag_name, bit))
-    return properties
+template_nodes = _load_template_nodes()
