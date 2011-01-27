@@ -15,7 +15,7 @@ DEFAULT_SERVICES = [
     'analytical.chartbeat.chartbeat_service',
     'analytical.clicky.clicky_service',
     'analytical.crazy_egg.crazy_egg_service',
-    'analytical.google_analytics.GoogleAnalyticsService',
+    'analytical.google_analytics.google_analytics_service',
     'analytical.kiss_insights.KissInsightsService',
     'analytical.kiss_metrics.KissMetricsService',
     'analytical.mixpanel.MixpanelService',

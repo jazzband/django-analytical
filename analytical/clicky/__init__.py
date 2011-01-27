@@ -37,9 +37,7 @@ have the tag, it is useful to add it to your base template.  Insert
 the tag at the bottom of the HTML body::
 
     {% load clicky %}
-
     ...
-
     {% clicky %}
     </body>
     </html>
