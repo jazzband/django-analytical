@@ -81,13 +81,13 @@ will not be rendered.
 Identifying authenticated users
 -------------------------------
 
-If your can identify website visitors, you can pass this information
-on to KISSinsights so that you can tie survey submissions to customers.
+If your websites identifies visitors, you can pass this information on
+to KISSinsights so that you can tie survey submissions to customers.
 By default, the username of an authenticated user is passed to
 KISSinsights automatically.  See :data:`ANALYTICAL_AUTO_IDENTIFY` for
 important information about detecting authenticated visitors.
 
-You can also send the identity yourself by adding the
+You can also send the visitor identity yourself by adding the
 ``analytical_identity`` variable to the template context::
 
     context = RequestContext({'analytical_identity': identity})

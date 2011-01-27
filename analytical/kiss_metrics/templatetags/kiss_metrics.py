@@ -1,0 +1,74 @@
+"""
+KISSmetrics template tags.
+"""
+
+import re
+
+from django.template import Library, Node, TemplateSyntaxError
+from django.utils import simplejson
+
+from analytical.utils import is_internal_ip, disable_html
+
+
+API_KEY_RE = re.compile(r'^[0-9a-f]{40}$')
+TRACKING_CODE = """
+    <script type="text/javascript">
+      var _kmq = _kmq || [];
+      %(commands)s
+      function _kms(u){
+        setTimeout(function(){
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.async = true;
+          s.src = u;
+          var f = document.getElementsByTagName('script')[0];
+          f.parentNode.insertBefore(s, f);
+        }, 1);
+      }
+      _kms('//i.kissmetrics.com/i.js');
+      _kms('//doug1izaerwt3.cloudfront.net/%(api_key)s.1.js');
+    </script>
+"""
+IDENTIFY_CODE = "_kmq.push(['identify', '%s']);"
+EVENT_CODE = "_kmq.push(['record', '%(name)s', %(properties)s]);"
+EVENT_CONTEXT_KEY = 'kiss_metrics_event'
+
+register = Library()
+
+
+@register.tag
+def kiss_metrics(parser, token):
+    """
+    KISSinsights tracking template tag.
+
+    Renders Javascript code to track page visits.  You must supply
+    your KISSmetrics API key in the ``KISS_METRICS_API_KEY``
+    setting.
+    """
+    bits = token.split_contents()
+    if len(bits) > 1:
+        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+    return KissMetricsNode()
+
+class KissMetricsNode(Node):
+    def __init__(self):
+        self.api_key = self.get_required_setting('KISS_METRICS_API_KEY',
+                API_KEY_RE,
+                "must be a string containing a 40-digit hexadecimal number")
+
+    def render(self, context):
+        commands = []
+        identity = self.get_identity(context)
+        if identity is not None:
+            commands.append(IDENTIFY_CODE % identity)
+        try:
+            name, properties = context[EVENT_CONTEXT_KEY]
+            commands.append(EVENT_CODE % {'name': name,
+                    'properties': simplejson.dumps(properties)})
+        except KeyError:
+            pass
+        html = TRACKING_CODE % {'api_key': self.api_key,
+                'commands': " ".join(commands)}
+        if is_internal_ip(context):
+            html = disable_html(html, 'Mixpanel')
+        return html

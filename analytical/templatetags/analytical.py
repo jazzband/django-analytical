@@ -18,7 +18,7 @@ DEFAULT_SERVICES = [
     'analytical.google_analytics.google_analytics_service',
     'analytical.hubspot.hubspot_service',
     'analytical.kiss_insights.kiss_insights_service',
-    'analytical.kiss_metrics.KissMetricsService',
+    'analytical.kiss_metrics.kiss_metrics_service',
     'analytical.mixpanel.MixpanelService',
     'analytical.optimizely.OptimizelyService',
 ]
