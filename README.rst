@@ -7,7 +7,8 @@ into a Django_ project.  Currently supported services:
 * `Chartbeat`_ -- traffic analysis
 * `Clicky`_ -- traffic analysis
 * `Crazy Egg`_ -- visual click tracking
-* `Google Analytics`_ traffic analysis
+* `Google Analytics`_ -- traffic analysis
+* `HubSpot`_ -- inbound marketing
 * `KISSinsights`_ -- feedback surveys
 * `KISSmetrics`_ -- funnel analysis
 * `Mixpanel`_ -- event tracking
