@@ -1,5 +1,5 @@
 """
-Analytical template tags.
+Analytical template tags and filters.
 """
 
 import logging
@@ -10,34 +10,46 @@ from django.core.exceptions import ImproperlyConfigured
 from django.template import Node, TemplateSyntaxError
 from django.utils.importlib import import_module
 
-
-DEFAULT_SERVICES = [
-    'analytical.templatetags.chartbeat.service',
-    'analytical.templatetags.clicky.service',
-    'analytical.templatetags.crazy_egg.service',
-    'analytical.templatetags.google_analytics.service',
-    'analytical.templatetags.hubspot.service',
-    'analytical.templatetags.kiss_insights.service',
-    'analytical.templatetags.kiss_metrics.service',
-    'analytical.templatetags.mixpanel.service',
-    'analytical.templatetags.optimizely.service',
-]
-LOCATIONS = ['head_top', 'head_bottom', 'body_top', 'body_bottom']
+from analytical.templatetags import chartbeat, clicky, crazy_egg, \
+        google_analytics, hubspot, kiss_insights, kiss_metrics, mixpanel, \
+        optimizely
 
 
-_log = logging.getLogger(__name__)
+TAG_NODES = {
+    'head_top': [
+        chartbeat.ChartbeatTopNode,  # Chartbeat should come first
+        kiss_metrics.KissMetricsNode,
+        optimizely.OptimizelyNode,
+    ],
+    'head_bottom': [
+        google_analytics.GoogleAnalyticsNode,
+        mixpanel.MixpanelNode,
+    ],
+    'body_top': [
+        kiss_insights.KissInsightsNode,
+    ],
+    'body_bottom': [
+        clicky.ClickyNode,
+        crazy_egg.CrazyEggNode,
+        hubspot.HubSpotNode,
+        chartbeat.ChartbeatBottomNode, # Chartbeat should come last
+    ],
+}
+
+
+logger = logging.getLogger(__name__)
 register = template.Library()
 
 
 def _location_tag(location):
-    def tag(parser, token):
+    def analytical_tag(parser, token):
         bits = token.split_contents()
         if len(bits) > 1:
             raise TemplateSyntaxError("'%s' tag takes no arguments" % bits[0])
         return AnalyticalNode(location)
-    return tag
+    return analytical_tag
 
-for loc in LOCATIONS:
+for loc in TAG_NODES.keys():
     register.tag('analytical_%s' % loc, _location_tag(loc))
 
 
@@ -50,64 +62,16 @@ class AnalyticalNode(Node):
 
 
 def _load_template_nodes():
-    try:
-        service_paths = settings.ANALYTICAL_SERVICES
-        autoload = False
-    except AttributeError:
-        service_paths = DEFAULT_SERVICES
-        autoload = True
-    services = _get_services(service_paths)
-    location_nodes = dict((loc, []) for loc in LOCATIONS)
-    for location in LOCATIONS:
-        node_tuples = []
-        for service in services:
-            node_tuple = service.get(location)
-            if node_tuple is not None:
-                if not isinstance(node_tuple, tuple):
-                    node_tuple = (node_tuple, None)
-                node_tuples[location].append(node_tuple)
-        location_nodes[location] = _get_nodes(node_tuples, autoload)
+    location_nodes = {}
+    for location, node_classes in TAG_NODES.items():
+        location_nodes[location] = []
+        for node_class in node_classes:
+            try:
+                node = node_class()
+            except ImproperlyConfigured, e:
+                logger.debug("not loading analytical service '%s': %s",
+                        node_class.name, e)
+            location_nodes.append(node)
     return location_nodes
-
-def _get_nodes(node_tuples, autoload):
-    nodes = []
-    node_sort_key = lambda n: {'first': -1, None: 0, 'last': 1}[n[1]]
-    for node_tuple in sorted(node_tuples, key=node_sort_key):
-        node_cls = node_tuple[0]
-        try:
-            nodes.append(node_cls())
-        except ImproperlyConfigured, e:
-            if autoload:
-                _log.debug("not loading analytical service '%s': %s",
-                        node_cls.__module__, e)
-                continue
-            else:
-                raise
-    return nodes
-
-def _get_services(paths, autoload):
-    services = []
-    for path in paths:
-        mod_name, attr_name = path.rsplit('.', 1)
-        try:
-            mod = import_module(mod_name)
-        except ImportError, e:
-            if autoload:
-                _log.exception(e)
-                continue
-            else:
-                raise
-        try:
-            service = getattr(mod, attr_name)
-        except AttributeError, e:
-            if autoload:
-                _log.debug("not loading analytical service '%s': "
-                        "module '%s' does not provide attribute '%s'",
-                        path, mod_name, attr_name)
-                continue
-            else:
-                raise
-        services.append(service)
-    return services
 
 template_nodes = _load_template_nodes()

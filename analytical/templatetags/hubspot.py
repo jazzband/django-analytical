@@ -41,6 +41,8 @@ def hubspot(parser, token):
     return HubSpotNode()
 
 class HubSpotNode(Node):
+    name = 'HubSpot'
+
     def __init__(self):
         self.site_id = get_required_setting('HUPSPOT_PORTAL_ID',
                 PORTAL_ID_RE, "must be a (string containing a) number")
@@ -51,10 +53,5 @@ class HubSpotNode(Node):
         html = TRACKING_CODE % {'portal_id': self.portal_id,
                 'domain': self.domain}
         if is_internal_ip(context):
-            html = disable_html(html, 'HubSpot')
+            html = disable_html(html, self.name)
         return html
-
-
-service = {
-    'body_bottom': HubSpotNode,
-}

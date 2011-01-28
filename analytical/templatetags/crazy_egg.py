@@ -34,6 +34,8 @@ def crazy_egg(parser, token):
     return CrazyEggNode()
 
 class CrazyEggNode(Node):
+    name = 'Crazy Egg'
+
     def __init__(self):
         self.account_nr = self.get_required_setting('CRAZY_EGG_ACCOUNT_NUMBER',
                 ACCOUNT_NUMBER_RE,
@@ -50,10 +52,5 @@ class CrazyEggNode(Node):
             html = '%s\n<script type="text/javascript">%s</script>' \
                     % (html, js)
         if is_internal_ip(context):
-            html = disable_html(html, 'Crazy Egg')
+            html = disable_html(html, self.name)
         return html
-
-
-service = {
-    'body_bottom': CrazyEggNode,
-}

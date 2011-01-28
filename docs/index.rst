@@ -16,20 +16,18 @@ Overview
 
 If your want to integrating an analytics service into a Django project,
 you need to add Javascript tracking code to the project templates.
-Unfortunately, every services has its own specific installation
-instructions.  Furthermore, you need to specify your unique identifiers
-which would end up in templates.  This application hides the details of
-the different analytics services behind a generic interface.  It is
-designed to make the common case easy while allowing advanced users to
-customize tracking.
+Of course, every service has its own specific installation instructions.
+Furthermore, you need to include your unique identifiers, which then end
+up in the templates.  This application hides the details of the
+different analytics services behind a generic interface, and keeps
+personal information and configuration out of the templates.  Its goal
+is to make basic usage set-up very simple, while allowing advanced users
+to customize tracking.  Each service is set-up as recommended by the
+services themselves, using an asynchronous version of the Javascript
+code if possible.
 
-The application provides four generic template tags that are added to
-the top and bottom of the head and body section of the base template.
-Configured services will be enabled automatically by adding Javascript
-code at these locations.  The installation will follow the
-recommendations from the analytics services, using an asynchronous
-version of the code if possible.  See :doc:`services/index` for detailed
-information about each individual analytics service.
+To get a feel of how django-analytics works, first check out the
+:doc:`tutorial`.
 
 
 Contents
@@ -38,7 +36,27 @@ Contents
 .. toctree::
     :maxdepth: 2
 
+    tutorial
     install
-    services/index
+    services
     settings
     history
+
+
+Helping out
+===========
+
+If you want to help out with development of django-analytical, by
+posting detailed bug reports, suggesting new features or other analytics
+services to support, or doing some development work yourself, please use
+the `GitHub project page`_:
+
+* Use the `issue tracker`_ to discuss bugs and features.
+* If you want to do the work yourself, great! Clone the repository, make
+  changes and send a pull request.  Please create a new issue first so
+  that we can discuss it, and keep people from stepping on each others
+  toes.
+* Of course, you can always send ideas and patches to joost@cassee.net.
+
+.. _`GitHub project page`: http://github.com/jcassee/django-analytical
+.. _`issue tracker`: http://github.com/jcassee/django-analytical/issues

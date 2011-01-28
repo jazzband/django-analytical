@@ -46,6 +46,8 @@ def mixpanel(parser, token):
     return MixpanelNode()
 
 class MixpanelNode(Node):
+    name = 'Mixpanel'
+
     def __init__(self):
         self.token = self.get_required_setting('MIXPANEL_TOKEN',
                 MIXPANEL_TOKEN_RE,
@@ -65,10 +67,5 @@ class MixpanelNode(Node):
         html = TRACKING_CODE % {'token': self.token,
                 'commands': " ".join(commands)}
         if is_internal_ip(context):
-            html = disable_html(html, 'Mixpanel')
+            html = disable_html(html, self.name)
         return html
-
-
-service = {
-    'head_bottom': MixpanelNode,
-}

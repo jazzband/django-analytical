@@ -56,9 +56,11 @@ def chartbeat_top(parser, token):
     return ChartbeatTopNode()
 
 class ChartbeatTopNode(Node):
+    name = 'Chartbeat top code'
+
     def render(self, context):
         if is_internal_ip(context):
-            return disable_html(INIT_CODE, 'Chartbeat')
+            return disable_html(INIT_CODE, self.name)
         return INIT_CODE
 
 
@@ -77,6 +79,8 @@ def chartbeat_bottom(parser, token):
     return ChartbeatBottomNode()
 
 class ChartbeatBottomNode(Node):
+    name = 'Chartbeat bottom code'
+
     def __init__(self):
         self.user_id = self.get_required_setting(
                 'CHARTBEAT_USER_ID', USER_ID_RE,
@@ -94,11 +98,5 @@ class ChartbeatBottomNode(Node):
             config['domain'] = domain
         html = SETUP_CODE % {'config': simplejson.dumps(config)}
         if is_internal_ip(context):
-            html = disable_html(html, 'Chartbeat')
+            html = disable_html(html, self.name)
         return html
-
-
-service = {
-    'head_top': (ChartbeatTopNode, 'first'),
-    'body_bottom': (ChartbeatBottomNode, 'last'),
-}

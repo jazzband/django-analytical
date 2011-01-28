@@ -53,6 +53,8 @@ def kiss_metrics(parser, token):
     return KissMetricsNode()
 
 class KissMetricsNode(Node):
+    name = 'KISSmetrics'
+
     def __init__(self):
         self.api_key = self.get_required_setting('KISS_METRICS_API_KEY',
                 API_KEY_RE,
@@ -72,10 +74,5 @@ class KissMetricsNode(Node):
         html = TRACKING_CODE % {'api_key': self.api_key,
                 'commands': " ".join(commands)}
         if is_internal_ip(context):
-            html = disable_html(html, 'Mixpanel')
+            html = disable_html(html, self.name)
         return html
-
-
-service = {
-    'head_top': KissMetricsNode,
-}

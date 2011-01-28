@@ -52,6 +52,8 @@ def google_analytics(parser, token):
     return GoogleAnalyticsNode()
 
 class GoogleAnalyticsNode(Node):
+    name = 'Google Analytics'
+
     def __init__(self):
         self.property_id = self.get_required_setting(
                 'GOOGLE_ANALYTICS_PROPERTY_ID', PROPERTY_ID_RE,
@@ -62,7 +64,7 @@ class GoogleAnalyticsNode(Node):
         html = SETUP_CODE % {'property_id': self.property_id,
                 'commands': " ".join(commands)}
         if is_internal_ip(context):
-            html = disable_html(html, 'Google Analytics')
+            html = disable_html(html, self.name)
         return html
 
     def _get_custom_var_commands(self, context):
@@ -79,8 +81,3 @@ class GoogleAnalyticsNode(Node):
                 scope = SCOPE_PAGE
             commands.append(CUSTOM_VAR_CODE % locals())
         return commands
-
-
-service = {
-    'head_bottom': GoogleAnalyticsNode,
-}

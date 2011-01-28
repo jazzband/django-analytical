@@ -1,9 +1,12 @@
+.. _identifying-visitors:
+
 ========
 Settings
 ========
 
 Here's a full list of all available settings, in alphabetical order, and
 their default values.
+
 
 
 .. data:: ANALYTICAL_AUTO_IDENTIFY
@@ -50,20 +53,3 @@ their default values.
 	    ``'django.core.context_processors.request'`` to the list of
 	    context processors in the ``TEMPLATE_CONTEXT_PROCESSORS``
 	    setting.
-
-
-.. data:: ANALYTICAL_SERVICES
-
-	Default: all included services that have been configured correctly
-
-	A list or tuple of analytics services to use.  If this setting is
-	used and one of the services is not configured correctly, an
-	:exc:`ImproperlyConfigured` exception is raised when the services
-	are first loaded.
-
-	Example::
-
-		ANALYTICAL_SERVICES = [
-		    'analytical.services.crazy_egg.CrazyEggService',
-		    'analytical.services.google_analytics.GoogleAnalyticsService',
-		]

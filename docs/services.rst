@@ -1,3 +1,6 @@
+.. _services:
+
+========
 Services
 ========
 
@@ -7,4 +10,4 @@ A number of analytics services is supported.
 	:maxdepth: 1
 	:glob:
 
-   	*
+   	services/*

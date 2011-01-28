@@ -33,6 +33,8 @@ def optimizely(parser, token):
     return OptimizelyNode()
 
 class OptimizelyNode(Node):
+    name = 'Optimizely'
+
     def __init__(self):
         self.account_number = self.get_required_setting(
                 'OPTIMIZELY_ACCOUNT_NUMBER', ACCOUNT_NUMBER_RE,
@@ -41,10 +43,5 @@ class OptimizelyNode(Node):
     def render(self, context):
         html = SETUP_CODE % {'account_number': self.account_number}
         if is_internal_ip(context):
-            html = disable_html(html, 'Optimizely')
+            html = disable_html(html, self.name)
         return html
-
-
-service = {
-    'head_top': OptimizelyNode,
-}

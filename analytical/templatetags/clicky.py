@@ -49,6 +49,8 @@ def clicky(parser, token):
     return ClickyNode()
 
 class ClickyNode(Node):
+    name = 'Clicky'
+
     def __init__(self):
         self.site_id = get_required_setting('CLICKY_SITE_ID', SITE_ID_RE,
                 "must be a string containing an eight-digit number")
@@ -66,10 +68,5 @@ class ClickyNode(Node):
         html = TRACKING_CODE % {'site_id': self.site_id,
                 'custom': simplejson.dumps(custom)}
         if is_internal_ip(context):
-            html = disable_html(html, 'Clicky')
+            html = disable_html(html, self.name)
         return html
-
-
-service = {
-    'body_bottom': ClickyNode,
-}

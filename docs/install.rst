@@ -4,14 +4,16 @@ Installation and configuration
 
 Integration of your analytics service is very simple.  There are four
 steps: installing the package, adding it to the list of installed Django
-applications, adding the template tags to your base template, and adding
-the identifiers for the services you use to the project settings.
+applications, adding the template tags to your base template, and
+configuring the services you use in the project settings.
 
 #. `Installing the Python package`_
 #. `Installing the Django application`_
 #. `Adding the template tags to the base template`_
 #. `Configuring the application`_
 
+
+.. _installing-the-package:
 
 Installing the Python package
 =============================
@@ -31,16 +33,18 @@ get the development code::
 .. _PyPI: http://pypi.python.org/pypi/django-analytical/
 .. _GitHub: http://github.com/jcassee/django-analytical
 
-Then install by running the setup script::
+Then install the package by running the setup script::
 
 	$ cd django-analytical
 	$ python setup.py install
 
 
+.. _installing-the-application:
+
 Installing the Django application
 =================================
 
-After you install django-analytical, add the ``analytical`` Django
+After you installed django-analytical, add the ``analytical`` Django
 application to the list of installed applications in the ``settings.py``
 file of your project::
 
@@ -51,14 +55,16 @@ file of your project::
 	]
 
 
+.. _adding-the-template-tags:
+
 Adding the template tags to the base template
 =============================================
 
-Because every analytics service has uses own specific Javascript code
-that should be added to the top or bottom of either the head or body
-of every HTML page, the django-analytical provides four general-purpose
-tags that will render the code needed for the services you are using.
-Your base template should look like this::
+Because every analytics service uses own specific Javascript code that
+should be added to the top or bottom of either the head or body of the
+HTML page, django-analytical provides four general-purpose template tags
+that will render the code needed for the services you are using.  Your
+base template should look like this::
 
 	{% load analytical %}
 	<!DOCTYPE ... >
@@ -79,6 +85,12 @@ Your base template should look like this::
 		</body>
 	</html>
 
+Instead of using the general-purpose tags, you can also just use the
+tags for the analytics service(s) you are using.  See :ref:`services`
+for documentation on using individual services.
+
+
+.. _configuration:
 
 Configuring the application
 ===========================

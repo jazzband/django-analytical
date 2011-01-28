@@ -39,6 +39,8 @@ def kiss_insights(parser, token):
     return KissInsightsNode()
 
 class KissInsightsNode(Node):
+    name = 'KISSinsights'
+
     def __init__(self):
         self.account_number = self.get_required_setting(
                 'KISS_INSIGHTS_ACCOUNT_NUMBER', ACCOUNT_NUMBER_RE,
@@ -59,8 +61,3 @@ class KissInsightsNode(Node):
         html = SETUP_CODE % {'account_number': self.account_number,
                 'site_code': self.site_code, 'commands': " ".join(commands)}
         return html
-
-
-service = {
-    'body_top': KissInsightsNode,
-}

@@ -99,11 +99,12 @@ be computed from the HTTP request, you can also set them in a context
 processor that you add to the :data:`TEMPLATE_CONTEXT_PROCESSORS` list
 in :file:`settings.py`::
 
-    def segment_on_ip_proto(request):
-        addr = request.META.get('HTTP_X_FORWARDED_FOR',
-                                request.META.get('REMOTE_ADDR', ''))
-        proto = 'ipv6' if ':' in addr else 'ipv4'
-        return {'crazy_egg_var3': proto}
+    def track_admin_role(request):
+        if request.user.is_staff():
+            role = 'staff'
+        else:
+            role = 'visitor'
+        return {'crazy_egg_var3': role}
 
 Just remember that if you set the same context variable in the
 :class:`~django.template.context.RequestContext` constructor and in a
