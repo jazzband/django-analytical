@@ -1,4 +1,3 @@
-"""
 ============================
 HubSpot -- inbound marketing
 ============================
@@ -19,13 +18,13 @@ You only need to do perform these steps if you are not using the
 generic :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`hubspot-configuration`.
 
-In order to use the template tag, you need to add
-:mod:`analytical.hubspot` to the installed applications list in the
-project :file:`settings.py` file::
+In order to use the template tag, you need to add :mod:`analytical` to
+the installed applications list in the project :file:`settings.py`
+file::
 
     INSTALLED_APPS = [
         ...
-        'analytical.hubspot',
+        'analytical',
         ...
     ]
 
@@ -81,8 +80,3 @@ internal IP addresses.  By default, if the tags detect that the client
 comes from any address in the :const:`INTERNAL_IPS` setting, the
 tracking code is commented out.  See :const:`ANALYTICAL_INTERNAL_IPS`
 for important information about detecting the visitor IP address.
-"""
-
-hubspot_service = {
-    'body_bottom': 'analytical.hubspot.templatetags.hupspot.HubSpotNode',
-}

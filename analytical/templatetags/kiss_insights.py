@@ -2,6 +2,8 @@
 KISSinsights template tags.
 """
 
+from __future__ import absolute_import
+
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
@@ -57,3 +59,8 @@ class KissInsightsNode(Node):
         html = SETUP_CODE % {'account_number': self.account_number,
                 'site_code': self.site_code, 'commands': " ".join(commands)}
         return html
+
+
+service = {
+    'body_top': KissInsightsNode,
+}

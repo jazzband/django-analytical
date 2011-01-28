@@ -1,6 +1,8 @@
 """
-Chartbeat template tags.
+Chartbeat template tags and filters.
 """
+
+from __future__ import absolute_import
 
 import re
 
@@ -94,3 +96,9 @@ class ChartbeatBottomNode(Node):
         if is_internal_ip(context):
             html = disable_html(html, 'Chartbeat')
         return html
+
+
+service = {
+    'head_top': (ChartbeatTopNode, 'first'),
+    'body_bottom': (ChartbeatBottomNode, 'last'),
+}

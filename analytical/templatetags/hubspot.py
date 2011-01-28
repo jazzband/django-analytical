@@ -1,6 +1,8 @@
 """
-HubSpot template tags.
+HubSpot template tags and filters.
 """
+
+from __future__ import absolute_import
 
 import re
 
@@ -51,3 +53,8 @@ class HubSpotNode(Node):
         if is_internal_ip(context):
             html = disable_html(html, 'HubSpot')
         return html
+
+
+service = {
+    'body_bottom': HubSpotNode,
+}

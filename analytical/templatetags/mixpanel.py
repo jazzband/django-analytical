@@ -1,6 +1,8 @@
 """
-Mixpanel template tags.
+Mixpanel template tags and filters.
 """
+
+from __future__ import absolute_import
 
 import re
 
@@ -65,3 +67,8 @@ class MixpanelNode(Node):
         if is_internal_ip(context):
             html = disable_html(html, 'Mixpanel')
         return html
+
+
+service = {
+    'head_bottom': MixpanelNode,
+}

@@ -1,6 +1,8 @@
 """
-Crazy Egg template tags.
+Crazy Egg template tags and filters.
 """
+
+from __future__ import absolute_import
 
 import re
 
@@ -50,3 +52,8 @@ class CrazyEggNode(Node):
         if is_internal_ip(context):
             html = disable_html(html, 'Crazy Egg')
         return html
+
+
+service = {
+    'body_bottom': CrazyEggNode,
+}

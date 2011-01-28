@@ -1,6 +1,8 @@
 """
-Optimizely template tags.
+Optimizely template tags and filters.
 """
+
+from __future__ import absolute_import
 
 import re
 
@@ -41,3 +43,8 @@ class OptimizelyNode(Node):
         if is_internal_ip(context):
             html = disable_html(html, 'Optimizely')
         return html
+
+
+service = {
+    'head_top': OptimizelyNode,
+}

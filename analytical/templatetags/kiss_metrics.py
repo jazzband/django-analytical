@@ -2,6 +2,8 @@
 KISSmetrics template tags.
 """
 
+from __future__ import absolute_import
+
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
@@ -72,3 +74,8 @@ class KissMetricsNode(Node):
         if is_internal_ip(context):
             html = disable_html(html, 'Mixpanel')
         return html
+
+
+service = {
+    'head_top': KissMetricsNode,
+}

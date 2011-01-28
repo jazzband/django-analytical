@@ -1,14 +1,18 @@
 """
-Google Analytics template tags.
+Google Analytics template tags and filters.
 """
+
+from __future__ import absolute_import
 
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.google_analytics import SCOPE_PAGE
 from analytical.utils import is_internal_ip, disable_html
 
+SCOPE_VISITOR = 1
+SCOPE_SESSION = 2
+SCOPE_PAGE = 3
 
 PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$')
 SETUP_CODE = """
@@ -75,3 +79,8 @@ class GoogleAnalyticsNode(Node):
                 scope = SCOPE_PAGE
             commands.append(CUSTOM_VAR_CODE % locals())
         return commands
+
+
+service = {
+    'head_bottom': GoogleAnalyticsNode,
+}
