@@ -48,7 +48,6 @@ setup(
     author_email = analytical.__email__,
     packages = [
         'analytical',
-        'analytical.services',
         'analytical.templatetags',
         'analytical.tests',
     ],
