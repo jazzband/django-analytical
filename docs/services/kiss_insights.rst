@@ -11,22 +11,12 @@ the targeted, actionable feedback you need to make your site better.
 
 .. kiss-insights-installation:
 
-Installation
-============
+Adding the template tags
+========================
 
 You only need to do perform these steps if you are not using the
 generic :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`kiss-insights-configuration`.
-
-In order to use the template tag, you need to add :mod:`analytical` to
-the installed applications list in the project :file:`settings.py`
-file::
-
-    INSTALLED_APPS = [
-        ...
-        'analytical',
-        ...
-    ]
 
 The KISSinsights survey code is inserted into templates using a template
 tag.  Load the :mod:`kiss_insights` template tag library and insert the
@@ -83,13 +73,14 @@ Identifying authenticated users
 If your websites identifies visitors, you can pass this information on
 to KISSinsights so that you can tie survey submissions to customers.
 By default, the username of an authenticated user is passed to
-KISSinsights automatically.  See :data:`ANALYTICAL_AUTO_IDENTIFY` for
-important information about detecting authenticated visitors.
+KISSinsights automatically.  See :ref:`identifying-visitors`.
 
-You can also send the visitor identity yourself by adding the
-``analytical_identity`` variable to the template context::
+You can also send the visitor identity yourself by adding either the
+``kiss_insights_identity`` or the ``analytical_identity`` variable to
+the template context.  If both variables are set, the former takes
+precedence. For example::
 
-    context = RequestContext({'analytical_identity': identity})
+    context = RequestContext({'kiss_insights_identity': identity})
     return some_template.render(context)
 
 If you can derive the identity from the HTTP request, you can also use
@@ -98,7 +89,7 @@ a context processor that you add to the
 
     def identify(request):
         try:
-            return {'analytical_identity': request.user.email}
+            return {'kiss_insights_identity': request.user.email}
         except AttributeError:
             return {}
 

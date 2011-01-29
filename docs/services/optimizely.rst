@@ -12,22 +12,12 @@ retention and sales.
 
 .. optimizely-installation:
 
-Installation
-============
+Adding the template tags
+========================
 
 You only need to do perform these steps if you are not using the
 generic :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`optimizely-configuration`.
-
-In order to use the template tag, you need to add
-:mod:`analytical.optimizely` to the installed applications list in the
-project :file:`settings.py` file::
-
-    INSTALLED_APPS = [
-        ...
-        'analytical.optimizely',
-        ...
-    ]
 
 The Optimizely Javascript code is inserted into templates using a
 template tag.  Load the :mod:`mixpanel` template tag library and insert
@@ -79,8 +69,10 @@ rendered.
 Internal IP addresses
 ---------------------
 
-Usually you do not want to use A/B testing on your development or
+Usually you do not want to track clicks from your development or
 internal IP addresses.  By default, if the tags detect that the client
-comes from any address in the :const:`INTERNAL_IPS` setting, the
-tracking code is commented out.  See :const:`ANALYTICAL_INTERNAL_IPS`
-for important information about detecting the visitor IP address.
+comes from any address in the :const:`OPTIMIZELY_INTERNAL_IPS` setting,
+the tracking code is commented out.  It takes the value of
+:const:`ANALYTICAL_INTERNAL_IPS` by default (which in turn is
+:const:`INTERNAL_IPS` by default).  See :ref:`identifying-visitors` for
+important information about detecting the visitor IP address.

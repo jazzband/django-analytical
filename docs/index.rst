@@ -38,6 +38,7 @@ Contents
 
     tutorial
     install
+    features
     services
     settings
     history
@@ -53,9 +54,8 @@ the `GitHub project page`_:
 
 * Use the `issue tracker`_ to discuss bugs and features.
 * If you want to do the work yourself, great! Clone the repository, make
-  changes and send a pull request.  Please create a new issue first so
-  that we can discuss it, and keep people from stepping on each others
-  toes.
+  changes and send a pull request.  Please create a new issue to discuss
+  it first, and to keep people from stepping on each others toes.
 * Of course, you can always send ideas and patches to joost@cassee.net.
 
 .. _`GitHub project page`: http://github.com/jcassee/django-analytical

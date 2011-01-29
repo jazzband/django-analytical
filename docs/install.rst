@@ -10,7 +10,7 @@ configuring the services you use in the project settings.
 #. `Installing the Python package`_
 #. `Installing the Django application`_
 #. `Adding the template tags to the base template`_
-#. `Configuring the application`_
+#. `Enabling the services`_
 
 
 .. _installing-the-package:
@@ -85,29 +85,19 @@ base template should look like this::
 		</body>
 	</html>
 
-Instead of using the general-purpose tags, you can also just use the
-tags for the analytics service(s) you are using.  See :ref:`services`
-for documentation on using individual services.
+Instead of using the generic tags, you can also just use tags specific
+for the analytics service(s) you are using.  See :ref:`services` for
+documentation on using individual services.
 
 
-.. _configuration:
+.. _enabling-services:
 
-Configuring the application
-===========================
+Enabling the services
+=====================
 
 Without configuration, the template tags all render the empty string.
-You must enable at least one service, and optionally configure other
-django-analytical features.
-
-
-Enabling services
------------------
-
-By default, only configured analytics services are installed by the
-template tags.  You can also use the :data:`ANALYTICAL_SERVICES` setting
-to specify the used services explicitly.  Services are configured in the
-project ``settings.py`` file.  The settings required to enable each
-service are listed here.  See the service documentation for details.
+Services are configured in the project ``settings.py`` file.  The
+settings required to enable each service are listed here:
 
 * :doc:`Chartbeat <services/chartbeat>`::
 
@@ -124,6 +114,11 @@ service are listed here.  See the service documentation for details.
 * :doc:`Google Analytics <services/google_analytics>`::
 
 	GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-1234567-8'
+
+* :doc:`HubSpot <services/hubspot>`::
+
+    HUBSPOT_PORTAL_ID = '1234'
+    HUBSPOT_DOMAIN = 'somedomain.web101.hubspot.com'
 
 * :doc:`KISSinsights <services/kiss_insights>`::
 
@@ -143,14 +138,8 @@ service are listed here.  See the service documentation for details.
 	OPTIMIZELY_ACCOUNT_NUMBER = '1234567'
 
 
-Configuring behavior
---------------------
+----
 
-By default, django-analytical will comment out the service
-initialization code if the client IP address is detected as one from the
-:data:`ANALYTICAL_INTERNAL_IPS` setting, which is set to
-:data:`INTERNAL_IPS` by default.
-
-Also, if the visitor is a logged in user and the user is accessible in
-the template context, the username is passed to the analytics services
-that support identifying users.  See :data:`ANALYTICAL_AUTO_IDENTIFY`.
+The django-analytics application is now set-up to track visitors.  For
+information about further configuration and customization, see
+:doc:`features`.

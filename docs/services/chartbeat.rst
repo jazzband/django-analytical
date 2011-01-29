@@ -12,22 +12,12 @@ slows to a crawl.
 
 .. chartbeat-installation:
 
-Installation
-============
+Adding the template tags
+========================
 
 You only need to do perform these steps if you are not using the
 generic :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`chartbeat-configuration`.
-
-In order to use the template tags, you need to add :mod:`analytical`
-to the installed applications list in the project :file:`settings.py`
-file::
-
-    INSTALLED_APPS = [
-        ...
-        'analytical',
-        ...
-    ]
 
 The Chartbeat tracking code is inserted into templates using template
 tags.  At the top of the template, load the :mod:`chartbeat` template
@@ -49,6 +39,7 @@ the body section::
 Because these tags are used to measure page loading time, it is
 important to place them as close as possible to the start and end of the
 document.
+
 
 .. _chartbeat-configuration:
 
@@ -87,9 +78,11 @@ Internal IP addresses
 
 Usually you do not want to track clicks from your development or
 internal IP addresses.  By default, if the tags detect that the client
-comes from any address in the :const:`INTERNAL_IPS` setting, the
-tracking code is commented out.  See :const:`ANALYTICAL_INTERNAL_IPS`
-for important information about detecting the visitor IP address.
+comes from any address in the :const:`CHARTBEAT_INTERNAL_IPS` setting,
+the tracking code is commented out.  It takes the value of
+:const:`ANALYTICAL_INTERNAL_IPS` by default (which in turn is
+:const:`INTERNAL_IPS` by default).  See :ref:`identifying-visitors` for
+important information about detecting the visitor IP address.
 
 
 .. _chartbeat-domain:
