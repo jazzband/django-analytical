@@ -10,7 +10,7 @@ from django.template import Library, Node, TemplateSyntaxError
 from django.utils import simplejson
 
 from analytical.utils import is_internal_ip, disable_html, get_identity, \
-        validate_setting, get_required_setting
+        get_required_setting
 
 
 MIXPANEL_TOKEN_RE = re.compile(r'^[0-9a-f]{32}$')
@@ -71,6 +71,5 @@ class MixpanelNode(Node):
 
 
 def contribute_to_analytical(add_node):
-    validate_setting('MIXPANEL_TOKEN', MIXPANEL_TOKEN_RE,
-                "must be a string containing a 32-digit hexadecimal number")
+    MixpanelNode()  # ensure properly configured
     add_node('head_bottom', MixpanelNode)

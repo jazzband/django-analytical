@@ -10,7 +10,7 @@ from django.template import Library, Node, TemplateSyntaxError
 from django.utils import simplejson
 
 from analytical.utils import get_identity, is_internal_ip, disable_html, \
-        validate_setting, get_required_setting
+        get_required_setting
 
 
 SITE_ID_RE = re.compile(r'^\d{8}$')
@@ -72,6 +72,5 @@ class ClickyNode(Node):
 
 
 def contribute_to_analytical(add_node):
-    validate_setting('CLICKY_SITE_ID', SITE_ID_RE,
-                "must be a string containing an eight-digit number")
+    ClickyNode()  # ensure properly configured
     add_node('body_bottom', ClickyNode)

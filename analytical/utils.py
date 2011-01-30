@@ -3,18 +3,10 @@ Utility function for django-analytical.
 """
 
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 
 
 HTML_COMMENT = "<!-- %(service)s disabled on internal IP " \
         "address\n%(html)s\n-->"
-
-
-def validate_setting(setting, value_re, invalid_msg):
-    try:
-        get_required_setting(setting, value_re, invalid_msg)
-    except AnalyticalException, e:
-        raise ImproperlyConfigured(e)
 
 
 def get_required_setting(setting, value_re, invalid_msg):

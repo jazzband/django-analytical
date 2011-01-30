@@ -8,8 +8,7 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, validate_setting, \
-        get_required_setting
+from analytical.utils import is_internal_ip, disable_html, get_required_setting
 
 
 PORTAL_ID_RE = re.compile(r'^\d+$')
@@ -57,8 +56,5 @@ class HubSpotNode(Node):
 
 
 def contribute_to_analytical(add_node):
-    validate_setting('HUBSPOT_PORTAL_ID', PORTAL_ID_RE,
-            "must be a (string containing a) number")
-    validate_setting('HUBSPOT_DOMAIN', DOMAIN_RE,
-            "must be an internet domain name")
+    HubSpotNode()  # ensure properly configured
     add_node('body_bottom', HubSpotNode)

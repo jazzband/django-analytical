@@ -10,7 +10,7 @@ from django.template import Library, Node, TemplateSyntaxError
 from django.utils import simplejson
 
 from analytical.utils import is_internal_ip, disable_html, get_identity, \
-        validate_setting, get_required_setting
+        get_required_setting
 
 
 API_KEY_RE = re.compile(r'^[0-9a-f]{40}$')
@@ -78,6 +78,5 @@ class KissMetricsNode(Node):
 
 
 def contribute_to_analytical(add_node):
-    validate_setting('KISS_METRICS_API_KEY', API_KEY_RE,
-                "must be a string containing a 40-digit hexadecimal number")
+    KissMetricsNode()  # ensure properly configured
     add_node('head_top', KissMetricsNode)

@@ -8,8 +8,7 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, validate_setting, \
-        get_required_setting
+from analytical.utils import is_internal_ip, disable_html, get_required_setting
 
 SCOPE_VISITOR = 1
 SCOPE_SESSION = 2
@@ -83,6 +82,5 @@ class GoogleAnalyticsNode(Node):
 
 
 def contribute_to_analytical(add_node):
-    validate_setting('GOOGLE_ANALYTICS_PROPERTY_ID', PROPERTY_ID_RE,
-                "must be a string looking like 'UA-XXXXXX-Y'")
+    GoogleAnalyticsNode()  # ensure properly configured
     add_node('head_bottom', GoogleAnalyticsNode)

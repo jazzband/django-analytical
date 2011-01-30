@@ -8,8 +8,7 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import validate_setting, get_identity, \
-        get_required_setting
+from analytical.utils import get_identity, get_required_setting
 
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
@@ -65,6 +64,5 @@ class KissInsightsNode(Node):
 
 
 def contribute_to_analytical(add_node):
-    validate_setting('KISS_INSIGHTS_ACCOUNT_NUMBER', ACCOUNT_NUMBER_RE,
-                "must be (a string containing) a number")
+    KissInsightsNode()  # ensure properly configured
     add_node('body_top', KissInsightsNode)

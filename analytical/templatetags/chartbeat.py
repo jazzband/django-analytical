@@ -12,8 +12,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils import simplejson
 
-from analytical.utils import is_internal_ip, disable_html, validate_setting, \
-        get_required_setting
+from analytical.utils import is_internal_ip, disable_html, get_required_setting
 
 
 USER_ID_RE = re.compile(r'^\d{5}$')
@@ -100,7 +99,6 @@ class ChartbeatBottomNode(Node):
 
 
 def contribute_to_analytical(add_node):
-    validate_setting('CHARTBEAT_USER_ID', USER_ID_RE,
-            "must be a string containing an five-digit number")
+    ChartbeatBottomNode()  # ensure properly configured
     add_node('head_top', ChartbeatTopNode, 'first')
     add_node('body_bottom', ChartbeatBottomNode, 'last')
