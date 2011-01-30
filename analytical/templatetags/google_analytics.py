@@ -8,7 +8,8 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html
+from analytical.utils import is_internal_ip, disable_html, validate_setting, \
+        get_required_setting
 
 SCOPE_VISITOR = 1
 SCOPE_SESSION = 2
@@ -30,8 +31,8 @@ SETUP_CODE = """
 
     </script>
 """
-CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)d, '%(name)s', " \
-        "'%(value)s', %(scope)d]);"
+CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
+        "'%(value)s', %(scope)s]);"
 
 
 register = Library()
@@ -52,10 +53,8 @@ def google_analytics(parser, token):
     return GoogleAnalyticsNode()
 
 class GoogleAnalyticsNode(Node):
-    name = 'Google Analytics'
-
     def __init__(self):
-        self.property_id = self.get_required_setting(
+        self.property_id = get_required_setting(
                 'GOOGLE_ANALYTICS_PROPERTY_ID', PROPERTY_ID_RE,
                 "must be a string looking like 'UA-XXXXXX-Y'")
 
@@ -63,21 +62,27 @@ class GoogleAnalyticsNode(Node):
         commands = self._get_custom_var_commands(context)
         html = SETUP_CODE % {'property_id': self.property_id,
                 'commands': " ".join(commands)}
-        if is_internal_ip(context):
-            html = disable_html(html, self.name)
+        if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
+            html = disable_html(html, 'Google Analytics')
         return html
 
     def _get_custom_var_commands(self, context):
-        values = (context.get('google_analytics_var%d' % i)
+        values = (context.get('google_analytics_var%s' % i)
                 for i in range(1, 6))
         vars = [(i, v) for i, v in enumerate(values, 1) if v is not None]
         commands = []
-        for index, value in vars:
-            name = value[0]
-            value = value[1]
+        for index, var in vars:
+            name = var[0]
+            value = var[1]
             try:
-                scope = value[2]
+                scope = var[2]
             except IndexError:
                 scope = SCOPE_PAGE
             commands.append(CUSTOM_VAR_CODE % locals())
         return commands
+
+
+def contribute_to_analytical(add_node):
+    validate_setting('GOOGLE_ANALYTICS_PROPERTY_ID', PROPERTY_ID_RE,
+                "must be a string looking like 'UA-XXXXXX-Y'")
+    add_node('head_bottom', GoogleAnalyticsNode)

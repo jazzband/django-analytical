@@ -12,7 +12,8 @@ from django.core.exceptions import ImproperlyConfigured
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils import simplejson
 
-from analytical.utils import is_internal_ip, disable_html
+from analytical.utils import is_internal_ip, disable_html, validate_setting, \
+        get_required_setting
 
 
 USER_ID_RE = re.compile(r'^\d{5}$')
@@ -56,8 +57,6 @@ def chartbeat_top(parser, token):
     return ChartbeatTopNode()
 
 class ChartbeatTopNode(Node):
-    name = 'Chartbeat top code'
-
     def render(self, context):
         if is_internal_ip(context):
             return disable_html(INIT_CODE, self.name)
@@ -79,10 +78,8 @@ def chartbeat_bottom(parser, token):
     return ChartbeatBottomNode()
 
 class ChartbeatBottomNode(Node):
-    name = 'Chartbeat bottom code'
-
     def __init__(self):
-        self.user_id = self.get_required_setting(
+        self.user_id = get_required_setting(
                 'CHARTBEAT_USER_ID', USER_ID_RE,
                 "must be a string containing an five-digit number")
 
@@ -97,6 +94,13 @@ class ChartbeatBottomNode(Node):
         if domain is not None:
             config['domain'] = domain
         html = SETUP_CODE % {'config': simplejson.dumps(config)}
-        if is_internal_ip(context):
-            html = disable_html(html, self.name)
+        if is_internal_ip(context, 'CHARTBEAT'):
+            html = disable_html(html, 'Chartbeat')
         return html
+
+
+def contribute_to_analytical(add_node):
+    validate_setting('CHARTBEAT_USER_ID', USER_ID_RE,
+            "must be a string containing an five-digit number")
+    add_node('head_top', ChartbeatTopNode, 'first')
+    add_node('body_bottom', ChartbeatBottomNode, 'last')

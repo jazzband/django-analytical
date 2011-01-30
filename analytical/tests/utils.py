@@ -5,14 +5,40 @@ Testing utilities.
 from django.conf import settings
 from django.core.management import call_command
 from django.db.models import loading
+from django.template import Template, Context, RequestContext
 from django.test.simple import run_tests as django_run_tests
+from django.test.testcases import TestCase
 
 
-def run_tests():
+def run_tests(labels=()):
     """
     Use the Django test runner to run the tests.
     """
-    django_run_tests([], verbosity=1, interactive=True)
+    django_run_tests(labels, verbosity=1, interactive=True)
+
+
+class TagTestCase(TestCase):
+    """
+    Tests for a template tag.
+
+    Includes the settings manager.
+    """
+
+    def setUp(self):
+        self.settings_manager = TestSettingsManager()
+
+    def tearDown(self):
+        self.settings_manager.revert()
+
+    def render_tag(self, library, tag, vars=None, request=None):
+        if vars is None:
+            vars = {}
+        t = Template("{%% load %s %%}{%% %s %%}" % (library, tag))
+        if request is not None:
+            context = RequestContext(request, vars)
+        else:
+            context = Context(vars)
+        return t.render(context)
 
 
 class TestSettingsManager(object):

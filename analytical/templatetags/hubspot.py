@@ -8,7 +8,8 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_required_setting, is_internal_ip, disable_html
+from analytical.utils import is_internal_ip, disable_html, validate_setting, \
+        get_required_setting
 
 
 PORTAL_ID_RE = re.compile(r'^\d+$')
@@ -18,7 +19,7 @@ TRACKING_CODE = """
     var hs_portalid = %(portal_id)s;
     var hs_salog_version = "2.00";
     var hs_ppa = "%(domain)s";
-    document.write(unescape("%3Cscript src='" + document.location.protocol + "//" + hs_ppa + "/salog.js.aspx' type='text/javascript'%3E%3C/script%3E"));
+    document.write(unescape("%%3Cscript src='" + document.location.protocol + "//" + hs_ppa + "/salog.js.aspx' type='text/javascript'%%3E%%3C/script%%3E"));
     </script>
 """
 
@@ -41,17 +42,23 @@ def hubspot(parser, token):
     return HubSpotNode()
 
 class HubSpotNode(Node):
-    name = 'HubSpot'
-
     def __init__(self):
-        self.site_id = get_required_setting('HUPSPOT_PORTAL_ID',
+        self.portal_id = get_required_setting('HUBSPOT_PORTAL_ID',
                 PORTAL_ID_RE, "must be a (string containing a) number")
-        self.domain = get_required_setting('HUPSPOT_DOMAIN',
+        self.domain = get_required_setting('HUBSPOT_DOMAIN',
                 DOMAIN_RE, "must be an internet domain name")
 
     def render(self, context):
         html = TRACKING_CODE % {'portal_id': self.portal_id,
                 'domain': self.domain}
-        if is_internal_ip(context):
+        if is_internal_ip(context, 'HUBSPOT'):
             html = disable_html(html, self.name)
         return html
+
+
+def contribute_to_analytical(add_node):
+    validate_setting('HUBSPOT_PORTAL_ID', PORTAL_ID_RE,
+            "must be a (string containing a) number")
+    validate_setting('HUBSPOT_DOMAIN', DOMAIN_RE,
+            "must be an internet domain name")
+    add_node('body_bottom', HubSpotNode)

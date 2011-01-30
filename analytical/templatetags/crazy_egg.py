@@ -8,7 +8,8 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html
+from analytical.utils import is_internal_ip, disable_html, validate_setting, \
+        get_required_setting
 
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d{8}$')
@@ -34,10 +35,8 @@ def crazy_egg(parser, token):
     return CrazyEggNode()
 
 class CrazyEggNode(Node):
-    name = 'Crazy Egg'
-
     def __init__(self):
-        self.account_nr = self.get_required_setting('CRAZY_EGG_ACCOUNT_NUMBER',
+        self.account_nr = get_required_setting('CRAZY_EGG_ACCOUNT_NUMBER',
                 ACCOUNT_NUMBER_RE,
                 "must be a string containing an eight-digit number")
 
@@ -51,6 +50,12 @@ class CrazyEggNode(Node):
                         for (varnr, value) in vars)
             html = '%s\n<script type="text/javascript">%s</script>' \
                     % (html, js)
-        if is_internal_ip(context):
-            html = disable_html(html, self.name)
+        if is_internal_ip(context, 'CRAZY_EGG'):
+            html = disable_html(html, 'Crazy Egg')
         return html
+
+
+def contribute_to_analytical(add_node):
+    validate_setting('CRAZY_EGG_ACCOUNT_NUMBER', ACCOUNT_NUMBER_RE,
+                "must be a string containing an eight-digit number")
+    add_node('body_bottom', CrazyEggNode)

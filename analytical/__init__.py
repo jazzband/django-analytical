@@ -13,10 +13,3 @@ __email__ = "joost@cassee.net"
 __version__ = "0.2.0alpha"
 __copyright__ = "Copyright (C) 2011 Joost Cassee"
 __license__ = "MIT License"
-
-try:
-    from collections import namedtuple
-except ImportError:
-    namedtuple = lambda name, fields: lambda *values: values
-
-Property = namedtuple('Property', ['num', 'name', 'value'])

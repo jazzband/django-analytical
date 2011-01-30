@@ -6,25 +6,36 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 
-IDENTITY_CONTEXT_KEY = 'analytical_identity'
 HTML_COMMENT = "<!-- %(service)s disabled on internal IP address\n%(html)\n-->"
 
 
-def get_required_setting(self, setting, value_re, invalid_msg):
+def validate_setting(setting, value_re, invalid_msg):
+    try:
+        get_required_setting(setting, value_re, invalid_msg)
+    except AnalyticalException, e:
+        raise ImproperlyConfigured(e)
+
+
+def get_required_setting(setting, value_re, invalid_msg):
     try:
         value = getattr(settings, setting)
     except AttributeError:
-        raise ImproperlyConfigured("%s setting: not found" % setting)
+        raise AnalyticalException("%s setting: not found" % setting)
     value = str(value)
     if not value_re.search(value):
-        raise ImproperlyConfigured("%s setting: %s: '%s'"
+        raise AnalyticalException("%s setting: %s: '%s'"
                 % (setting, invalid_msg, value))
     return value
 
 
-def get_identity(context):
+def get_identity(context, prefix=None):
+    if prefix is not None:
+        try:
+            return context['%s_identity' % prefix]
+        except KeyError:
+            pass
     try:
-        return context[IDENTITY_CONTEXT_KEY]
+        return context['analytical_identity']
     except KeyError:
         pass
     if getattr(settings, 'ANALYTICAL_AUTO_IDENTIFY', True):
@@ -41,16 +52,33 @@ def get_identity(context):
     return None
 
 
-def is_internal_ip(context):
+def is_internal_ip(context, prefix=None):
     try:
         request = context['request']
-        remote_ip = request.META.get('HTTP_X_FORWARDED_FOR',
-                request.META.get('REMOTE_ADDR', ''))
-        return remote_ip in getattr(settings, 'ANALYTICAL_INTERNAL_IPS',
-                getattr(settings, 'INTERNAL_IPS', []))
+        remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
+        if not remote_ip:
+            remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
+
+        internal_ips = ''
+        if prefix is not None:
+            internal_ips = getattr(settings, '%s_INTERNAL_IPS' % prefix, '')
+        if not internal_ips:
+            internal_ips = getattr(settings, 'ANALYTICAL_INTERNAL_IPS', '')
+        if not internal_ips:
+            internal_ips = getattr(settings, 'INTERNAL_IPS', '')
+
+        return remote_ip in internal_ips
     except KeyError, AttributeError:
         return False
 
 
 def disable_html(self, html, service):
     return HTML_COMMENT % locals()
+
+
+class AnalyticalException(Exception):
+    """
+    Raised when an exception occurs in any django-analytical code that should
+    be silenced in templates.
+    """
+    silent_variable_failure = True

@@ -9,7 +9,8 @@ import re
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils import simplejson
 
-from analytical.utils import is_internal_ip, disable_html
+from analytical.utils import is_internal_ip, disable_html, get_identity, \
+        validate_setting, get_required_setting
 
 
 MIXPANEL_TOKEN_RE = re.compile(r'^[0-9a-f]{32}$')
@@ -27,7 +28,7 @@ TRACKING_CODE = """
 """
 IDENTIFY_CODE = "mpq.push(['identify', '%s']);"
 EVENT_CODE = "mpq.push(['track', '%(name)s', %(properties)s]);"
-EVENT_CONTEXT_KEY = 'mixpanel_metrics_event'
+EVENT_CONTEXT_KEY = 'mixpanel_event'
 
 register = Library()
 
@@ -46,16 +47,14 @@ def mixpanel(parser, token):
     return MixpanelNode()
 
 class MixpanelNode(Node):
-    name = 'Mixpanel'
-
     def __init__(self):
-        self.token = self.get_required_setting('MIXPANEL_TOKEN',
+        self.token = get_required_setting('MIXPANEL_TOKEN',
                 MIXPANEL_TOKEN_RE,
                 "must be a string containing a 32-digit hexadecimal number")
 
     def render(self, context):
         commands = []
-        identity = self.get_identity(context)
+        identity = get_identity(context, 'mixpanel')
         if identity is not None:
             commands.append(IDENTIFY_CODE % identity)
         try:
@@ -66,6 +65,12 @@ class MixpanelNode(Node):
             pass
         html = TRACKING_CODE % {'token': self.token,
                 'commands': " ".join(commands)}
-        if is_internal_ip(context):
-            html = disable_html(html, self.name)
+        if is_internal_ip(context, 'MIXPANEL'):
+            html = disable_html(html, 'Mixpanel')
         return html
+
+
+def contribute_to_analytical(add_node):
+    validate_setting('MIXPANEL_TOKEN', MIXPANEL_TOKEN_RE,
+                "must be a string containing a 32-digit hexadecimal number")
+    add_node('head_bottom', MixpanelNode)

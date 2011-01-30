@@ -17,6 +17,7 @@ except ImportError:
 
 
 class TestCommand(Command):
+    description = "run package tests"
     user_options = []
 
     def initialize_options(self):

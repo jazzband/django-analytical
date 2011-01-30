@@ -9,7 +9,8 @@ import re
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils import simplejson
 
-from analytical.utils import is_internal_ip, disable_html
+from analytical.utils import is_internal_ip, disable_html, get_identity, \
+        validate_setting, get_required_setting
 
 
 API_KEY_RE = re.compile(r'^[0-9a-f]{40}$')
@@ -53,16 +54,14 @@ def kiss_metrics(parser, token):
     return KissMetricsNode()
 
 class KissMetricsNode(Node):
-    name = 'KISSmetrics'
-
     def __init__(self):
-        self.api_key = self.get_required_setting('KISS_METRICS_API_KEY',
+        self.api_key = get_required_setting('KISS_METRICS_API_KEY',
                 API_KEY_RE,
                 "must be a string containing a 40-digit hexadecimal number")
 
     def render(self, context):
         commands = []
-        identity = self.get_identity(context)
+        identity = get_identity(context, 'kiss_metrics')
         if identity is not None:
             commands.append(IDENTIFY_CODE % identity)
         try:
@@ -73,6 +72,12 @@ class KissMetricsNode(Node):
             pass
         html = TRACKING_CODE % {'api_key': self.api_key,
                 'commands': " ".join(commands)}
-        if is_internal_ip(context):
-            html = disable_html(html, self.name)
+        if is_internal_ip(context, 'KISS_METRICS'):
+            html = disable_html(html, 'KISSmetrics')
         return html
+
+
+def contribute_to_analytical(add_node):
+    validate_setting('KISS_METRICS_API_KEY', API_KEY_RE,
+                "must be a string containing a 40-digit hexadecimal number")
+    add_node('head_top', KissMetricsNode)

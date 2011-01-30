@@ -8,7 +8,8 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html
+from analytical.utils import is_internal_ip, disable_html, validate_setting, \
+        get_required_setting
 
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d{7}$')
@@ -33,15 +34,19 @@ def optimizely(parser, token):
     return OptimizelyNode()
 
 class OptimizelyNode(Node):
-    name = 'Optimizely'
-
     def __init__(self):
-        self.account_number = self.get_required_setting(
+        self.account_number = get_required_setting(
                 'OPTIMIZELY_ACCOUNT_NUMBER', ACCOUNT_NUMBER_RE,
                 "must be a string containing an seven-digit number")
 
     def render(self, context):
         html = SETUP_CODE % {'account_number': self.account_number}
-        if is_internal_ip(context):
+        if is_internal_ip(context, 'OPTIMIZELY'):
             html = disable_html(html, self.name)
         return html
+
+
+def contribute_to_analytical(add_node):
+    validate_setting('OPTIMIZELY_ACCOUNT_NUMBER', ACCOUNT_NUMBER_RE,
+                "must be a string containing an seven-digit number")
+    add_node('head_top', OptimizelyNode)

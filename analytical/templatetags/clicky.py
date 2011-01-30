@@ -9,8 +9,8 @@ import re
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils import simplejson
 
-from analytical.utils import get_required_setting, get_identity, \
-        is_internal_ip, disable_html
+from analytical.utils import get_identity, is_internal_ip, disable_html, \
+        validate_setting, get_required_setting
 
 
 SITE_ID_RE = re.compile(r'^\d{8}$')
@@ -49,24 +49,29 @@ def clicky(parser, token):
     return ClickyNode()
 
 class ClickyNode(Node):
-    name = 'Clicky'
-
     def __init__(self):
         self.site_id = get_required_setting('CLICKY_SITE_ID', SITE_ID_RE,
                 "must be a string containing an eight-digit number")
 
     def render(self, context):
         custom = {}
-        for var, value in context.items():
-            if var.startswith('clicky_'):
-                custom[var[7:]] = value
+        for dict_ in context:
+            for var, val in dict_.items():
+                if var.startswith('clicky_'):
+                    custom[var[7:]] = val
         if 'username' not in custom.get('session', {}):
-            identity = get_identity(context)
+            identity = get_identity(context, 'clicky')
             if identity is not None:
                 custom.setdefault('session', {})['username'] = identity
 
         html = TRACKING_CODE % {'site_id': self.site_id,
                 'custom': simplejson.dumps(custom)}
-        if is_internal_ip(context):
-            html = disable_html(html, self.name)
+        if is_internal_ip(context, 'CLICKY'):
+            html = disable_html(html, 'Clicky')
         return html
+
+
+def contribute_to_analytical(add_node):
+    validate_setting('CLICKY_SITE_ID', SITE_ID_RE,
+                "must be a string containing an eight-digit number")
+    add_node('body_bottom', ClickyNode)

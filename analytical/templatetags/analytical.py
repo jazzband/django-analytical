@@ -5,36 +5,24 @@ Analytical template tags and filters.
 import logging
 
 from django import template
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.template import Node, TemplateSyntaxError
 from django.utils.importlib import import_module
 
-from analytical.templatetags import chartbeat, clicky, crazy_egg, \
-        google_analytics, hubspot, kiss_insights, kiss_metrics, mixpanel, \
-        optimizely
 
-
-TAG_NODES = {
-    'head_top': [
-        chartbeat.ChartbeatTopNode,  # Chartbeat should come first
-        kiss_metrics.KissMetricsNode,
-        optimizely.OptimizelyNode,
-    ],
-    'head_bottom': [
-        google_analytics.GoogleAnalyticsNode,
-        mixpanel.MixpanelNode,
-    ],
-    'body_top': [
-        kiss_insights.KissInsightsNode,
-    ],
-    'body_bottom': [
-        clicky.ClickyNode,
-        crazy_egg.CrazyEggNode,
-        hubspot.HubSpotNode,
-        chartbeat.ChartbeatBottomNode, # Chartbeat should come last
-    ],
-}
+TAG_LOCATIONS = ['head_top', 'head_bottom', 'body_top', 'body_bottom']
+TAG_POSITIONS = ['first', None, 'last']
+TAG_MODULES = [
+    'analytical.chartbeat',
+    'analytical.clicky',
+    'analytical.crazy_egg',
+    'analytical.google_analytics',
+    'analytical.hubspot',
+    'analytical.kiss_insights',
+    'analytical.kiss_metrics',
+    'analytical.mixpanel',
+    'analytical.optimizely'
+]
 
 
 logger = logging.getLogger(__name__)
@@ -49,29 +37,36 @@ def _location_tag(location):
         return AnalyticalNode(location)
     return analytical_tag
 
-for loc in TAG_NODES.keys():
+for loc in TAG_LOCATIONS:
     register.tag('analytical_%s' % loc, _location_tag(loc))
 
 
 class AnalyticalNode(Node):
     def __init__(self, location):
-        self.nodes = template_nodes[location]
+        self.nodes = [node_cls() for node_cls in template_nodes[location]]
 
     def render(self, context):
         return "".join([node.render(context) for node in self.nodes])
 
 
 def _load_template_nodes():
-    location_nodes = {}
-    for location, node_classes in TAG_NODES.items():
-        location_nodes[location] = []
-        for node_class in node_classes:
-            try:
-                node = node_class()
-            except ImproperlyConfigured, e:
-                logger.debug("not loading analytical service '%s': %s",
-                        node_class.name, e)
-            location_nodes.append(node)
-    return location_nodes
+    template_nodes = dict((l, dict((p, []) for p in TAG_POSITIONS))
+            for l in TAG_LOCATIONS)
+    def add_node_cls(location, node, position=None):
+        template_nodes[location][position].append(node)
+    for path in TAG_MODULES:
+        module = _import_tag_module(path)
+        try:
+            module.contribute_to_analytical(add_node_cls)
+        except ImproperlyConfigured, e:
+            logger.debug("not loading tags from '%s': %s", path, e)
+    for location in TAG_LOCATIONS:
+        template_nodes[location] = sum((template_nodes[location][p]
+                for p in TAG_POSITIONS), [])
+    return template_nodes
+
+def _import_tag_module(path):
+    app_name, lib_name = path.rsplit('.', 1)
+    return import_module("%s.templatetags.%s" % (app_name, lib_name))
 
 template_nodes = _load_template_nodes()
