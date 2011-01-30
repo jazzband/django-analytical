@@ -1,0 +1,12 @@
+Development
+-----------
+* Added support for the Performable service.
+
+Version 0.2.0
+-------------
+* Added support for the HubSpot service.
+* Added template tags for individual services.
+
+Version 0.1.0
+-------------
+* First project release.

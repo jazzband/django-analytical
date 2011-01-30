@@ -1,8 +1,21 @@
 django-analytical
 -----------------
 
-The django-analytical application integrates various analytics services
-into a Django_ project.  Currently supported services:
+The django-analytical application integrates analytics services into a
+Django_ project.
+
+Using an analytics service with a Django project means adding Javascript
+tracking code to the project templates.  Of course, every service has
+its own specific installation instructions.  Furthermore, you need to
+include your unique identifiers, which then end up in the templates.
+This application hides the details of the different analytics services
+behind a generic interface, and keeps personal information and
+configuration out of the templates.  Its goal is to make the basic
+set-up very simple, while allowing advanced users to customize tracking.
+Each service is set up as recommended by the services themselves, using
+an asynchronous version of the Javascript code if possible.
+
+Currently supported services:
 
 * `Chartbeat`_ traffic analysis
 * `Clicky`_ traffic analysis
@@ -15,25 +28,25 @@ into a Django_ project.  Currently supported services:
 * `Optimizely`_ A/B testing
 
 The documentation can be found in the ``docs`` directory or `read
-online`_.  The source code and issue tracker are `hosted on GitHub`_.
+online`_.  The project source is `hosted by GitHub`_.
 
-Copyright (C) 2011 Joost Cassee <joost@cassee.net>.  This software is
-licensed under the MIT License (see LICENSE.txt).
-
-This application was inspired by and uses ideas from Analytical_,
-Joshua Krall's all-purpose analytics front-end for Rails.  The work on
-Crazy Egg was made possible by `Bateau Knowledge`_.
+If you want to help out with development of django-analytical, by
+posting detailed bug reports, suggesting new features or other analytics
+services to support, or doing some development work yourself, please use
+the `issue tracker`_.  If you want to get your hands dirty yourself,
+great! Clone the repository, make changes and send a pull request.
+Please do create an issue to discuss your plans.
 
 .. _Django: http://www.djangoproject.com/
 .. _Chartbeat: http://www.chartbeat.com/
 .. _Clicky: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
 .. _`Google Analytics`: http://www.google.com/analytics/
+.. _HubSpot: http://www.hubspot.com/
 .. _KISSinsights: http://www.kissinsights.com/
 .. _KISSmetrics: http://www.kissmetrics.com/
 .. _Mixpanel: http://www.mixpanel.com/
 .. _Optimizely: http://www.optimizely.com/
 .. _`read online`: http://packages.python.org/django-analytical/
-.. _`hosted on GitHub`: http://www.github.com/jcassee/django-analytical
-.. _Analytical: https://github.com/jkrall/analytical
-.. _`Bateau Knowledge`: http://www.bateauknowledge.nl/
+.. _`hosted by GitHub`: http://github.com/jcassee/django-analytical
+.. _`issue tracker`: http://github.com/jcassee/django-analytical/issues
