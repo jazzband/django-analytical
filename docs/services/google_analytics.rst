@@ -12,11 +12,17 @@ features.
 
 .. google-analytics-installation:
 
-Adding the template tags
-========================
+Installation
+============
 
-You only need to do perform these steps if you are not using the
-generic :ttag:`analytical.*` tags.  If you are, skip to
+To start using the Google Analytics integration, you must have installed
+the django-analytical package and have added the ``analytical``
+application to :const:`INSTALLED_APPS` in your project
+:file:`settings.py` file. See :doc:`../install` for details.
+
+Next you need to add the Google Analytics template tags to your
+templates. This step is only needed if you are not using the generic
+:ttag:`analytical.*` tags.  If you are, skip to
 :ref:`google-analytics-configuration`.
 
 The Google Analytics tracking code is inserted into templates using a

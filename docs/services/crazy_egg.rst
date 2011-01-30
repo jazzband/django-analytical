@@ -11,11 +11,17 @@ web pages that are most important to your visitors.
 
 .. crazy-egg-installation:
 
-Adding the template tags
-========================
+Installation
+============
 
-You only need to do perform these steps if you are not using the
-generic :ttag:`analytical.*` tags.  If you are, skip to
+To start using the Crazy Egg integration, you must have installed the
+django-analytical package and have added the ``analytical`` application
+to :const:`INSTALLED_APPS` in your project :file:`settings.py` file.
+See :doc:`../install` for details.
+
+Next you need to add the Crazy Egg template tags to your templates.
+This step is only needed if you are not using the generic
+:ttag:`analytical.*` tags.  If you are, skip to
 :ref:`crazy-egg-configuration`.
 
 The Crazy Egg tracking code is inserted into templates using a template

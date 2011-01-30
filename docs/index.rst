@@ -44,6 +44,8 @@ Contents
     history
 
 
+.. _helping-out:
+
 Helping out
 ===========
 
