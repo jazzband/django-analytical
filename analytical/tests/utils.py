@@ -7,7 +7,7 @@ from django.core.management import call_command
 from django.db.models import loading
 from django.template import Template, Context, RequestContext
 from django.test.simple import run_tests as django_run_tests
-from django.test.testcases import TestCase
+from django.test.testcases import TestCase as DjangoTestCase
 
 
 def run_tests(labels=()):
@@ -17,9 +17,9 @@ def run_tests(labels=()):
     django_run_tests(labels, verbosity=1, interactive=True)
 
 
-class TagTestCase(TestCase):
+class TestCase(DjangoTestCase):
     """
-    Tests for a template tag.
+    Base test case for the django-analytical tests.
 
     Includes the settings manager.
     """
@@ -29,6 +29,14 @@ class TagTestCase(TestCase):
 
     def tearDown(self):
         self.settings_manager.revert()
+
+
+class TagTestCase(TestCase):
+    """
+    Tests for a template tag.
+
+    Includes the settings manager.
+    """
 
     def render_tag(self, library, tag, vars=None, request=None):
         if vars is None:

@@ -6,7 +6,8 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 
-HTML_COMMENT = "<!-- %(service)s disabled on internal IP address\n%(html)\n-->"
+HTML_COMMENT = "<!-- %(service)s disabled on internal IP " \
+        "address\n%(html)s\n-->"
 
 
 def validate_setting(setting, value_re, invalid_msg):
@@ -57,7 +58,9 @@ def is_internal_ip(context, prefix=None):
         request = context['request']
         remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
         if not remote_ip:
-            remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
+            remote_ip = request.META.get('REMOTE_ADDR', '')
+        if not remote_ip:
+            return False
 
         internal_ips = ''
         if prefix is not None:
@@ -72,7 +75,7 @@ def is_internal_ip(context, prefix=None):
         return False
 
 
-def disable_html(self, html, service):
+def disable_html(html, service):
     return HTML_COMMENT % locals()
 
 

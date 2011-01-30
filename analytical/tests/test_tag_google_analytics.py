@@ -2,6 +2,7 @@
 Tests for the Google Analytics template tags and filters.
 """
 
+from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.google_analytics import GoogleAnalyticsNode
@@ -44,3 +45,13 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
                 in r, r)
         self.assertTrue("_gaq.push(['_setCustomVar', 5, 'test2', 'bar', 1]);"
                 in r, r)
+
+    def test_render_internal_ip(self):
+        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
+        req = HttpRequest()
+        req.META['REMOTE_ADDR'] = '1.1.1.1'
+        context = Context({'request': req})
+        r = GoogleAnalyticsNode().render(context)
+        self.assertTrue(r.startswith(
+                '<!-- Google Analytics disabled on internal IP address'), r)
+        self.assertTrue(r.endswith('-->'), r)

@@ -6,6 +6,7 @@ import re
 
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.chartbeat import ChartbeatTopNode, \
@@ -77,3 +78,13 @@ class ChartbeatTagTestCase(TagTestCase):
                 'var _sf_async_config={.*"uid": "12345".*};', r), r)
         self.assertTrue(re.search(
                 'var _sf_async_config={.*"domain": "test.com".*};', r), r)
+
+    def test_render_internal_ip(self):
+        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
+        req = HttpRequest()
+        req.META['REMOTE_ADDR'] = '1.1.1.1'
+        context = Context({'request': req})
+        r = ChartbeatBottomNode().render(context)
+        self.assertTrue(r.startswith(
+                '<!-- Chartbeat disabled on internal IP address'), r)
+        self.assertTrue(r.endswith('-->'), r)

@@ -2,6 +2,7 @@
 Tests for the Optimizely template tags and filters.
 """
 
+from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.optimizely import OptimizelyNode
@@ -37,3 +38,13 @@ class OptimizelyTagTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, OptimizelyNode)
         self.settings_manager.set(OPTIMIZELY_ACCOUNT_NUMBER='12345678')
         self.assertRaises(AnalyticalException, OptimizelyNode)
+
+    def test_render_internal_ip(self):
+        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
+        req = HttpRequest()
+        req.META['REMOTE_ADDR'] = '1.1.1.1'
+        context = Context({'request': req})
+        r = OptimizelyNode().render(context)
+        self.assertTrue(r.startswith(
+                '<!-- Optimizely disabled on internal IP address'), r)
+        self.assertTrue(r.endswith('-->'), r)

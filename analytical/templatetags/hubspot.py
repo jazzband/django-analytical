@@ -16,10 +16,10 @@ PORTAL_ID_RE = re.compile(r'^\d+$')
 DOMAIN_RE = re.compile(r'^[\w.-]+$')
 TRACKING_CODE = """
     <script type="text/javascript" language="javascript">
-    var hs_portalid = %(portal_id)s;
-    var hs_salog_version = "2.00";
-    var hs_ppa = "%(domain)s";
-    document.write(unescape("%%3Cscript src='" + document.location.protocol + "//" + hs_ppa + "/salog.js.aspx' type='text/javascript'%%3E%%3C/script%%3E"));
+      var hs_portalid = %(portal_id)s;
+      var hs_salog_version = "2.00";
+      var hs_ppa = "%(domain)s";
+      document.write(unescape("%%3Cscript src='" + document.location.protocol + "//" + hs_ppa + "/salog.js.aspx' type='text/javascript'%%3E%%3C/script%%3E"));
     </script>
 """
 
@@ -52,7 +52,7 @@ class HubSpotNode(Node):
         html = TRACKING_CODE % {'portal_id': self.portal_id,
                 'domain': self.domain}
         if is_internal_ip(context, 'HUBSPOT'):
-            html = disable_html(html, self.name)
+            html = disable_html(html, 'HubSpot')
         return html
 
 

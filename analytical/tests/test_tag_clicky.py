@@ -5,6 +5,7 @@ Tests for the Clicky template tags and filters.
 import re
 
 from django.contrib.auth.models import User
+from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.clicky import ClickyNode
@@ -55,3 +56,13 @@ class ClickyTagTestCase(TagTestCase):
                 'clicky_var2': 'val2'}))
         self.assertTrue(re.search('var clicky_custom = {.*'
                 '"var1": "val1", "var2": "val2".*};', r), r)
+
+    def test_render_internal_ip(self):
+        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
+        req = HttpRequest()
+        req.META['REMOTE_ADDR'] = '1.1.1.1'
+        context = Context({'request': req})
+        r = ClickyNode().render(context)
+        self.assertTrue(r.startswith(
+                '<!-- Clicky disabled on internal IP address'), r)
+        self.assertTrue(r.endswith('-->'), r)

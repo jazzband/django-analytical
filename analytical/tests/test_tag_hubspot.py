@@ -2,6 +2,7 @@
 Tests for the HubSpot template tags and filters.
 """
 
+from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.hubspot import HubSpotNode
@@ -44,3 +45,13 @@ class HubSpotTagTestCase(TagTestCase):
     def test_wrong_domain(self):
         self.settings_manager.set(HUBSPOT_DOMAIN='wrong domain')
         self.assertRaises(AnalyticalException, HubSpotNode)
+
+    def test_render_internal_ip(self):
+        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
+        req = HttpRequest()
+        req.META['REMOTE_ADDR'] = '1.1.1.1'
+        context = Context({'request': req})
+        r = HubSpotNode().render(context)
+        self.assertTrue(r.startswith(
+                '<!-- HubSpot disabled on internal IP address'), r)
+        self.assertTrue(r.endswith('-->'), r)

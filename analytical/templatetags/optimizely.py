@@ -42,7 +42,7 @@ class OptimizelyNode(Node):
     def render(self, context):
         html = SETUP_CODE % {'account_number': self.account_number}
         if is_internal_ip(context, 'OPTIMIZELY'):
-            html = disable_html(html, self.name)
+            html = disable_html(html, 'Optimizely')
         return html
 
 

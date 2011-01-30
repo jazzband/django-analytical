@@ -3,6 +3,7 @@ Tests for the KISSmetrics tags and filters.
 """
 
 from django.contrib.auth.models import User
+from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.kiss_metrics import KissMetricsNode
@@ -52,3 +53,13 @@ class KissMetricsTagTestCase(TagTestCase):
                 ('test_event', {'prop1': 'val1', 'prop2': 'val2'})}))
         self.assertTrue("_kmq.push(['record', 'test_event', "
                 '{"prop1": "val1", "prop2": "val2"}]);' in r, r)
+
+    def test_render_internal_ip(self):
+        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
+        req = HttpRequest()
+        req.META['REMOTE_ADDR'] = '1.1.1.1'
+        context = Context({'request': req})
+        r = KissMetricsNode().render(context)
+        self.assertTrue(r.startswith(
+                '<!-- KISSmetrics disabled on internal IP address'), r)
+        self.assertTrue(r.endswith('-->'), r)
