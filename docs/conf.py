@@ -4,7 +4,7 @@
 # directory.
 
 import sys, os
-sys.path.append(os.path.join(os.path.abspath('.'), 'ext'))
+sys.path.append(os.path.join(os.path.abspath('.'), '_ext'))
 sys.path.append(os.path.dirname(os.path.abspath('.')))
 
 import analytical
@@ -20,7 +20,7 @@ release = analytical.__version__
 version = release.rsplit('.', 1)[0]
 
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'local']
-templates_path = ['templates']
+templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'index'
 
@@ -36,7 +36,7 @@ intersphinx_mapping = {
 # -- Options for HTML output ---------------------------------------------------
 
 html_theme = 'default'
-html_static_path = ['static']
+html_static_path = ['_static']
 htmlhelp_basename = 'analyticaldoc'
 
 
