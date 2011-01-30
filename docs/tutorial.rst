@@ -21,8 +21,8 @@ tracking data to segment mouse clicks on Crazy Egg based on whether
 visitors are using IPv4 or IPv6.
 
 
-Installation
-============
+Setting up basic tracking
+=========================
 
 To get started with django-analytical, the package must first be
 installed.  You can download and install the latest stable package from
@@ -128,4 +128,4 @@ using IPv6.
 
 This concludes the tutorial.  For information about setting up,
 configuring and customizing the different analytics services, see
-:ref:`services`.
+:doc:`features` and :doc:`services`.

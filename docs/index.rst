@@ -26,7 +26,7 @@ to customize tracking.  Each service is set-up as recommended by the
 services themselves, using an asynchronous version of the Javascript
 code if possible.
 
-To get a feel of how django-analytics works, first check out the
+To get a feel of how django-analytics works, check out the
 :doc:`tutorial`.
 
 
@@ -49,14 +49,15 @@ Helping out
 
 If you want to help out with development of django-analytical, by
 posting detailed bug reports, suggesting new features or other analytics
-services to support, or doing some development work yourself, please use
-the `GitHub project page`_:
+services to support, or doing some development work yourself, please see
+use the `GitHub project page`_.  Use the `issue tracker`_ to discuss
+bugs and features.
 
-* Use the `issue tracker`_ to discuss bugs and features.
-* If you want to do the work yourself, great! Clone the repository, make
-  changes and send a pull request.  Please create a new issue to discuss
-  it first, and to keep people from stepping on each others toes.
-* Of course, you can always send ideas and patches to joost@cassee.net.
+If you want to work on it yourself, great! Clone the repository, make
+changes and send a pull request.  Please do create a new issue to
+discuss your plans.
+
+Of course, you can always send ideas and patches to joost@cassee.net.
 
 .. _`GitHub project page`: http://github.com/jcassee/django-analytical
 .. _`issue tracker`: http://github.com/jcassee/django-analytical/issues

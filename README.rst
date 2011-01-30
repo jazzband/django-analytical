@@ -4,15 +4,15 @@ django-analytical
 The django-analytical application integrates various analytics services
 into a Django_ project.  Currently supported services:
 
-* `Chartbeat`_ -- traffic analysis
-* `Clicky`_ -- traffic analysis
-* `Crazy Egg`_ -- visual click tracking
-* `Google Analytics`_ -- traffic analysis
-* `HubSpot`_ -- inbound marketing
-* `KISSinsights`_ -- feedback surveys
-* `KISSmetrics`_ -- funnel analysis
-* `Mixpanel`_ -- event tracking
-* `Optimizely`_ -- A/B testing
+* `Chartbeat`_ traffic analysis
+* `Clicky`_ traffic analysis
+* `Crazy Egg`_ visual click tracking
+* `Google Analytics`_ traffic analysis
+* `HubSpot`_ inbound marketing
+* `KISSinsights`_ feedback surveys
+* `KISSmetrics`_ funnel analysis
+* `Mixpanel`_ event tracking
+* `Optimizely`_ A/B testing
 
 The documentation can be found in the ``docs`` directory or `read
 online`_.  The source code and issue tracker are `hosted on GitHub`_.
