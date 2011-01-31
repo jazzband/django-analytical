@@ -27,6 +27,7 @@ Currently supported services:
 * `KISSmetrics`_ funnel analysis
 * `Mixpanel`_ event tracking
 * `Optimizely`_ A/B testing
+* `Performable`_ web analytics and landing pages
 
 The documentation can be found in the ``docs`` directory or `read
 online`_.  The project source is `hosted by GitHub`_.
@@ -48,6 +49,7 @@ an issue to discuss your plans.
 .. _KISSmetrics: http://www.kissmetrics.com/
 .. _Mixpanel: http://www.mixpanel.com/
 .. _Optimizely: http://www.optimizely.com/
+.. _Performable: http://www.performable.com/
 .. _`read online`: http://packages.python.org/django-analytical/
 .. _`hosted by GitHub`: http://github.com/jcassee/django-analytical
 .. _`issue tracker`: http://github.com/jcassee/django-analytical/issues
