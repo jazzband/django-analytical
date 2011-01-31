@@ -15,8 +15,8 @@ Overview
 ========
 
 .. include:: ../README.rst
-    :start-line: 6
-    :end-line: 17
+    :start-after: Django_ project.
+    :end-before: Currently supported services:
 
 To get a feel of how django-analytics works, check out the
 :doc:`tutorial`.
