@@ -51,13 +51,13 @@ portal ID and domain.
 Setting the portal ID and domain
 --------------------------------
 
-Your HubSpot account has its own portal ID and primary websit, and the
-:ttag:`hubspot` tag will include them in the rendered Javascript code.
-You can find the portal ID and domain by going to the *Domains* tab in
-your HubSpot account.  The domain you need to use is listed as *Primary
-Domain* on that page, and the portal ID can be found in the footer.  Set
-:const:`HUBSPOT_PORTAL_ID` and :const:`HUBSPOT_DOMAIN` in the
-project :file:`settings.py` file::
+Your HubSpot account has its own portal ID and primary domain name, and
+the :ttag:`hubspot` tag will include them in the rendered Javascript
+code.  You can find the portal ID and domain by going to the *Domains*
+tab in your HubSpot account.  The domain you need to use is listed as
+*Primary Domain* on that page, and the portal ID can be found in the
+footer.  Set :const:`HUBSPOT_PORTAL_ID` and :const:`HUBSPOT_DOMAIN` in
+the project :file:`settings.py` file::
 
     HUBSPOT_PORTAL_ID = 'XXXX'
     HUBSPOT_DOMAIN = 'XXXXXXXX.web101.hubspot.com'

@@ -1,5 +1,5 @@
 django-analytical
------------------
+=================
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -8,6 +8,7 @@ Using an analytics service with a Django project means adding Javascript
 tracking code to the project templates.  Of course, every service has
 its own specific installation instructions.  Furthermore, you need to
 include your unique identifiers, which then end up in the templates.
+
 This application hides the details of the different analytics services
 behind a generic interface, and keeps personal information and
 configuration out of the templates.  Its goal is to make the basic
@@ -30,12 +31,12 @@ Currently supported services:
 The documentation can be found in the ``docs`` directory or `read
 online`_.  The project source is `hosted by GitHub`_.
 
-If you want to help out with development of django-analytical, by
-posting detailed bug reports, suggesting new features or other analytics
-services to support, or doing some development work yourself, please use
-the `issue tracker`_.  If you want to get your hands dirty yourself,
-great! Clone the repository, make changes and send a pull request.
-Please do create an issue to discuss your plans.
+If you want to help out with the development of django-analytical, by
+posting detailed bug reports, proposing new features or other analytics
+services to support, or suggesting documentation improvements, use the
+`issue tracker`_.  If you want to get your hands dirty, great!  Clone
+the repository, make changes and send a pull request.  Please do create
+an issue to discuss your plans.
 
 .. _Django: http://www.djangoproject.com/
 .. _Chartbeat: http://www.chartbeat.com/

@@ -1,9 +1,9 @@
-========================================
-Analytics service integration for Django
-========================================
+=================
+django-analytical
+=================
 
-The django-analytical application integrates various analytics services
-into a Django_ project.
+The django-analytical application integrates analytics services into a
+Django_ project.
 
 .. _Django: http://www.djangoproject.com/
 
@@ -14,17 +14,9 @@ into a Django_ project.
 Overview
 ========
 
-If your want to integrating an analytics service into a Django project,
-you need to add Javascript tracking code to the project templates.
-Of course, every service has its own specific installation instructions.
-Furthermore, you need to include your unique identifiers, which then end
-up in the templates.  This application hides the details of the
-different analytics services behind a generic interface, and keeps
-personal information and configuration out of the templates.  Its goal
-is to make basic usage set-up very simple, while allowing advanced users
-to customize tracking.  Each service is set up as recommended by the
-services themselves, using an asynchronous version of the Javascript
-code if possible.
+.. include:: ../README.rst
+    :start-line: 6
+    :end-line: 17
 
 To get a feel of how django-analytics works, check out the
 :doc:`tutorial`.

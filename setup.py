@@ -43,7 +43,7 @@ setup(
     name = 'django-analytical',
     version = analytical.__version__,
     license = analytical.__license__,
-    description = 'Analytics services for Django projects',
+    description = 'Analytics service integration for Django projects',
     long_description = read('README.rst'),
     author = analytical.__author__,
     author_email = analytical.__email__,
@@ -51,6 +51,7 @@ setup(
         'analytical',
         'analytical.templatetags',
         'analytical.tests',
+        'analytical.tests.templatetags',
     ],
     keywords = ['django', 'analytics'],
     classifiers = [

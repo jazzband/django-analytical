@@ -1,2 +1,2 @@
-include LICENSE.txt
+include LICENSE.txt *.rst
 recursive-include docs *.rst *.py

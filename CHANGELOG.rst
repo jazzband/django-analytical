@@ -1,5 +1,5 @@
-Development
------------
+Version 0.3.0
+-------------
 * Added support for the Performable service.
 
 Version 0.2.0
