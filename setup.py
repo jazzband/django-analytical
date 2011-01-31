@@ -66,7 +66,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     platforms = ['any'],
-    url = 'http://packages.python.org/django-analytical/',
+    url = 'http://github.com/jcassee/django-analytical',
     download_url = 'http://github.com/jcassee/django-analytical/archives/master',
     cmdclass = cmdclass,
 )
