@@ -131,3 +131,9 @@ will look like this::
 (If you are placing the hostname and page id values in the template, do
 not forget to enclose them in quotes or they will be considered context
 variable names.)
+
+
+----
+
+Thanks go to Performable for their support with the development of this
+application.

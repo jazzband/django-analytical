@@ -107,3 +107,24 @@ a context processor that you add to the
 Just remember that if you set the same context variable in the
 :class:`~django.template.context.RequestContext` constructor and in a
 context processor, the latter clobbers the former.
+
+
+.. mixpanel-events:
+
+Tracking events
+===============
+
+The django-analytical app integrates the Mixpanel Javascript API in
+templates.  To tracking events in views or other parts of Django, use
+Wes Winham's `django-celery`_ package.
+
+If you want to track an event in Javascript, use the asynchronous
+notation, as described in the section titled
+`"Asynchronous Tracking with Javascript"`_ in the Mixpanel
+documentation. For example::
+
+    mpq.push(["track", "play-game", {"level": "12", "weapon": "sword", "character": "knight"}]);
+
+.. _django-celery: http://github.com/winhamwr/mixpanel-celery
+.. _`"Asynchronous Tracking with Javascript"`: http://mixpanel.com/api/docs/guides/integration/js#async
+
