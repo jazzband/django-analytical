@@ -116,7 +116,12 @@ Context variable    Clicky property  Description
                                      ``group`` keys.
 ------------------  ---------------  -----------------------------------
 ``clicky_goal``     goal_            A succeeded goal.  A dictionary
-                                     containing ``id`` and ``revenue``
+                                     containing ``id`` and optionally
+                                     ``revenue`` keys.
+------------------  ---------------  -----------------------------------
+``clicky_split``    split_           Split testing page version.  A
+                                     dictionary containing ``name``,
+                                     ``version`` and optionally ``goal``
                                      keys.
 ------------------  ---------------  -----------------------------------
 ``clicky_href``     href_            The URL as tracked by Clicky.
@@ -131,6 +136,7 @@ Context variable    Clicky property  Description
 .. _goal: http://getclicky.com/help/customization#goal
 .. _href: http://getclicky.com/help/customization#href
 .. _title: http://getclicky.com/help/customization#title
+.. _split: http://getclicky.com/help/customization#split
 
 
 .. _clicky-identify-user:

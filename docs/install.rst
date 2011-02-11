@@ -137,6 +137,10 @@ settings required to enable each service are listed here:
 
 	OPTIMIZELY_ACCOUNT_NUMBER = '1234567'
 
+* :doc:`Performable <services/performable>`::
+
+    PERFORMABLE_API_KEY = '123abc'
+
 
 ----
 

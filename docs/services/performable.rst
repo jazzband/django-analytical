@@ -55,7 +55,7 @@ Setting the API key
 You Performable account has its own API key, which :ttag:`performable`
 tag will include it in the rendered Javascript code.  You can find your
 API key on the *Account Settings* page (click 'Account Settings' in the
-top right-hand corner of your Performable dashboard.  Set
+top right-hand corner of your Performable dashboard).  Set
 :const:`PERFORMABLE_API_KEY` in the project :file:`settings.py` file::
 
     PERFORMABLE_API_KEY = 'XXXXXX'
@@ -69,9 +69,9 @@ Identifying authenticated users
 -------------------------------
 
 If your websites identifies visitors, you can pass this information on
-to Performable so that you can tie survey submissions to customers.
-By default, the username of an authenticated user is passed to
-Performable automatically.  See :ref:`identifying-visitors`.
+to Performable so that you can track individual users.  By default, the 
+username of an authenticated user is passed to Performable 
+automatically.  See :ref:`identifying-visitors`.
 
 You can also send the visitor identity yourself by adding either the
 ``performable_identity`` or the ``analytical_identity`` variable to

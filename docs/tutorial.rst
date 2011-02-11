@@ -4,12 +4,14 @@
 Tutorial
 ========
 
-In this tutorial you will learn how to install and configure
-django-analytical for basic tracking.  Suppose your Django website
-provides information about the IPv4 to IPv6 transition.  Visitors
-can discuss their problems and help each other make the necessary
-changes to their network infrastructure.  You want to use two
-different analytics services:
+This tutorial show you how to install and configure django-analytical
+for basic tracking, and then briefly touch on two common customization
+issues: visitor identification and custom data tracking data.
+
+*Suppose your Django website provides information about the IPv4 to IPv6
+transition.  Visitors can discuss their problems and help each other
+make the necessary changes to their network infrastructure.*  You want to
+use two different analytics services:
 
 * :doc:`Clicky <services/clicky>` for detailed traffic analysis
 * :doc:`Crazy Egg <services/crazy_egg>` to see where visitors click on
@@ -42,8 +44,8 @@ installed applications in the ``settings.py`` file of your project::
         ...
     ]
 
-Now add the general-purpose django-analytical template tags to your base
-template::
+Then you have to add the general-purpose django-analytical template tags
+to your base template::
 
     {% load analytical %}
     <!DOCTYPE ... >
@@ -66,7 +68,7 @@ template::
 
 Finally, you need to configure the Clicky Site ID and the Crazy Egg
 account number.  Add the following to your project :file:`settings.py`
-file::
+file (replacing the ``x``'s with your own codes)::
 
     CLICKY_SITE_ID = 'xxxxxxxx'
     CRAZY_EGG_ACCOUNT_NUMBER = 'xxxxxxxx'
@@ -78,10 +80,10 @@ changes, both Clicky and Crazy Egg will be tracking your visitors.
 Identifying authenticated users
 ===============================
 
-When you visitors post questions on IPv6 or tell about their experience
-with transitioning, they first log in through the standard Django
-authentication system.  Clicky can identify and track individual
-visitors and you want to use this feature.
+*When your visitors post questions on IPv6 or tell about their
+experience with the transition, they first log in through the standard
+Django authentication system.  Clicky can identify and track individual
+visitors and you want to use this feature.*
 
 If django-analytical template tags detect that the current user is
 authenticated, they will automatically include code to send the username
@@ -100,12 +102,13 @@ disable or override it, see :ref:`identifying-visitors`.
 Adding custom tracking data
 ===========================
 
-You think that visitors who already use IPv6 use the website in a
+*You think that visitors who already use IPv6 use the website in a
 different way from those still on IPv4.  You want to test this by
-segmenting the Crazy Egg heatmaps based on the IP protocol version.  You
-need to including the visitor IP protocol version with the Crazy Egg
-tracking code.  The easiest way to do this is by using a context
-processor::
+segmenting the Crazy Egg heatmaps based on the IP protocol version.*
+
+In order to filter on protocol version in Crazy Egg, you need to
+include the visitor IP protocol version in the Crazy Egg tracking code.
+The easiest way to do this is by using a context processor::
 
     def track_ip_proto(request):
         addr = request.META.get('HTTP_X_FORWARDED_FOR', '')

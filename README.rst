@@ -8,6 +8,7 @@ Using an analytics service with a Django project means adding Javascript
 tracking code to the project templates.  Of course, every service has
 its own specific installation instructions.  Furthermore, you need to
 include your unique identifiers, which then end up in the templates.
+Not very nice.
 
 This application hides the details of the different analytics services
 behind a generic interface, and keeps personal information and
@@ -21,6 +22,7 @@ Currently supported services:
 * `Chartbeat`_ traffic analysis
 * `Clicky`_ traffic analysis
 * `Crazy Egg`_ visual click tracking
+* `Geckoboard`_ dashboard
 * `Google Analytics`_ traffic analysis
 * `HubSpot`_ inbound marketing
 * `KISSinsights`_ feedback surveys
@@ -30,7 +32,8 @@ Currently supported services:
 * `Performable`_ web analytics and landing pages
 
 The documentation can be found in the ``docs`` directory or `read
-online`_.  The project source is `hosted by GitHub`_.
+online`_.  The source code and issue tracker are generously `hosted by
+GitHub`_.
 
 If you want to help out with the development of django-analytical, by
 posting detailed bug reports, proposing new features or other analytics

@@ -115,8 +115,8 @@ Tracking events
 ===============
 
 The django-analytical app integrates the Mixpanel Javascript API in
-templates.  To tracking events in views or other parts of Django, use
-Wes Winham's `django-celery`_ package.
+templates.  To tracking events in views or other parts of Django, you
+can use Wes Winham's `django-celery`_ package.
 
 If you want to track an event in Javascript, use the asynchronous
 notation, as described in the section titled

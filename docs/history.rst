@@ -27,4 +27,4 @@ Helping out
 ===========
 
 .. include:: ../README.rst
-    :start-after: The project source is `hosted by GitHub`_.
+    :start-after: GitHub`_.
