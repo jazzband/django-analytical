@@ -5,5 +5,7 @@
 /dist
 /MANIFEST
 
+/docs/_templates/layout.html
+
 *.pyc
 *.pyo
