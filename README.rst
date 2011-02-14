@@ -22,7 +22,7 @@ Currently supported services:
 * `Chartbeat`_ traffic analysis
 * `Clicky`_ traffic analysis
 * `Crazy Egg`_ visual click tracking
-* `Geckoboard`_ dashboard
+* `Geckoboard`_ status board
 * `Google Analytics`_ traffic analysis
 * `HubSpot`_ inbound marketing
 * `KISSinsights`_ feedback surveys
@@ -46,6 +46,7 @@ an issue to discuss your plans.
 .. _Chartbeat: http://www.chartbeat.com/
 .. _Clicky: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
+.. _Geckoboard: http://www.geckoboard.com/
 .. _`Google Analytics`: http://www.google.com/analytics/
 .. _HubSpot: http://www.hubspot.com/
 .. _KISSinsights: http://www.kissinsights.com/

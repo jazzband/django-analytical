@@ -6,13 +6,12 @@ import base64
 from xml.dom.minidom import Document
 
 try:
-    from functools import update_wrapper, wraps
+    from functools import wraps
 except ImportError:
     from django.utils.functional import wraps  # Python 2.4 fallback
 
 from django.conf import settings
-from django.http import HttpResponse, HttpResponseForbidden,\
-    HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import SortedDict
 from django.utils.decorators import available_attrs
@@ -44,7 +43,7 @@ class WidgetDecorator(object):
             content = _render(request, data)
             return HttpResponse(content)
         wrapper = wraps(view_func, assigned=available_attrs(view_func))
-        return wrapper(_wrapped_view)
+        return csrf_exempt(wrapper(_wrapped_view))
 
     def _convert_view_result(self, data):
         # Extending classes do view result mangling here.
@@ -81,19 +80,19 @@ class RAGWidgetDecorator(WidgetDecorator):
     """
 
     def _convert_view_result(self, result):
-        data = {'item': []}
+        items = []
         for elem in result:
             if not isinstance(elem, (tuple, list)):
                 elem = [elem]
-            item = {}
+            item = SortedDict()
             if elem[0] is None:
                 item['value'] = ''
             else:
                 item['value'] = elem[0]
             if len(elem) > 1:
                 item['text'] = elem[1]
-            data.append(item)
-        return data
+            items.append(item)
+        return {'item': items}
 
 rag = RAGWidgetDecorator()
 
@@ -109,18 +108,20 @@ class TextWidgetDecorator(WidgetDecorator):
     """
 
     def _convert_view_result(self, result):
-        data = {'item': []}
+        items = []
+        if not isinstance(result, (tuple, list)):
+            result = [result]
         for elem in result:
             if not isinstance(elem, (tuple, list)):
                 elem = [elem]
-            item = {}
+            item = SortedDict()
             item['text'] = elem[0]
             if len(elem) > 1:
                 item['type'] = elem[1]
             else:
                 item['type'] = TEXT_NONE
-            data.append(item)
-        return data
+            items.append(item)
+        return {'item': items}
 
 text = TextWidgetDecorator()
 
@@ -135,18 +136,18 @@ class PieChartWidgetDecorator(WidgetDecorator):
     """
 
     def _convert_view_result(self, result):
-        data = {'item': []}
+        items = []
         for elem in result:
             if not isinstance(elem, (tuple, list)):
                 elem = [elem]
-            item = {}
+            item = SortedDict()
             item['value'] = elem[0]
             if len(elem) > 1:
                 item['label'] = elem[1]
             if len(elem) > 2:
                 item['colour'] = elem[2]
-            data.append(item)
-        return data
+            items.append(item)
+        return {'item': items}
 
 pie_chart = PieChartWidgetDecorator()
 
@@ -166,23 +167,27 @@ class LineChartWidgetDecorator(WidgetDecorator):
     """
 
     def _convert_view_result(self, result):
-        data = {'item': result[0], 'settings': {}}
+        data = SortedDict()
+        data['item'] = result[0]
+        data['settings'] = SortedDict()
 
-        x_axis = result[1]
-        if x_axis in None:
-            x_axis = ''
-        if not isinstance(x_axis, (tuple, list)):
-            x_axis = [x_axis]
-        data['settings']['axisx'] = x_axis
+        if len(result) > 1:
+            x_axis = result[1]
+            if x_axis is None:
+                x_axis = ''
+            if not isinstance(x_axis, (tuple, list)):
+                x_axis = [x_axis]
+            data['settings']['axisx'] = x_axis
 
-        y_axis = result[2]
-        if y_axis in None:
-            y_axis = ''
-        if not isinstance(y_axis, (tuple, list)):
-            y_axis = [y_axis]
-        data['settings']['axisy'] = y_axis
+        if len(result) > 2:
+            y_axis = result[2]
+            if y_axis is None:
+                y_axis = ''
+            if not isinstance(y_axis, (tuple, list)):
+                y_axis = [y_axis]
+            data['settings']['axisy'] = y_axis
 
-        if len(result) > 3 and result[3] is not None:
+        if len(result) > 3:
             data['settings']['colour'] = result[3]
 
         return data
@@ -203,21 +208,22 @@ class GeckOMeterWidgetDecorator(WidgetDecorator):
 
     def _convert_view_result(self, result):
         value, min, max = result
-        data = {'item': value}
+        data = SortedDict()
+        data['item'] = value
+        data['max'] = SortedDict()
+        data['min'] = SortedDict()
 
-        if isinstance(min, (tuple, list)):
-            min = [min]
-        min_data = {'value': min[0]}
-        if len(min) > 1:
-            min_data['text'] = min[1]
-        data['min'] = min_data
-
-        if isinstance(max, (tuple, list)):
+        if not isinstance(max, (tuple, list)):
             max = [max]
-        max_data = {'value': max[0]}
+        data['max']['value'] = max[0]
         if len(max) > 1:
-            max_data['text'] = max[1]
-        data['max'] = max_data
+            data['max']['text'] = max[1]
+
+        if not isinstance(min, (tuple, list)):
+            min = [min]
+        data['min']['value'] = min[0]
+        if len(min) > 1:
+            data['min']['text'] = min[1]
 
         return data
 
@@ -238,7 +244,10 @@ def _is_api_key_correct(request):
 
 
 def _render(request, data):
-    if request.POST.get('format') == '2':
+    format = request.POST.get('format', '')
+    if not format:
+        format = request.GET.get('format', '')
+    if format == '2':
         return _render_json(data)
     else:
         return _render_xml(data)
@@ -254,8 +263,12 @@ def _render_xml(data):
     return doc.toxml()
 
 def _build_xml(doc, parent, data):
-    func = _build_xml_vtable.get(type(data), _build_str_xml)
-    func(doc, parent, data)
+    if isinstance(data, (tuple, list)):
+        _build_list_xml(doc, parent, data)
+    elif isinstance(data, dict):
+        _build_dict_xml(doc, parent, data)
+    else:
+        _build_str_xml(doc, parent, data)
 
 def _build_str_xml(doc, parent, data):
     parent.appendChild(doc.createTextNode(str(data)))
@@ -275,17 +288,6 @@ def _build_dict_xml(doc, parent, data):
             elem = doc.createElement(tag)
             _build_xml(doc, elem, item)
             parent.appendChild(elem)
-
-_build_xml_vtable = {
-    list:  _build_list_xml,
-    tuple: _build_list_xml,
-    dict:  _build_dict_xml,
-}
-
-_render_vtable = {
-    '1': _render_xml,
-    '2': _render_json,
-}
 
 
 class GeckoboardException(Exception):

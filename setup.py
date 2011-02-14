@@ -1,6 +1,8 @@
 from distutils.core import setup, Command
 import os
 
+os.environ['DJANGO_SETTINGS_MODULE'] = 'analytical.tests.settings'
+
 cmdclass = {}
 
 try:
@@ -27,7 +29,6 @@ class TestCommand(Command):
         pass
 
     def run(self):
-        os.environ['DJANGO_SETTINGS_MODULE'] = 'analytical.tests.settings'
         from analytical.tests.utils import run_tests
         run_tests()
 
