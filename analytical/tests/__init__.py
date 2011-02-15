@@ -2,7 +2,6 @@
 Tests for django-analytical.
 """
 
-from analytical.tests.test_geckoboard import *
 from analytical.tests.test_tag_analytical import *
 from analytical.tests.test_tag_chartbeat import *
 from analytical.tests.test_tag_clicky import *

@@ -1,3 +1,9 @@
+Version 0.5.0
+-------------
+* Split off Geckoboard support into django-geckoboard_.
+
+.. _django-geckoboard: http://pypi.python.org/pypi/django-geckoboard
+
 Version 0.4.0
 -------------
 * Added support for the Geckoboard service.

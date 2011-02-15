@@ -12,11 +12,6 @@ configuring the services you use in the project settings.
 #. `Adding the template tags to the base template`_
 #. `Enabling the services`_
 
-.. note::
-
-    The Geckoboard integration differs from that of the other services.
-    See :doc:`Geckoboard <services/geckoboard>` for installation
-    instruction if you are not interested in the other services.
 
 .. _installing-the-package:
 
