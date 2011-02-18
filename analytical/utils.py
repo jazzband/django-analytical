@@ -10,6 +10,12 @@ HTML_COMMENT = "<!-- %(service)s disabled on internal IP " \
 
 
 def get_required_setting(setting, value_re, invalid_msg):
+    """
+    Return a constant from ``django.conf.settings``.  The `setting`
+    argument is the constant name, the `value_re` argument is a regular
+    expression used to validate the setting value and the `invalid_msg`
+    argument is used as exception message if the value is not valid.
+    """
     try:
         value = getattr(settings, setting)
     except AttributeError:
@@ -22,6 +28,12 @@ def get_required_setting(setting, value_re, invalid_msg):
 
 
 def get_identity(context, prefix=None):
+    """
+    Get the identity of a logged in user from a template context.
+
+    The `prefix` argument is used to provide different identities to
+    different analytics services.
+    """
     if prefix is not None:
         try:
             return context['%s_identity' % prefix]
@@ -46,6 +58,13 @@ def get_identity(context, prefix=None):
 
 
 def is_internal_ip(context, prefix=None):
+    """
+    Return whether the visitor is coming from an internal IP address,
+    based on information from the template context.
+
+    The prefix is used to allow different analytics services to have
+    different notions of internal addresses.
+    """
     try:
         request = context['request']
         remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
@@ -63,12 +82,17 @@ def is_internal_ip(context, prefix=None):
             internal_ips = getattr(settings, 'INTERNAL_IPS', '')
 
         return remote_ip in internal_ips
-    except KeyError, AttributeError:
+    except (KeyError, AttributeError):
         return False
 
 
 def disable_html(html, service):
-    return HTML_COMMENT % locals()
+    """
+    Disable HTML code by commenting it out.
+
+    The `service` argument is used to display a friendly message.
+    """
+    return HTML_COMMENT % {'html': html, 'service': service}
 
 
 class AnalyticalException(Exception):

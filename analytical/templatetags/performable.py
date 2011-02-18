@@ -13,7 +13,9 @@ from analytical.utils import is_internal_ip, disable_html, get_identity, \
 
 
 API_KEY_RE = re.compile(r'^\w{6}$')
-SETUP_CODE = """<script src="//d1nu2rn22elx8m.cloudfront.net/performable/pax/%(api_key)s.js" type="text/javascript"></script>"""
+SETUP_CODE = """
+    <script src="//d1nu2rn22elx8m.cloudfront.net/performable/pax/%(api_key)s.js" type="text/javascript"></script>
+"""
 IDENTIFY_CODE = """
     <script type="text/javascript">
       var _paq = _paq || [];
@@ -69,7 +71,7 @@ def performable_embed(hostname, page_id):
     """
     Include a Performable landing page.
     """
-    return EMBED_CODE % locals()
+    return EMBED_CODE % {'hostname': hostname, 'page_id': page_id}
 
 
 def contribute_to_analytical(add_node):

@@ -68,6 +68,6 @@ setup(
     ],
     platforms = ['any'],
     url = 'http://github.com/jcassee/django-analytical',
-    download_url = 'http://github.com/jcassee/django-analytical/archives/master',
+    #download_url = 'http://github.com/jcassee/django-analytical/archives/master',
     cmdclass = cmdclass,
 )

@@ -58,7 +58,7 @@ def chartbeat_top(parser, token):
 class ChartbeatTopNode(Node):
     def render(self, context):
         if is_internal_ip(context):
-            return disable_html(INIT_CODE, self.name)
+            return disable_html(INIT_CODE, "Chartbeat")
         return INIT_CODE
 
 
@@ -84,12 +84,7 @@ class ChartbeatBottomNode(Node):
 
     def render(self, context):
         config = {'uid': self.user_id}
-        domain = context.get(DOMAIN_CONTEXT_KEY)
-        if domain is None and getattr(settings, 'CHARTBEAT_AUTO_DOMAIN', True):
-            try:
-                domain = Site.objects.get_current().domain
-            except (ImproperlyConfigured, Site.DoesNotExist):
-                pass
+        domain = _get_domain(context)
         if domain is not None:
             config['domain'] = domain
         html = SETUP_CODE % {'config': simplejson.dumps(config)}
@@ -102,3 +97,13 @@ def contribute_to_analytical(add_node):
     ChartbeatBottomNode()  # ensure properly configured
     add_node('head_top', ChartbeatTopNode, 'first')
     add_node('body_bottom', ChartbeatBottomNode, 'last')
+
+
+def _get_domain(context):
+    domain = context.get(DOMAIN_CONTEXT_KEY)
+    if domain is None and getattr(settings, 'CHARTBEAT_AUTO_DOMAIN', True):
+        try:
+            domain = Site.objects.get_current().domain
+        except (ImproperlyConfigured, Site.DoesNotExist): #pylint: disable=E1101
+            pass
+    return domain
