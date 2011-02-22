@@ -20,7 +20,7 @@ the django-analytical package and have added the ``analytical``
 application to :const:`INSTALLED_APPS` in your project
 :file:`settings.py` file. See :doc:`../install` for details.
 
-Next you need to add the Google Analytics template tags to your
+Next you need to add the Google Analytics template tag to your
 templates. This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`google-analytics-configuration`.

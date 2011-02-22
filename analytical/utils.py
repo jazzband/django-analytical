@@ -27,12 +27,14 @@ def get_required_setting(setting, value_re, invalid_msg):
     return value
 
 
-def get_identity(context, prefix=None):
+def get_identity(context, prefix=None, identity_func=None):
     """
     Get the identity of a logged in user from a template context.
 
     The `prefix` argument is used to provide different identities to
-    different analytics services.
+    different analytics services.  The `identity_func` argument is a
+    function that returns the identity of the user; by default the
+    identity is the username.
     """
     if prefix is not None:
         try:
@@ -51,7 +53,10 @@ def get_identity(context, prefix=None):
                 request = context['request']
                 user = request.user
             if user.is_authenticated():
-                return user.username
+                if identity_func is not None:
+                    return identity_func(user)
+                else:
+                    return user.username
         except (KeyError, AttributeError):
             pass
     return None

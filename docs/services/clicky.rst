@@ -20,7 +20,7 @@ django-analytical package and have added the ``analytical`` application
 to :const:`INSTALLED_APPS` in your project :file:`settings.py` file.
 See :doc:`../install` for details.
 
-Next you need to add the Clicky template tags to your templates. This
+Next you need to add the Clicky template tag to your templates. This
 step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`clicky-configuration`.
@@ -104,7 +104,7 @@ Just remember that if you set the same context variable in the
 :class:`~django.template.context.RequestContext` constructor and in a
 context processor, the latter clobbers the former.
 
-Here is a table with the most important variables.  All variable listed
+Here is a table with the most important variables.  All variables listed
 on the `customized tracking`_ documentation page can be set by replacing
 ``clicky_custom.`` with ``clicky_``.
 

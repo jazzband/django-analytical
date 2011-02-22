@@ -20,7 +20,7 @@ django-analytical package and have added the ``analytical`` application
 to :const:`INSTALLED_APPS` in your project :file:`settings.py` file.
 See :doc:`../install` for details.
 
-Next you need to add the Performable template tags to your templates.
+Next you need to add the Performable template tag to your templates.
 This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`performable-configuration`.
@@ -69,8 +69,8 @@ Identifying authenticated users
 -------------------------------
 
 If your websites identifies visitors, you can pass this information on
-to Performable so that you can track individual users.  By default, the 
-username of an authenticated user is passed to Performable 
+to Performable so that you can track individual users.  By default, the
+username of an authenticated user is passed to Performable
 automatically.  See :ref:`identifying-visitors`.
 
 You can also send the visitor identity yourself by adding either the
