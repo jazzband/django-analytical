@@ -27,6 +27,7 @@ Currently supported services:
 * `KISSinsights`_ feedback surveys
 * `KISSmetrics`_ funnel analysis
 * `Mixpanel`_ event tracking
+* `Olark`_ visitor chat
 * `Optimizely`_ A/B testing
 * `Performable`_ web analytics and landing pages
 
@@ -50,6 +51,7 @@ an issue to discuss your plans.
 .. _KISSinsights: http://www.kissinsights.com/
 .. _KISSmetrics: http://www.kissmetrics.com/
 .. _Mixpanel: http://www.mixpanel.com/
+.. _Olark: http://www.olark.com/
 .. _Optimizely: http://www.optimizely.com/
 .. _Performable: http://www.performable.com/
 .. _`read online`: http://packages.python.org/django-analytical/

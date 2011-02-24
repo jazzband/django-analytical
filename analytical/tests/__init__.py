@@ -11,6 +11,7 @@ from analytical.tests.test_tag_hubspot import *
 from analytical.tests.test_tag_kiss_insights import *
 from analytical.tests.test_tag_kiss_metrics import *
 from analytical.tests.test_tag_mixpanel import *
+from analytical.tests.test_tag_olark import *
 from analytical.tests.test_tag_optimizely import *
 from analytical.tests.test_tag_performable import *
 from analytical.tests.test_tag_reinvigorate import *
