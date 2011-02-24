@@ -34,9 +34,7 @@ class OptimizelyTagTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, OptimizelyNode)
 
     def test_wrong_account_number(self):
-        self.settings_manager.set(OPTIMIZELY_ACCOUNT_NUMBER='123456')
-        self.assertRaises(AnalyticalException, OptimizelyNode)
-        self.settings_manager.set(OPTIMIZELY_ACCOUNT_NUMBER='12345678')
+        self.settings_manager.set(OPTIMIZELY_ACCOUNT_NUMBER='123abc')
         self.assertRaises(AnalyticalException, OptimizelyNode)
 
     def test_render_internal_ip(self):

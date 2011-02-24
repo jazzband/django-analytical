@@ -32,9 +32,7 @@ class OlarkTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, OlarkNode)
 
     def test_wrong_site_id(self):
-        self.settings_manager.set(OLARK_SITE_ID='1234-567-89-012')
-        self.assertRaises(AnalyticalException, OlarkNode)
-        self.settings_manager.set(OLARK_SITE_ID='1234-567-89-01234')
+        self.settings_manager.set(OLARK_SITE_ID='1234-567-8901234')
         self.assertRaises(AnalyticalException, OlarkNode)
 
     def test_identify(self):

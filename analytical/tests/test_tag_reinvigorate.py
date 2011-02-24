@@ -35,9 +35,7 @@ class ReinvigorateTagTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, ReinvigorateNode)
 
     def test_wrong_tracking_id(self):
-        self.settings_manager.set(REINVIGORATE_TRACKING_ID='12345-abcdefghi')
-        self.assertRaises(AnalyticalException, ReinvigorateNode)
-        self.settings_manager.set(REINVIGORATE_TRACKING_ID='12345-abcdefghijk')
+        self.settings_manager.set(REINVIGORATE_TRACKING_ID='123abc')
         self.assertRaises(AnalyticalException, ReinvigorateNode)
 
     def test_identify(self):

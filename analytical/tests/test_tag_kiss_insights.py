@@ -41,9 +41,7 @@ class KissInsightsTagTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, KissInsightsNode)
 
     def test_wrong_site_id(self):
-        self.settings_manager.set(KISS_INSIGHTS_SITE_CODE='ab')
-        self.assertRaises(AnalyticalException, KissInsightsNode)
-        self.settings_manager.set(KISS_INSIGHTS_SITE_CODE='abcd')
+        self.settings_manager.set(KISS_INSIGHTS_SITE_CODE='abc def')
         self.assertRaises(AnalyticalException, KissInsightsNode)
 
     def test_identify(self):

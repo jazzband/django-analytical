@@ -13,7 +13,7 @@ from analytical.utils import get_identity, is_internal_ip, disable_html, \
         get_required_setting
 
 
-SITE_ID_RE = re.compile(r'^\d{8}$')
+SITE_ID_RE = re.compile(r'^\d+$')
 TRACKING_CODE = """
     <script type="text/javascript">
     var clicky = { log: function(){ return; }, goal: function(){ return; }};
@@ -51,7 +51,7 @@ def clicky(parser, token):
 class ClickyNode(Node):
     def __init__(self):
         self.site_id = get_required_setting('CLICKY_SITE_ID', SITE_ID_RE,
-                "must be a string containing an eight-digit number")
+                "must be a (string containing) a number")
 
     def render(self, context):
         custom = {}

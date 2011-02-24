@@ -55,9 +55,7 @@ class ChartbeatTagTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, ChartbeatBottomNode)
 
     def test_wrong_user_id(self):
-        self.settings_manager.set(CHARTBEAT_USER_ID='1234')
-        self.assertRaises(AnalyticalException, ChartbeatBottomNode)
-        self.settings_manager.set(CHARTBEAT_USER_ID='123456')
+        self.settings_manager.set(CHARTBEAT_USER_ID='123abc')
         self.assertRaises(AnalyticalException, ChartbeatBottomNode)
 
     def test_rendering_setup_no_site(self):

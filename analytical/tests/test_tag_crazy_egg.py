@@ -32,9 +32,7 @@ class CrazyEggTagTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, CrazyEggNode)
 
     def test_wrong_account_number(self):
-        self.settings_manager.set(CRAZY_EGG_ACCOUNT_NUMBER='1234567')
-        self.assertRaises(AnalyticalException, CrazyEggNode)
-        self.settings_manager.set(CRAZY_EGG_ACCOUNT_NUMBER='123456789')
+        self.settings_manager.set(CRAZY_EGG_ACCOUNT_NUMBER='123abc')
         self.assertRaises(AnalyticalException, CrazyEggNode)
 
     def test_uservars(self):

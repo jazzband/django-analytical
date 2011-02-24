@@ -33,9 +33,7 @@ class PerformableTagTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, PerformableNode)
 
     def test_wrong_account_number(self):
-        self.settings_manager.set(PERFORMABLE_API_KEY='123AB')
-        self.assertRaises(AnalyticalException, PerformableNode)
-        self.settings_manager.set(PERFORMABLE_API_KEY='123ABCD')
+        self.settings_manager.set(PERFORMABLE_API_KEY='123 ABC')
         self.assertRaises(AnalyticalException, PerformableNode)
 
     def test_render_internal_ip(self):

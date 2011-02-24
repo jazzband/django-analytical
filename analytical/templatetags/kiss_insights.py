@@ -12,7 +12,7 @@ from analytical.utils import get_identity, get_required_setting
 
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
-SITE_CODE_RE = re.compile(r'^[\w]{3}$')
+SITE_CODE_RE = re.compile(r'^[\w]+$')
 SETUP_CODE = """
     <script type="text/javascript">var _kiq = _kiq || []; %(commands)s</script>
     <script type="text/javascript" src="//s3.amazonaws.com/ki.js/%(account_number)s/%(site_code)s.js" async="true"></script>

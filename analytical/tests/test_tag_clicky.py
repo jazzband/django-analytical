@@ -39,9 +39,7 @@ class ClickyTagTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, ClickyNode)
 
     def test_wrong_site_id(self):
-        self.settings_manager.set(CLICKY_SITE_ID='1234567')
-        self.assertRaises(AnalyticalException, ClickyNode)
-        self.settings_manager.set(CLICKY_SITE_ID='123456789')
+        self.settings_manager.set(CLICKY_SITE_ID='123abc')
         self.assertRaises(AnalyticalException, ClickyNode)
 
     def test_identify(self):

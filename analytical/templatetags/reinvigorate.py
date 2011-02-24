@@ -13,7 +13,7 @@ from analytical.utils import get_identity, is_internal_ip, disable_html, \
         get_required_setting
 
 
-TRACKING_ID_RE = re.compile(r'^[\w\d]{5}-[\w\d]{10}$')
+TRACKING_ID_RE = re.compile(r'^[\w\d]+-[\w\d]+$')
 TRACKING_CODE = """
     <script type="text/javascript">
       document.write(unescape("%%3Cscript src='" + (("https:" == document.location.protocol) ? "https://ssl-" : "http://") + "include.reinvigorate.net/re_.js' type='text/javascript'%%3E%%3C/script%%3E"));

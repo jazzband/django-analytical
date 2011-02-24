@@ -11,7 +11,7 @@ from django.template import Library, Node, TemplateSyntaxError
 from analytical.utils import is_internal_ip, disable_html, get_required_setting
 
 
-ACCOUNT_NUMBER_RE = re.compile(r'^\d{8}$')
+ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
 SETUP_CODE = """<script type="text/javascript" src="//dnn506yrbagrg.cloudfront.net/pages/scripts/%(account_nr_1)s/%(account_nr_2)s.js"</script>"""
 USERVAR_CODE = "CE2.set(%(varnr)d, '%(value)s');"
 
@@ -36,8 +36,7 @@ def crazy_egg(parser, token):
 class CrazyEggNode(Node):
     def __init__(self):
         self.account_nr = get_required_setting('CRAZY_EGG_ACCOUNT_NUMBER',
-                ACCOUNT_NUMBER_RE,
-                "must be a string containing an eight-digit number")
+                ACCOUNT_NUMBER_RE, "must be (a string containing) a number")
 
     def render(self, context):
         html = SETUP_CODE % {'account_nr_1': self.account_nr[:4],

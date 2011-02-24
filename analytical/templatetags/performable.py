@@ -12,7 +12,7 @@ from analytical.utils import is_internal_ip, disable_html, get_identity, \
         get_required_setting
 
 
-API_KEY_RE = re.compile(r'^\w{6}$')
+API_KEY_RE = re.compile(r'^\w+$')
 SETUP_CODE = """
     <script src="//d1nu2rn22elx8m.cloudfront.net/performable/pax/%(api_key)s.js" type="text/javascript"></script>
 """
@@ -52,9 +52,8 @@ def performable(parser, token):
 
 class PerformableNode(Node):
     def __init__(self):
-        self.api_key = get_required_setting(
-                'PERFORMABLE_API_KEY', API_KEY_RE,
-                "must be a string containing five alphanumerical characters")
+        self.api_key = get_required_setting('PERFORMABLE_API_KEY', API_KEY_RE,
+                "must be a string looking like 'XXXXX'")
 
     def render(self, context):
         html = SETUP_CODE % {'api_key': self.api_key}

@@ -15,7 +15,7 @@ from django.utils import simplejson
 from analytical.utils import is_internal_ip, disable_html, get_required_setting
 
 
-USER_ID_RE = re.compile(r'^\d{5}$')
+USER_ID_RE = re.compile(r'^\d+$')
 INIT_CODE = """<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>"""
 SETUP_CODE = """
     <script type="text/javascript">
@@ -78,9 +78,8 @@ def chartbeat_bottom(parser, token):
 
 class ChartbeatBottomNode(Node):
     def __init__(self):
-        self.user_id = get_required_setting(
-                'CHARTBEAT_USER_ID', USER_ID_RE,
-                "must be a string containing an five-digit number")
+        self.user_id = get_required_setting('CHARTBEAT_USER_ID', USER_ID_RE,
+                "must be (a string containing) a number")
 
     def render(self, context):
         config = {'uid': self.user_id}
