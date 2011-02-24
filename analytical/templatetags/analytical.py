@@ -23,7 +23,10 @@ TAG_MODULES = [
     'analytical.kiss_insights',
     'analytical.kiss_metrics',
     'analytical.mixpanel',
-    'analytical.optimizely'
+    'analytical.olark',
+    'analytical.optimizely',
+    'analytical.performable',
+    'analytical.reinvigorate',
 ]
 
 
