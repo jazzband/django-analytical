@@ -4,13 +4,14 @@
 Tutorial
 ========
 
-This tutorial show you how to install and configure django-analytical
-for basic tracking, and then briefly touch on two common customization
-issues: visitor identification and custom data tracking data.
+This tutorial will show you how to install and configure
+django-analytical for basic tracking, and then briefly touch on two
+common customization issues: visitor identification and custom data
+tracking.
 
-*Suppose your Django website provides information about the IPv4 to IPv6
+Suppose your Django website provides information about the IPv4 to IPv6
 transition.  Visitors can discuss their problems and help each other
-make the necessary changes to their network infrastructure.*  You want to
+make the necessary changes to their network infrastructure.  You want to
 use two different analytics services:
 
 * :doc:`Clicky <services/clicky>` for detailed traffic analysis
@@ -80,10 +81,10 @@ changes, both Clicky and Crazy Egg will be tracking your visitors.
 Identifying authenticated users
 ===============================
 
-*When your visitors post questions on IPv6 or tell about their
-experience with the transition, they first log in through the standard
-Django authentication system.  Clicky can identify and track individual
-visitors and you want to use this feature.*
+Suppose that when your visitors post questions on IPv6 or tell others
+about their experience with the transition, they first log in through
+the standard Django authentication system.  Clicky can identify and
+track individual visitors and you want to use this feature.
 
 If django-analytical template tags detect that the current user is
 authenticated, they will automatically include code to send the username
@@ -102,9 +103,10 @@ disable or override it, see :ref:`identifying-visitors`.
 Adding custom tracking data
 ===========================
 
-*You think that visitors who already use IPv6 use the website in a
-different way from those still on IPv4.  You want to test this by
-segmenting the Crazy Egg heatmaps based on the IP protocol version.*
+Suppose that you think that visitors who already have IPv6 use the
+website in a different way from those still on IPv4.  You want to test
+this hypothesis by segmenting the Crazy Egg heatmaps based on the IP
+protocol version.
 
 In order to filter on protocol version in Crazy Egg, you need to
 include the visitor IP protocol version in the Crazy Egg tracking code.
