@@ -1,3 +1,8 @@
+Version 0.6.0
+-------------
+* Added support for the Reinvigorate service.
+* Added support for the Olark service.
+
 Version 0.5.0
 -------------
 * Split off Geckoboard support into django-geckoboard_.
