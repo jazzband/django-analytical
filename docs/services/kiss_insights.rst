@@ -28,7 +28,7 @@ The KISSinsights survey code is inserted into templates using a template
 tag.  Load the :mod:`kiss_insights` template tag library and insert the
 :ttag:`kiss_insights` tag.  Because every page that you want to track
 must have the tag, it is useful to add it to your base template.  Insert
-the tag at the bottom of the HTML body::
+the tag at the top of the HTML body::
 
     {% load kiss_insights %}
     ...

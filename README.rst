@@ -30,6 +30,7 @@ Currently supported services:
 * `Olark`_ visitor chat
 * `Optimizely`_ A/B testing
 * `Performable`_ web analytics and landing pages
+* `Reinvigorate`_ visitor tracking
 
 The documentation can be found in the ``docs`` directory or `read
 online`_.  The source code and issue tracker are generously `hosted by
@@ -54,6 +55,7 @@ an issue to discuss your plans.
 .. _Olark: http://www.olark.com/
 .. _Optimizely: http://www.optimizely.com/
 .. _Performable: http://www.performable.com/
+.. _Reinvigorate: http://www.reinvigorate.com/
 .. _`read online`: http://packages.python.org/django-analytical/
 .. _`hosted by GitHub`: http://github.com/jcassee/django-analytical
 .. _`issue tracker`: http://github.com/jcassee/django-analytical/issues
