@@ -12,7 +12,7 @@ from analytical.utils import is_internal_ip, disable_html, get_required_setting
 
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
-SETUP_CODE = """<script type="text/javascript" src="//dnn506yrbagrg.cloudfront.net/pages/scripts/%(account_nr_1)s/%(account_nr_2)s.js"</script>"""
+SETUP_CODE = """<script type="text/javascript" src="//dnn506yrbagrg.cloudfront.net/pages/scripts/%(account_nr_1)s/%(account_nr_2)s.js"></script>"""
 USERVAR_CODE = "CE2.set(%(varnr)d, '%(value)s');"
 
 
