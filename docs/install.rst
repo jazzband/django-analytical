@@ -133,6 +133,10 @@ settings required to enable each service are listed here:
 
 	MIXPANEL_API_TOKEN = '0123456789abcdef0123456789abcdef'
 
+* :doc:`Olark <services/olark>`::
+
+    OLARK_SITE_ID = '1234-567-89-0123'
+
 * :doc:`Optimizely <services/optimizely>`::
 
 	OPTIMIZELY_ACCOUNT_NUMBER = '1234567'
@@ -140,6 +144,10 @@ settings required to enable each service are listed here:
 * :doc:`Performable <services/performable>`::
 
     PERFORMABLE_API_KEY = '123abc'
+
+* :doc:`Reinvigorate <services/reinvigorate>`::
+
+    REINVIGORATE_TRACKING_ID = '12345-abcdefghij'
 
 
 ----
