@@ -43,8 +43,9 @@ Configuration
 =============
 
 Before you can use the Olark integration, you must first set your site
-ID.  You can also customize the visitor nickname and add information to
-their status in the operator buddy list.
+ID.  You can customize the visitor nickname and add information to their
+status in the operator buddy list, and customize the text used in the
+chat window.
 
 
 Setting the site ID
@@ -65,7 +66,7 @@ If you do not set the site ID, the chat window will not be rendered.
 Setting the visitor nickname
 ----------------------------
 
-If your websites identifies visitors, you can use that to set their
+If your website identifies visitors, you can use that to set their
 nickname in the operator buddy list. By default, the name and username
 of an authenticated user are automatically used to set the nickname.
 See :ref:`identifying-visitors`.
@@ -116,6 +117,111 @@ See also `api.chat.updateVisitorStatus`_ in the Olark Javascript API
 documentation.
 
 .. _`api.chat.updateVisitorStatus`: http://www.olark.com/documentation/javascript/api.chat.updateVisitorStatus
+
+
+Customizing the chat window messages
+------------------------------------
+
+Olark lets you customize the appearance of the Chat window by changing
+location, colors and messages text.  While you can configure these on
+the Olark website, sometimes one set of messages is not enough.  For
+example, if you want to localize your website, you want to address every
+visitor in their own language.  Olark allows you to set the messages on
+a per-page basis, and the :ttag:`olark` tag supports this feature by way
+of the following context variables:
+
+========================================== =============================
+Context variable                           Example message
+========================================== =============================
+``olark_welcome_title``                    Click to Chat
+------------------------------------------ -----------------------------
+``olark_chatting_title``                   Live Help: Now Chatting
+------------------------------------------ -----------------------------
+``olark_unavailable_title``                Live Help: Offline
+------------------------------------------ -----------------------------
+``olark_busy_title``                       Live Help: Busy
+------------------------------------------ -----------------------------
+``olark_away_message``                     Our live support feature is
+                                           currently offline, Please
+                                           try again later.
+------------------------------------------ -----------------------------
+``olark_loading_title``                    Loading Olark...
+------------------------------------------ -----------------------------
+``olark_welcome_message``                  Welcome to my website.  You
+                                           can use this chat window to
+                                           chat with me.
+------------------------------------------ -----------------------------
+``olark_busy_message``                     All of our representatives
+                                           are with other customers at
+                                           this time. We will be with
+                                           you shortly.
+------------------------------------------ -----------------------------
+``olark_chat_input_text``                  Type here and hit  to chat
+------------------------------------------ -----------------------------
+``olark_name_input_text``                  and type your Name
+------------------------------------------ -----------------------------
+``olark_email_input_text``                 and type your Email
+------------------------------------------ -----------------------------
+``olark_offline_note_message``             We are offline, send us a
+                                           message
+------------------------------------------ -----------------------------
+``olark_send_button_text``                 Send
+------------------------------------------ -----------------------------
+``olark_offline_note_thankyou_text``       Thank you for your message.
+                                           We will get back to you as
+                                           soon as we can.
+------------------------------------------ -----------------------------
+``olark_offline_note_error_text``          You must complete all fields
+                                           and specify a valid email
+                                           address
+------------------------------------------ -----------------------------
+``olark_offline_note_sending_text``        Sending...
+------------------------------------------ -----------------------------
+``olark_operator_is_typing_text``          is typing...
+------------------------------------------ -----------------------------
+``olark_operator_has_stopped_typing_text`` has stopped typing
+------------------------------------------ -----------------------------
+``olark_introduction_error_text``          Please leave a name and email
+                                           address so we can contact you
+                                           in case we get disconnected
+------------------------------------------ -----------------------------
+``olark_introduction_messages``            Welcome, just fill out some
+                                           brief information and click
+                                           'Start chat' to talk to us
+------------------------------------------ -----------------------------
+``olark_introduction_submit_button_text``  Start chat
+========================================== =============================
+
+As an example, you could set the texts site-wide base on the current
+language using a context processor that you add to the
+:data:`TEMPLATE_CONTEXT_PROCESSORS` list in :file:`settings.py`::
+
+    OLARK_TEXTS = {
+        'en': {
+            'welcome title':  "Click for Live Help",
+            'chatting_title': "Live Help: Now chatting",
+            ...
+        },
+        'nl': {
+            'welcome title':  "Klik voor online hulp",
+            'chatting_title': "Online hulp: in gesprek",
+            ...
+        },
+        ...
+    }
+
+    def set_olark_texts(request):
+        lang = request.LANGUAGE_CODE.split('-', 1)[0]
+        texts = OLARK_TEXTS.get(lang)
+        if texts is None:
+            texts = OLARK_TEXTS.get('en')
+        return dict(('olark_%s' % k, v) for k, v in texts.items())
+
+
+See also the Olark blog post on `supporting multiple languages`_.
+
+.. _`supporting multiple languages`: http://www.olark.com/blog/2010/olark-in-your-favorite-language/
+
 
 ----
 

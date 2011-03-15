@@ -57,3 +57,33 @@ class OlarkTestCase(TagTestCase):
                 ['teststatus1', 'teststatus2']}))
         self.assertTrue("olark('api.chat.updateVisitorStatus', "
                 '{snippet: ["teststatus1", "teststatus2"]});' in r, r)
+
+    def test_messages(self):
+        messages = [
+            "welcome_title",
+            "chatting_title",
+            "unavailable_title",
+            "busy_title",
+            "away_message",
+            "loading_title",
+            "welcome_message",
+            "busy_message",
+            "chat_input_text",
+            "name_input_text",
+            "email_input_text",
+            "offline_note_message",
+            "send_button_text",
+            "offline_note_thankyou_text",
+            "offline_note_error_text",
+            "offline_note_sending_text",
+            "operator_is_typing_text",
+            "operator_has_stopped_typing_text",
+            "introduction_error_text",
+            "introduction_messages",
+            "introduction_submit_button_text",
+        ]
+        vars = dict(('olark_%s' % m, m) for m in messages)
+        r = OlarkNode().render(Context(vars))
+        for m in messages:
+            self.assertTrue("olark.configure('locale.%s', \"%s\");" % (m, m)
+                    in r, r)

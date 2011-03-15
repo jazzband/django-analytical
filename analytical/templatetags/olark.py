@@ -23,7 +23,15 @@ NICKNAME_CODE = "olark('api.chat.updateVisitorNickname', {snippet: '%s'});"
 NICKNAME_CONTEXT_KEY = 'olark_nickname'
 STATUS_CODE = "olark('api.chat.updateVisitorStatus', {snippet: %s});"
 STATUS_CONTEXT_KEY = 'olark_status'
-
+MESSAGE_CODE = "olark.configure('locale.%(key)s', \"%(msg)s\");"
+MESSAGE_KEYS = set(["welcome_title", "chatting_title", "unavailable_title",
+        "busy_title", "away_message", "loading_title", "welcome_message",
+        "busy_message", "chat_input_text", "name_input_text",
+        "email_input_text", "offline_note_message", "send_button_text",
+        "offline_note_thankyou_text", "offline_note_error_text",
+        "offline_note_sending_text", "operator_is_typing_text",
+        "operator_has_stopped_typing_text", "introduction_error_text",
+        "introduction_messages", "introduction_submit_button_text"])
 
 register = Library()
 
@@ -59,6 +67,7 @@ class OlarkNode(Node):
                     simplejson.dumps(context[STATUS_CONTEXT_KEY]))
         except KeyError:
             pass
+        extra_code.extend(self._get_configuration(context))
         html = SETUP_CODE % {'site_id': self.site_id,
                 'extra_code': " ".join(extra_code)}
         return html
@@ -69,6 +78,16 @@ class OlarkNode(Node):
             return "%s (%s)" % (name, user.username)
         else:
             return user.username
+
+    def _get_configuration(self, context):
+        code = []
+        for dict_ in context:
+            for var, val in dict_.items():
+                if var.startswith('olark_'):
+                    key = var[6:]
+                    if key in MESSAGE_KEYS:
+                        code.append(MESSAGE_CODE % {'key': key, 'msg': val})
+        return code
 
 
 def contribute_to_analytical(add_node):
