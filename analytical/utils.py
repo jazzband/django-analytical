@@ -27,7 +27,26 @@ def get_required_setting(setting, value_re, invalid_msg):
     return value
 
 
-def get_identity(context, prefix=None, identity_func=None):
+def get_user_from_context(context):
+    """
+    Get the user instance from the template context, if possible.
+
+    If the context does not contain a `request` or `user` attribute,
+    `None` is returned.
+    """
+    try:
+        return context['user']
+    except KeyError:
+        pass
+    try:
+        request = context['request']
+        return request.user
+    except (KeyError, AttributeError):
+        pass
+    return None
+
+
+def get_identity(context, prefix=None, identity_func=None, user=None):
     """
     Get the identity of a logged in user from a template context.
 
@@ -47,11 +66,8 @@ def get_identity(context, prefix=None, identity_func=None):
         pass
     if getattr(settings, 'ANALYTICAL_AUTO_IDENTIFY', True):
         try:
-            try:
-                user = context['user']
-            except KeyError:
-                request = context['request']
-                user = request.user
+            if user is None:
+                user = get_user_from_context(context)
             if user.is_authenticated():
                 if identity_func is not None:
                     return identity_func(user)

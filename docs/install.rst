@@ -149,6 +149,10 @@ settings required to enable each service are listed here:
 
     REINVIGORATE_TRACKING_ID = '12345-abcdefghij'
 
+* :doc:`Woopra <services/woopra>`::
+
+    WOOPRA_DOMAIN = 'abcde.com'
+
 
 ----
 

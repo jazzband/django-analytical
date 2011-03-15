@@ -1,9 +1,10 @@
 Version 0.7.0
 -------------
-* Fixed Crazy Egg template ``<script>`` tag.
+* Added support for the Woopra service.
 * Added chat window text customization to Olark.
 * Renamed ``MIXPANEL_TOKEN`` setting to ``MIXPANEL_API_TOKEN`` for
   compatibility with Wes Winham's mixpanel-celery_ package.
+* Fixed the ``<script>`` tag for Crazy Egg.
 
 .. _mixpanel-celery: https://github.com/winhamwr/mixpanel-celery
 

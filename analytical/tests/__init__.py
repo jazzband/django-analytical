@@ -15,4 +15,5 @@ from analytical.tests.test_tag_olark import *
 from analytical.tests.test_tag_optimizely import *
 from analytical.tests.test_tag_performable import *
 from analytical.tests.test_tag_reinvigorate import *
+from analytical.tests.test_tag_woopra import *
 from analytical.tests.test_utils import *
