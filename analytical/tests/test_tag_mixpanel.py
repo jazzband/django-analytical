@@ -20,7 +20,7 @@ class MixpanelTagTestCase(TagTestCase):
         super(MixpanelTagTestCase, self).setUp()
         self.settings_manager.set(OPTIMIZELY_ACCOUNT_NUMBER='1234567')
         self.settings_manager.set(
-                MIXPANEL_TOKEN='0123456789abcdef0123456789abcdef')
+                MIXPANEL_API_TOKEN='0123456789abcdef0123456789abcdef')
 
     def test_tag(self):
         r = self.render_tag('mixpanel', 'mixpanel')
@@ -35,15 +35,15 @@ class MixpanelTagTestCase(TagTestCase):
                 r)
 
     def test_no_token(self):
-        self.settings_manager.delete('MIXPANEL_TOKEN')
+        self.settings_manager.delete('MIXPANEL_API_TOKEN')
         self.assertRaises(AnalyticalException, MixpanelNode)
 
     def test_wrong_token(self):
         self.settings_manager.set(
-                MIXPANEL_TOKEN='0123456789abcdef0123456789abcde')
+                MIXPANEL_API_TOKEN='0123456789abcdef0123456789abcde')
         self.assertRaises(AnalyticalException, MixpanelNode)
         self.settings_manager.set(
-                MIXPANEL_TOKEN='0123456789abcdef0123456789abcdef0')
+                MIXPANEL_API_TOKEN='0123456789abcdef0123456789abcdef0')
         self.assertRaises(AnalyticalException, MixpanelNode)
 
     def test_identify(self):

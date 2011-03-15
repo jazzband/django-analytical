@@ -1,3 +1,10 @@
+Version 0.7.0
+-------------
+* Renamed ``MIXPANEL_TOKEN`` setting to ``MIXPANEL_API_TOKEN`` for
+  compatibility with Wes Winham's mixpanel-celery_ package.
+
+.. _mixpanel_celery: https://github.com/winhamwr/mixpanel-celery
+
 Version 0.6.0
 -------------
 * Added support for the Reinvigorate service.

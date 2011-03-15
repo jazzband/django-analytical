@@ -13,7 +13,7 @@ from analytical.utils import is_internal_ip, disable_html, get_identity, \
         get_required_setting
 
 
-MIXPANEL_TOKEN_RE = re.compile(r'^[0-9a-f]{32}$')
+MIXPANEL_API_TOKEN_RE = re.compile(r'^[0-9a-f]{32}$')
 TRACKING_CODE = """
     <script type="text/javascript">
       var mpq = [];
@@ -39,7 +39,7 @@ def mixpanel(parser, token):
     Mixpanel tracking template tag.
 
     Renders Javascript code to track page visits.  You must supply
-    your Mixpanel token in the ``MIXPANEL_TOKEN`` setting.
+    your Mixpanel token in the ``MIXPANEL_API_TOKEN`` setting.
     """
     bits = token.split_contents()
     if len(bits) > 1:
@@ -48,8 +48,8 @@ def mixpanel(parser, token):
 
 class MixpanelNode(Node):
     def __init__(self):
-        self.token = get_required_setting('MIXPANEL_TOKEN',
-                MIXPANEL_TOKEN_RE,
+        self.token = get_required_setting(
+                'MIXPANEL_API_TOKEN', MIXPANEL_API_TOKEN_RE,
                 "must be a string containing a 32-digit hexadecimal number")
 
     def render(self, context):

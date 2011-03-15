@@ -131,7 +131,7 @@ settings required to enable each service are listed here:
 
 * :doc:`Mixpanel <services/mixpanel>`::
 
-	MIXPANEL_TOKEN = '0123456789abcdef0123456789abcdef'
+	MIXPANEL_API_TOKEN = '0123456789abcdef0123456789abcdef'
 
 * :doc:`Optimizely <services/optimizely>`::
 

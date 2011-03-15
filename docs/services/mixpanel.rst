@@ -55,9 +55,10 @@ Setting the token
 Every website you track events for with Mixpanel gets its own token,
 and the :ttag:`mixpanel` tag will include it in the rendered Javascript
 code.  You can find the project token on the Mixpanel *projects* page.
-Set :const:`MIXPANEL_TOKEN` in the project :file:`settings.py` file::
+Set :const:`MIXPANEL_API_TOKEN` in the project :file:`settings.py`
+file::
 
-    MIXPANEL_TOKEN = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+    MIXPANEL_API_TOKEN = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 
 If you do not set a token, the tracking code will not be rendered.
 
