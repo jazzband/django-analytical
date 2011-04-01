@@ -29,11 +29,11 @@ class WoopraTagTestCase(TagTestCase):
         self.assertTrue('var woo_settings = {"domain": "example.com"};' in r, r)
 
     def test_no_domain(self):
-        self.settings_manager.set(WOOPRA_DOMAIN='this is not a domain')
+        self.settings_manager.delete('WOOPRA_DOMAIN')
         self.assertRaises(AnalyticalException, WoopraNode)
 
     def test_wrong_domain(self):
-        self.settings_manager.delete('WOOPRA_DOMAIN')
+        self.settings_manager.set(WOOPRA_DOMAIN='this is not a domain')
         self.assertRaises(AnalyticalException, WoopraNode)
 
     def test_idle_timeout(self):

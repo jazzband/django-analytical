@@ -1,5 +1,5 @@
 """
-Clicky template tags and filters.
+Woopra template tags and filters.
 """
 
 from __future__ import absolute_import
