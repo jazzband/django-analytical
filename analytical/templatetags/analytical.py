@@ -19,6 +19,7 @@ TAG_MODULES = [
     'analytical.clicky',
     'analytical.crazy_egg',
     'analytical.google_analytics',
+    'analytical.gosquared',
     'analytical.hubspot',
     'analytical.kiss_insights',
     'analytical.kiss_metrics',

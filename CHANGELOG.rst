@@ -1,3 +1,8 @@
+Version 0.8.0
+-------------
+* Added support for the GoSquared service.
+* Updated Clicky tracking code to use relative URLs.
+
 Version 0.7.0
 -------------
 * Added support for the Woopra service.

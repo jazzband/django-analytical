@@ -23,6 +23,7 @@ Currently supported services:
 * `Clicky`_ traffic analysis
 * `Crazy Egg`_ visual click tracking
 * `Google Analytics`_ traffic analysis
+* `GoSquared`_ traffic monitoring
 * `HubSpot`_ inbound marketing
 * `KISSinsights`_ feedback surveys
 * `KISSmetrics`_ funnel analysis
@@ -49,6 +50,7 @@ an issue to discuss your plans.
 .. _Clicky: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
 .. _`Google Analytics`: http://www.google.com/analytics/
+.. _GoSquared: http://www.gosquared.com/
 .. _HubSpot: http://www.hubspot.com/
 .. _KISSinsights: http://www.kissinsights.com/
 .. _KISSmetrics: http://www.kissmetrics.com/
