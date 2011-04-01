@@ -25,13 +25,13 @@ class ClickyTagTestCase(TagTestCase):
     def test_tag(self):
         r = self.render_tag('clicky', 'clicky')
         self.assertTrue('var clicky_site_id = 12345678;' in r, r)
-        self.assertTrue('src="http://in.getclicky.com/12345678ns.gif"' in r,
+        self.assertTrue('src="//in.getclicky.com/12345678ns.gif"' in r,
                 r)
 
     def test_node(self):
         r = ClickyNode().render(Context({}))
         self.assertTrue('var clicky_site_id = 12345678;' in r, r)
-        self.assertTrue('src="http://in.getclicky.com/12345678ns.gif"' in r,
+        self.assertTrue('src="//in.getclicky.com/12345678ns.gif"' in r,
                 r)
 
     def test_no_site_id(self):
