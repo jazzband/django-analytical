@@ -1,3 +1,8 @@
+Version 0.8.1
+-------------
+* Fixed MANIFEST bug that caused GoSquared support to be missing from
+  the source distribution.
+
 Version 0.8.0
 -------------
 * Added support for the GoSquared service.
