@@ -21,6 +21,22 @@ class ChartbeatTagTestCaseNoSites(TagTestCase):
         r = ChartbeatBottomNode().render(Context())
         self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
+class ChartbeatTagTestCaseWithSites(TagTestCase):
+    def test_rendering_setup_site(self):
+        site = Site.objects.create(domain="test.com", name="test")
+        with override_settings(SITE_ID=site.id, CHARTBEAT_USER_ID="12345"):
+            r = ChartbeatBottomNode().render(Context())
+            self.assertTrue(re.search(
+                    'var _sf_async_config={.*"uid": "12345".*};', r), r)
+            self.assertTrue(re.search(
+                    'var _sf_async_config={.*"domain": "test.com".*};', r), r)
+
+# Ensure django.contrib.sites is in INSTALLED_APPS
+if "django.contrib.sites" not in settings.INSTALLED_APPS:
+    installed_apps = list(settings.INSTALLED_APPS)
+    installed_apps.append("django.contrib.sites")
+    ChartbeatTagTestCaseWithSites = override_settings(INSTALLED_APPS=installed_apps)(ChartbeatTagTestCaseWithSites)
+
 class ChartbeatTagTestCase(TagTestCase):
     """
     Tests for the ``chartbeat`` template tag.
@@ -63,18 +79,6 @@ class ChartbeatTagTestCase(TagTestCase):
     def test_wrong_user_id(self):
         self.settings_manager.set(CHARTBEAT_USER_ID='123abc')
         self.assertRaises(AnalyticalException, ChartbeatBottomNode)
-
-    def test_rendering_setup_site(self):
-        installed_apps = list(settings.INSTALLED_APPS)
-        installed_apps.append('django.contrib.sites')
-        self.settings_manager.set(INSTALLED_APPS=installed_apps)
-        site = Site.objects.create(domain="test.com", name="test")
-        self.settings_manager.set(SITE_ID=site.id)
-        r = ChartbeatBottomNode().render(Context())
-        self.assertTrue(re.search(
-                'var _sf_async_config={.*"uid": "12345".*};', r), r)
-        self.assertTrue(re.search(
-                'var _sf_async_config={.*"domain": "test.com".*};', r), r)
 
     def test_render_internal_ip(self):
         self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
