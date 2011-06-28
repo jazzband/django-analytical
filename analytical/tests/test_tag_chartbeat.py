@@ -11,9 +11,15 @@ from django.template import Context
 
 from analytical.templatetags.chartbeat import ChartbeatTopNode, \
         ChartbeatBottomNode
-from analytical.tests.utils import TagTestCase
+from analytical.tests.utils import TagTestCase, override_settings
 from analytical.utils import AnalyticalException
 
+@override_settings(INSTALLED_APPS=[
+        a for a in settings.INSTALLED_APPS if a != 'django.contrib.sites'])
+class ChartbeatTagTestCaseNoSites(TagTestCase):
+    def test_rendering_setup_no_site(self):
+        r = ChartbeatBottomNode().render(Context())
+        self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
 class ChartbeatTagTestCase(TagTestCase):
     """
@@ -57,13 +63,6 @@ class ChartbeatTagTestCase(TagTestCase):
     def test_wrong_user_id(self):
         self.settings_manager.set(CHARTBEAT_USER_ID='123abc')
         self.assertRaises(AnalyticalException, ChartbeatBottomNode)
-
-    def test_rendering_setup_no_site(self):
-        installed_apps = [a for a in settings.INSTALLED_APPS
-                if a != 'django.contrib.sites']
-        self.settings_manager.set(INSTALLED_APPS=installed_apps)
-        r = ChartbeatBottomNode().render(Context())
-        self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
     def test_rendering_setup_site(self):
         installed_apps = list(settings.INSTALLED_APPS)
