@@ -38,6 +38,16 @@ class ChartbeatTagTestCaseWithSites(TagTestCase):
             self.assertTrue(re.search(
                     'var _sf_async_config={.*"domain": "test.com".*};', r), r)
 
+    @override_settings(CHARTBEAT_AUTO_DOMAIN=False)
+    def test_auto_domain_false(self):
+        """
+        Even if 'django.contrib.sites' is in INSTALLED_APPS, if
+        CHARTBEAT_AUTO_DOMAIN is False, ensure there is no 'domain'
+        in _sf_async_config.
+        """
+        r = ChartbeatBottomNode().render(Context())
+        self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
+
 class ChartbeatTagTestCase(TagTestCase):
     """
     Tests for the ``chartbeat`` template tag.
