@@ -31,7 +31,7 @@ class ChartbeatTagTestCaseWithSites(TagTestCase):
         call_command("syncdb", verbosity=0)
 
         site = Site.objects.create(domain="test.com", name="test")
-        with override_settings(SITE_ID=site.id, CHARTBEAT_USER_ID="12345"):
+        with override_settings(SITE_ID=site.id):
             r = ChartbeatBottomNode().render(Context())
             self.assertTrue(re.search(
                     'var _sf_async_config={.*"uid": "12345".*};', r), r)
