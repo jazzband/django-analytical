@@ -7,7 +7,6 @@ from django.conf import settings, UserSettingsHolder
 from django.core.management import call_command
 from django.db.models import loading
 from django.template import Template, Context, RequestContext
-from django.test.simple import run_tests as django_run_tests
 from django.test.testcases import TestCase as DjangoTestCase
 from django.utils.functional import wraps
 
@@ -46,12 +45,13 @@ class override_settings(object):
     def disable(self):
         settings._wrapped = self.wrapped
 
-def run_tests(labels=()):
+def run_tests():
     """
     Use the Django test runner to run the tests.
     """
-    django_run_tests(labels, verbosity=1, interactive=True)
-
+    from django.test.simple import DjangoTestSuiteRunner
+    runner = DjangoTestSuiteRunner(verbosity=2)
+    runner.run_tests(None)
 
 class TestCase(DjangoTestCase):
     """
