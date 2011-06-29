@@ -13,6 +13,8 @@ from django.utils.functional import wraps
 
 class override_settings(object):
     """
+    Temporarily override Django settings.
+
     Acts as either a decorator, or a context manager.  If it's a decorator it
     takes a function and returns a wrapped function.  If it's a contextmanager
     it's used with the ``with`` statement.  In either event entering/exiting
@@ -46,11 +48,31 @@ class override_settings(object):
     def disable(self):
         settings._wrapped = self.wrapped
 
+
 def run_tests(labels=()):
     """
     Use the Django test runner to run the tests.
     """
     django_run_tests(labels, verbosity=1, interactive=True)
+
+
+def with_apps(*apps):
+    """
+    Class decorator that makes sure the passed apps are present in
+    INSTALLED_APPS.
+    """
+    apps_set = set(settings.INSTALLED_APPS)
+    apps_set.update(apps)
+    return override_settings(INSTALLED_APPS=list(apps_set))
+
+
+def without_apps(*apps):
+    """
+    Class decorator that makes sure the passed apps are not present in
+    INSTALLED_APPS.
+    """
+    apps_list = [a for a in settings.INSTALLED_APPS if a not in apps]
+    return override_settings(INSTALLED_APPS=apps_list)
 
 
 class TestCase(DjangoTestCase):

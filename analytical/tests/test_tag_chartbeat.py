@@ -11,16 +11,18 @@ from django.template import Context
 
 from analytical.templatetags.chartbeat import ChartbeatTopNode, \
         ChartbeatBottomNode
-from analytical.tests.utils import TagTestCase, override_settings
+from analytical.tests.utils import TagTestCase, with_apps, without_apps
 from analytical.utils import AnalyticalException
 
-@override_settings(INSTALLED_APPS=[
-        a for a in settings.INSTALLED_APPS if a != 'django.contrib.sites'])
+
+@without_apps('django.contrib.sites')
 class ChartbeatTagTestCaseNoSites(TagTestCase):
     def test_rendering_setup_no_site(self):
         r = ChartbeatBottomNode().render(Context())
         self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
+
+@with_apps('django.contrib.sites')
 class ChartbeatTagTestCaseWithSites(TagTestCase):
     def test_rendering_setup_site(self):
         site = Site.objects.create(domain="test.com", name="test")
@@ -31,11 +33,6 @@ class ChartbeatTagTestCaseWithSites(TagTestCase):
             self.assertTrue(re.search(
                     'var _sf_async_config={.*"domain": "test.com".*};', r), r)
 
-# Ensure django.contrib.sites is in INSTALLED_APPS
-if "django.contrib.sites" not in settings.INSTALLED_APPS:
-    installed_apps = list(settings.INSTALLED_APPS)
-    installed_apps.append("django.contrib.sites")
-    ChartbeatTagTestCaseWithSites = override_settings(INSTALLED_APPS=installed_apps)(ChartbeatTagTestCaseWithSites)
 
 class ChartbeatTagTestCase(TagTestCase):
     """
