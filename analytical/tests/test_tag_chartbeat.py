@@ -8,6 +8,7 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.http import HttpRequest
 from django.template import Context
+from django.test import TestCase
 
 from analytical.templatetags.chartbeat import ChartbeatTopNode, \
         ChartbeatBottomNode
@@ -16,20 +17,21 @@ from analytical.utils import AnalyticalException
 
 @override_settings(INSTALLED_APPS=[a for a in settings.INSTALLED_APPS if a != 'django.contrib.sites'],
                    CHARTBEAT_USER_ID="12345")
-class ChartbeatTagTestCaseNoSites(TagTestCase):
+class ChartbeatTagTestCaseNoSites(TestCase):
     def test_rendering_setup_no_site(self):
         r = ChartbeatBottomNode().render(Context())
         self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
 @override_settings(INSTALLED_APPS=settings.INSTALLED_APPS + ["django.contrib.sites"],
                    CHARTBEAT_USER_ID="12345")
-class ChartbeatTagTestCaseWithSites(TagTestCase):
-    def test_rendering_setup_site(self):
+class ChartbeatTagTestCaseWithSites(TestCase):
+    def setUp(self):
         from django.core.management import call_command
         from django.db.models import loading
         loading.cache.loaded = False
         call_command("syncdb", verbosity=0)
 
+    def test_rendering_setup_site(self):
         site = Site.objects.create(domain="test.com", name="test")
         with override_settings(SITE_ID=site.id):
             r = ChartbeatBottomNode().render(Context())
