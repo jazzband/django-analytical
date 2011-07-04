@@ -100,9 +100,14 @@ def contribute_to_analytical(add_node):
 
 def _get_domain(context):
     domain = context.get(DOMAIN_CONTEXT_KEY)
-    if domain is None and getattr(settings, 'CHARTBEAT_AUTO_DOMAIN', True):
-        try:
-            domain = Site.objects.get_current().domain
-        except (ImproperlyConfigured, Site.DoesNotExist): #pylint: disable=E1101
-            pass
-    return domain
+
+    if domain is not None:
+        return domain
+    else:
+        if 'django.contrib.sites' not in settings.INSTALLED_APPS:
+            return
+        elif getattr(settings, 'CHARTBEAT_AUTO_DOMAIN', True):
+            try:
+                return Site.objects.get_current().domain
+            except (ImproperlyConfigured, Site.DoesNotExist): #pylint: disable=E1101
+                return
