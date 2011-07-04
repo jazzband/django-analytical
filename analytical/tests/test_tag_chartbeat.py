@@ -8,34 +8,47 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.http import HttpRequest
 from django.template import Context
+from django.test import TestCase
 
 from analytical.templatetags.chartbeat import ChartbeatTopNode, \
         ChartbeatBottomNode
 from analytical.tests.utils import TagTestCase, override_settings
 from analytical.utils import AnalyticalException
 
-@override_settings(INSTALLED_APPS=[
-        a for a in settings.INSTALLED_APPS if a != 'django.contrib.sites'])
-class ChartbeatTagTestCaseNoSites(TagTestCase):
+@override_settings(INSTALLED_APPS=[a for a in settings.INSTALLED_APPS if a != 'django.contrib.sites'],
+                   CHARTBEAT_USER_ID="12345")
+class ChartbeatTagTestCaseNoSites(TestCase):
     def test_rendering_setup_no_site(self):
         r = ChartbeatBottomNode().render(Context())
         self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
-class ChartbeatTagTestCaseWithSites(TagTestCase):
+@override_settings(INSTALLED_APPS=settings.INSTALLED_APPS + ["django.contrib.sites"],
+                   CHARTBEAT_USER_ID="12345")
+class ChartbeatTagTestCaseWithSites(TestCase):
+    def setUp(self):
+        from django.core.management import call_command
+        from django.db.models import loading
+        loading.cache.loaded = False
+        call_command("syncdb", verbosity=0)
+
     def test_rendering_setup_site(self):
         site = Site.objects.create(domain="test.com", name="test")
-        with override_settings(SITE_ID=site.id, CHARTBEAT_USER_ID="12345"):
+        with override_settings(SITE_ID=site.id):
             r = ChartbeatBottomNode().render(Context())
             self.assertTrue(re.search(
                     'var _sf_async_config={.*"uid": "12345".*};', r), r)
             self.assertTrue(re.search(
                     'var _sf_async_config={.*"domain": "test.com".*};', r), r)
 
-# Ensure django.contrib.sites is in INSTALLED_APPS
-if "django.contrib.sites" not in settings.INSTALLED_APPS:
-    installed_apps = list(settings.INSTALLED_APPS)
-    installed_apps.append("django.contrib.sites")
-    ChartbeatTagTestCaseWithSites = override_settings(INSTALLED_APPS=installed_apps)(ChartbeatTagTestCaseWithSites)
+    @override_settings(CHARTBEAT_AUTO_DOMAIN=False)
+    def test_auto_domain_false(self):
+        """
+        Even if 'django.contrib.sites' is in INSTALLED_APPS, if
+        CHARTBEAT_AUTO_DOMAIN is False, ensure there is no 'domain'
+        in _sf_async_config.
+        """
+        r = ChartbeatBottomNode().render(Context())
+        self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
 class ChartbeatTagTestCase(TagTestCase):
     """
