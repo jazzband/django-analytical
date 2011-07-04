@@ -8,8 +8,17 @@ from django.core.management import call_command
 from django.db.models import loading
 from django.template import Template, Context, RequestContext
 from django.test.simple import run_tests as django_run_tests
-from django.test.testcases import TestCase as DjangoTestCase
+from django.test.testcases import TestCase
 from django.utils.functional import wraps
+
+
+SETTING_DELETED = object()
+
+
+class DeletedSettingDescriptor(object):
+    def __get__(self, instance, owner):
+        raise AttributeError("attribute not set")
+
 
 class override_settings(object):
     """
@@ -42,7 +51,10 @@ class override_settings(object):
     def enable(self):
         override = UserSettingsHolder(settings._wrapped)
         for key, new_value in self.options.items():
-            setattr(override, key, new_value)
+            if new_value is SETTING_DELETED:
+                setattr(override, key, DeletedSettingDescriptor())
+            else:
+                setattr(override, key, new_value)
         settings._wrapped = override
 
     def disable(self):
@@ -75,25 +87,11 @@ def without_apps(*apps):
     return override_settings(INSTALLED_APPS=apps_list)
 
 
-class TestCase(DjangoTestCase):
-    """
-    Base test case for the django-analytical tests.
-
-    Includes the settings manager.
-    """
-
-    def setUp(self):
-        self.settings_manager = TestSettingsManager()
-
-    def tearDown(self):
-        self.settings_manager.revert()
-
-
 class TagTestCase(TestCase):
     """
     Tests for a template tag.
 
-    Includes the settings manager.
+    Adds support methods for testing template tags.
     """
 
     def render_tag(self, library, tag, vars=None, request=None):
@@ -105,52 +103,3 @@ class TagTestCase(TestCase):
         else:
             context = Context(vars)
         return t.render(context)
-
-
-class TestSettingsManager(object):
-    """
-    From: http://www.djangosnippets.org/snippets/1011/
-
-    A class which can modify some Django settings temporarily for a
-    test and then revert them to their original values later.
-
-    Automatically handles resyncing the DB if INSTALLED_APPS is
-    modified.
-    """
-
-    NO_SETTING = ('!', None)
-
-    def __init__(self):
-        self._original_settings = {}
-
-    def set(self, **kwargs):
-        for k, v in kwargs.iteritems():
-            self._original_settings.setdefault(k, getattr(settings, k,
-                    self.NO_SETTING))
-            setattr(settings, k, v)
-        if 'INSTALLED_APPS' in kwargs:
-            self.syncdb()
-
-    def delete(self, *args):
-        for k in args:
-            try:
-                self._original_settings.setdefault(k, getattr(settings, k,
-                        self.NO_SETTING))
-                delattr(settings, k)
-            except AttributeError:
-                pass  # setting did not exist
-
-    def syncdb(self):
-        loading.cache.loaded = False
-        call_command('syncdb', verbosity=0, interactive=False)
-
-    def revert(self):
-        for k,v in self._original_settings.iteritems():
-            if v == self.NO_SETTING:
-                if hasattr(settings, k):
-                    delattr(settings, k)
-            else:
-                setattr(settings, k, v)
-        if 'INSTALLED_APPS' in self._original_settings:
-            self.syncdb()
-        self._original_settings = {}

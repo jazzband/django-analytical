@@ -9,18 +9,16 @@ from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.reinvigorate import ReinvigorateNode
-from analytical.tests.utils import TagTestCase
+from analytical.tests.utils import TagTestCase, override_settings, \
+        SETTING_DELETED
 from analytical.utils import AnalyticalException
 
 
+@override_settings(REINVIGORATE_TRACKING_ID='12345-abcdefghij')
 class ReinvigorateTagTestCase(TagTestCase):
     """
     Tests for the ``reinvigorate`` template tag.
     """
-
-    def setUp(self):
-        super(ReinvigorateTagTestCase, self).setUp()
-        self.settings_manager.set(REINVIGORATE_TRACKING_ID='12345-abcdefghij')
 
     def test_tag(self):
         r = self.render_tag('reinvigorate', 'reinvigorate')
@@ -30,16 +28,16 @@ class ReinvigorateTagTestCase(TagTestCase):
         r = ReinvigorateNode().render(Context({}))
         self.assertTrue('reinvigorate.track("12345-abcdefghij");' in r, r)
 
+    @override_settings(REINVIGORATE_TRACKING_ID=SETTING_DELETED)
     def test_no_tracking_id(self):
-        self.settings_manager.delete('REINVIGORATE_TRACKING_ID')
         self.assertRaises(AnalyticalException, ReinvigorateNode)
 
+    @override_settings(REINVIGORATE_TRACKING_ID='123abc')
     def test_wrong_tracking_id(self):
-        self.settings_manager.set(REINVIGORATE_TRACKING_ID='123abc')
         self.assertRaises(AnalyticalException, ReinvigorateNode)
 
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
-        self.settings_manager.set(ANALYTICAL_AUTO_IDENTIFY=True)
         r = ReinvigorateNode().render(Context({'user':
                 User(username='test', first_name='Test', last_name='User',
                     email='test@example.com')}))
@@ -52,8 +50,8 @@ class ReinvigorateTagTestCase(TagTestCase):
         self.assertTrue(re.search('var re_var1_tag = "val1";', r), r)
         self.assertTrue(re.search('var re_var2_tag = 2;', r), r)
 
+    @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
-        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})

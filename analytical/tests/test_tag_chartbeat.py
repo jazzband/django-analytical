@@ -11,7 +11,8 @@ from django.template import Context
 
 from analytical.templatetags.chartbeat import ChartbeatTopNode, \
         ChartbeatBottomNode
-from analytical.tests.utils import TagTestCase, with_apps, without_apps
+from analytical.tests.utils import TagTestCase, with_apps, without_apps, \
+        override_settings, SETTING_DELETED
 from analytical.utils import AnalyticalException
 
 
@@ -34,14 +35,11 @@ class ChartbeatTagTestCaseWithSites(TagTestCase):
                     'var _sf_async_config={.*"domain": "test.com".*};', r), r)
 
 
+@override_settings(CHARTBEAT_USER_ID='12345')
 class ChartbeatTagTestCase(TagTestCase):
     """
     Tests for the ``chartbeat`` template tag.
     """
-
-    def setUp(self):
-        super(ChartbeatTagTestCase, self).setUp()
-        self.settings_manager.set(CHARTBEAT_USER_ID='12345')
 
     def test_top_tag(self):
         r = self.render_tag('chartbeat', 'chartbeat_top',
@@ -69,16 +67,16 @@ class ChartbeatTagTestCase(TagTestCase):
         self.assertTrue(re.search(
                 'var _sf_async_config={.*"domain": "test.com".*};', r), r)
 
+    @override_settings(CHARTBEAT_USER_ID=SETTING_DELETED)
     def test_no_user_id(self):
-        self.settings_manager.delete('CHARTBEAT_USER_ID')
         self.assertRaises(AnalyticalException, ChartbeatBottomNode)
 
+    @override_settings(CHARTBEAT_USER_ID='123abc')
     def test_wrong_user_id(self):
-        self.settings_manager.set(CHARTBEAT_USER_ID='123abc')
         self.assertRaises(AnalyticalException, ChartbeatBottomNode)
 
+    @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
-        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
