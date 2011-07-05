@@ -6,18 +6,15 @@ from django.contrib.auth.models import User
 from django.template import Context
 
 from analytical.templatetags.olark import OlarkNode
-from analytical.tests.utils import TagTestCase
+from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
 from analytical.utils import AnalyticalException
 
 
+@override_settings(OLARK_SITE_ID='1234-567-89-0123')
 class OlarkTestCase(TagTestCase):
     """
     Tests for the ``olark`` template tag.
     """
-
-    def setUp(self):
-        super(OlarkTestCase, self).setUp()
-        self.settings_manager.set(OLARK_SITE_ID='1234-567-89-0123')
 
     def test_tag(self):
         r = self.render_tag('olark', 'olark')
@@ -27,16 +24,16 @@ class OlarkTestCase(TagTestCase):
         r = OlarkNode().render(Context())
         self.assertTrue("olark.identify('1234-567-89-0123');" in r, r)
 
+    @override_settings(OLARK_SITE_ID=SETTING_DELETED)
     def test_no_site_id(self):
-        self.settings_manager.delete('OLARK_SITE_ID')
         self.assertRaises(AnalyticalException, OlarkNode)
 
+    @override_settings(OLARK_SITE_ID='1234-567-8901234')
     def test_wrong_site_id(self):
-        self.settings_manager.set(OLARK_SITE_ID='1234-567-8901234')
         self.assertRaises(AnalyticalException, OlarkNode)
 
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
-        self.settings_manager.set(ANALYTICAL_AUTO_IDENTIFY=True)
         r = OlarkNode().render(Context({'user':
                 User(username='test', first_name='Test', last_name='User')}))
         self.assertTrue("olark('api.chat.updateVisitorNickname', "

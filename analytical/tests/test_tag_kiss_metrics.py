@@ -7,19 +7,16 @@ from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.kiss_metrics import KissMetricsNode
-from analytical.tests.utils import TagTestCase
+from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
 from analytical.utils import AnalyticalException
 
 
+@override_settings(KISS_METRICS_API_KEY='0123456789abcdef0123456789abcdef'
+        '01234567')
 class KissMetricsTagTestCase(TagTestCase):
     """
     Tests for the ``kiss_metrics`` template tag.
     """
-
-    def setUp(self):
-        super(KissMetricsTagTestCase, self).setUp()
-        self.settings_manager.set(KISS_METRICS_API_KEY='0123456789abcdef012345'
-                '6789abcdef01234567')
 
     def test_tag(self):
         r = self.render_tag('kiss_metrics', 'kiss_metrics')
@@ -31,20 +28,22 @@ class KissMetricsTagTestCase(TagTestCase):
         self.assertTrue("//doug1izaerwt3.cloudfront.net/0123456789abcdef012345"
                 "6789abcdef01234567.1.js" in r, r)
 
+    @override_settings(KISS_METRICS_API_KEY=SETTING_DELETED)
     def test_no_api_key(self):
-        self.settings_manager.delete('KISS_METRICS_API_KEY')
         self.assertRaises(AnalyticalException, KissMetricsNode)
 
-    def test_wrong_api_key(self):
-        self.settings_manager.set(KISS_METRICS_API_KEY='0123456789abcdef012345'
-                '6789abcdef0123456')
-        self.assertRaises(AnalyticalException, KissMetricsNode)
-        self.settings_manager.set(KISS_METRICS_API_KEY='0123456789abcdef012345'
-                '6789abcdef012345678')
+    @override_settings(KISS_METRICS_API_KEY='0123456789abcdef0123456789abcdef'
+            '0123456')
+    def test_api_key_too_short(self):
         self.assertRaises(AnalyticalException, KissMetricsNode)
 
+    @override_settings(KISS_METRICS_API_KEY='0123456789abcdef0123456789abcdef'
+            '012345678')
+    def test_api_key_too_long(self):
+        self.assertRaises(AnalyticalException, KissMetricsNode)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
-        self.settings_manager.set(ANALYTICAL_AUTO_IDENTIFY=True)
         r = KissMetricsNode().render(Context({'user': User(username='test')}))
         self.assertTrue("_kmq.push(['identify', 'test']);" in r, r)
 
@@ -54,8 +53,8 @@ class KissMetricsTagTestCase(TagTestCase):
         self.assertTrue("_kmq.push(['record', 'test_event', "
                 '{"prop1": "val1", "prop2": "val2"}]);' in r, r)
 
+    @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
-        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})

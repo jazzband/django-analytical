@@ -18,9 +18,6 @@ class WoopraTagTestCase(TagTestCase):
     Tests for the ``woopra`` template tag.
     """
 
-    def setUp(self):
-        super(WoopraTagTestCase, self).setUp()
-
     def test_tag(self):
         r = self.render_tag('woopra', 'woopra')
         self.assertTrue('var woo_settings = {"domain": "example.com"};' in r, r)

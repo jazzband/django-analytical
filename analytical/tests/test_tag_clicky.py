@@ -9,18 +9,15 @@ from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.clicky import ClickyNode
-from analytical.tests.utils import TagTestCase
+from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
 from analytical.utils import AnalyticalException
 
 
+@override_settings(CLICKY_SITE_ID='12345678')
 class ClickyTagTestCase(TagTestCase):
     """
     Tests for the ``clicky`` template tag.
     """
-
-    def setUp(self):
-        super(ClickyTagTestCase, self).setUp()
-        self.settings_manager.set(CLICKY_SITE_ID='12345678')
 
     def test_tag(self):
         r = self.render_tag('clicky', 'clicky')
@@ -34,16 +31,16 @@ class ClickyTagTestCase(TagTestCase):
         self.assertTrue('src="//in.getclicky.com/12345678ns.gif"' in r,
                 r)
 
+    @override_settings(CLICKY_SITE_ID=SETTING_DELETED)
     def test_no_site_id(self):
-        self.settings_manager.delete('CLICKY_SITE_ID')
         self.assertRaises(AnalyticalException, ClickyNode)
 
+    @override_settings(CLICKY_SITE_ID='123abc')
     def test_wrong_site_id(self):
-        self.settings_manager.set(CLICKY_SITE_ID='123abc')
         self.assertRaises(AnalyticalException, ClickyNode)
 
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
-        self.settings_manager.set(ANALYTICAL_AUTO_IDENTIFY=True)
         r = ClickyNode().render(Context({'user': User(username='test')}))
         self.assertTrue(
                 'var clicky_custom = {"session": {"username": "test"}};' in r,
@@ -55,8 +52,8 @@ class ClickyTagTestCase(TagTestCase):
         self.assertTrue(re.search('var clicky_custom = {.*'
                 '"var1": "val1", "var2": "val2".*};', r), r)
 
+    @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
-        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})

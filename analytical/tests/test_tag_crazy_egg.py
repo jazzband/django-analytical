@@ -6,18 +6,15 @@ from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.crazy_egg import CrazyEggNode
-from analytical.tests.utils import TagTestCase
+from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
 from analytical.utils import AnalyticalException
 
 
+@override_settings(CRAZY_EGG_ACCOUNT_NUMBER='12345678')
 class CrazyEggTagTestCase(TagTestCase):
     """
     Tests for the ``crazy_egg`` template tag.
     """
-
-    def setUp(self):
-        super(CrazyEggTagTestCase, self).setUp()
-        self.settings_manager.set(CRAZY_EGG_ACCOUNT_NUMBER='12345678')
 
     def test_tag(self):
         r = self.render_tag('crazy_egg', 'crazy_egg')
@@ -27,12 +24,12 @@ class CrazyEggTagTestCase(TagTestCase):
         r = CrazyEggNode().render(Context())
         self.assertTrue('/1234/5678.js' in r, r)
 
+    @override_settings(CRAZY_EGG_ACCOUNT_NUMBER=SETTING_DELETED)
     def test_no_account_number(self):
-        self.settings_manager.delete('CRAZY_EGG_ACCOUNT_NUMBER')
         self.assertRaises(AnalyticalException, CrazyEggNode)
 
+    @override_settings(CRAZY_EGG_ACCOUNT_NUMBER='123abc')
     def test_wrong_account_number(self):
-        self.settings_manager.set(CRAZY_EGG_ACCOUNT_NUMBER='123abc')
         self.assertRaises(AnalyticalException, CrazyEggNode)
 
     def test_uservars(self):
@@ -41,8 +38,8 @@ class CrazyEggTagTestCase(TagTestCase):
         self.assertTrue("CE2.set(1, 'foo');" in r, r)
         self.assertTrue("CE2.set(2, 'bar');" in r, r)
 
+    @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
-        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})

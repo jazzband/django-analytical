@@ -7,20 +7,15 @@ from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.mixpanel import MixpanelNode
-from analytical.tests.utils import TagTestCase
+from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
 from analytical.utils import AnalyticalException
 
 
+@override_settings(MIXPANEL_API_TOKEN='0123456789abcdef0123456789abcdef')
 class MixpanelTagTestCase(TagTestCase):
     """
     Tests for the ``mixpanel`` template tag.
     """
-
-    def setUp(self):
-        super(MixpanelTagTestCase, self).setUp()
-        self.settings_manager.set(OPTIMIZELY_ACCOUNT_NUMBER='1234567')
-        self.settings_manager.set(
-                MIXPANEL_API_TOKEN='0123456789abcdef0123456789abcdef')
 
     def test_tag(self):
         r = self.render_tag('mixpanel', 'mixpanel')
@@ -34,20 +29,20 @@ class MixpanelTagTestCase(TagTestCase):
                 "mpq.push(['init', '0123456789abcdef0123456789abcdef']);" in r,
                 r)
 
+    @override_settings(MIXPANEL_API_TOKEN=SETTING_DELETED)
     def test_no_token(self):
-        self.settings_manager.delete('MIXPANEL_API_TOKEN')
         self.assertRaises(AnalyticalException, MixpanelNode)
 
-    def test_wrong_token(self):
-        self.settings_manager.set(
-                MIXPANEL_API_TOKEN='0123456789abcdef0123456789abcde')
-        self.assertRaises(AnalyticalException, MixpanelNode)
-        self.settings_manager.set(
-                MIXPANEL_API_TOKEN='0123456789abcdef0123456789abcdef0')
+    @override_settings(MIXPANEL_API_TOKEN='0123456789abcdef0123456789abcdef0')
+    def test_token_too_long(self):
         self.assertRaises(AnalyticalException, MixpanelNode)
 
+    @override_settings(MIXPANEL_API_TOKEN='0123456789abcdef0123456789abcde')
+    def test_token_too_short(self):
+        self.assertRaises(AnalyticalException, MixpanelNode)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
-        self.settings_manager.set(ANALYTICAL_AUTO_IDENTIFY=True)
         r = MixpanelNode().render(Context({'user': User(username='test')}))
         self.assertTrue("mpq.push(['identify', 'test']);" in r, r)
 
@@ -57,8 +52,8 @@ class MixpanelTagTestCase(TagTestCase):
         self.assertTrue("mpq.push(['track', 'test_event', "
                 '{"prop1": "val1", "prop2": "val2"}]);' in r, r)
 
+    @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
-        self.settings_manager.set(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
