@@ -1,3 +1,10 @@
+Version 0.9.0
+-------------
+* Updated Clicky tracking code to support multiple site ids.
+* Fixed Chartbeat auto-domain bug when the Sites framework is not used (Eric
+  Davis).
+* Improved testing code (Eric Davis).
+
 Version 0.8.1
 -------------
 * Fixed MANIFEST bug that caused GoSquared support to be missing from
