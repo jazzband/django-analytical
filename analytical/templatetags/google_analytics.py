@@ -36,6 +36,15 @@ CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
 
 register = Library()
 
+def enumerate(sequence, start=0):
+    """
+    Port of 2.6's python enumerate() for compatibility with previos versions
+    """
+    n = start
+    for elem in sequence:
+        yield n, elem
+        n += 1
+
 
 @register.tag
 def google_analytics(parser, token):
