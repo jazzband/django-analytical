@@ -1,3 +1,7 @@
+Version 0.9.1
+-------------
+* Fixed compatibility with Python 2.5 (Iván Raskovsky)
+
 Version 0.9.0
 -------------
 * Updated Clicky tracking code to support multiple site ids.
