@@ -19,11 +19,7 @@ TRACKING_CODE = """
       var mpq = [];
       mpq.push(['init', '%(token)s']);
       %(commands)s
-      (function() {
-        var mp = document.createElement("script"); mp.type = "text/javascript"; mp.async = true;
-        mp.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + "//api.mixpanel.com/site_media/js/api/mixpanel.js";
-        var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(mp, s);
-      })();
+      (function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push([f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links","track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<d.length;c++){mpq[d[c]]=e(d[c])}})();
     </script>
 """
 IDENTIFY_CODE = "mpq.push(['identify', '%s']);"
