@@ -1,6 +1,10 @@
+Development
+-----------
+* Updated Mixpanel code (Julien Grenier).
+
 Version 0.9.1
 -------------
-* Fixed compatibility with Python 2.5 (Iván Raskovsky)
+* Fixed compatibility with Python 2.5 (Iván Raskovsky).
 
 Version 0.9.0
 -------------
