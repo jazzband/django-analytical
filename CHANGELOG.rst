@@ -1,5 +1,6 @@
 Development
 -----------
+* Added suppert for the SnapEngage service.
 * Updated Mixpanel code (Julien Grenier).
 
 Version 0.9.1

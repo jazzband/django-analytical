@@ -28,6 +28,7 @@ TAG_MODULES = [
     'analytical.optimizely',
     'analytical.performable',
     'analytical.reinvigorate',
+    'analytical.snapengage',
     'analytical.woopra',
 ]
 
