@@ -1,5 +1,5 @@
 Version 0.9.2
------------
+-------------
 * Added suppert for the SnapEngage service.
 * Updated Mixpanel code (Julien Grenier).
 
