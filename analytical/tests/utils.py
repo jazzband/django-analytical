@@ -84,7 +84,10 @@ class override_settings(object):
         override = UserSettingsHolder(copy.copy(settings._wrapped))
         for key, new_value in self.options.items():
             if new_value is SETTING_DELETED:
-                delattr(override.default_settings, key)
+                try:
+                    delattr(override.default_settings, key)
+                except AttributeError:
+                    pass
             else:
                 setattr(override, key, new_value)
         settings._wrapped = override
