@@ -20,10 +20,26 @@ class override_settings(object):
     """
     Temporarily override Django settings.
 
-    Acts as either a decorator, or a context manager.  If it's a decorator it
-    takes a function and returns a wrapped function.  If it's a contextmanager
-    it's used with the ``with`` statement.  In either event entering/exiting
-    are called before and after, respectively, the function/block is executed.
+    Can be used as either a decorator on test classes/functions or as
+    a context manager inside test functions.
+
+    In either case it temporarily overrides django.conf.settings so
+    that you can test how code acts when certain settings are set to
+    certain values or deleted altogether with SETTING_DELETED.
+
+    >>> @override_settings(FOOBAR=42)
+    >>> class TestBaz(TestCase):
+    >>>     # settings.FOOBAR == 42 for all tests
+    >>>
+    >>>     @override_settings(FOOBAR=43)
+    >>>     def test_widget(self):
+    >>>         # settings.FOOBAR == 43 for just this test
+    >>>
+    >>>         with override_settings(FOOBAR=44):
+    >>>             # settings.FOOBAR == 44 just inside this block
+    >>>             pass
+    >>>
+    >>>         # settings.FOOBAR == 43 inside the test
     """
     def __init__(self, **kwargs):
         self.options = kwargs
