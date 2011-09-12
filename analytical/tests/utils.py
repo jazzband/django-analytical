@@ -4,6 +4,8 @@ Testing utilities.
 
 from __future__ import with_statement
 
+import copy
+
 from django.conf import settings, UserSettingsHolder
 from django.core.management import call_command
 from django.db.models import loading
@@ -79,7 +81,7 @@ class override_settings(object):
         return inner
 
     def enable(self):
-        override = UserSettingsHolder(settings._wrapped)
+        override = UserSettingsHolder(copy.copy(settings._wrapped))
         for key, new_value in self.options.items():
             if new_value is SETTING_DELETED:
                 delattr(override.default_settings, key)
