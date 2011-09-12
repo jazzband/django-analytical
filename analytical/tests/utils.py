@@ -12,11 +12,7 @@ from django.test.testcases import TestCase
 from django.utils.functional import wraps
 
 
-class DeletedSettingDescriptor(object):
-    def __get__(self, instance, owner):
-        raise AttributeError("attribute not set")
-
-SETTING_DELETED = DeletedSettingDescriptor()
+SETTING_DELETED = object()
 
 
 # Backported adapted from Django trunk (r16377)
@@ -69,7 +65,10 @@ class override_settings(object):
     def enable(self):
         override = UserSettingsHolder(settings._wrapped)
         for key, new_value in self.options.items():
-            setattr(override, key, new_value)
+            if new_value is SETTING_DELETED:
+                delattr(override.default_settings, key)
+            else:
+                setattr(override, key, new_value)
         settings._wrapped = override
 
     def disable(self):
