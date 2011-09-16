@@ -4,9 +4,41 @@ Tests for the analytical.utils module.
 
 from django.http import HttpRequest
 from django.template import Context
+from django.conf import settings
 
-from analytical.utils import is_internal_ip
-from analytical.tests.utils import TestCase, override_settings
+from analytical.utils import (
+    is_internal_ip, get_required_setting, AnalyticalException)
+from analytical.tests.utils import (
+    TestCase, override_settings, SETTING_DELETED)
+
+
+class SettingDeletedTestCase(TestCase):
+    @override_settings(USER_ID=SETTING_DELETED)
+    def test_deleted_setting_raises_exception(self):
+        with self.assertRaises(AttributeError):
+            getattr(settings, "USER_ID")
+
+    @override_settings(USER_ID=1)
+    def test_only_disable_within_context_manager(self):
+        """
+        Make sure deleted settings returns once the block exits.
+        """
+        self.assertEqual(settings.USER_ID, 1)
+
+        with override_settings(USER_ID=SETTING_DELETED):
+            with self.assertRaises(AttributeError):
+                getattr(settings, "USER_ID")
+
+        self.assertEqual(settings.USER_ID, 1)
+
+    @override_settings(USER_ID=SETTING_DELETED)
+    def test_get_required_setting(self):
+        """
+        Make sure using get_required_setting fails in the right place.
+        """
+        with self.assertRaises(AnalyticalException) as e:
+            user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
+        self.assertEqual(e.exception.message, "USER_ID setting: not found")
 
 
 class InternalIpTestCase(TestCase):
