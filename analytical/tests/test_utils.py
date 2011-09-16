@@ -36,9 +36,8 @@ class SettingDeletedTestCase(TestCase):
         """
         Make sure using get_required_setting fails in the right place.
         """
-        with self.assertRaises(AnalyticalException) as e:
+        with self.assertRaisesRegexp(AnalyticalException, "USER_ID setting: not found"):
             user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
-        self.assertEqual(e.exception.message, "USER_ID setting: not found")
 
 
 class InternalIpTestCase(TestCase):
