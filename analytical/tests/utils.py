@@ -81,7 +81,13 @@ class override_settings(object):
         return inner
 
     def enable(self):
-        override = UserSettingsHolder(copy.copy(settings._wrapped))
+        class OverrideSettingsHolder(UserSettingsHolder):
+            def __getattr__(self, name):
+                if name == "default_settings":
+                    return self.__dict__["default_settings"]
+                return getattr(self.default_settings, name)
+
+        override = OverrideSettingsHolder(copy.copy(settings._wrapped))
         for key, new_value in self.options.items():
             if new_value is SETTING_DELETED:
                 try:
