@@ -1,3 +1,7 @@
+Development
+-----------
+* Fixed bug in deleted settings testing code (Eric Davis).
+
 Version 0.9.2
 -------------
 * Added suppert for the SnapEngage service.
