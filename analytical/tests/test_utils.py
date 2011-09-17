@@ -34,7 +34,7 @@ class SettingDeletedTestCase(TestCase):
         """
         Make sure using get_required_setting fails in the right place.
         """
-        # only available with python >= 2.7 or Django >= 1.3
+        # only available in python >= 2.7
         if hasattr(self, 'assertRaisesRegexp'):
             with self.assertRaisesRegexp(AnalyticalException, "^USER_ID setting: not found$"):
                 user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
