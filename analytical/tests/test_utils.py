@@ -16,8 +16,7 @@ from analytical.tests.utils import (
 class SettingDeletedTestCase(TestCase):
     @override_settings(USER_ID=SETTING_DELETED)
     def test_deleted_setting_raises_exception(self):
-        with self.assertRaises(AttributeError):
-            getattr(settings, "USER_ID")
+        self.assertRaises(AttributeError, getattr, settings, "USER_ID")
 
     @override_settings(USER_ID=1)
     def test_only_disable_within_context_manager(self):
@@ -27,8 +26,7 @@ class SettingDeletedTestCase(TestCase):
         self.assertEqual(settings.USER_ID, 1)
 
         with override_settings(USER_ID=SETTING_DELETED):
-            with self.assertRaises(AttributeError):
-                getattr(settings, "USER_ID")
+            self.assertRaises(AttributeError, getattr, settings, "USER_ID")
 
         self.assertEqual(settings.USER_ID, 1)
 
@@ -37,9 +35,13 @@ class SettingDeletedTestCase(TestCase):
         """
         Make sure using get_required_setting fails in the right place.
         """
-        with self.assertRaisesRegexp(AnalyticalException, "USER_ID setting: not found"):
-            user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
-
+        # only available in python >= 2.7
+        if hasattr(self, 'assertRaisesRegexp'):
+            with self.assertRaisesRegexp(AnalyticalException, "^USER_ID setting: not found$"):
+                user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
+        else:
+            self.assertRaises(AnalyticalException,
+                              get_required_setting, "USER_ID", "\d+", "invalid USER_ID")
 
 @override_settings(ANALYTICAL_DOMAIN="example.org")
 class GetDomainTestCase(TestCase):

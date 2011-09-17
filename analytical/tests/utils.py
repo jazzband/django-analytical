@@ -105,10 +105,13 @@ class override_settings(object):
 def run_tests():
     """
     Use the Django test runner to run the tests.
+
+    Sets the return code to the number of failed tests.
     """
+    import sys
     from django.test.simple import DjangoTestSuiteRunner
-    runner = DjangoTestSuiteRunner(verbosity=2)
-    runner.run_tests(None)
+    runner = DjangoTestSuiteRunner()
+    sys.exit(runner.run_tests(["analytical"]))
 
 
 def with_apps(*apps):
