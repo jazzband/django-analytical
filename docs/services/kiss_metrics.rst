@@ -9,7 +9,6 @@ many drop out at each stage.
 
 .. _KISSmetrics: http://www.kissmetrics.com/
 
-
 .. kiss-metrics-installation:
 
 Installation
@@ -108,3 +107,41 @@ a context processor that you add to the
 Just remember that if you set the same context variable in the
 :class:`~django.template.context.RequestContext` constructor and in a
 context processor, the latter clobbers the former.
+
+.. _kiss-metrics-event:
+
+Recording events
+----------------
+
+You may tell KISSmetrics about an event by setting a variable in the context.
+
+For example::
+
+    context = RequestContext({
+        'kiss_metrics_event': ['Signed Up', {'Plan' : 'Pro', 'Amount' : 9.99}],
+    })
+    return some_template.render(context)
+
+The output script tag will then include the corresponding Javascript event:
+
+    _kmq.push(['record', 'Signed Up', {'Plan':'Pro', 'Amount':9.99}]);
+
+
+.. _kiss-metrics-properties:
+
+Recording properties
+--------------------
+
+You may also set KISSmetrics properties without a corresponding event.
+
+For example::
+
+    context = RequestContext({
+        'kiss_metrics_property': {'gender': 'Male'},
+    })
+    return some_template.render(context)
+
+The output script tag will then include the corresponding Javascript event:
+
+    _kmq.push(['set', {'gender':'Male'}]);
+
