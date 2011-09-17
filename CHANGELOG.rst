@@ -1,5 +1,6 @@
 Development
 -----------
+* Added multiple domains support for Google Analytics.
 * Fixed bug in deleted settings testing code (Eric Davis).
 
 Version 0.9.2

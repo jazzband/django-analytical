@@ -2,14 +2,15 @@
 Tests for the analytical.utils module.
 """
 
+from django.conf import settings
+from django.contrib.sites.models import Site
 from django.http import HttpRequest
 from django.template import Context
-from django.conf import settings
 
 from analytical.utils import (
-    is_internal_ip, get_required_setting, AnalyticalException)
+    get_domain, is_internal_ip, get_required_setting, AnalyticalException)
 from analytical.tests.utils import (
-    TestCase, override_settings, SETTING_DELETED)
+    TestCase, override_settings, with_apps, SETTING_DELETED)
 
 
 class SettingDeletedTestCase(TestCase):
@@ -38,6 +39,37 @@ class SettingDeletedTestCase(TestCase):
         """
         with self.assertRaisesRegexp(AnalyticalException, "USER_ID setting: not found"):
             user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
+
+
+@override_settings(ANALYTICAL_DOMAIN="example.org")
+class GetDomainTestCase(TestCase):
+    def test_get_service_domain_from_context(self):
+        context = Context({'test_domain': 'example.com'})
+        self.assertEqual(get_domain(context, 'test'), 'example.com')
+
+    def test_get_analytical_domain_from_context(self):
+        context = Context({'analytical_domain': 'example.com'})
+        self.assertEqual(get_domain(context, 'test'), 'example.com')
+
+    @override_settings(TEST_DOMAIN="example.net")
+    def test_get_service_domain_from_settings(self):
+        context = Context()
+        self.assertEqual(get_domain(context, 'test'), 'example.net')
+
+    def test_get_analytical_domain_from_settings(self):
+        context = Context()
+        self.assertEqual(get_domain(context, 'test'), 'example.org')
+
+
+@with_apps('django.contrib.sites')
+@override_settings(TEST_DOMAIN=SETTING_DELETED,
+        ANALYTICAL_DOMAIN=SETTING_DELETED)
+class GetDomainTestCaseWithSites(TestCase):
+    def test_get_domain_from_site(self):
+        site = Site.objects.create(domain="example.com", name="test")
+        with override_settings(SITE_ID=site.id):
+            context = Context()
+            self.assertEqual(get_domain(context, 'test'), 'example.com')
 
 
 class InternalIpTestCase(TestCase):

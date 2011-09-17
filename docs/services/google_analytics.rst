@@ -46,8 +46,9 @@ Configuration
 =============
 
 Before you can use the Google Analytics integration, you must first set
-your website property ID.  You can also add custom segments for Google
-Analytics to track.
+your website property ID.  If you track multiple domains with the same
+code, you also need to set-up the domain.  Finally, you can add custom
+segments for Google Analytics to track.
 
 
 .. _google-analytics-property-id:
@@ -64,6 +65,38 @@ project :file:`settings.py` file::
     GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-XXXXXX-X'
 
 If you do not set a property ID, the tracking code will not be rendered.
+
+
+Tracking multiple domains
+-------------------------
+
+The default code is suitable for tracking a single domain.  If you track
+multiple domains, set the :const:`GOOGLE_ANALYTICS_TRACKING_STYLE`
+setting to one of the :const:`analytical.google_analytics.SCOPE_*`
+constants:
+
+=============================  =====  =============================================
+Constant                       Value  Description
+=============================  =====  =============================================
+``TRACK_SINGLE_DOMAIN``          1    Track one domain.
+``TRACK_MULTIPLE_SUBDOMAINS``    2    Track multiple subdomains of the same top
+                                      domain (e.g. `fr.example.com` and
+                                      `nl.example.com`).
+``TRACK_MULTIPLE_DOMAINS``       3    Track multiple top domains (e.g. `example.fr`
+                                      and `example.nl`).
+=============================  =====  =============================================
+
+As noted, the default tracking style is
+:const:`~analytical.google_analytics.TRACK_SINGLE_DOMAIN`.
+
+When you track multiple (sub)domains, django-analytical needs to know
+what domain name to pass to Google Analytics.  If you use the contrib
+sites app, the domain is automatically picked up from the current
+:const:`~django.contrib.sites.models.Site` instance.  Otherwise, you may
+either pass the domain to the template tag through the context variable
+:const:`google_analytics_domain` (fallback: :const:`analytical_domain`)
+or set it in the project :file:`settings.py` file using
+:const:`GOOGLE_ANALYTICS_DOMAIN` (fallback: :const:`ANALYTICAL_DOMAIN`).
 
 
 .. _google-analytics-internal-ips:

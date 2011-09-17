@@ -5,12 +5,15 @@ Tests for the Google Analytics template tags and filters.
 from django.http import HttpRequest
 from django.template import Context
 
-from analytical.templatetags.google_analytics import GoogleAnalyticsNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.templatetags.google_analytics import GoogleAnalyticsNode, \
+        TRACK_SINGLE_DOMAIN, TRACK_MULTIPLE_DOMAINS, TRACK_MULTIPLE_SUBDOMAINS
+from analytical.tests.utils import TestCase, TagTestCase, override_settings, \
+        without_apps, SETTING_DELETED
 from analytical.utils import AnalyticalException
 
 
-@override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7')
+@override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
+        GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_SINGLE_DOMAIN)
 class GoogleAnalyticsTagTestCase(TagTestCase):
     """
     Tests for the ``google_analytics`` template tag.
@@ -34,6 +37,22 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     def test_wrong_property_id(self):
         self.assertRaises(AnalyticalException, GoogleAnalyticsNode)
 
+    @override_settings(
+            GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_SUBDOMAINS,
+            GOOGLE_ANALYTICS_DOMAIN='example.com')
+    def test_track_multiple_subdomains(self):
+        r = GoogleAnalyticsNode().render(Context())
+        self.assertTrue("_gaq.push(['_setDomainName', 'example.com']);" in r, r)
+        self.assertTrue("_gaq.push(['_setAllowHash', false]);" in r, r)
+
+    @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
+            GOOGLE_ANALYTICS_DOMAIN='example.com')
+    def test_track_multiple_domains(self):
+        r = GoogleAnalyticsNode().render(Context())
+        self.assertTrue("_gaq.push(['_setDomainName', 'example.com']);" in r, r)
+        self.assertTrue("_gaq.push(['_setAllowHash', false]);" in r, r)
+        self.assertTrue("_gaq.push(['_setAllowLinker', true]);" in r, r)
+
     def test_custom_vars(self):
         context = Context({'google_analytics_var1': ('test1', 'foo'),
                 'google_analytics_var5': ('test2', 'bar', 1)})
@@ -52,3 +71,15 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         self.assertTrue(r.startswith(
                 '<!-- Google Analytics disabled on internal IP address'), r)
         self.assertTrue(r.endswith('-->'), r)
+
+
+@without_apps('django.contrib.sites')
+@override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
+        GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
+        GOOGLE_ANALYTICS_DOMAIN=SETTING_DELETED,
+        ANALYTICAL_DOMAIN=SETTING_DELETED)
+class NoDomainTestCase(TestCase):
+    def test_exception_without_domain(self):
+        context = Context()
+        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render,
+                context)

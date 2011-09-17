@@ -3,6 +3,8 @@ Utility function for django-analytical.
 """
 
 from django.conf import settings
+from django.contrib.sites.models import Site
+from django.core.exceptions import ImproperlyConfigured
 
 
 HTML_COMMENT = "<!-- %(service)s disabled on internal IP " \
@@ -76,6 +78,31 @@ def get_identity(context, prefix=None, identity_func=None, user=None):
         except (KeyError, AttributeError):
             pass
     return None
+
+
+def get_domain(context, prefix):
+    """
+    Return the domain used for the tracking code.  Each service may be
+    configured with its own domain (called `<name>_domain`), or a
+    django-analytical-wide domain may be set (using `analytical_domain`.
+
+    If no explicit domain is found in either the context or the
+    settings, try to get the domain from the contrib sites framework.
+    """
+    domain = context.get('%s_domain' % prefix)
+    if domain is None:
+        domain = context.get('analytical_domain')
+    if domain is None:
+        domain = getattr(settings, '%s_DOMAIN' % prefix.upper(), None)
+    if domain is None:
+        domain = getattr(settings, 'ANALYTICAL_DOMAIN', None)
+    if domain is None:
+        if 'django.contrib.sites' in settings.INSTALLED_APPS:
+            try:
+                domain = Site.objects.get_current().domain
+            except (ImproperlyConfigured, Site.DoesNotExist):
+                pass
+    return domain
 
 
 def is_internal_ip(context, prefix=None):

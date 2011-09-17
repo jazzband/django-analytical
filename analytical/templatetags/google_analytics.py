@@ -6,9 +6,11 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
+from analytical.utils import is_internal_ip, disable_html, \
+        get_required_setting, get_domain, AnalyticalException
 
 def enumerate(sequence, start=0):
     """Copy of the Python 2.6 `enumerate` builtin for compatibility."""
@@ -17,6 +19,10 @@ def enumerate(sequence, start=0):
         yield n, elem
         n += 1
 
+
+TRACK_SINGLE_DOMAIN = 1
+TRACK_MULTIPLE_SUBDOMAINS = 2
+TRACK_MULTIPLE_DOMAINS = 3
 
 SCOPE_VISITOR = 1
 SCOPE_SESSION = 2
@@ -38,6 +44,9 @@ SETUP_CODE = """
 
     </script>
 """
+DOMAIN_CODE = "_gaq.push(['_setDomainName', '%s']);"
+NO_ALLOW_HASH_CODE = "_gaq.push(['_setAllowHash', false]);"
+ALLOW_LINKER_CODE = "_gaq.push(['_setAllowLinker', true]);"
 CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
         "'%(value)s', %(scope)s]);"
 
@@ -65,12 +74,30 @@ class GoogleAnalyticsNode(Node):
                 "must be a string looking like 'UA-XXXXXX-Y'")
 
     def render(self, context):
-        commands = self._get_custom_var_commands(context)
+        commands = self._get_domain_commands(context)
+        commands.extend(self._get_custom_var_commands(context))
         html = SETUP_CODE % {'property_id': self.property_id,
                 'commands': " ".join(commands)}
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
             html = disable_html(html, 'Google Analytics')
         return html
+
+    def _get_domain_commands(self, context):
+        commands = []
+        tracking_type = getattr(settings, 'GOOGLE_ANALYTICS_TRACKING_STYLE',
+                TRACK_SINGLE_DOMAIN)
+        if tracking_type == TRACK_SINGLE_DOMAIN:
+            pass
+        else:
+            domain = get_domain(context, 'google_analytics')
+            if domain is None:
+                raise AnalyticalException("tracking multiple domains with Google"
+                        " Analytics requires a domain name")
+            commands.append(DOMAIN_CODE % domain)
+            commands.append(NO_ALLOW_HASH_CODE)
+            if tracking_type == TRACK_MULTIPLE_DOMAINS:
+                commands.append(ALLOW_LINKER_CODE)
+        return commands
 
     def _get_custom_var_commands(self, context):
         values = (context.get('google_analytics_var%s' % i)
