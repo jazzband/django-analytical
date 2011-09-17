@@ -1,5 +1,5 @@
-Development
------------
+Version 0.10.0
+--------------
 * Added multiple domains support for Google Analytics.
 * Fixed bug in deleted settings testing code (Eric Davis).
 
