@@ -53,6 +53,12 @@ class KissMetricsTagTestCase(TagTestCase):
         self.assertTrue("_kmq.push(['record', 'test_event', "
                 '{"prop1": "val1", "prop2": "val2"}]);' in r, r)
 
+    def test_property(self):
+        r = KissMetricsNode().render(Context({'kiss_metrics_property':
+                {'prop1': 'val1', 'prop2': 'val2'}}))
+        self.assertTrue("_kmq.push(['set', "
+                '{"prop1": "val1", "prop2": "val2"}]);' in r, r)
+
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
         req = HttpRequest()
