@@ -34,7 +34,10 @@ TRACKING_CODE = """
 """
 IDENTIFY_CODE = "_kmq.push(['identify', '%s']);"
 EVENT_CODE = "_kmq.push(['record', '%(name)s', %(properties)s]);"
+PROPERTY_CODE = "_kmq.push(['set', %(properties)s]);"
+
 EVENT_CONTEXT_KEY = 'kiss_metrics_event'
+PROPERTY_CONTEXT_KEY = 'kiss_metrics_properties'
 
 register = Library()
 
@@ -67,6 +70,12 @@ class KissMetricsNode(Node):
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
             commands.append(EVENT_CODE % {'name': name,
+                    'properties': simplejson.dumps(properties)})
+        except KeyError:
+            pass
+        try:
+            properties = context[PROPERTY_CONTEXT_KEY]
+            commands.append(PROPERTY_CODE % {
                     'properties': simplejson.dumps(properties)})
         except KeyError:
             pass
