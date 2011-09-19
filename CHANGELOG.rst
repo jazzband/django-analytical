@@ -1,3 +1,7 @@
+Version 0.11.0
+--------------
+* Allow sending events and properties to KISSmetrics (Paul Oswald).
+
 Version 0.10.0
 --------------
 * Added multiple domains support for Google Analytics.
