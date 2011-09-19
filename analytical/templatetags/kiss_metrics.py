@@ -37,7 +37,7 @@ EVENT_CODE = "_kmq.push(['record', '%(name)s', %(properties)s]);"
 PROPERTY_CODE = "_kmq.push(['set', %(properties)s]);"
 
 EVENT_CONTEXT_KEY = 'kiss_metrics_event'
-PROPERTY_CONTEXT_KEY = 'kiss_metrics_property'
+PROPERTY_CONTEXT_KEY = 'kiss_metrics_properties'
 
 register = Library()
 

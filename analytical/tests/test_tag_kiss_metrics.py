@@ -54,7 +54,7 @@ class KissMetricsTagTestCase(TagTestCase):
                 '{"prop1": "val1", "prop2": "val2"}]);' in r, r)
 
     def test_property(self):
-        r = KissMetricsNode().render(Context({'kiss_metrics_property':
+        r = KissMetricsNode().render(Context({'kiss_metrics_properties':
                 {'prop1': 'val1', 'prop2': 'val2'}}))
         self.assertTrue("_kmq.push(['set', "
                 '{"prop1": "val1", "prop2": "val2"}]);' in r, r)

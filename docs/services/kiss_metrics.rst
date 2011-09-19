@@ -122,9 +122,8 @@ For example::
     })
     return some_template.render(context)
 
-The output script tag will then include the corresponding Javascript event:
-
-    _kmq.push(['record', 'Signed Up', {'Plan':'Pro', 'Amount':9.99}]);
+The output script tag will then include the corresponding Javascript event as
+documented in the `KISSmetrics record API`_ docs.
 
 
 .. _kiss-metrics-properties:
@@ -137,11 +136,14 @@ You may also set KISSmetrics properties without a corresponding event.
 For example::
 
     context = RequestContext({
-        'kiss_metrics_property': {'gender': 'Male'},
+        'kiss_metrics_properties': {'gender': 'Male'},
     })
     return some_template.render(context)
 
-The output script tag will then include the corresponding Javascript event:
+The output script tag will then include the corresponding properties as
+documented in the `KISSmetrics set API`_ docs.
 
-    _kmq.push(['set', {'gender':'Male'}]);
+
+.. _`KISSmetrics set API`: http://support.kissmetrics.com/apis/common-methods#record
+.. _`KISSmetrics record API`: http://support.kissmetrics.com/apis/common-methods#set
 
