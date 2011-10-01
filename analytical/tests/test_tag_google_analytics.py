@@ -62,6 +62,17 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         self.assertTrue("_gaq.push(['_setCustomVar', 5, 'test2', 'bar', 1]);"
                 in r, r)
 
+    def test_multiple_value_custom_vars(self):
+        context = Context({'google_analytics_var1': [
+                    ('test1', 'foo', 1),
+                    ('test2', 'bar', 2)]})
+        r = GoogleAnalyticsNode().render(context)
+        self.assertTrue("_gaq.push(['_setCustomVar', 1, 'test1', 'foo', 1]);"
+                in r, r)
+        self.assertTrue("_gaq.push(['_setCustomVar', 1, 'test2', 'bar', 2]);"
+                in r, r)
+        
+
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
         req = HttpRequest()
