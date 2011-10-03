@@ -28,6 +28,8 @@ SCOPE_VISITOR = 1
 SCOPE_SESSION = 2
 SCOPE_PAGE = 3
 
+PAGE_LOAD_TIME = False
+
 PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$')
 SETUP_CODE = """
     <script type="text/javascript">
@@ -118,7 +120,8 @@ class GoogleAnalyticsNode(Node):
 
     def _get_other_commands(self, context):
         commands = []
-        page_load_time = getattr(settings, 'GOOGLE_ANALYTICS_PAGE_LOAD_TIME', False)
+        page_load_time = getattr(settings, 'GOOGLE_ANALYTICS_PAGE_LOAD_TIME', 
+                                 PAGE_LOAD_TIME)
         if page_load_time:
             commands.append(PAGE_LOAD_TIME_CODE)
         return commands
