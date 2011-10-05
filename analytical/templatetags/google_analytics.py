@@ -28,6 +28,8 @@ SCOPE_VISITOR = 1
 SCOPE_SESSION = 2
 SCOPE_PAGE = 3
 
+PAGE_LOAD_TIME = False
+
 PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$')
 SETUP_CODE = """
     <script type="text/javascript">
@@ -49,6 +51,7 @@ NO_ALLOW_HASH_CODE = "_gaq.push(['_setAllowHash', false]);"
 ALLOW_LINKER_CODE = "_gaq.push(['_setAllowLinker', true]);"
 CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
         "'%(value)s', %(scope)s]);"
+PAGE_LOAD_TIME_CODE = "_gaq.push(['_trackPageLoadTime']);"
 
 
 register = Library()
@@ -76,6 +79,7 @@ class GoogleAnalyticsNode(Node):
     def render(self, context):
         commands = self._get_domain_commands(context)
         commands.extend(self._get_custom_var_commands(context))
+        commands.extend(self._get_other_commands(context))
         html = SETUP_CODE % {'property_id': self.property_id,
                 'commands': " ".join(commands)}
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
@@ -114,6 +118,13 @@ class GoogleAnalyticsNode(Node):
             commands.append(CUSTOM_VAR_CODE % locals())
         return commands
 
+    def _get_other_commands(self, context):
+        commands = []
+        page_load_time = getattr(settings, 'GOOGLE_ANALYTICS_PAGE_LOAD_TIME', 
+                                 PAGE_LOAD_TIME)
+        if page_load_time:
+            commands.append(PAGE_LOAD_TIME_CODE)
+        return commands
 
 def contribute_to_analytical(add_node):
     GoogleAnalyticsNode()  # ensure properly configured
