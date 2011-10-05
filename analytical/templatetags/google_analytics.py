@@ -36,6 +36,7 @@ SETUP_CODE = """
       _gaq.push(['_setAccount', '%(property_id)s']);
       _gaq.push(['_trackPageview']);
       %(commands)s
+
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -104,6 +105,16 @@ class GoogleAnalyticsNode(Node):
                 for i in range(1, 6))
         vars = [(i, v) for i, v in enumerate(values, 1) if v is not None]
         commands = []
+        vars2 = []
+
+        # Check vars for multi-tuple entries and rebuild vars
+        for i, var in vars:
+            if type(var) is list:
+                vars2.extend([(i, v) for v in var])
+            else:
+                vars2.append((i, var))
+
+        vars = vars2
         for index, var in vars:
             name = var[0]
             value = var[1]
