@@ -62,6 +62,11 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         self.assertTrue("_gaq.push(['_setCustomVar', 5, 'test2', 'bar', 1]);"
                 in r, r)
 
+    @override_settings(GOOGLE_ANALYTICS_PAGE_LOAD_TIME=True)
+    def test_track_page_load_time(self):
+        r = GoogleAnalyticsNode().render(Context())
+        self.assertTrue("_gaq.push(['_trackPageLoadTime']);" in r, r)
+        
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
         req = HttpRequest()
