@@ -1,6 +1,8 @@
 Version 0.11.0
 --------------
 * Allow sending events and properties to KISSmetrics (Paul Oswald).
+* Add support for the Site Speed report in Google Analytics (Uros 
+  Trebec).
 
 Version 0.10.0
 --------------
@@ -19,8 +21,8 @@ Version 0.9.1
 Version 0.9.0
 -------------
 * Updated Clicky tracking code to support multiple site ids.
-* Fixed Chartbeat auto-domain bug when the Sites framework is not used (Eric
-  Davis).
+* Fixed Chartbeat auto-domain bug when the Sites framework is not used 
+  (Eric Davis).
 * Improved testing code (Eric Davis).
 
 Version 0.8.1
