@@ -28,8 +28,6 @@ SCOPE_VISITOR = 1
 SCOPE_SESSION = 2
 SCOPE_PAGE = 3
 
-PAGE_LOAD_TIME = False
-
 PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$')
 SETUP_CODE = """
     <script type="text/javascript">
@@ -51,7 +49,7 @@ NO_ALLOW_HASH_CODE = "_gaq.push(['_setAllowHash', false]);"
 ALLOW_LINKER_CODE = "_gaq.push(['_setAllowLinker', true]);"
 CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
         "'%(value)s', %(scope)s]);"
-PAGE_LOAD_TIME_CODE = "_gaq.push(['_trackPageLoadTime']);"
+SITE_SPEED_CODE = "_gaq.push(['_trackPageLoadTime']);"
 
 
 register = Library()
@@ -95,8 +93,8 @@ class GoogleAnalyticsNode(Node):
         else:
             domain = get_domain(context, 'google_analytics')
             if domain is None:
-                raise AnalyticalException("tracking multiple domains with Google"
-                        " Analytics requires a domain name")
+                raise AnalyticalException("tracking multiple domains with"
+                        " Google Analytics requires a domain name")
             commands.append(DOMAIN_CODE % domain)
             commands.append(NO_ALLOW_HASH_CODE)
             if tracking_type == TRACK_MULTIPLE_DOMAINS:
@@ -120,10 +118,8 @@ class GoogleAnalyticsNode(Node):
 
     def _get_other_commands(self, context):
         commands = []
-        page_load_time = getattr(settings, 'GOOGLE_ANALYTICS_PAGE_LOAD_TIME', 
-                                 PAGE_LOAD_TIME)
-        if page_load_time:
-            commands.append(PAGE_LOAD_TIME_CODE)
+        if getattr(settings, 'GOOGLE_ANALYTICS_SITE_SPEED', False):
+            commands.append(SITE_SPEED_CODE)
         return commands
 
 def contribute_to_analytical(add_node):

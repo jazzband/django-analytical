@@ -71,7 +71,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         self.assertTrue("_gaq.push(['_setCustomVar', 5, 'test5', 'qux', 3]);"
                 in r, r)
 
-    @override_settings(GOOGLE_ANALYTICS_PAGE_LOAD_TIME=True)
+    @override_settings(GOOGLE_ANALYTICS_SITE_SPEED=True)
     def test_track_page_load_time(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_trackPageLoadTime']);" in r, r)
