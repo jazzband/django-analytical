@@ -99,6 +99,19 @@ or set it in the project :file:`settings.py` file using
 :const:`GOOGLE_ANALYTICS_DOMAIN` (fallback: :const:`ANALYTICAL_DOMAIN`).
 
 
+Tracking site speed
+-------------------
+
+You can view page load times in the `Site Speed report`_ by setting the
+:const:`GOOGLE_ANALYTICS_SITE_SPEED` configuration setting::
+
+    GOOGLE_ANALYTICS_SITE_SPEED = True
+
+By default, page load times are not tracked.
+
+.. _`Site Speed report`: http://www.google.com/support/analyticshelp/bin/answer.py?answer=1205784&topic=1282106
+
+
 .. _google-analytics-internal-ips:
 
 Internal IP addresses

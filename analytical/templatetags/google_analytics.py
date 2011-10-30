@@ -49,6 +49,7 @@ NO_ALLOW_HASH_CODE = "_gaq.push(['_setAllowHash', false]);"
 ALLOW_LINKER_CODE = "_gaq.push(['_setAllowLinker', true]);"
 CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
         "'%(value)s', %(scope)s]);"
+SITE_SPEED_CODE = "_gaq.push(['_trackPageLoadTime']);"
 
 
 register = Library()
@@ -76,6 +77,7 @@ class GoogleAnalyticsNode(Node):
     def render(self, context):
         commands = self._get_domain_commands(context)
         commands.extend(self._get_custom_var_commands(context))
+        commands.extend(self._get_other_commands(context))
         html = SETUP_CODE % {'property_id': self.property_id,
                 'commands': " ".join(commands)}
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
@@ -91,8 +93,8 @@ class GoogleAnalyticsNode(Node):
         else:
             domain = get_domain(context, 'google_analytics')
             if domain is None:
-                raise AnalyticalException("tracking multiple domains with Google"
-                        " Analytics requires a domain name")
+                raise AnalyticalException("tracking multiple domains with"
+                        " Google Analytics requires a domain name")
             commands.append(DOMAIN_CODE % domain)
             commands.append(NO_ALLOW_HASH_CODE)
             if tracking_type == TRACK_MULTIPLE_DOMAINS:
@@ -114,6 +116,11 @@ class GoogleAnalyticsNode(Node):
             commands.append(CUSTOM_VAR_CODE % locals())
         return commands
 
+    def _get_other_commands(self, context):
+        commands = []
+        if getattr(settings, 'GOOGLE_ANALYTICS_SITE_SPEED', False):
+            commands.append(SITE_SPEED_CODE)
+        return commands
 
 def contribute_to_analytical(add_node):
     GoogleAnalyticsNode()  # ensure properly configured

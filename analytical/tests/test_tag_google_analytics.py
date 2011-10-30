@@ -6,7 +6,8 @@ from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.google_analytics import GoogleAnalyticsNode, \
-        TRACK_SINGLE_DOMAIN, TRACK_MULTIPLE_DOMAINS, TRACK_MULTIPLE_SUBDOMAINS
+        TRACK_SINGLE_DOMAIN, TRACK_MULTIPLE_DOMAINS, TRACK_MULTIPLE_SUBDOMAINS,\
+        SCOPE_VISITOR, SCOPE_SESSION, SCOPE_PAGE
 from analytical.tests.utils import TestCase, TagTestCase, override_settings, \
         without_apps, SETTING_DELETED
 from analytical.utils import AnalyticalException
@@ -54,14 +55,27 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         self.assertTrue("_gaq.push(['_setAllowLinker', true]);" in r, r)
 
     def test_custom_vars(self):
-        context = Context({'google_analytics_var1': ('test1', 'foo'),
-                'google_analytics_var5': ('test2', 'bar', 1)})
+        context = Context({
+            'google_analytics_var1': ('test1', 'foo'),
+            'google_analytics_var2': ('test2', 'bar', SCOPE_VISITOR),
+            'google_analytics_var4': ('test4', 'baz', SCOPE_SESSION),
+            'google_analytics_var5': ('test5', 'qux', SCOPE_PAGE),
+        })
         r = GoogleAnalyticsNode().render(context)
         self.assertTrue("_gaq.push(['_setCustomVar', 1, 'test1', 'foo', 3]);"
                 in r, r)
-        self.assertTrue("_gaq.push(['_setCustomVar', 5, 'test2', 'bar', 1]);"
+        self.assertTrue("_gaq.push(['_setCustomVar', 2, 'test2', 'bar', 1]);"
+                in r, r)
+        self.assertTrue("_gaq.push(['_setCustomVar', 4, 'test4', 'baz', 2]);"
+                in r, r)
+        self.assertTrue("_gaq.push(['_setCustomVar', 5, 'test5', 'qux', 3]);"
                 in r, r)
 
+    @override_settings(GOOGLE_ANALYTICS_SITE_SPEED=True)
+    def test_track_page_load_time(self):
+        r = GoogleAnalyticsNode().render(Context())
+        self.assertTrue("_gaq.push(['_trackPageLoadTime']);" in r, r)
+        
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
         req = HttpRequest()
