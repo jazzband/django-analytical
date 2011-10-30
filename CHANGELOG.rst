@@ -1,5 +1,6 @@
 Version 0.11.0
 --------------
+* Added support for the Spring Metrics service.
 * Allow sending events and properties to KISSmetrics (Paul Oswald).
 
 Version 0.10.0
@@ -9,7 +10,7 @@ Version 0.10.0
 
 Version 0.9.2
 -------------
-* Added suppert for the SnapEngage service.
+* Added support for the SnapEngage service.
 * Updated Mixpanel code (Julien Grenier).
 
 Version 0.9.1

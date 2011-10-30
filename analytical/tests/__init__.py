@@ -17,5 +17,6 @@ from analytical.tests.test_tag_optimizely import *
 from analytical.tests.test_tag_performable import *
 from analytical.tests.test_tag_reinvigorate import *
 from analytical.tests.test_tag_snapengage import *
+from analytical.tests.test_tag_spring_metrics import *
 from analytical.tests.test_tag_woopra import *
 from analytical.tests.test_utils import *

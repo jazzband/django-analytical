@@ -33,6 +33,7 @@ Currently supported services:
 * `Performable`_ web analytics and landing pages
 * `Reinvigorate`_ visitor tracking
 * `SnapEngage`_ live chat
+* `Spring Metrics`_ conversion tracking
 * `Woopra`_ web analytics
 
 The documentation can be found in the ``docs`` directory or `read
@@ -61,6 +62,7 @@ an issue to discuss your plans.
 .. _Performable: http://www.performable.com/
 .. _Reinvigorate: http://www.reinvigorate.com/
 .. _SnapEngage: http://www.snapengage.com/
+.. _`Spring Metrics`: http://www.springmetrics.com/
 .. _Woopra: http://www.woopra.com/
 .. _`read online`: http://packages.python.org/django-analytical/
 .. _`hosted by GitHub`: http://github.com/jcassee/django-analytical

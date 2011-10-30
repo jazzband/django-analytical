@@ -29,6 +29,7 @@ TAG_MODULES = [
     'analytical.performable',
     'analytical.reinvigorate',
     'analytical.snapengage',
+    'analytical.spring_metrics',
     'analytical.woopra',
 ]
 
