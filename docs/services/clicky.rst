@@ -87,7 +87,7 @@ the data that is tracked by Clicky can be customized by setting the
 :data:`clicky_custom` Javascript variable before loading the tracking
 code.  Using template context variables, you can let the :ttag:`clicky`
 tag pass custom data to Clicky automatically.  You can set the context
-variables in your view when your render a template containing the
+variables in your view when you render a template containing the
 tracking code::
 
     context = RequestContext({'clicky_title': 'A better page title'})
