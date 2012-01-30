@@ -44,8 +44,8 @@ Configuration
 =============
 
 Before you can use the Spring Metrics integration, you must first set
-your website Tracking ID.  You can also customize the data that Spring
-Metrics tracks.
+your website Tracking ID and tag a page for conversion.  You can also
+customize the data that Spring Metrics tracks.
 
 
 Setting the Tracking ID
@@ -53,7 +53,7 @@ Setting the Tracking ID
 
 Every website you track with Spring Metrics gets its own Tracking ID,
 and the :ttag:`spring_metrics` tag will include it in the rendered
-Javascript code.  You can find the Tracking ID in the `manage page`_
+Javascript code.  You can find the Tracking ID in the `Site Settings`_
 of your Spring Metrics account.  Set :const:`SPRING_METRICS_TRACKING_ID`
 in the project :file:`settings.py` file::
 
@@ -64,16 +64,24 @@ If you do not set a Tracking ID, the tracking code will not be rendered.
 .. _`manage page`: https://app.springmetrics.com/manage/
 
 
-Internal IP addresses
----------------------
+.. _`Convertion Tagging`:
 
-Usually you do not want to track clicks from your development or
-internal IP addresses.  By default, if the tags detect that the client
-comes from any address in the :const:`SPRING_METRICS_INTERNAL_IPS`
-setting, the tracking code is commented out.  It takes the value of
-:const:`ANALYTICAL_INTERNAL_IPS` by default (which in turn is
-:const:`INTERNAL_IPS` by default).  See :ref:`identifying-visitors` for
-important information about detecting the visitor IP address.
+Tagging conversion
+------------------
+
+In order to make use of Spring Metrics, you must tell it when visitors
+become customers.  This is called conversion.  Usually, it marked by
+the client requesting a specific page, such as the "thank you" page
+of a webshop checkout.  You tag these pages in the `Site Settings`_
+of your Spring Metrics account.
+
+Alternatively, you can mark conversion pages using the
+:data:`spring_metrics_convert` template context variable::
+
+    context = RequestContext({'spring_metrics_convert': 'mailinglist signup'})
+    return some_template.render(context)
+
+.. _`Site Settings`: https://app.springmetrics.com/manage
 
 
 Tracking revenue
@@ -85,8 +93,14 @@ can let the :ttag:`spring_metrics` tag pass earned revenue to Spring
 Metrics.  You can set the context variable in your view when you render
 a template containing thetracking code::
 
-    context = RequestContext({'spring_metrics_revenue': '30.53'})
+    context = RequestContext({
+        'spring_metrics_convert': 'sale',
+        'spring_metrics_revenue': '30.53',
+    })
     return some_template.render(context)
+
+(You would not need to use the :data:`spring_metrics_convert` variable
+if you already tagged the page in Spring Metrics.)
 
 
 Custom data
@@ -126,6 +140,18 @@ Identifying authenticated users
 If you have not set the :data:`spring_metrics_email` property
 explicitly, the e-mail address of an authenticated user is passed to
 Spring Metrics automatically.  See :ref:`identifying-visitors`.
+
+
+Internal IP addresses
+---------------------
+
+Usually you do not want to track clicks from your development or
+internal IP addresses.  By default, if the tags detect that the client
+comes from any address in the :const:`SPRING_METRICS_INTERNAL_IPS`
+setting, the tracking code is commented out.  It takes the value of
+:const:`ANALYTICAL_INTERNAL_IPS` by default (which in turn is
+:const:`INTERNAL_IPS` by default).  See :ref:`identifying-visitors` for
+important information about detecting the visitor IP address.
 
 
 ----

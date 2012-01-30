@@ -18,7 +18,6 @@ TRACKING_CODE = """
     <script type='text/javascript'>
      var _springMetq = _springMetq || [];
      _springMetq.push(['id', '%(tracking_id)s']);
-     %(custom_commands)s
      (
       function(){
        var s = document.createElement('script');
@@ -29,6 +28,7 @@ TRACKING_CODE = """
        x.parentNode.insertBefore(s, x);
       }
      )();
+     %(custom_commands)s
     </script>
 """
 
@@ -74,8 +74,12 @@ class SpringMetricsNode(Node):
         return html
 
     def _generate_custom_javascript(self, vars):
-        commands = ("_springMetq.push(['%s', '%s']);" % (var, val)
-                for var, val in vars.items())
+        commands = []
+        convert = vars.pop('convert', None)
+        if convert is not None:
+            commands.append("_springMetq.push(['convert', '%s'])" % convert)
+        commands.extend("_springMetq.push(['setdata', {'%s': '%s'}]);"
+                % (var, val) for var, val in vars.items())
         return " ".join(commands)
 
 
