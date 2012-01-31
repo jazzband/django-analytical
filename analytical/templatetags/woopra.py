@@ -83,7 +83,7 @@ class WoopraNode(Node):
             if user is not None:
                 vars['name'] = get_identity(context, 'woopra',
                         self._identify, user)
-                if user.email:
+                if getattr(user, "email", None):
                     vars['email'] = user.email
         return vars
 
