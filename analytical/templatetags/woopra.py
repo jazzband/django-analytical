@@ -80,10 +80,10 @@ class WoopraNode(Node):
                     vars[var[7:]] = val
         if 'name' not in vars and 'email' not in vars:
             user = get_user_from_context(context)
-            if user is not None:
+            if user is not None and user.is_authenticated():
                 vars['name'] = get_identity(context, 'woopra',
                         self._identify, user)
-                if getattr(user, "email", None):
+                if user.email:
                     vars['email'] = user.email
         return vars
 

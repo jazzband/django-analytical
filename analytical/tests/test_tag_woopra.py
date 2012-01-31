@@ -2,7 +2,7 @@
 Tests for the Woopra template tags and filters.
 """
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 
@@ -58,6 +58,11 @@ class WoopraTagTestCase(TagTestCase):
     def test_identify_username_no_email(self):
         r = WoopraNode().render(Context({'user': User(username='test')}))
         self.assertTrue('var woo_visitor = {"name": "test"};' in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = WoopraNode().render(Context({'user': AnonymousUser()}))
+        self.assertTrue('var woo_visitor = {};' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_no_identify_when_explicit_name(self):
