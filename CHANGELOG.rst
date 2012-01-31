@@ -1,3 +1,7 @@
+Version 0.11.1
+--------------
+* Fix Woopra for anonymous users (Steven Skoczen).
+
 Version 0.11.0
 --------------
 * Added support for the Spring Metrics service.
