@@ -1,3 +1,8 @@
+Version 0.11.2
+--------------
+* Fix Spring Metrics custom variables.
+* Update Spring Metrics documentation.
+
 Version 0.11.1
 --------------
 * Fix Woopra for anonymous users (Steven Skoczen).
