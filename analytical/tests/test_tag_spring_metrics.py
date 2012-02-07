@@ -4,7 +4,7 @@ Tests for the Spring Metrics template tags and filters.
 
 import re
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 
@@ -42,6 +42,11 @@ class SpringMetricsTagTestCase(TagTestCase):
                 User(email='test@test.com')}))
         self.assertTrue("_springMetq.push(['setdata', "
                 "{'email': 'test@test.com'}]);" in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = SpringMetricsNode().render(Context({'user': AnonymousUser()}))
+        self.assertFalse("_springMetq.push(['setdata', {'email':" in r, r)
 
     def test_custom(self):
         r = SpringMetricsNode().render(Context({'spring_metrics_var1': 'val1',

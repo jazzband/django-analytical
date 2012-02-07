@@ -4,7 +4,7 @@ Tests for the Clicky template tags and filters.
 
 import re
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 
@@ -45,6 +45,11 @@ class ClickyTagTestCase(TagTestCase):
         self.assertTrue(
                 'var clicky_custom = {"session": {"username": "test"}};' in r,
                 r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = ClickyNode().render(Context({'user': AnonymousUser()}))
+        self.assertFalse('var clicky_custom = {"session": {"username":' in r, r)
 
     def test_custom(self):
         r = ClickyNode().render(Context({'clicky_var1': 'val1',

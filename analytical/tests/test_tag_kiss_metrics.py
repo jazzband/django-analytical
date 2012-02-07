@@ -2,7 +2,7 @@
 Tests for the KISSmetrics tags and filters.
 """
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 
@@ -46,6 +46,11 @@ class KissMetricsTagTestCase(TagTestCase):
     def test_identify(self):
         r = KissMetricsNode().render(Context({'user': User(username='test')}))
         self.assertTrue("_kmq.push(['identify', 'test']);" in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = KissMetricsNode().render(Context({'user': AnonymousUser()}))
+        self.assertFalse("_kmq.push(['identify', " in r, r)
 
     def test_event(self):
         r = KissMetricsNode().render(Context({'kiss_metrics_event':

@@ -2,13 +2,13 @@
 Tests for the Performable template tags and filters.
 """
 
+from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 
 from analytical.templatetags.performable import PerformableNode
 from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
 from analytical.utils import AnalyticalException
-from django.contrib.auth.models import User
 
 
 @override_settings(PERFORMABLE_API_KEY='123ABC')
@@ -47,6 +47,11 @@ class PerformableTagTestCase(TagTestCase):
     def test_identify(self):
         r = PerformableNode().render(Context({'user': User(username='test')}))
         self.assertTrue('_paq.push(["identify", {identity: "test"}]);' in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = PerformableNode().render(Context({'user': AnonymousUser()}))
+        self.assertFalse('_paq.push(["identify", ' in r, r)
 
 
 class PerformableEmbedTagTestCase(TagTestCase):

@@ -2,7 +2,7 @@
 Tests for the GoSquared template tags and filters.
 """
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 
@@ -47,6 +47,11 @@ class GoSquaredTagTestCase(TagTestCase):
             'gosquared_identity': 'test_identity',
         }))
         self.assertTrue('GoSquared.UserName = "test_identity";' in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = GoSquaredNode().render(Context({'user': AnonymousUser()}))
+        self.assertFalse('GoSquared.UserName = ' in r, r)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):

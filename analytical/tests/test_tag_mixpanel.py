@@ -2,7 +2,7 @@
 Tests for the Mixpanel tags and filters.
 """
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 
@@ -45,6 +45,11 @@ class MixpanelTagTestCase(TagTestCase):
     def test_identify(self):
         r = MixpanelNode().render(Context({'user': User(username='test')}))
         self.assertTrue("mpq.push(['identify', 'test']);" in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = MixpanelNode().render(Context({'user': AnonymousUser()}))
+        self.assertFalse("mpq.push(['identify', " in r, r)
 
     def test_event(self):
         r = MixpanelNode().render(Context({'mixpanel_event':

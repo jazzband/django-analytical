@@ -3,8 +3,8 @@ Spring Metrics -- conversion tracking
 =====================================
 
 `Spring Metrics`_ is a convesions analysis tool.  It shows you the top
-converting sources, search keywords ande landing pages.  The real-time
-dashboard shows you how customers interacted with your website and how
+converting sources, search keywords and landing pages.  The real-time
+dashboard shows you how customers interact with your website and how
 to increase conversion.
 
 .. _`Spring Metrics`: http://www.springmetrics.com/
@@ -87,11 +87,11 @@ Alternatively, you can mark conversion pages using the
 Tracking revenue
 ----------------
 
-The most important value tracked by Spring Metrics is that of revenue.
-Using the :data:`spring_metrics_revenue` template context variable, you
-can let the :ttag:`spring_metrics` tag pass earned revenue to Spring
-Metrics.  You can set the context variable in your view when you render
-a template containing thetracking code::
+Spring Metrics allows you to track the value of conversions.  Using the
+:data:`spring_metrics_revenue` template context variable, you can let
+the :ttag:`spring_metrics` tag pass earned revenue to Spring Metrics.
+You can set the context variable in your view when you render a
+template containing the tracking code::
 
     context = RequestContext({
         'spring_metrics_convert': 'sale',
@@ -106,10 +106,10 @@ if you already tagged the page in Spring Metrics.)
 Custom data
 -----------
 
-Spring Metrics can also track other data.  Interesting examples would be
-transaction IDs or e-mail addresses from logged in users.  By setting
-any :data:`spring_metrics_X` template context variable, Spring Metrics
-will track a variable named :data:`X`.  For example::
+Spring Metrics can also track other data.  Interesting examples could be
+transaction IDs or the e-mail addresses from logged in users.  By
+setting any :data:`spring_metrics_X` template context variable, Spring
+Metrics will track a variable named :data:`X`.  For example::
 
     context = RequestContext({
         'spring_metrics_revenue': '30.53',

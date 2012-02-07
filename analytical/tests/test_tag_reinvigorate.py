@@ -4,7 +4,7 @@ Tests for the Reinvigorate template tags and filters.
 
 import re
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 
@@ -43,6 +43,12 @@ class ReinvigorateTagTestCase(TagTestCase):
                     email='test@example.com')}))
         self.assertTrue('var re_name_tag = "Test User";' in r, r)
         self.assertTrue('var re_context_tag = "test@example.com";' in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = ReinvigorateNode().render(Context({'user': AnonymousUser()}))
+        self.assertFalse('var re_name_tag = ' in r, r)
+        self.assertFalse('var re_context_tag = ' in r, r)
 
     def test_tags(self):
         r = ReinvigorateNode().render(Context({'reinvigorate_var1': 'val1',

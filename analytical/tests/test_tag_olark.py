@@ -2,7 +2,7 @@
 Tests for the Olark template tags and filters.
 """
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.template import Context
 
 from analytical.templatetags.olark import OlarkNode
@@ -38,6 +38,11 @@ class OlarkTestCase(TagTestCase):
                 User(username='test', first_name='Test', last_name='User')}))
         self.assertTrue("olark('api.chat.updateVisitorNickname', "
                 "{snippet: 'Test User (test)'});" in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = OlarkNode().render(Context({'user': AnonymousUser()}))
+        self.assertFalse("olark('api.chat.updateVisitorNickname', " in r, r)
 
     def test_nickname(self):
         r = OlarkNode().render(Context({'olark_nickname': 'testnick'}))

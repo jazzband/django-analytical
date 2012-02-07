@@ -60,11 +60,6 @@ class WoopraTagTestCase(TagTestCase):
         self.assertTrue('var woo_visitor = {"name": "test"};' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
-    def test_identify_anonymous_user(self):
-        r = WoopraNode().render(Context({'user': AnonymousUser()}))
-        self.assertTrue('var woo_visitor = {};' in r, r)
-
-    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_no_identify_when_explicit_name(self):
         r = WoopraNode().render(Context({'woopra_name': 'explicit',
                 'user': User(username='implicit')}))
@@ -75,6 +70,11 @@ class WoopraTagTestCase(TagTestCase):
         r = WoopraNode().render(Context({'woopra_email': 'explicit',
                 'user': User(username='implicit')}))
         self.assertTrue('var woo_visitor = {"email": "explicit"};' in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = WoopraNode().render(Context({'user': AnonymousUser()}))
+        self.assertTrue('var woo_visitor = {};' in r, r)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):

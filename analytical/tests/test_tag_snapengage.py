@@ -2,7 +2,7 @@
 Tests for the SnapEngage template tags and filters.
 """
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.template import Context
 from django.utils import translation
 
@@ -233,6 +233,11 @@ class SnapEngageTestCase(TagTestCase):
         r = SnapEngageNode().render(Context({'user':
                 User(username='test', email='test@example.com')}))
         self.assertTrue('SnapABug.setUserEmail("test@example.com");' in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = SnapEngageNode().render(Context({'user': AnonymousUser()}))
+        self.assertFalse('SnapABug.setUserEmail(' in r, r)
 
     def test_language(self):
         r = SnapEngageNode().render(Context({'snapengage_locale': 'fr'}))

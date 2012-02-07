@@ -2,7 +2,7 @@
 Tests for the KISSinsights template tags and filters.
 """
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.template import Context
 
 from analytical.templatetags.kiss_insights import KissInsightsNode
@@ -45,6 +45,11 @@ class KissInsightsTagTestCase(TagTestCase):
     def test_identify(self):
         r = KissInsightsNode().render(Context({'user': User(username='test')}))
         self.assertTrue("_kiq.push(['identify', 'test']);" in r, r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify_anonymous_user(self):
+        r = KissInsightsNode().render(Context({'user': AnonymousUser()}))
+        self.assertFalse("_kiq.push(['identify', " in r, r)
 
     def test_show_survey(self):
         r = KissInsightsNode().render(
