@@ -18,6 +18,7 @@ TAG_MODULES = [
     'analytical.chartbeat',
     'analytical.clicky',
     'analytical.crazy_egg',
+    'analytical.gauges',
     'analytical.google_analytics',
     'analytical.gosquared',
     'analytical.hubspot',

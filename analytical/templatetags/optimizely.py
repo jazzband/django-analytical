@@ -32,6 +32,7 @@ def optimizely(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return OptimizelyNode()
 
+
 class OptimizelyNode(Node):
     def __init__(self):
         self.account_number = get_required_setting(
