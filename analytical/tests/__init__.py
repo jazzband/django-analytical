@@ -6,6 +6,7 @@ from analytical.tests.test_tag_analytical import *
 from analytical.tests.test_tag_chartbeat import *
 from analytical.tests.test_tag_clicky import *
 from analytical.tests.test_tag_crazy_egg import *
+from analytical.tests.test_tag_gauges import *
 from analytical.tests.test_tag_google_analytics import *
 from analytical.tests.test_tag_gosquared import *
 from analytical.tests.test_tag_hubspot import *

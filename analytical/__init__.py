@@ -10,6 +10,6 @@ Django_ project.  See the ``docs`` directory for more information.
 
 __author__ = "Joost Cassee"
 __email__ = "joost@cassee.net"
-__version__ = "0.11.2"
+__version__ = "0.11.3"
 __copyright__ = "Copyright (C) 2011 Joost Cassee and others"
 __license__ = "MIT License"
