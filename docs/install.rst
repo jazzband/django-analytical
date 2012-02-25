@@ -111,6 +111,10 @@ settings required to enable each service are listed here:
 
 	CRAZY_EGG_ACCOUNT_NUMBER = '12345678'
 
+* :doc:`Gaug.es <services/gauges>`::
+
+	GAUGES_SITE_ID = '0123456789abcdef0123456789abcdef'
+
 * :doc:`Google Analytics <services/google_analytics>`::
 
 	GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-1234567-8'

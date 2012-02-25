@@ -22,6 +22,7 @@ Currently supported services:
 * `Chartbeat`_ traffic analysis
 * `Clicky`_ traffic analysis
 * `Crazy Egg`_ visual click tracking
+* `Gaug.es`_ realtime traffic tracking
 * `Google Analytics`_ traffic analysis
 * `GoSquared`_ traffic monitoring
 * `HubSpot`_ inbound marketing
@@ -52,6 +53,7 @@ an issue to discuss your plans.
 .. _Clicky: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
 .. _`Google Analytics`: http://www.google.com/analytics/
+.. _`Gaug.es`: http://www.gaug.es/
 .. _GoSquared: http://www.gosquared.com/
 .. _HubSpot: http://www.hubspot.com/
 .. _KISSinsights: http://www.kissinsights.com/
