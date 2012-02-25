@@ -1,3 +1,7 @@
+Version 0.11.3
+--------------
+* Added support for Gaug.es (Steven Skoczen)
+
 Version 0.11.2
 --------------
 * Fix Spring Metrics custom variables.

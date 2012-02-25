@@ -2,7 +2,8 @@
 Gaug.es -- Real-time tracking
 =============================
 
-Gaug.es_ is an easy way to implement real-time tracking for multiple websites.
+Gaug.es_ is an easy way to implement real-time tracking for multiple
+websites.
 
 .. _Gaug.es: http://www.gaug.es/
 
@@ -49,7 +50,7 @@ site id.
 Setting the site id
 --------------------------
 
-Gaug.es gives you a unique site ide, and the :ttag:`gauges`
+Gaug.es gives you a unique site id, and the :ttag:`gauges`
 tag will include it in the rendered Javascript code.  You can find your
 site id by clicking the *Tracking Code* link when logged into
 the on the gaug.es website.  A page will display containing
