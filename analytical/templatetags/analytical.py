@@ -31,6 +31,7 @@ TAG_MODULES = [
     'analytical.reinvigorate',
     'analytical.snapengage',
     'analytical.spring_metrics',
+    'analytical.uservoice',
     'analytical.woopra',
 ]
 

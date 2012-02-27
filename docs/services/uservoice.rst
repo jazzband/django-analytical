@@ -86,7 +86,7 @@ to work.
 Per-view widget
 ...............
 
-Iou can set the widget key in a view using the ``uservoice_widget_key``
+The widget key can by set in a view using the ``uservoice_widget_key``
 template context variable::
 
     context = RequestContext({'uservoice_widget_key': 'XXXXXXXXXXXXXXXXXXXX'})
@@ -129,10 +129,10 @@ the Javascript code to launch the widget::
 If you use this tag and the :ttag:`uservoice` tag appears below it in
 the HTML, the default tab is automatically hidden.  (The preferred
 location of the :ttag:`uservoice` is the bottom of the body HTML, so
-this usually works automatically.  See :ref:`uservoice-installation`.)
+this usually works automatically.)
 
 You can explicitly hide the feedback tab by setting the
-``uservoice_show_tab`` context variable to :const:``False``::
+``uservoice_show_tab`` context variable to :const:`False`::
 
     context = RequestContext({'uservoice_show_tab': False})
     return some_template.render(context)

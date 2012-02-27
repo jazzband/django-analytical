@@ -55,18 +55,18 @@ class UserVoiceTagTestCase(TagTestCase):
                 r)
 
     def test_link(self):
-        r = self.render_tag('uservoice', 'uservoice_link')
+        r = self.render_tag('uservoice', 'uservoice_popup')
         self.assertEqual(r, "UserVoice.showPopupWidget();")
 
     def test_link_with_key(self):
         r = self.render_tag('uservoice',
-                'uservoice_link "efghijklmnopqrstuvwx"')
+                'uservoice_popup "efghijklmnopqrstuvwx"')
         self.assertEqual(r, 'UserVoice.showPopupWidget({"widget_key": '
                 '"efghijklmnopqrstuvwx"});')
 
     def test_link_disables_tab(self):
         r = self.render_template(
-                '{% load uservoice %}{% uservoice_link %}{% uservoice %}')
+                '{% load uservoice %}{% uservoice_popup %}{% uservoice %}')
         self.assertTrue("UserVoice.showPopupWidget();" in r, r)
         self.assertTrue('"enabled": false' in r, r)
         self.assertTrue("'widget.uservoice.com/abcdefghijklmnopqrst.js'" in r,
@@ -74,7 +74,7 @@ class UserVoiceTagTestCase(TagTestCase):
 
     def test_link_with_key_enables_tab(self):
         r = self.render_template('{% load uservoice %}'
-                '{% uservoice_link "efghijklmnopqrstuvwx" %}{% uservoice %}')
+                '{% uservoice_popup "efghijklmnopqrstuvwx" %}{% uservoice %}')
         self.assertTrue('UserVoice.showPopupWidget({"widget_key": '
                 '"efghijklmnopqrstuvwx"});' in r, r)
         self.assertTrue('"enabled": true' in r, r)

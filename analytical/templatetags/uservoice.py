@@ -67,12 +67,11 @@ class UserVoiceNode(Node):
 
 
 @register.tag
-def uservoice_link(parser, token):
+def uservoice_popup(parser, token):
     """
-    UserVoice link template tag.
+    UserVoice widget popup template tag.
 
-    Renders the Javascript link to launch the UserVoice widget.  For
-    example::
+    Renders the Javascript code to pop-up the UserVoice widget.  For example::
 
         <a href="#" onclick="{% uservoice_popup %}; return false;">Feedback</a>
 
