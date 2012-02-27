@@ -35,6 +35,7 @@ Currently supported services:
 * `Reinvigorate`_ visitor tracking
 * `SnapEngage`_ live chat
 * `Spring Metrics`_ conversion tracking
+* `UserVoice`_ user feedback and helpdesk
 * `Woopra`_ web analytics
 
 The documentation can be found in the ``docs`` directory or `read
@@ -48,24 +49,25 @@ services to support, or suggesting documentation improvements, use the
 the repository, make changes and send a pull request.  Please do create
 an issue to discuss your plans.
 
-.. _Django: http://www.djangoproject.com/
-.. _Chartbeat: http://www.chartbeat.com/
-.. _Clicky: http://getclicky.com/
+.. _`Django`: http://www.djangoproject.com/
+.. _`Chartbeat`: http://www.chartbeat.com/
+.. _`Clicky`: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
 .. _`Google Analytics`: http://www.google.com/analytics/
-.. _`Gaug.es`: http://www.gaug.es/
-.. _GoSquared: http://www.gosquared.com/
-.. _HubSpot: http://www.hubspot.com/
-.. _KISSinsights: http://www.kissinsights.com/
-.. _KISSmetrics: http://www.kissmetrics.com/
-.. _Mixpanel: http://www.mixpanel.com/
-.. _Olark: http://www.olark.com/
-.. _Optimizely: http://www.optimizely.com/
-.. _Performable: http://www.performable.com/
-.. _Reinvigorate: http://www.reinvigorate.com/
-.. _SnapEngage: http://www.snapengage.com/
+.. _`GoSquared`: http://www.gosquared.com/
+.. _`HubSpot`: http://www.hubspot.com/
+.. _`KISSinsights`: http://www.kissinsights.com/
+.. _`KISSmetrics`: http://www.kissmetrics.com/
+.. _`Mixpanel`: http://www.mixpanel.com/
+.. _`Olark`: http://www.olark.com/
+.. _`Optimizely`: http://www.optimizely.com/
+.. _`Performable`: http://www.performable.com/
+.. _`Reinvigorate`: http://www.reinvigorate.com/
+.. _`SnapEngage`: http://www.snapengage.com/
 .. _`Spring Metrics`: http://www.springmetrics.com/
-.. _Woopra: http://www.woopra.com/
+.. _`UserVoice`: http://www.uservoice.com/
+.. _`Woopra`: http://www.woopra.com/
+
 .. _`read online`: http://packages.python.org/django-analytical/
 .. _`hosted by GitHub`: http://github.com/jcassee/django-analytical
 .. _`issue tracker`: http://github.com/jcassee/django-analytical/issues

@@ -3,12 +3,14 @@ UserVoice -- user feedback and helpdesk
 =======================================
 
 UserVoice_ makes it simple for your customers to give, discuss, and vote
-for feedback.  An unobtrusive feedback button allows visitors to easily
+for feedback.  An unobtrusive feedback tab allows visitors to easily
 submit and discuss ideas without  having to sign up for a new account.
 The best ideas are delivered to you based on customer votes.
 
 .. _UserVoice: http://www.uservoice.com/
 
+
+.. _uservoice-installation:
 
 Installation
 ============
@@ -26,7 +28,7 @@ This step is only needed if you are not using the generic
 The UserVoice Javascript code is inserted into templates using a
 template tag.  Load the :mod:`uservoice` template tag library and insert
 the :ttag:`uservoice` tag.  Because every page that you want to have
-the feedback button to appear on must have the tag, it is useful to add
+the feedback tab to appear on must have the tag, it is useful to add
 it to your base template.  Insert the tag at the bottom of the HTML
 body::
 
@@ -42,61 +44,74 @@ body::
 Configuration
 =============
 
-Before you can use the UserVoice integration, you must first set your
-account name.
+Before you can use the UserVoice integration, you must first set the
+widget key.
 
 
-Setting the account name
-------------------------
+Setting the widget key
+----------------------
 
-In order to load the Javascript code, you need to set your UserVoice
-account name.  The account name is the username you use to log into
-UserVoice with.  Set :const:`USERVOICE_ACCOUNT_NAME` in the project
-:file:`settings.py` file::
+In order to use the feedback widget, you need to configure which widget
+you want to show.  You can find the widget keys in the *Channels* tab on
+your UserVoice *Settings* page.  Under the *Javascript Widget* heading,
+find the Javascript embed code of the widget.  The widget key is the
+alphanumerical string contained in the URL of the script imported by the
+embed code::
 
-    USERVOICE_ACCOUNT_NAME = 'XXXXX'
+    <script type="text/javascript">
+      var uvOptions = {};
+      (function() {
+        var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+        uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/XXXXXXXXXXXXXXXXXXXX.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+      })();
+    </script>
 
-If you do not set the account name, the feedback button will not be
-rendered.
+(The widget key is shown as ``XXXXXXXXXXXXXXXXXXXX``.)
 
+The default widget
+..................
 
-.. _uservoice-hide:
+Often you will use the same widget throughout your website.  The default
+widget key is configured by setting :const:`USERVOICE_WIDGET_KEY` in
+the project :file:`settings.py` file::
 
-Hiding the feedback button
---------------------------
+    USERVOICE_WIDGET_KEY = 'XXXXXXXXXXXXXXXXXXXX'
 
-The feedback button is shown on every page that has the template tag.
-You can hide the button by default by setting :const:`USERVOICE_SHOW`
-in the project :file:`settings.py` file::
+If the setting is present but empty, no widget is shown by default. This
+is useful if you want to set a widget using a template context variable,
+as the setting must be present for the generic :ttag:`analytical.*` tags
+to work.
 
-    USERVOICE_SHOW = False
+Per-view widget
+...............
 
-The feedback button is also automatically hidden if you add a custom
-link to launch the widget by using the :ttag:`uservoice_link` template
-tag.  (See :ref:`uservoice-link`.)  The :ttag:`uservoice` tag must
-appear below it in the template, but its preferredlocation is the bottom
-of the body HTML anyway.
+Iou can set the widget key in a view using the ``uservoice_widget_key``
+template context variable::
 
-You can hide the feedback button for a specific view you can do so by
-passing the ``uservoice_show`` context variable::
-
-    context = RequestContext({'uservoice_show': False})
+    context = RequestContext({'uservoice_widget_key': 'XXXXXXXXXXXXXXXXXXXX'})
     return some_template.render(context)
 
-If you show or hide the feedback button based on some computable
-condition, you may want to set variables in a context processor that you
-add to the :data:`TEMPLATE_CONTEXT_PROCESSORS` list in
-:file:`settings.py`::
+The widget key passed in the context variable overrides the default
+widget key.
 
-    def uservoice_show_to_staff(request):
+Setting the widget key in a context processor
+.............................................
+
+You can also set the widget keys in a context processor that you add to
+the :data:`TEMPLATE_CONTEXT_PROCESSORS` list in :file:`settings.py`.
+For example, to show a specific widget to logged in users::
+
+    def uservoice_widget_key(request):
         try:
-            return {'uservoice_show': request.user.is_staff()}
+            if request.user.is_authenticated():
+                return {'uservoice_widget_key': 'XXXXXXXXXXXXXXXXXXXX'}
         except AttributeError:
-            return {}
+            pass
+        return {}
 
-Just remember that if you set the same context variable in the
-:class:`~django.template.context.RequestContext` constructor and in a
-context processor, the latter clobbers the former.
+The widget key passed in the context variable overrides both the default
+and the per-view widget key.
 
 
 .. _uservoice-link:
@@ -104,26 +119,49 @@ context processor, the latter clobbers the former.
 Using a custom link
 -------------------
 
-Instead of showing the default button, you can make the UserVoice widget
-launch when a visitor clicks a link or on some other event occurs.  Use
-the :ttag:`uservoice_link` in your template to render the Javascript
-code to launch the widget::
+Instead of showing the default feedback tab, you can make the UserVoice
+widget launch when a visitor clicks a link or when some other event
+occurs.  Use the :ttag:`uservoice_popup` tag in your template to render
+the Javascript code to launch the widget::
 
-    <a href="{% uservoice_link %}" title="Open feedback & support dialog (powered by UserVoice)">feedback & support</a>
+    <a href="#" onclick="{% uservoice_popup %}; return false;">Feedback</a>
 
 If you use this tag and the :ttag:`uservoice` tag appears below it in
-the HTML, the default button is automatically hidden.  See
-:ref:`uservoice-link`.
+the HTML, the default tab is automatically hidden.  (The preferred
+location of the :ttag:`uservoice` is the bottom of the body HTML, so
+this usually works automatically.  See :ref:`uservoice-installation`.)
+
+You can explicitly hide the feedback tab by setting the
+``uservoice_show_tab`` context variable to :const:``False``::
+
+    context = RequestContext({'uservoice_show_tab': False})
+    return some_template.render(context)
+
+However, instead consider only setting the widget key in the views you
+do want to show the widget on.
+
+
+Showing a second widget
+.......................
+
+Use the :ttag:`uservoice_popup` tag with a widget_key to display a
+different widget that the one configured in the
+:const:`USERVOICE_WIDGET_KEY` setting or the ``uservoice_widget_key``
+template context variable::
+
+    <a href="#" onclick="{% uservoice_popup 'XXXXXXXXXXXXXXXXXXXX' %}; return false;">Helpdesk</a>
+
+In this case, the default widget tab is not hidden.
 
 
 Passing custom data into the helpdesk
 -------------------------------------
 
 You can pass custom data through your widget and into the ticketing
-system.  First create custom fields in your `Ticket settings`_ page.
+system.  First create custom fields in your *Tickets* settings page.
 Deselect *Display on contact form* in the edit dialog for those fields
-you intend to use from Django.  You can now pass values for this field
-by passing the :data:`uservoice_fields` context variables to the
+you intend to use from Django.  You can set values for this field by
+passing the :data:`uservoice_fields` context variables to the
 template::
 
     uservoice_fields = {
@@ -139,15 +177,13 @@ context processor will clobber all fields set in the
 :class:`~django.template.context.RequestContext` constructor.
 
 
-.. _`Ticket settings`: https://cassee.uservoice.com/admin/settings#/tickets
-
-
-
 Using Single Sign-On
 --------------------
 
-If your websites authenticates users, you can allow them to use
-UserVoice without having to create an account.
+If your websites authenticates users, you will be able to let them give
+feedback without having to create a UserVoice account.
+
+*This feature is in development*
 
 See also :ref:`identifying-visitors`.
 

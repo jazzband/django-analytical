@@ -149,3 +149,13 @@ class TagTestCase(TestCase):
         else:
             context = Context(vars)
         return t.render(context)
+
+    def render_template(self, template, vars=None, request=None):
+        if vars is None:
+            vars = {}
+        t = Template(template)
+        if request is not None:
+            context = RequestContext(request, vars)
+        else:
+            context = Context(vars)
+        return t.render(context)

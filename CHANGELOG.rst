@@ -1,3 +1,7 @@
+Version 0.12.0
+--------------
+* Add support for the UserVoice service.
+
 Version 0.11.3
 --------------
 * Added support for Gaug.es (Steven Skoczen)
