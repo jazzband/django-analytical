@@ -53,6 +53,7 @@ an issue to discuss your plans.
 .. _`Chartbeat`: http://www.chartbeat.com/
 .. _`Clicky`: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
+.. _`Gaug.es`: http://gaug.es/
 .. _`Google Analytics`: http://www.google.com/analytics/
 .. _`GoSquared`: http://www.gosquared.com/
 .. _`HubSpot`: http://www.hubspot.com/
