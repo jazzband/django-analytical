@@ -117,7 +117,7 @@ Tracking events
 
 The django-analytical app integrates the Mixpanel Javascript API in
 templates.  To tracking events in views or other parts of Django, you
-can use Wes Winham's `django-celery`_ package.
+can use Wes Winham's `mixpanel-celery`_ package.
 
 If you want to track an event in Javascript, use the asynchronous
 notation, as described in the section titled
@@ -126,6 +126,6 @@ documentation. For example::
 
     mpq.push(["track", "play-game", {"level": "12", "weapon": "sword", "character": "knight"}]);
 
-.. _django-celery: http://github.com/winhamwr/mixpanel-celery
+.. _mixpanel-celery: http://github.com/winhamwr/mixpanel-celery
 .. _`"Asynchronous Tracking with Javascript"`: http://mixpanel.com/api/docs/guides/integration/js#async
 
