@@ -35,9 +35,11 @@ TRACKING_CODE = """
 IDENTIFY_CODE = "_kmq.push(['identify', '%s']);"
 EVENT_CODE = "_kmq.push(['record', '%(name)s', %(properties)s]);"
 PROPERTY_CODE = "_kmq.push(['set', %(properties)s]);"
+ALIAS_CODE = "_kmq.push(['alias', '%s', '%s']);"
 
 EVENT_CONTEXT_KEY = 'kiss_metrics_event'
 PROPERTY_CONTEXT_KEY = 'kiss_metrics_properties'
+ALIAS_CONTEXT_KEY = 'kiss_metrics_alias'
 
 register = Library()
 
@@ -67,6 +69,12 @@ class KissMetricsNode(Node):
         identity = get_identity(context, 'kiss_metrics')
         if identity is not None:
             commands.append(IDENTIFY_CODE % identity)
+        try:
+            properties = context[ALIAS_CONTEXT_KEY]
+            key, value = properties.popitem()
+            commands.append(ALIAS_CODE % (key,value))
+        except KeyError:
+            pass                         
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
             commands.append(EVENT_CODE % {'name': name,
