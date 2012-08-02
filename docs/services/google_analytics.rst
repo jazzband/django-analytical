@@ -151,7 +151,7 @@ Constant           Value   Description
 =================  ======  =============================================
 ``SCOPE_VISITOR``    1     Distinguishes categories of visitors across
                            multiple sessions.
-``SCOPE_SESSION``    2     Ddistinguishes different visitor experiences
+``SCOPE_SESSION``    2     Distinguishes different visitor experiences
                            across sessions.
 ``SCOPE_PAGE``       3     Defines page-level activity.
 =================  ======  =============================================
