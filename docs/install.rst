@@ -160,6 +160,6 @@ settings required to enable each service are listed here:
 
 ----
 
-The django-analytics application is now set-up to track visitors.  For
+The django-analytical application is now set-up to track visitors.  For
 information about further configuration and customization, see
 :doc:`features`.
