@@ -1,3 +1,7 @@
+Development
+-----------
+* Update testing code for Django 1.4 (Piet Delport)
+
 Version 0.12.0
 --------------
 * Add support for the UserVoice service.
