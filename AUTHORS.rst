@@ -1,6 +1,6 @@
 The django-analytical package was written by `Joost Cassee`_, with
 contributions from `Eric Davis`_, `Paul Oswald`_, `Uros Trebec`_,
-`Steven Skoczen`_ `Piet Delport`_ and others.
+`Steven Skoczen`_, `Piet Delport`_, `Sandra Mau`_ and others.
 
 Included Javascript code snippets for integration of the analytics
 services were written by the respective service providers.
@@ -16,5 +16,6 @@ The work on Crazy Egg was made possible by `Bateau Knowledge`_.
 .. _`Uros Trebec`: https://github.com/failedguidedog
 .. _`Steven Skoczen`: https://github.com/skoczen
 .. _`Piet Delport`: https://github.com/pjdelport
+.. _`Sandra Mau`: https://github.com/xthepoet
 .. _Analytical: https://github.com/jkrall/analytical
 .. _`Bateau Knowledge`: http://www.bateauknowledge.nl/

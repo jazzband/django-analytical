@@ -108,7 +108,8 @@ Just remember that if you set the same context variable in the
 :class:`~django.template.context.RequestContext` constructor and in a
 context processor, the latter clobbers the former.
 
-.. _kiss-metrics-event:
+
+.. _kiss-metrics-alias:
 
 Alias
 -----
@@ -128,8 +129,8 @@ For example::
 The output script tag will then include the corresponding properties as
 documented in the `KISSmetrics alias API`_ docs.
 
-
 .. _`KISSmetrics alias API`: http://support.kissmetrics.com/apis/common-methods#alias
+
 
 Recording events
 ----------------
