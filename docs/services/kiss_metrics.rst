@@ -110,6 +110,27 @@ context processor, the latter clobbers the former.
 
 .. _kiss-metrics-event:
 
+Alias
+-----
+
+Alias is used to associate one identity with another. 
+This most likely will occur if a user is not signed in yet, 
+you assign them an anonymous identity and record activity for them 
+and they later sign in and you get a named identity. 
+
+For example::
+
+    context = RequestContext({
+        'kiss_metrics_alias': {'my_registered@email' : 'my_user_id'},
+    })
+    return some_template.render(context)
+
+The output script tag will then include the corresponding properties as
+documented in the `KISSmetrics alias API`_ docs.
+
+
+.. _`KISSmetrics alias API`: http://support.kissmetrics.com/apis/common-methods#alias
+
 Recording events
 ----------------
 
