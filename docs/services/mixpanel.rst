@@ -124,8 +124,7 @@ notation, as described in the section titled
 `"Asynchronous Tracking with Javascript"`_ in the Mixpanel
 documentation. For example::
 
-    mpq.push(["track", "play-game", {"level": "12", "weapon": "sword", "character": "knight"}]);
+    mixpanel.track("play-game", {"level": "12", "weapon": "sword", "character": "knight"});
 
 .. _django-celery: http://github.com/winhamwr/mixpanel-celery
 .. _`"Asynchronous Tracking with Javascript"`: http://mixpanel.com/api/docs/guides/integration/js#async
-
