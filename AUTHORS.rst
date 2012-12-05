@@ -20,3 +20,4 @@ The work on Crazy Egg was made possible by `Bateau Knowledge`_.
 .. _`Simon Ye`: https://github.com/yesimon
 .. _Analytical: https://github.com/jkrall/analytical
 .. _`Bateau Knowledge`: http://www.bateauknowledge.nl/
+.. _`arteria GmbH`: mailto:admin@arteria.ch

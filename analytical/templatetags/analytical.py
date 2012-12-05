@@ -16,6 +16,7 @@ TAG_LOCATIONS = ['head_top', 'head_bottom', 'body_top', 'body_bottom']
 TAG_POSITIONS = ['first', None, 'last']
 TAG_MODULES = [
     'analytical.chartbeat',
+    'analytical.clickmap',
     'analytical.clicky',
     'analytical.crazy_egg',
     'analytical.gauges',

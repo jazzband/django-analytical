@@ -4,6 +4,7 @@ Tests for django-analytical.
 
 from analytical.tests.test_tag_analytical import *
 from analytical.tests.test_tag_chartbeat import *
+from analytical.tests.test_tag_clickmap import *
 from analytical.tests.test_tag_clicky import *
 from analytical.tests.test_tag_crazy_egg import *
 from analytical.tests.test_tag_gauges import *
