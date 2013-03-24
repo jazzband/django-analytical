@@ -86,6 +86,15 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
                 '<!-- Google Analytics disabled on internal IP address'), r)
         self.assertTrue(r.endswith('-->'), r)
 
+    @override_settings(GOOGLE_ANALYTICS_ANONYMIZE_IP=True)
+    def test_anonymize_ip(self):
+        r = GoogleAnalyticsNode().render(Context())
+        self.assertTrue("_gaq.push (['_gat._anonymizeIp']);" in r, r)
+
+    @override_settings(GOOGLE_ANALYTICS_ANONYMIZE_IP=False)
+    def test_anonymize_ip_not_present(self):
+        r = GoogleAnalyticsNode().render(Context())
+        self.assertFalse("_gaq.push (['_gat._anonymizeIp']);" in r, r)
 
 @without_apps('django.contrib.sites')
 @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
