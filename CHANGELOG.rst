@@ -1,3 +1,7 @@
+Version 0.15.0
+--------------
+* Add IP anonymization setting to GA tracking pixel (Tinnet Coronam)
+
 Version 0.14.0
 --------------
 * Update mixpanel integration to latest code (Simon Ye)
