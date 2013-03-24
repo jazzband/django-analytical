@@ -1,3 +1,7 @@
+..
+    After updating this file, remember to upload to the UserVoice
+    knowledge base.
+
 =======================================
 UserVoice -- user feedback and helpdesk
 =======================================
