@@ -50,6 +50,7 @@ ALLOW_LINKER_CODE = "_gaq.push(['_setAllowLinker', true]);"
 CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
         "'%(value)s', %(scope)s]);"
 SITE_SPEED_CODE = "_gaq.push(['_trackPageLoadTime']);"
+ANONYMIZE_IP_CODE = "_gaq.push (['_gat._anonymizeIp']);"
 
 
 register = Library()
@@ -120,6 +121,8 @@ class GoogleAnalyticsNode(Node):
         commands = []
         if getattr(settings, 'GOOGLE_ANALYTICS_SITE_SPEED', False):
             commands.append(SITE_SPEED_CODE)
+        if getattr(settings, 'GOOGLE_ANALYTICS_ANONYMIZE_IP', False):
+            commands.append(ANONYMIZE_IP_CODE)
         return commands
 
 def contribute_to_analytical(add_node):

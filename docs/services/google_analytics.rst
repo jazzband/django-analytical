@@ -151,7 +151,7 @@ Constant           Value   Description
 =================  ======  =============================================
 ``SCOPE_VISITOR``    1     Distinguishes categories of visitors across
                            multiple sessions.
-``SCOPE_SESSION``    2     Ddistinguishes different visitor experiences
+``SCOPE_SESSION``    2     Distinguishes different visitor experiences
                            across sessions.
 ``SCOPE_PAGE``       3     Defines page-level activity.
 =================  ======  =============================================
@@ -172,3 +172,21 @@ Just remember that if you set the same context variable in the
 context processor, the latter clobbers the former.
 
 .. _`custom variables`: http://code.google.com/apis/analytics/docs/tracking/gaTrackingCustomVariables.html
+
+
+.. _google-analytics-anonimyze-ips:
+
+Anonymize IPs
+----------------
+
+You can enable the `IP anonymization`_ feature by setting the
+:const:`GOOGLE_ANALYTICS_ANONYMIZE_IP` configuration setting::
+
+    GOOGLE_ANALYTICS_ANONYMIZE_IP = True
+
+This may be mandatory for deployments in countries that have a firm policies
+concerning data privacy (e.g. Germany).
+
+By default, IPs are not anonymized.
+
+.. _`IP anonymization`: https://support.google.com/analytics/bin/answer.py?hl=en&answer=2763052

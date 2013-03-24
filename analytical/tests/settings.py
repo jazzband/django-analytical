@@ -12,3 +12,5 @@ DATABASES = {
 INSTALLED_APPS = [
     'analytical',
 ]
+
+SECRET_KEY = 'testing'

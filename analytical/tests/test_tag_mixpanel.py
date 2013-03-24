@@ -20,13 +20,13 @@ class MixpanelTagTestCase(TagTestCase):
     def test_tag(self):
         r = self.render_tag('mixpanel', 'mixpanel')
         self.assertTrue(
-                "mpq.push(['init', '0123456789abcdef0123456789abcdef']);" in r,
+                "mixpanel.init('0123456789abcdef0123456789abcdef');" in r,
                 r)
 
     def test_node(self):
         r = MixpanelNode().render(Context())
         self.assertTrue(
-                "mpq.push(['init', '0123456789abcdef0123456789abcdef']);" in r,
+                "mixpanel.init('0123456789abcdef0123456789abcdef');" in r,
                 r)
 
     @override_settings(MIXPANEL_API_TOKEN=SETTING_DELETED)
@@ -44,18 +44,18 @@ class MixpanelTagTestCase(TagTestCase):
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
         r = MixpanelNode().render(Context({'user': User(username='test')}))
-        self.assertTrue("mpq.push(['identify', 'test']);" in r, r)
+        self.assertTrue("mixpanel.register_once({distinct_id: 'test'});" in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_anonymous_user(self):
         r = MixpanelNode().render(Context({'user': AnonymousUser()}))
-        self.assertFalse("mpq.push(['identify', " in r, r)
+        self.assertFalse("mixpanel.register_once({distinct_id:" in r, r)
 
     def test_event(self):
         r = MixpanelNode().render(Context({'mixpanel_event':
-                ('test_event', {'prop1': 'val1', 'prop2': 'val2'})}))
-        self.assertTrue("mpq.push(['track', 'test_event', "
-                '{"prop1": "val1", "prop2": "val2"}]);' in r, r)
+            ('test_event', {'prop1': 'val1', 'prop2': 'val2'})}))
+        self.assertTrue("mixpanel.track('test_event', "
+                        '{"prop1": "val1", "prop2": "val2"});' in r, r)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
