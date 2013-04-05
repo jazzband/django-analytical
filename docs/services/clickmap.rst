@@ -41,7 +41,7 @@ Configuration
 =============
 
 Before you can use the Clickmap integration, you must first set your
-Clickmap Tracker Code ID. If you don't have a Clickmap account yet,
+Clickmap Tracker ID. If you don't have a Clickmap account yet,
 `sign up`_ to get your Tracker ID.
 
 .. _`sign up`: http://www.getclickmap.com/

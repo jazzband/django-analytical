@@ -17,16 +17,14 @@ TRACKING_CODE = """
     <script type="text/javascript">
     var clickmapConfig = {tracker: '%(tracker_id)', version:'2'};
     window.clickmapAsyncInit = function(){ __clickmap.init(clickmapConfig); };
-    (function() { var _cmf = document.createElement('script'); _cmf.async = true; 
+    (function() { var _cmf = document.createElement('script'); _cmf.async = true;
     _cmf.src = document.location.protocol + '//www.clickmap.ch/tracker.js?t=';
     _cmf.src += clickmapConfig.tracker; _cmf.id += 'clickmap_tracker';
-    _cmf.src += '&v='+clickmapConfig.version+'&now='+(new Date().getTime()); 
+    _cmf.src += '&v='+clickmapConfig.version+'&now='+(new Date().getTime());
     if (document.getElementById('clickmap_tracker')==null) {
-    document.getElementsByTagName('head')[0].appendChild(_cmf); }}()); 
+    document.getElementsByTagName('head')[0].appendChild(_cmf); }}());
     </script>
 """
- 
- 
 
 register = Library()
 
@@ -45,9 +43,10 @@ def clickmap(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return ClickmapNode()
 
+
 class ClickmapNode(Node):
     def __init__(self):
-        self.tracker_id = get_required_setting('CLICKMAP_TRACKER_ID', 
+        self.tracker_id = get_required_setting('CLICKMAP_TRACKER_ID',
                 CLICKMAP_TRACKER_ID_RE,
                 "must be a (string containing) a number")
 
@@ -70,10 +69,10 @@ class ClickmapNode(Node):
         """
         html = TRACKING_CODE % {'portal_id': self.portal_id,
                 'domain': self.domain}
-        if is_internal_ip(context, 'HUBSPOT'):
-            html = disable_html(html, 'HubSpot')
+        if is_internal_ip(context, 'CLICKMAP'):
+            html = disable_html(html, 'Clickmap')
         return html
-        
+
 
 def contribute_to_analytical(add_node):
     ClickmapNode()  # ensure properly configured
