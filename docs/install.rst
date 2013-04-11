@@ -103,6 +103,10 @@ settings required to enable each service are listed here:
 
 	CHARTBEAT_USER_ID = '12345'
 
+* :doc:`Clickmap <services/clickmap>`::
+
+	CLICKMAP_TRACKER_CODE = '12345678....912'
+
 * :doc:`Clicky <services/clicky>`::
 
 	CLICKY_SITE_ID = '12345678'
