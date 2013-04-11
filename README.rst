@@ -20,6 +20,7 @@ an asynchronous version of the Javascript code if possible.
 Currently supported services:
 
 * `Chartbeat`_ traffic analysis
+* `Clickmap`_ visual click tracking
 * `Clicky`_ traffic analysis
 * `Crazy Egg`_ visual click tracking
 * `Gaug.es`_ realtime traffic tracking
@@ -51,6 +52,7 @@ an issue to discuss your plans.
 
 .. _`Django`: http://www.djangoproject.com/
 .. _`Chartbeat`: http://www.chartbeat.com/
+.. _`Clickmap`: http://getclickmap.com/
 .. _`Clicky`: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
 .. _`Gaug.es`: http://gaug.es/
