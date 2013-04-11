@@ -51,22 +51,6 @@ class ClickmapNode(Node):
                 "must be a (string containing) a number")
 
     def render(self, context):
-        """custom = {}
-        for dict_ in context:
-            for var, val in dict_.items():
-                if var.startswith('clickmap_'):
-                    custom[var[7:]] = val
-        if 'username' not in custom.get('session', {}):
-            identity = get_identity(context, 'clickmap')
-            if identity is not None:
-                custom.setdefault('session', {})['username'] = identity
-
-        html = TRACKING_CODE % {'site_id': self.site_id,
-                'custom': simplejson.dumps(custom)}
-        if is_internal_ip(context, 'CLICKMAP'):
-            html = disable_html(html, 'clickmap')
-        return html
-        """
         html = TRACKING_CODE % {'portal_id': self.portal_id,
                 'domain': self.domain}
         if is_internal_ip(context, 'CLICKMAP'):

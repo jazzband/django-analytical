@@ -8,7 +8,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 
-from analytical.templatetags.clicky import ClickmapNode
+from analytical.templatetags.clickmap import ClickmapNode
 from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
 from analytical.utils import AnalyticalException
 

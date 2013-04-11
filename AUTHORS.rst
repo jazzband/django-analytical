@@ -1,7 +1,7 @@
 The django-analytical package was written by `Joost Cassee`_, with
 contributions from `Eric Davis`_, `Paul Oswald`_, `Uros Trebec`_,
 `Steven Skoczen`_, `Piet Delport`_, `Sandra Mau`_, `Simon Ye`_,
-`Tinnet Coronam`_ and others.
+`Tinnet Coronam`_, `Philippe O. Wagner`_ and others.
 
 Included Javascript code snippets for integration of the analytics
 services were written by the respective service providers.
@@ -20,6 +20,6 @@ The work on Crazy Egg was made possible by `Bateau Knowledge`_.
 .. _`Sandra Mau`: https://github.com/xthepoet
 .. _`Simon Ye`: https://github.com/yesimon
 .. _`Tinnet Coronam`: https://github.com/tinnet
+.. _`Philippe O. Wagner`: mailto:admin@arteria.ch
 .. _Analytical: https://github.com/jkrall/analytical
 .. _`Bateau Knowledge`: http://www.bateauknowledge.nl/
-.. _`arteria GmbH`: mailto:admin@arteria.ch

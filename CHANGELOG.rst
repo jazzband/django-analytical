@@ -2,6 +2,7 @@ Version 0.15.0
 --------------
 * Add IP anonymization setting to GA tracking pixel (Tinnet Coronam)
 * Include Django 1.5 in tox.ini (Tinnet Coronam)
+* Add Clickmap integration (Philippe O. Wagner)
 
 Version 0.14.0
 --------------
