@@ -65,7 +65,7 @@ an issue to discuss your plans.
 .. _`Olark`: http://www.olark.com/
 .. _`Optimizely`: http://www.optimizely.com/
 .. _`Performable`: http://www.performable.com/
-.. _`Reinvigorate`: http://www.reinvigorate.com/
+.. _`Reinvigorate`: http://www.reinvigorate.net/
 .. _`SnapEngage`: http://www.snapengage.com/
 .. _`Spring Metrics`: http://www.springmetrics.com/
 .. _`UserVoice`: http://www.uservoice.com/

@@ -7,7 +7,7 @@ search and referrer information and click heatmaps.  A system tray /
 system status bar application for your desktop notifies you when
 interesting events occur.
 
-.. _Reinvigorate: http://www.reinvigorate.com/
+.. _Reinvigorate: http://www.reinvigorate.net/
 
 
 .. reinvigorate-installation:
