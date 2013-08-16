@@ -115,7 +115,9 @@ def is_internal_ip(context, prefix=None):
     """
     try:
         request = context['request']
-        remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
+        remote_ip = request.META.get('HTTP_X_REAL_IP', '')
+        if not remote_ip:
+            remote_ip = request.META.get('HTTP_X_FORWARDED_FOR', '')
         if not remote_ip:
             remote_ip = request.META.get('REMOTE_ADDR', '')
         if not remote_ip:
