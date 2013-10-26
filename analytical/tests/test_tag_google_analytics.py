@@ -75,7 +75,15 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     def test_track_page_load_time(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_trackPageLoadTime']);" in r, r)
-        
+
+    def test_display_advertising(self):
+        with override_settings(GOOGLE_ANALYTICS_DISPLAY_ADVERTISING=False):
+            r = GoogleAnalyticsNode().render(Context())
+            self.assertTrue("google-analytics.com/ga.js" in r, r)
+        with override_settings(GOOGLE_ANALYTICS_DISPLAY_ADVERTISING=True):
+            r = GoogleAnalyticsNode().render(Context())
+            self.assertTrue("stats.g.doubleclick.net/dc.js" in r, r)
+
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
         req = HttpRequest()
