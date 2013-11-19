@@ -1,3 +1,7 @@
+Version 0.16.0
+--------------
+* Add support for GA Display Advertising features (Tom Arnold)
+
 Version 0.15.0
 --------------
 * Add IP anonymization setting to GA tracking pixel (Tinnet Coronam)
