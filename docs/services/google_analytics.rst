@@ -98,6 +98,21 @@ either pass the domain to the template tag through the context variable
 or set it in the project :file:`settings.py` file using
 :const:`GOOGLE_ANALYTICS_DOMAIN` (fallback: :const:`ANALYTICAL_DOMAIN`).
 
+Display Advertising
+-------------------
+
+Display Advertising allows you to view Demographics and Interests reports,
+add Remarketing Lists and support DoubleClick Campain Manager integration.
+
+You can enable `Display Advertising features`_ by setting the
+:const:`GOOGLE_ANALYTICS_DISPLAY_ADVERTISING` configuration setting::
+
+    GOOGLE_ANALYTICS_DISPLAY_ADVERTISING = True
+
+By default, display advertising features are disabled.
+
+.. _`Display Advertising features`: https://support.google.com/analytics/answer/3450482
+
 
 Tracking site speed
 -------------------

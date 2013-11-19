@@ -38,7 +38,7 @@ SETUP_CODE = """
       %(commands)s
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        ga.src = ('https:' == document.location.protocol ? %(source_scheme)s) + %(source_url)s;
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
 
@@ -51,7 +51,8 @@ CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
         "'%(value)s', %(scope)s]);"
 SITE_SPEED_CODE = "_gaq.push(['_trackPageLoadTime']);"
 ANONYMIZE_IP_CODE = "_gaq.push (['_gat._anonymizeIp']);"
-
+DEFAULT_SOURCE = ("'https://ssl' : 'http://www'", "'.google-analytics.com/ga.js'")
+DISPLAY_ADVERTISING_SOURCE = ("'https://' : 'http://'", "'stats.g.doubleclick.net/dc.js'")
 
 register = Library()
 
@@ -79,8 +80,14 @@ class GoogleAnalyticsNode(Node):
         commands = self._get_domain_commands(context)
         commands.extend(self._get_custom_var_commands(context))
         commands.extend(self._get_other_commands(context))
+        if getattr(settings, 'GOOGLE_ANALYTICS_DISPLAY_ADVERTISING', False):
+            source = DISPLAY_ADVERTISING_SOURCE
+        else:
+            source = DEFAULT_SOURCE
         html = SETUP_CODE % {'property_id': self.property_id,
-                'commands': " ".join(commands)}
+                             'commands': " ".join(commands),
+                             'source_scheme': source[0],
+                             'source_url': source[1]}
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
             html = disable_html(html, 'Google Analytics')
         return html
