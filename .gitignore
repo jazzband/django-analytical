@@ -1,5 +1,4 @@
-/.*
-!/.gitignore
+/.tox
 
 /build
 /dist
