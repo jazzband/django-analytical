@@ -37,7 +37,7 @@ class UserVoiceTagTestCase(TagTestCase):
     @override_settings(USERVOICE_WIDGET_KEY='')
     def test_empty_key(self):
         r = UserVoiceNode().render(Context())
-        self.assertNotIn("widget.uservoice.com", r)
+        self.assertEqual(r, "")
 
     @override_settings(USERVOICE_WIDGET_KEY='')
     def test_overridden_empty_key(self):
