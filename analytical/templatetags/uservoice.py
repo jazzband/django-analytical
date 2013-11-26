@@ -61,7 +61,9 @@ class UserVoiceNode(Node):
         options = {}
         options.update(getattr(settings, 'USERVOICE_WIDGET_OPTIONS', {}))
         options.update(context.get('uservoice_widget_options', {}))
-        trigger = getattr(settings, 'USERVOICE_ADD_TRIGGER', True)
+
+        trigger = context.get('uservoice_add_trigger',
+                              getattr(settings, 'USERVOICE_ADD_TRIGGER', True))
 
         html = TRACKING_CODE % {'widget_key': widget_key,
                                 'options':  simplejson.dumps(options),
