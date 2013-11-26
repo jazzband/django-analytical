@@ -23,14 +23,11 @@ TRACKING_CODE = """
             var s=document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(uv,s)})();
 
-    %(options)s
+    UserVoice.push(['set', %(options)s]);
+    %(trigger)s
     </script>
 """
-OPTION_CODE = """
-    UserVoice.push(['%s', %s]);
-"""
-
-
+TRIGGER = "UserVoice.push(['addTrigger', {}]);"
 register = Library()
 
 
@@ -61,16 +58,14 @@ class UserVoiceNode(Node):
         if not widget_key:
             return ''
         # default
-        options = {'addTrigger': {'mode': 'contact',
-                                  'trigger_position': 'bottom-right'}}
+        options = {}
         options.update(getattr(settings, 'USERVOICE_WIDGET_OPTIONS', {}))
         options.update(context.get('uservoice_widget_options', {}))
-
-        options = ''.join([OPTION_CODE % (k, simplejson.dumps(v))
-                           for k, v in options.iteritems()])
+        trigger = getattr(settings, 'USERVOICE_ADD_TRIGGER', True)
 
         html = TRACKING_CODE % {'widget_key': widget_key,
-                                'options': options}
+                                'options':  simplejson.dumps(options),
+                                'trigger': TRIGGER if trigger else ''}
         return html
 
 

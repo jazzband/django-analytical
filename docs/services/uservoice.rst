@@ -97,21 +97,31 @@ with UserVoice's options.
 
     See the `JS SDK Overview <https://developer.uservoice.com/docs/widgets/overview/>`_ and the `reference <https://developer.uservoice.com/docs/widgets/options/>`_ for the details of available options.
 
-For example, to override the default position of the widget, you could define:
+For example, to override the default icon style with a tab and on the left,
+you could define:
 
 .. code-block:: python
 
-    USERVOICE_WIDGET_OPTIONS = (('addTrigger',
-                                 {"trigger_position": "bottom-left",
-                                  "mode": "contact"}),)
+    USERVOICE_WIDGET_OPTIONS = {"trigger_position": "left",
+                                "trigger_style": "tab"}
 
 
 
 Per-view widget
 ...............
 
-The widget key can be set in a view using the ``uservoice_widget_key`` and
-``uservoice_widget_options`` template context variables::
+The widget configuration can be overriden in a view using
+``uservoice_widget_options`` template context variable. For example:
+
+.. code-block:: python
+
+    context = RequestContext({'uservoice_widget_options': 'mode': 'satisfaction'})
+    return some_template.render(context)
+
+It's also possible to set a different widget key for a particular view
+with ``uservoice_widget_key``:
+
+.. code-block:: python
 
     context = RequestContext({'uservoice_widget_key': 'XXXXXXXXXXXXXXXXXXXX'})
     return some_template.render(context)
@@ -136,10 +146,6 @@ For example, to show a specific widget to logged in users::
 
 The widget key passed in the context variable overrides both the default
 and the per-view widget key.
-
-
-In this case, the default widget tab is not hidden.
-
 
 
 ----
