@@ -18,6 +18,12 @@ class UserVoiceTagTestCase(TagTestCase):
     Tests for the ``uservoice`` template tag.
     """
 
+    def assertIn(self, element, container):
+        try:
+            super(TagTestCase, self).assertIn(element, container)
+        except AttributeError:
+            self.assertTrue(element in container)
+
     def test_node(self):
         r = UserVoiceNode().render(Context())
         self.assertIn("widget.uservoice.com/abcdefghijklmnopqrst.js", r)
