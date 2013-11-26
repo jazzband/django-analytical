@@ -139,11 +139,11 @@ Instead of showing the default feedback icon or tab, you can make the UserVoice
 widget launch when a visitor clicks a link or when some other event
 occurs. As the `documentation describe <https://developer.uservoice.com/docs/widgets/methods/#custom-trigger>`_, simply add the ``data-uv-trigger`` HTML attribute to the element. For example::
 
-    <a href="mailto:questions@uservoice.com" data-uv-trigger>Contact us</a>
+    <a href="mailto:questions@yoursite.com" data-uv-trigger>Contact us</a>
 
 
 In order to hidden the default trigger, you should disable it putting
-``uservoice_add_trigger`` to ``False``.
+``uservoice_add_trigger`` to ``False``::
 
     context = RequestContext({'uservoice_add_trigger': False})
     return your_template_with_custom_uservoice_link.render(context)
