@@ -54,40 +54,28 @@ class UserVoiceTagTestCase(TagTestCase):
         self.assertTrue("'widget.uservoice.com/defghijklmnopqrstuvw.js'" in r,
                 r)
 
-    def test_link(self):
-        r = self.render_tag('uservoice', 'uservoice_popup')
-        self.assertEqual(r, "UserVoice.showPopupWidget();")
+    @override_settings(USERVOICE_WIDGET_OPTIONS={'key1': 'val1'})
+    def test_options(self):
+        r = UserVoiceNode().render(Context())
+        self.assertTrue("UserVoice.push(['set', {'key1': 'val1'}]);" in r, r)
 
-    def test_link_with_key(self):
-        r = self.render_tag('uservoice',
-                'uservoice_popup "efghijklmnopqrstuvwx"')
-        self.assertEqual(r, 'UserVoice.showPopupWidget({"widget_key": '
-                '"efghijklmnopqrstuvwx"});')
+    @override_settings(USERVOICE_WIDGET_OPTIONS={'key1': 'val1'})
+    def test_override_options(self):
+        data = {'uservoice_widget_options': {'key1': 'val2'}}
+        r = UserVoiceNode().render(Context(data))
+        self.assertTrue("UserVoice.push(['set', {'key1': 'val2'}]);" in r, r)
 
-    def test_link_disables_tab(self):
-        r = self.render_template(
-                '{% load uservoice %}{% uservoice_popup %}{% uservoice %}')
-        self.assertTrue("UserVoice.showPopupWidget();" in r, r)
-        self.assertTrue('"enabled": false' in r, r)
-        self.assertTrue("'widget.uservoice.com/abcdefghijklmnopqrst.js'" in r,
-                r)
+    def test_auto_trigger(self):
+        r = UserVoiceNode().render(Context())
+        self.assertTrue("UserVoice.push(['addTrigger', {}]);" in r, r)
 
-    def test_link_with_key_enables_tab(self):
-        r = self.render_template('{% load uservoice %}'
-                '{% uservoice_popup "efghijklmnopqrstuvwx" %}{% uservoice %}')
-        self.assertTrue('UserVoice.showPopupWidget({"widget_key": '
-                '"efghijklmnopqrstuvwx"});' in r, r)
-        self.assertTrue('"enabled": true' in r, r)
-        self.assertTrue("'widget.uservoice.com/abcdefghijklmnopqrst.js'" in r,
-                r)
+    @override_settings(USERVOICE_ADD_TRIGGER=False)
+    def test_auto_trigger(self):
+        r = UserVoiceNode().render(Context())
+        self.assertFalse("UserVoice.push(['addTrigger', {}]);" in r, r)
 
-    def test_custom_fields(self):
-        vars = {
-            'uservoice_fields': {
-                'field1': 'val1',
-                'field2': 'val2',
-            }
-        }
-        r = UserVoiceNode().render(Context(vars))
-        self.assertTrue('"custom_fields": {"field2": "val2", "field1": "val1"}'
-            in r, r)
+    @override_settings(USERVOICE_ADD_TRIGGER=False)
+    def test_auto_trigger_custom_win(self):
+        r = UserVoiceNode().render(Context({'uservoice_add_trigger': True}))
+        self.assertTrue("UserVoice.push(['addTrigger', {}]);" in r, r)
+
