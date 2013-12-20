@@ -4,10 +4,10 @@ UserVoice template tags.
 
 from __future__ import absolute_import
 
+import json
 import re
 
 from django.template import Library, Node, TemplateSyntaxError, Variable
-from django.utils import simplejson
 
 from analytical.utils import get_identity, get_required_setting
 
@@ -62,7 +62,7 @@ class UserVoiceNode(Node):
             # Enable SSO
             pass
         html = TRACKING_CODE % {'widget_key': widget_key,
-                'options': simplejson.dumps(options)}
+                'options': json.dumps(options)}
         return html
 
 
@@ -103,7 +103,7 @@ class UserVoiceKeyLinkNode(Node):
         vars = {}
         if self.widget_key:
             vars['widget_key'] = self.widget_key.resolve(context)
-        return LINK_CODE % simplejson.dumps(vars)
+        return LINK_CODE % json.dumps(vars)
 
 
 def contribute_to_analytical(add_node):

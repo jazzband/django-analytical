@@ -4,10 +4,10 @@ Clicky template tags and filters.
 
 from __future__ import absolute_import
 
+import json
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils import simplejson
 
 from analytical.utils import get_identity, is_internal_ip, disable_html, \
         get_required_setting
@@ -66,7 +66,7 @@ class ClickyNode(Node):
                 custom.setdefault('session', {})['username'] = identity
 
         html = TRACKING_CODE % {'site_id': self.site_id,
-                'custom': simplejson.dumps(custom)}
+                'custom': json.dumps(custom)}
         if is_internal_ip(context, 'CLICKY'):
             html = disable_html(html, 'Clicky')
         return html

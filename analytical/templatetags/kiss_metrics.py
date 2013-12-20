@@ -4,10 +4,10 @@ KISSmetrics template tags.
 
 from __future__ import absolute_import
 
+import json
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils import simplejson
 
 from analytical.utils import is_internal_ip, disable_html, get_identity, \
         get_required_setting
@@ -78,13 +78,13 @@ class KissMetricsNode(Node):
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
             commands.append(EVENT_CODE % {'name': name,
-                    'properties': simplejson.dumps(properties)})
+                    'properties': json.dumps(properties)})
         except KeyError:
             pass
         try:
             properties = context[PROPERTY_CONTEXT_KEY]
             commands.append(PROPERTY_CODE % {
-                    'properties': simplejson.dumps(properties)})
+                    'properties': json.dumps(properties)})
         except KeyError:
             pass
         html = TRACKING_CODE % {'api_key': self.api_key,

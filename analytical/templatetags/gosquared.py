@@ -8,7 +8,6 @@ import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils import simplejson
 
 from analytical.utils import get_identity, get_user_from_context, \
         is_internal_ip, disable_html, get_required_setting
