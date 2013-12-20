@@ -4,13 +4,13 @@ Chartbeat template tags and filters.
 
 from __future__ import absolute_import
 
+import json
 import re
 
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils import simplejson
 
 from analytical.utils import is_internal_ip, disable_html, get_required_setting
 
@@ -86,7 +86,7 @@ class ChartbeatBottomNode(Node):
         domain = _get_domain(context)
         if domain is not None:
             config['domain'] = domain
-        html = SETUP_CODE % {'config': simplejson.dumps(config)}
+        html = SETUP_CODE % {'config': json.dumps(config)}
         if is_internal_ip(context, 'CHARTBEAT'):
             html = disable_html(html, 'Chartbeat')
         return html

@@ -4,10 +4,10 @@ Olark template tags.
 
 from __future__ import absolute_import
 
+import json
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils import simplejson
 
 from analytical.utils import get_identity, get_required_setting
 
@@ -64,7 +64,7 @@ class OlarkNode(Node):
                 extra_code.append(NICKNAME_CODE % identity)
         try:
             extra_code.append(STATUS_CODE %
-                    simplejson.dumps(context[STATUS_CONTEXT_KEY]))
+                    json.dumps(context[STATUS_CONTEXT_KEY]))
         except KeyError:
             pass
         extra_code.extend(self._get_configuration(context))

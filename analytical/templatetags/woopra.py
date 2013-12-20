@@ -4,11 +4,11 @@ Woopra template tags and filters.
 
 from __future__ import absolute_import
 
+import json
 import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils import simplejson
 
 from analytical.utils import get_identity, get_user_from_context, \
         is_internal_ip, disable_html, get_required_setting
@@ -57,8 +57,8 @@ class WoopraNode(Node):
         visitor = self._get_visitor(context)
 
         html = TRACKING_CODE % {
-            'settings': simplejson.dumps(settings),
-            'visitor': simplejson.dumps(visitor),
+            'settings': json.dumps(settings),
+            'visitor': json.dumps(visitor),
         }
         if is_internal_ip(context, 'WOOPRA'):
             html = disable_html(html, 'Woopra')

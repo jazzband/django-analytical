@@ -4,10 +4,10 @@ Reinvigorate template tags and filters.
 
 from __future__ import absolute_import
 
+import json
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils import simplejson
 
 from analytical.utils import get_identity, is_internal_ip, disable_html, \
         get_required_setting
@@ -65,7 +65,7 @@ class ReinvigorateNode(Node):
             email = get_identity(context, 'reinvigorate', lambda u: u.email)
             if email is not None:
                 re_vars['context'] = email
-        tags = " ".join("var re_%s_tag = %s;" % (tag, simplejson.dumps(value))
+        tags = " ".join("var re_%s_tag = %s;" % (tag, json.dumps(value))
                 for tag, value in re_vars.items())
 
         html = TRACKING_CODE % {'tracking_id': self.tracking_id,
