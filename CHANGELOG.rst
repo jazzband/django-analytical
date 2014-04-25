@@ -1,3 +1,7 @@
+Version 0.17.0
+--------------
+* Add support for Intercom.io (Steven Skoczen)
+
 Version 0.16.0
 --------------
 * Add support for GA Display Advertising features (Max Arnold)

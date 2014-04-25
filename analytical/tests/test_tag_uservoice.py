@@ -89,5 +89,6 @@ class UserVoiceTagTestCase(TagTestCase):
             }
         }
         r = UserVoiceNode().render(Context(vars))
-        self.assertTrue('"custom_fields": {"field2": "val2", "field1": "val1"}'
-            in r, r)
+        self.assertTrue(
+            ('"custom_fields": {"field2": "val2", "field1": "val1"}' in r or
+             '"custom_fields": {"field1": "val1", "field2": "val2"}' in r ), r)

@@ -128,6 +128,10 @@ settings required to enable each service are listed here:
     HUBSPOT_PORTAL_ID = '1234'
     HUBSPOT_DOMAIN = 'somedomain.web101.hubspot.com'
 
+* :doc:`Intercom <services/intercom>`::
+
+    INTERCOM_APP_ID = '0123456789abcdef0123456789abcdef01234567'
+
 * :doc:`KISSinsights <services/kiss_insights>`::
 
 	KISS_INSIGHTS_ACCOUNT_NUMBER = '12345'

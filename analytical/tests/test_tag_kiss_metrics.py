@@ -55,14 +55,19 @@ class KissMetricsTagTestCase(TagTestCase):
     def test_event(self):
         r = KissMetricsNode().render(Context({'kiss_metrics_event':
                 ('test_event', {'prop1': 'val1', 'prop2': 'val2'})}))
-        self.assertTrue("_kmq.push(['record', 'test_event', "
-                '{"prop1": "val1", "prop2": "val2"}]);' in r, r)
+        self.assertTrue(
+            ("_kmq.push(['record', 'test_event', "
+                '{"prop1": "val1", "prop2": "val2"}]);' in r or\
+            "_kmq.push(['record', 'test_event', "
+                '{"prop2": "val2", "prop1": "val1"}]);' in r), r)
 
     def test_property(self):
         r = KissMetricsNode().render(Context({'kiss_metrics_properties':
                 {'prop1': 'val1', 'prop2': 'val2'}}))
-        self.assertTrue("_kmq.push(['set', "
-                '{"prop1": "val1", "prop2": "val2"}]);' in r, r)
+        self.assertTrue(
+            ('_kmq.push([\'set\', {"prop1": "val1", "prop2": "val2"}]);' in r or
+             '_kmq.push([\'set\', {"prop2": "val2", "prop1": "val1"}]);' in r),
+            r)
 
     def test_alias(self):
         r = KissMetricsNode().render(Context({'kiss_metrics_alias':
