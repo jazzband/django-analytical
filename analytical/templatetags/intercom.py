@@ -60,4 +60,4 @@ class IntercomNode(Node):
 
 def contribute_to_analytical(add_node):
     IntercomNode()
-    add_node('head_bottom', IntercomNode)
+    add_node('body_bottom', IntercomNode)
