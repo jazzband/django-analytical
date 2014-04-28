@@ -66,7 +66,7 @@ class ClickyNode(Node):
                 custom.setdefault('session', {})['username'] = identity
 
         html = TRACKING_CODE % {'site_id': self.site_id,
-                'custom': json.dumps(custom)}
+                'custom': json.dumps(custom, sort_keys=True)}
         if is_internal_ip(context, 'CLICKY'):
             html = disable_html(html, 'Clicky')
         return html

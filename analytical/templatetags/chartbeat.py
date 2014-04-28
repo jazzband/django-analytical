@@ -86,7 +86,7 @@ class ChartbeatBottomNode(Node):
         domain = _get_domain(context)
         if domain is not None:
             config['domain'] = domain
-        html = SETUP_CODE % {'config': json.dumps(config)}
+        html = SETUP_CODE % {'config': json.dumps(config, sort_keys=True)}
         if is_internal_ip(context, 'CHARTBEAT'):
             html = disable_html(html, 'Chartbeat')
         return html

@@ -23,6 +23,7 @@ TAG_MODULES = [
     'analytical.google_analytics',
     'analytical.gosquared',
     'analytical.hubspot',
+    'analytical.intercom',
     'analytical.kiss_insights',
     'analytical.kiss_metrics',
     'analytical.mixpanel',

@@ -1,6 +1,7 @@
 Version 0.17.0
 --------------
 * Update UserVoice support (Martín Gaitán)
+* Add support for Intercom.io (Steven Skoczen)
 
 Version 0.16.0
 --------------

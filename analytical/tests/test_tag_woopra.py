@@ -44,15 +44,15 @@ class WoopraTagTestCase(TagTestCase):
         r = WoopraNode().render(Context({'woopra_var1': 'val1',
                 'woopra_var2': 'val2'}))
         self.assertTrue('var woo_visitor = {"var1": "val1", "var2": "val2"};'
-                in r, r)
+            in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_name_and_email(self):
         r = WoopraNode().render(Context({'user': User(username='test',
                 first_name='Firstname', last_name='Lastname',
                 email="test@example.com")}))
-        self.assertTrue('var woo_visitor = {"name": "Firstname Lastname", '
-                '"email": "test@example.com"};' in r, r)
+        self.assertTrue('var woo_visitor = {"email": "test@example.com", '
+                '"name": "Firstname Lastname"};' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_username_no_email(self):

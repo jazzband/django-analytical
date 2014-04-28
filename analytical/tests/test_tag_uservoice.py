@@ -80,4 +80,3 @@ class UserVoiceTagTestCase(TagTestCase):
     def test_auto_trigger_custom_win(self):
         r = UserVoiceNode().render(Context({'uservoice_add_trigger': True}))
         self.assertTrue("UserVoice.push(['addTrigger', {}]);" in r, r)
-

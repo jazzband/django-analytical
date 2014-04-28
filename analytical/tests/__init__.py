@@ -11,6 +11,7 @@ from analytical.tests.test_tag_gauges import *
 from analytical.tests.test_tag_google_analytics import *
 from analytical.tests.test_tag_gosquared import *
 from analytical.tests.test_tag_hubspot import *
+from analytical.tests.test_tag_intercom import *
 from analytical.tests.test_tag_kiss_insights import *
 from analytical.tests.test_tag_kiss_metrics import *
 from analytical.tests.test_tag_mixpanel import *
