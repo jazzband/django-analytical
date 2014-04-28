@@ -75,6 +75,65 @@ If you do not set an app id, the Javascript code will not be
 rendered.
 
 
+Custom data
+-----------
+
+As described in the Intercom documentation on `custom visitor data`_,
+the data that is tracked by Intercom can be customized.  Using template
+context variables, you can let the :ttag:`intercom` tag pass custom data
+to Intercom automatically.  You can set the context variables in your view
+when your render a template containing the tracking code::
+
+    context = RequestContext({'intercom_cart_value': cart.total_price})
+    return some_template.render(context)
+
+For some data, it is annoying to do this for every view, so you may want
+to set variables in a context processor that you add to the
+:data:`TEMPLATE_CONTEXT_PROCESSORS` list in :file:`settings.py`::
+
+    from django.utils.hashcompat import md5_constructor as md5
+
+    GRAVATAR_URL = 'http://www.gravatar.com/avatar/'
+
+    def intercom_custom_data(request):
+        try:
+            email = request.user.email
+        except AttributeError:
+            return {}
+        email_hash = md5(email).hexdigest()
+        avatar_url = "%s%s" % (GRAVATAR_URL, email_hash)
+        return {'intercom_avatar': avatar_url}
+
+Just remember that if you set the same context variable in the
+:class:`~django.template.context.RequestContext` constructor and in a
+context processor, the latter clobbers the former.
+
+Standard variables that will be displayed in the Intercom live visitor
+data are listed in the table below, but you can define any ``intercom_*``
+variable you like and have that detail passed from within the visitor
+live stream data when viewing Intercom.
+
+====================  ===========================================
+Context variable       Description
+====================  ===========================================
+``intercom_name``       The visitor's full name.
+--------------------  -------------------------------------------
+``intercom_email``      The visitor's email address.
+--------------------  -------------------------------------------
+``created_at``          The date the visitor created an account
+====================  ===========================================
+
+
+.. _`custom visitor data`: http://docs.intercom.io/custom-data/adding-custom-data
+
+
+Identifying authenticated users
+-------------------------------
+
+If you have not set the ``intercom_name`` or ``intercom_email`` variables
+explicitly, the username and email address of an authenticated user are
+passed to Intercom automatically.  See :ref:`identifying-visitors`.
+
 .. _intercom-internal-ips:
 
 Internal IP addresses
