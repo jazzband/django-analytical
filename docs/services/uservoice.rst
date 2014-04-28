@@ -63,12 +63,12 @@ alphanumerical string contained in the URL of the script imported by the
 embed code::
 
     <script type="text/javascript">
-      var uvOptions = {};
-      (function() {
-        var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
-        uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/XXXXXXXXXXXXXXXXXXXX.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
-      })();
+
+      UserVoice=window.UserVoice||[];(function(){
+            var uv=document.createElement('script');uv.type='text/javascript';
+            uv.async=true;uv.src='//widget.uservoice.com/XXXXXXXXXXXXXXXXXXXX.js';
+            var s=document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(uv,s)})();
     </script>
 
 (The widget key is shown as ``XXXXXXXXXXXXXXXXXXXX``.)
@@ -87,17 +87,71 @@ is useful if you want to set a widget using a template context variable,
 as the setting must be present for the generic :ttag:`analytical.*` tags
 to work.
 
+Widget options
+..............
+
+You can set :const:`USERVOICE_WIDGET_OPTIONS` to customize your widget
+with UserVoice's options.
+
+.. tip::
+
+    See the `JS SDK Overview <https://developer.uservoice.com/docs/widgets/overview/>`_ and the `reference <https://developer.uservoice.com/docs/widgets/options/>`_ for the details of available options.
+
+For example, to override the default icon style with a tab and on the left,
+you could define:
+
+.. code-block:: python
+
+    USERVOICE_WIDGET_OPTIONS = {"trigger_position": "left",
+                                "trigger_style": "tab"}
+
+
+
 Per-view widget
 ...............
 
-The widget key can by set in a view using the ``uservoice_widget_key``
-template context variable::
+The widget configuration can be overriden in a view using
+``uservoice_widget_options`` template context variable. For example:
+
+.. code-block:: python
+
+    context = RequestContext({'uservoice_widget_options': 'mode': 'satisfaction'})
+    return some_template.render(context)
+
+It's also possible to set a different widget key for a particular view
+with ``uservoice_widget_key``:
+
+.. code-block:: python
 
     context = RequestContext({'uservoice_widget_key': 'XXXXXXXXXXXXXXXXXXXX'})
     return some_template.render(context)
 
-The widget key passed in the context variable overrides the default
-widget key.
+These variable passed in the context overrides the default
+widget configuration.
+
+
+.. _uservoice-link:
+
+Using a custom link
+-------------------
+
+Instead of showing the default feedback icon or tab, you can make the UserVoice
+widget launch when a visitor clicks a link or when some other event
+occurs. As the `documentation describe <https://developer.uservoice.com/docs/widgets/methods/#custom-trigger>`_, simply add the ``data-uv-trigger`` HTML attribute to the element. For example::
+
+    <a href="mailto:questions@yoursite.com" data-uv-trigger>Contact us</a>
+
+
+In order to hidden the default trigger, you should disable it putting
+``uservoice_add_trigger`` to ``False``::
+
+    context = RequestContext({'uservoice_add_trigger': False})
+    return your_template_with_custom_uservoice_link.render(context)
+
+If you want to disable the automatic trigger globally, set in :file:`settings.py`::
+
+    USERVOICE_ADD_TRIGGER = False
+
 
 Setting the widget key in a context processor
 .............................................
@@ -116,80 +170,6 @@ For example, to show a specific widget to logged in users::
 
 The widget key passed in the context variable overrides both the default
 and the per-view widget key.
-
-
-.. _uservoice-link:
-
-Using a custom link
--------------------
-
-Instead of showing the default feedback tab, you can make the UserVoice
-widget launch when a visitor clicks a link or when some other event
-occurs.  Use the :ttag:`uservoice_popup` tag in your template to render
-the Javascript code to launch the widget::
-
-    <a href="#" onclick="{% uservoice_popup %}; return false;">Feedback</a>
-
-If you use this tag and the :ttag:`uservoice` tag appears below it in
-the HTML, the default tab is automatically hidden.  (The preferred
-location of the :ttag:`uservoice` is the bottom of the body HTML, so
-this usually works automatically.)
-
-You can explicitly hide the feedback tab by setting the
-``uservoice_show_tab`` context variable to :const:`False`::
-
-    context = RequestContext({'uservoice_show_tab': False})
-    return some_template.render(context)
-
-However, instead consider only setting the widget key in the views you
-do want to show the widget on.
-
-
-Showing a second widget
-.......................
-
-Use the :ttag:`uservoice_popup` tag with a widget_key to display a
-different widget that the one configured in the
-:const:`USERVOICE_WIDGET_KEY` setting or the ``uservoice_widget_key``
-template context variable::
-
-    <a href="#" onclick="{% uservoice_popup 'XXXXXXXXXXXXXXXXXXXX' %}; return false;">Helpdesk</a>
-
-In this case, the default widget tab is not hidden.
-
-
-Passing custom data into the helpdesk
--------------------------------------
-
-You can pass custom data through your widget and into the ticketing
-system.  First create custom fields in your *Tickets* settings page.
-Deselect *Display on contact form* in the edit dialog for those fields
-you intend to use from Django.  You can set values for this field by
-passing the :data:`uservoice_fields` context variables to the
-template::
-
-    uservoice_fields = {
-        'Type': 'Support Request',
-        'Priority': 'High',
-    }
-    context = RequestContext({'uservoice_fields': uservoice_fields})
-    return some_template.render(context)
-
-You can instead use a context processor, but because of the way context
-variables work in Django, you cannot use both.  The fields set in the
-context processor will clobber all fields set in the
-:class:`~django.template.context.RequestContext` constructor.
-
-
-Using Single Sign-On
---------------------
-
-If your websites authenticates users, you will be able to let them give
-feedback without having to create a UserVoice account.
-
-*This feature is in development*
-
-See also :ref:`identifying-visitors`.
 
 
 ----
