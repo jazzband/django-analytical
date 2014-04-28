@@ -54,7 +54,7 @@ class MixpanelTagTestCase(TagTestCase):
     def test_event(self):
         r = MixpanelNode().render(Context({'mixpanel_event':
             ('test_event', {'prop1': 'val1', 'prop2': 'val2'})}))
-        self.assertTrue("mixpanel.track(\'test_event\', "
+        self.assertTrue("mixpanel.track('test_event', "
                         '{"prop1": "val1", "prop2": "val2"});' in r, r)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
