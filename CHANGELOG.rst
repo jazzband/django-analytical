@@ -1,3 +1,7 @@
+Version 0.17.0
+--------------
+* Update UserVoice support (Martín Gaitán)
+
 Version 0.16.0
 --------------
 * Add support for GA Display Advertising features (Max Arnold)
