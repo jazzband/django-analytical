@@ -10,6 +10,7 @@ The application was inspired by and uses ideas from Analytical_, Joshua
 Krall's all-purpose analytics front-end for Rails.
 
 The work on Crazy Egg was made possible by `Bateau Knowledge`_.
+The work on Intercom was made possible by `GreenKahuna`_.
 
 .. _`Joost Cassee`: mailto:joost@cassee.net
 .. _`Eric Davis`: https://github.com/edavis
@@ -22,5 +23,6 @@ The work on Crazy Egg was made possible by `Bateau Knowledge`_.
 .. _`Tinnet Coronam`: https://github.com/tinnet
 .. _`Philippe O. Wagner`: mailto:admin@arteria.ch
 .. _`Max Arnold`: https://github.com/max-arnold
-.. _Analytical: https://github.com/jkrall/analytical
+.. _`Analytical`: https://github.com/jkrall/analytical
 .. _`Bateau Knowledge`: http://www.bateauknowledge.nl/
+.. _`GreenKahuna`: http://www.greenkahuna.com/
