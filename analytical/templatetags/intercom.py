@@ -75,7 +75,7 @@ class IntercomNode(Node):
         user = get_user_from_context(context)
         vars = self._get_custom_attrs(context)
         vars["app_id"] = self.app_id
-        html = TRACKING_CODE % {"settings_json": json.dumps(vars)}
+        html = TRACKING_CODE % {"settings_json": json.dumps(vars, sort_keys=True)}
         
         if is_internal_ip(context, 'INTERCOM') or not user or not user.is_authenticated():
             # Intercom is disabled for non-logged in users.

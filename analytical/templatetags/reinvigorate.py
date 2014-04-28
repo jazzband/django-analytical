@@ -65,7 +65,7 @@ class ReinvigorateNode(Node):
             email = get_identity(context, 'reinvigorate', lambda u: u.email)
             if email is not None:
                 re_vars['context'] = email
-        tags = " ".join("var re_%s_tag = %s;" % (tag, json.dumps(value))
+        tags = " ".join("var re_%s_tag = %s;" % (tag, json.dumps(value, sort_keys=True))
                 for tag, value in re_vars.items())
 
         html = TRACKING_CODE % {'tracking_id': self.tracking_id,

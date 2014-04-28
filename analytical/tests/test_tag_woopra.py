@@ -37,25 +37,22 @@ class WoopraTagTestCase(TagTestCase):
     @override_settings(WOOPRA_IDLE_TIMEOUT=1234)
     def test_idle_timeout(self):
         r = WoopraNode().render(Context({}))
-        self.assertTrue(
-            ('var woo_settings = {"domain": "example.com", "idle_timeout": "1234"};' in r or
-             'var woo_settings = {"idle_timeout": "1234", "domain": "example.com"};' in r), r)
+        self.assertTrue('var woo_settings = {"domain": "example.com", '
+                '"idle_timeout": "1234"};' in r, r)
 
     def test_custom(self):
         r = WoopraNode().render(Context({'woopra_var1': 'val1',
                 'woopra_var2': 'val2'}))
-        self.assertTrue(
-            ('var woo_visitor = {"var1": "val1", "var2": "val2"};' in r or
-             'var woo_visitor = {"var2": "val2", "var1": "val1"};' in r), r)
+        self.assertTrue('var woo_visitor = {"var1": "val1", "var2": "val2"};'
+            in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_name_and_email(self):
         r = WoopraNode().render(Context({'user': User(username='test',
                 first_name='Firstname', last_name='Lastname',
                 email="test@example.com")}))
-        self.assertTrue(
-            ('var woo_visitor = {"name": "Firstname Lastname", "email": "test@example.com"};' in r or
-             'var woo_visitor = {"email": "test@example.com", "name": "Firstname Lastname"};' in r), r)
+        self.assertTrue('var woo_visitor = {"email": "test@example.com", '
+                '"name": "Firstname Lastname"};' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_username_no_email(self):

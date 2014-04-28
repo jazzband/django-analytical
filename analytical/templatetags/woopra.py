@@ -57,8 +57,8 @@ class WoopraNode(Node):
         visitor = self._get_visitor(context)
 
         html = TRACKING_CODE % {
-            'settings': json.dumps(settings),
-            'visitor': json.dumps(visitor),
+            'settings': json.dumps(settings, sort_keys=True),
+            'visitor': json.dumps(visitor, sort_keys=True),
         }
         if is_internal_ip(context, 'WOOPRA'):
             html = disable_html(html, 'Woopra')

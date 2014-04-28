@@ -62,7 +62,7 @@ class UserVoiceNode(Node):
             # Enable SSO
             pass
         html = TRACKING_CODE % {'widget_key': widget_key,
-                'options': json.dumps(options)}
+                'options': json.dumps(options, sort_keys=True)}
         return html
 
 
@@ -103,7 +103,7 @@ class UserVoiceKeyLinkNode(Node):
         vars = {}
         if self.widget_key:
             vars['widget_key'] = self.widget_key.resolve(context)
-        return LINK_CODE % json.dumps(vars)
+        return LINK_CODE % json.dumps(vars, sort_keys=True)
 
 
 def contribute_to_analytical(add_node):

@@ -54,12 +54,8 @@ class ClickyTagTestCase(TagTestCase):
     def test_custom(self):
         r = ClickyNode().render(Context({'clicky_var1': 'val1',
                 'clicky_var2': 'val2'}))
-        self.assertTrue(
-            (re.search('var clicky_custom = {.*'
-                '"var1": "val1", "var2": "val2".*};', r) or
-            re.search('var clicky_custom = {.*'
-                '"var2": "val2", "var1": "val1".*};', r)), r
-            )
+        self.assertTrue(re.search('var clicky_custom = {.*'
+                '"var1": "val1", "var2": "val2".*};', r), r)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):

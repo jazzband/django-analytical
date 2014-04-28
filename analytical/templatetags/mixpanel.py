@@ -56,7 +56,7 @@ class MixpanelNode(Node):
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
             commands.append(EVENT_CODE % {'name': name,
-                    'properties': json.dumps(properties)})
+                    'properties': json.dumps(properties, sort_keys=True)})
         except KeyError:
             pass
         html = TRACKING_CODE % {'token': self.token,

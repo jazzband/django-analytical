@@ -78,13 +78,13 @@ class KissMetricsNode(Node):
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
             commands.append(EVENT_CODE % {'name': name,
-                    'properties': json.dumps(properties)})
+                    'properties': json.dumps(properties, sort_keys=True)})
         except KeyError:
             pass
         try:
             properties = context[PROPERTY_CONTEXT_KEY]
             commands.append(PROPERTY_CODE % {
-                    'properties': json.dumps(properties)})
+                    'properties': json.dumps(properties, sort_keys=True)})
         except KeyError:
             pass
         html = TRACKING_CODE % {'api_key': self.api_key,

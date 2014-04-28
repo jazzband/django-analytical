@@ -64,7 +64,7 @@ class OlarkNode(Node):
                 extra_code.append(NICKNAME_CODE % identity)
         try:
             extra_code.append(STATUS_CODE %
-                    json.dumps(context[STATUS_CONTEXT_KEY]))
+                    json.dumps(context[STATUS_CONTEXT_KEY], sort_keys=True))
         except KeyError:
             pass
         extra_code.extend(self._get_configuration(context))
