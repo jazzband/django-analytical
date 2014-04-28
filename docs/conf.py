@@ -29,14 +29,13 @@ pygments_style = 'sphinx'
 
 intersphinx_mapping = {
     'http://docs.python.org/2.7': None,
-    'http://docs.djangoproject.com/en/1.3': 'http://docs.djangoproject.com/en/1.5/_objects/',
+    'http://docs.djangoproject.com/en/1.6': 'http://docs.djangoproject.com/en/1.6/_objects/',
 }
 
 
 # -- Options for HTML output ---------------------------------------------------
 
 html_theme = 'default'
-html_static_path = ['_static']
 htmlhelp_basename = 'analyticaldoc'
 
 

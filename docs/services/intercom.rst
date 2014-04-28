@@ -1,6 +1,6 @@
-=============================
+=================================
 Intercom.io -- Real-time tracking
-=============================
+=================================
 
 Intercom.io_ is an easy way to implement real-chat and individual
 support for a website
