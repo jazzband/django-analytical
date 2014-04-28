@@ -66,7 +66,7 @@ class UserVoiceNode(Node):
                               getattr(settings, 'USERVOICE_ADD_TRIGGER', True))
 
         html = TRACKING_CODE % {'widget_key': widget_key,
-                                'options':  simplejson.dumps(options),
+                                'options':  json.dumps(options),
                                 'trigger': TRIGGER if trigger else ''}
         return html
 
