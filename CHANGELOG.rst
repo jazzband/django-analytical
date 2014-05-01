@@ -1,3 +1,7 @@
+Version 0.17.1
+--------------
+* Fix typo in Intercom.io support (Steven Skoczen)
+
 Version 0.17.0
 --------------
 * Update UserVoice support (Martín Gaitán)
