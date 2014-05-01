@@ -59,8 +59,8 @@ class IntercomNode(Node):
 
         user = get_user_from_context(context)
         if user is not None and user.is_authenticated():
-            if 'full_name' not in vars:
-                vars['full_name'] = get_identity(context, 'intercom', self._identify, user)
+            if 'name' not in vars:
+                vars['name'] = get_identity(context, 'intercom', self._identify, user)
             if 'email' not in vars and user.email:
                 vars['email'] = user.email
 
