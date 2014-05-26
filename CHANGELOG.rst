@@ -1,3 +1,7 @@
+Version 0.17.2
+--------------
+* Update HubSpot code (Craig Bruce)
+
 Version 0.17.1
 --------------
 * Fix typo in Intercom.io support (Steven Skoczen)
