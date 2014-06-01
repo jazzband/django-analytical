@@ -1,4 +1,4 @@
-Version 0.17.2
+Version 0.18.0
 --------------
 * Update HubSpot code (Craig Bruce)
 

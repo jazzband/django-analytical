@@ -62,7 +62,7 @@ Set :const:`HUBSPOT_PORTAL_ID` in the project :file:`settings.py` file::
 If you do not set the portal ID, the tracking code will not be rendered.
 
 
-.. deprecated:: 0.17.2
+.. deprecated:: 0.18.0
     `HUBSPOT_DOMAIN` is no longer required.
 
 .. _hubspot-internal-ips:
