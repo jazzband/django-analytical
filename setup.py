@@ -1,5 +1,9 @@
-from distutils.core import setup, Command
 import os
+
+try:
+    from setuptools import setup, Command
+except ImportError:
+    from distutils.core import setup, Command
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'analytical.tests.settings'
 
@@ -70,4 +74,7 @@ setup(
     url = 'http://github.com/jcassee/django-analytical',
     download_url = 'http://github.com/jcassee/django-analytical/archives/master',
     cmdclass = cmdclass,
+    install_requires = [
+        'Django>=1.4',
+    ],
 )
