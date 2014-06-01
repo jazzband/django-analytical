@@ -12,19 +12,20 @@ from analytical.utils import is_internal_ip, disable_html, get_required_setting
 
 
 PORTAL_ID_RE = re.compile(r'^\d+$')
-DOMAIN_RE = re.compile(r'^[\w.-]+$')
 TRACKING_CODE = """
-    <script type="text/javascript" language="javascript">
-      var hs_portalid = %(portal_id)s;
-      var hs_salog_version = "2.00";
-      var hs_ppa = "%(domain)s";
-      document.write(unescape("%%3Cscript src='" + document.location.protocol + "//" + hs_ppa + "/salog.js.aspx' type='text/javascript'%%3E%%3C/script%%3E"));
-    </script>
+    <!-- Start of Async HubSpot Analytics Code -->
+      <script type="text/javascript">
+        (function(d,s,i,r) {
+          if (d.getElementById(i)){return;}
+          var n=d.createElement(s),e=d.getElementsByTagName(s)[0];
+          n.id=i;n.src='//js.hs-analytics.net/analytics/'+(Math.ceil(new Date()/r)*r)+'/%(portal_id)s.js';
+          e.parentNode.insertBefore(n, e);
+        })(document,"script","hs-analytics",300000);
+      </script>
+    <!-- End of Async HubSpot Analytics Code -->
 """
 
-
 register = Library()
-
 
 @register.tag
 def hubspot(parser, token):
@@ -32,24 +33,21 @@ def hubspot(parser, token):
     HubSpot tracking template tag.
 
     Renders Javascript code to track page visits.  You must supply
-    your portal ID (as a string) in the ``HUBSPOT_PORTAL_ID`` setting,
-    and the website domain in ``HUBSPOT_DOMAIN``.
+    your portal ID (as a string) in the ``HUBSPOT_PORTAL_ID`` setting.
     """
     bits = token.split_contents()
     if len(bits) > 1:
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return HubSpotNode()
 
+
 class HubSpotNode(Node):
     def __init__(self):
         self.portal_id = get_required_setting('HUBSPOT_PORTAL_ID',
-                PORTAL_ID_RE, "must be a (string containing a) number")
-        self.domain = get_required_setting('HUBSPOT_DOMAIN',
-                DOMAIN_RE, "must be an internet domain name")
+                                              PORTAL_ID_RE, "must be a (string containing a) number")
 
     def render(self, context):
-        html = TRACKING_CODE % {'portal_id': self.portal_id,
-                'domain': self.domain}
+        html = TRACKING_CODE % {'portal_id': self.portal_id}
         if is_internal_ip(context, 'HUBSPOT'):
             html = disable_html(html, 'HubSpot')
         return html

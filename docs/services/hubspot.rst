@@ -3,7 +3,7 @@ HubSpot -- inbound marketing
 ============================
 
 HubSpot_ helps you get found by customers.  It provides tools for
-content creation, convertion and marketing analysis.  HubSpot uses
+content creation, conversion and marketing analysis.  HubSpot uses
 tracking on your website to measure effect of your marketing efforts.
 
 .. _HubSpot: http://www.hubspot.com/
@@ -43,28 +43,27 @@ Configuration
 =============
 
 Before you can use the HubSpot integration, you must first set your
-portal ID and domain.
+portal ID, also known as your Hub ID.
 
 
 .. _hubspot-portal-id:
 
-Setting the portal ID and domain
---------------------------------
+Setting the portal ID
+---------------------
 
-Your HubSpot account has its own portal ID and primary domain name, and
-the :ttag:`hubspot` tag will include them in the rendered Javascript
-code.  You can find the portal ID and domain by going to the *Domains*
-tab in your HubSpot account.  The domain you need to use is listed as
-*Primary Domain* on that page, and the portal ID can be found in the
-footer.  Set :const:`HUBSPOT_PORTAL_ID` and :const:`HUBSPOT_DOMAIN` in
-the project :file:`settings.py` file::
+Your HubSpot account has its own portal ID, the :ttag:`hubspot` tag
+will include them in the rendered JavaScript code. You can find the
+portal ID by accessing your dashboard. Alternatively, read this
+`Quick Answer page <http://help.hubspot.com/articles/KCS_Article/Where-can-I-find-my-HUB-ID>`_.
+Set :const:`HUBSPOT_PORTAL_ID` in the project :file:`settings.py` file::
 
     HUBSPOT_PORTAL_ID = 'XXXX'
-    HUBSPOT_DOMAIN = 'XXXXXXXX.web101.hubspot.com'
 
-If you do not set the portal ID and domain, the tracking code will not
-be rendered.
+If you do not set the portal ID, the tracking code will not be rendered.
 
+
+.. deprecated:: 0.17.2
+    `HUBSPOT_DOMAIN` is no longer required.
 
 .. _hubspot-internal-ips:
 
