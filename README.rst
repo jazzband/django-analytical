@@ -34,6 +34,7 @@ Currently supported services:
 * `Olark`_ visitor chat
 * `Optimizely`_ A/B testing
 * `Performable`_ web analytics and landing pages
+* `Piwik`_ open source web analytics
 * `Reinvigorate`_ visitor tracking
 * `SnapEngage`_ live chat
 * `Spring Metrics`_ conversion tracking
@@ -67,6 +68,7 @@ an issue to discuss your plans.
 .. _`Olark`: http://www.olark.com/
 .. _`Optimizely`: http://www.optimizely.com/
 .. _`Performable`: http://www.performable.com/
+.. _`Piwik`: http://www.piwik.org/
 .. _`Reinvigorate`: http://www.reinvigorate.net/
 .. _`SnapEngage`: http://www.snapengage.com/
 .. _`Spring Metrics`: http://www.springmetrics.com/
