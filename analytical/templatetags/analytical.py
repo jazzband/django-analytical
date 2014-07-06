@@ -30,13 +30,13 @@ TAG_MODULES = [
     'analytical.olark',
     'analytical.optimizely',
     'analytical.performable',
+    'analytical.piwik',
     'analytical.reinvigorate',
     'analytical.snapengage',
     'analytical.spring_metrics',
     'analytical.uservoice',
     'analytical.woopra',
 ]
-
 
 logger = logging.getLogger(__name__)
 register = template.Library()
@@ -48,7 +48,9 @@ def _location_tag(location):
         if len(bits) > 1:
             raise TemplateSyntaxError("'%s' tag takes no arguments" % bits[0])
         return AnalyticalNode(location)
+
     return analytical_tag
+
 
 for loc in TAG_LOCATIONS:
     register.tag('analytical_%s' % loc, _location_tag(loc))
@@ -64,9 +66,11 @@ class AnalyticalNode(Node):
 
 def _load_template_nodes():
     template_nodes = dict((l, dict((p, []) for p in TAG_POSITIONS))
-            for l in TAG_LOCATIONS)
+                          for l in TAG_LOCATIONS)
+
     def add_node_cls(location, node, position=None):
         template_nodes[location][position].append(node)
+
     for path in TAG_MODULES:
         module = _import_tag_module(path)
         try:
@@ -75,11 +79,13 @@ def _load_template_nodes():
             logger.debug("not loading tags from '%s': %s", path, e)
     for location in TAG_LOCATIONS:
         template_nodes[location] = sum((template_nodes[location][p]
-                for p in TAG_POSITIONS), [])
+                                        for p in TAG_POSITIONS), [])
     return template_nodes
+
 
 def _import_tag_module(path):
     app_name, lib_name = path.rsplit('.', 1)
     return import_module("%s.templatetags.%s" % (app_name, lib_name))
+
 
 template_nodes = _load_template_nodes()

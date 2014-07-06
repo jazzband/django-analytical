@@ -157,6 +157,11 @@ settings required to enable each service are listed here:
 
     PERFORMABLE_API_KEY = '123abc'
 
+* :doc:`Piwik <services/piwik>`::
+
+    PIWIK_DOMAIN_PATH = 'your.piwik.server/optional/path'
+    PIWIK_SITE_ID = '123'
+
 * :doc:`Reinvigorate <services/reinvigorate>`::
 
     REINVIGORATE_TRACKING_ID = '12345-abcdefghij'
