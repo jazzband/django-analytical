@@ -35,7 +35,7 @@ the tag at the bottom of the HTML body as recommended by the
     </body>
     </html>
 
-.. _`Piwik best practice for integration`: http://piwik.org/integrate/how-to/
+.. _`Piwik best practice for Integration Plugins`: http://piwik.org/integrate/how-to/
 
 
 

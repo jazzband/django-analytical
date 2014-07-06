@@ -1,3 +1,7 @@
+Version 0.19.0
+--------------
+* Add Piwik integration (Peter Bittner)
+
 Version 0.18.0
 --------------
 * Update HubSpot code (Craig Bruce)
