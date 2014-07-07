@@ -72,7 +72,7 @@ Your Piwik server can track several websites.  Each website has its
 site ID (this is the ``idSite`` parameter in the query string of your
 browser's address bar when you visit the Piwik Dashboard).  Set
 :const:`PIWIK_SITE_ID` in the project :file:`settings.py` file to
-the value corresponding to the website your tracking::
+the value corresponding to the website you're tracking::
 
     PIWIK_SITE_ID = '4'
 
@@ -84,10 +84,10 @@ Internal IP addresses
 
 Usually, you do not want to track clicks from your development or
 internal IP addresses.  By default, if the tags detect that the client
-comes from any address in the :const:`ANALYTICAL_INTERNAL_IPS` by
-default (which takes the value of :const:`INTERNAL_IPS` by default).
-See :ref:`identifying-visitors` for important information about
-detecting the visitor IP address.
+comes from any address in the :const:`ANALYTICAL_INTERNAL_IPS` (which
+takes the value of :const:`INTERNAL_IPS` by default) the tracking code
+is commented out.  See :ref:`identifying-visitors` for important
+information about detecting the visitor IP address.
 
 
 ----
