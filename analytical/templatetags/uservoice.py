@@ -9,8 +9,7 @@ import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
-
-from analytical.utils import get_required_setting
+from analytical.utils import get_required_setting, get_identity
 
 
 WIDGET_KEY_RE = re.compile(r'^[a-zA-Z0-9]*$')
@@ -25,8 +24,10 @@ TRACKING_CODE = """
 
     UserVoice.push(['set', %(options)s]);
     %(trigger)s
+    %(identity)s
     </script>
 """
+IDENTITY = """UserVoice.push(['identify', %(options)s]);"""
 TRIGGER = "UserVoice.push(['addTrigger', {}]);"
 register = Library()
 
@@ -62,14 +63,24 @@ class UserVoiceNode(Node):
         options.update(getattr(settings, 'USERVOICE_WIDGET_OPTIONS', {}))
         options.update(context.get('uservoice_widget_options', {}))
 
+        identity = get_identity(context, 'uservoice', self._identify)
+        if identity:
+            identity = IDENTITY % {'options': json.dumps(identity, sort_keys=True)}
+
         trigger = context.get('uservoice_add_trigger',
                               getattr(settings, 'USERVOICE_ADD_TRIGGER', True))
 
         html = TRACKING_CODE % {'widget_key': widget_key,
                                 'options':  json.dumps(options, sort_keys=True),
-                                'trigger': TRIGGER if trigger else ''}
+                                'trigger': TRIGGER if trigger else '',
+                                'identity': identity if identity else ''}
         return html
 
+    def _identify(self, user):
+        name = user.get_full_name()
+        if not name:
+            name = user.username
+        return {'name': name, 'email': user.email}
 
 def contribute_to_analytical(add_node):
     UserVoiceNode()  # ensure properly configured
