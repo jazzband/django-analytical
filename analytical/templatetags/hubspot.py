@@ -27,6 +27,7 @@ TRACKING_CODE = """
 
 register = Library()
 
+
 @register.tag
 def hubspot(parser, token):
     """
