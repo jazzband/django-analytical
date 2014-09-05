@@ -2,9 +2,6 @@
 Tests for the Clickmap template tags and filters.
 """
 
-import re
-
-from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 
@@ -20,7 +17,7 @@ class ClickyTagTestCase(TagTestCase):
     """
 
     def test_tag(self):
-        r = self.render_tag('clicjmap', 'clickmap')
+        r = self.render_tag('clickmap', 'clickmap')
         self.assertTrue("tracker: '12345', version:'2'};" in r, r)
 
     def test_node(self):
@@ -33,7 +30,7 @@ class ClickyTagTestCase(TagTestCase):
 
     @override_settings(CLICKMAP_TRACKER_ID='abc')
     def test_wrong_site_id(self):
-        self.assertRaises(AnalyticalException, ClickyNode)
+        self.assertRaises(AnalyticalException, ClickmapNode)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
