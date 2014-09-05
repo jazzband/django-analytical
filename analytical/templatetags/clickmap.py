@@ -8,13 +8,13 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_identity, is_internal_ip, disable_html, get_required_setting
+from analytical.utils import is_internal_ip, disable_html, get_required_setting
 
 
 CLICKMAP_TRACKER_ID_RE = re.compile(r'^\d+$')
 TRACKING_CODE = """
     <script type="text/javascript">
-    var clickmapConfig = {tracker: '%(tracker_id)', version:'2'};
+    var clickmapConfig = {tracker: '%(tracker_id)s', version:'2'};
     window.clickmapAsyncInit = function(){ __clickmap.init(clickmapConfig); };
     (function() { var _cmf = document.createElement('script'); _cmf.async = true;
     _cmf.src = document.location.protocol + '//www.clickmap.ch/tracker.js?t=';
@@ -46,12 +46,11 @@ def clickmap(parser, token):
 class ClickmapNode(Node):
     def __init__(self):
         self.tracker_id = get_required_setting('CLICKMAP_TRACKER_ID',
-                CLICKMAP_TRACKER_ID_RE,
-                "must be a (string containing) a number")
+                                               CLICKMAP_TRACKER_ID_RE,
+                                               "must be a (string containing) a number")
 
     def render(self, context):
-        html = TRACKING_CODE % {'portal_id': self.portal_id,
-                'domain': self.domain}
+        html = TRACKING_CODE % {'tracker_id': self.tracker_id}
         if is_internal_ip(context, 'CLICKMAP'):
             html = disable_html(html, 'Clickmap')
         return html
