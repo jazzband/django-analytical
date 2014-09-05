@@ -5,9 +5,10 @@ Tests for the Performable template tags and filters.
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.performable import PerformableNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -25,7 +26,7 @@ class PerformableTagTestCase(TagTestCase):
         r = PerformableNode().render(Context())
         self.assertTrue('/performable/pax/123ABC.js' in r, r)
 
-    @override_settings(PERFORMABLE_API_KEY=SETTING_DELETED)
+    @override_settings(PERFORMABLE_API_KEY=None)
     def test_no_api_key(self):
         self.assertRaises(AnalyticalException, PerformableNode)
 

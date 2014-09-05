@@ -5,9 +5,10 @@ Tests for the Mixpanel tags and filters.
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.mixpanel import MixpanelNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -29,7 +30,7 @@ class MixpanelTagTestCase(TagTestCase):
                 "mixpanel.init('0123456789abcdef0123456789abcdef');" in r,
                 r)
 
-    @override_settings(MIXPANEL_API_TOKEN=SETTING_DELETED)
+    @override_settings(MIXPANEL_API_TOKEN=None)
     def test_no_token(self):
         self.assertRaises(AnalyticalException, MixpanelNode)
 

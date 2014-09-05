@@ -7,10 +7,10 @@ import re
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.reinvigorate import ReinvigorateNode
-from analytical.tests.utils import TagTestCase, override_settings, \
-        SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -28,7 +28,7 @@ class ReinvigorateTagTestCase(TagTestCase):
         r = ReinvigorateNode().render(Context({}))
         self.assertTrue('reinvigorate.track("12345-abcdefghij");' in r, r)
 
-    @override_settings(REINVIGORATE_TRACKING_ID=SETTING_DELETED)
+    @override_settings(REINVIGORATE_TRACKING_ID=None)
     def test_no_tracking_id(self):
         self.assertRaises(AnalyticalException, ReinvigorateNode)
 

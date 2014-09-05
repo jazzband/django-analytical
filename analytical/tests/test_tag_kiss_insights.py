@@ -4,9 +4,10 @@ Tests for the KISSinsights template tags and filters.
 
 from django.contrib.auth.models import User, AnonymousUser
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.kiss_insights import KissInsightsNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -25,11 +26,11 @@ class KissInsightsTagTestCase(TagTestCase):
         r = KissInsightsNode().render(Context())
         self.assertTrue("//s3.amazonaws.com/ki.js/12345/abc.js" in r, r)
 
-    @override_settings(KISS_INSIGHTS_ACCOUNT_NUMBER=SETTING_DELETED)
+    @override_settings(KISS_INSIGHTS_ACCOUNT_NUMBER=None)
     def test_no_account_number(self):
         self.assertRaises(AnalyticalException, KissInsightsNode)
 
-    @override_settings(KISS_INSIGHTS_SITE_CODE=SETTING_DELETED)
+    @override_settings(KISS_INSIGHTS_SITE_CODE=None)
     def test_no_site_code(self):
         self.assertRaises(AnalyticalException, KissInsightsNode)
 

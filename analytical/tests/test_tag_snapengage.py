@@ -4,14 +4,14 @@ Tests for the SnapEngage template tags and filters.
 
 from django.contrib.auth.models import User, AnonymousUser
 from django.template import Context
+from django.test.utils import override_settings
 from django.utils import translation
 
 from analytical.templatetags.snapengage import SnapEngageNode, \
         BUTTON_STYLE_LIVE, BUTTON_STYLE_DEFAULT, BUTTON_STYLE_NONE, \
         BUTTON_LOCATION_LEFT, BUTTON_LOCATION_RIGHT, BUTTON_LOCATION_TOP, \
         BUTTON_LOCATION_BOTTOM, FORM_POSITION_TOP_LEFT
-from analytical.tests.utils import TagTestCase, override_settings, \
-        SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -41,7 +41,7 @@ class SnapEngageTestCase(TagTestCase):
             'SnapABug.addButton("ec329c69-0bf0-4db8-9b77-3f8150fb977e","0",'
             '"55%");' in r, r)
 
-    @override_settings(SNAPENGAGE_WIDGET_ID=SETTING_DELETED)
+    @override_settings(SNAPENGAGE_WIDGET_ID=None)
     def test_no_site_id(self):
         self.assertRaises(AnalyticalException, SnapEngageNode)
 

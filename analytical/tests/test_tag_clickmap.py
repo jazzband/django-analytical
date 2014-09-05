@@ -4,14 +4,15 @@ Tests for the Clickmap template tags and filters.
 
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.clickmap import ClickmapNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
 @override_settings(CLICKMAP_TRACKER_ID='12345')
-class ClickyTagTestCase(TagTestCase):
+class ClickmapTagTestCase(TagTestCase):
     """
     Tests for the ``clickmap`` template tag.
     """
@@ -24,7 +25,7 @@ class ClickyTagTestCase(TagTestCase):
         r = ClickmapNode().render(Context({}))
         self.assertTrue("tracker: '12345', version:'2'};" in r, r)
 
-    @override_settings(CLICKMAP_TRACKER_ID=SETTING_DELETED)
+    @override_settings(CLICKMAP_TRACKER_ID=None)
     def test_no_site_id(self):
         self.assertRaises(AnalyticalException, ClickmapNode)
 
