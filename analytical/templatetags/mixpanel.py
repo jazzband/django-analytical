@@ -22,7 +22,7 @@ e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
     %(commands)s
     </script>
 """
-IDENTIFY_CODE = "mixpanel.identify(%s);"
+IDENTIFY_CODE = "mixpanel.identify('%s');"
 EVENT_CODE = "mixpanel.track('%(name)s', %(properties)s);"
 EVENT_CONTEXT_KEY = 'mixpanel_event'
 
