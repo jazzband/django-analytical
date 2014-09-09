@@ -22,7 +22,7 @@ e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
     %(commands)s
     </script>
 """
-IDENTIFY_CODE = "mixpanel.register_once({distinct_id: '%s'});"
+IDENTIFY_CODE = "mixpanel.identify(%s);"
 EVENT_CODE = "mixpanel.track('%(name)s', %(properties)s);"
 EVENT_CONTEXT_KEY = 'mixpanel_event'
 
@@ -41,6 +41,7 @@ def mixpanel(parser, token):
     if len(bits) > 1:
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return MixpanelNode()
+
 
 class MixpanelNode(Node):
     def __init__(self):
