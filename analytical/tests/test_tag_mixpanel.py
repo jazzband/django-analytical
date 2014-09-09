@@ -44,7 +44,7 @@ class MixpanelTagTestCase(TagTestCase):
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
         r = MixpanelNode().render(Context({'user': User(username='test')}))
-        self.assertTrue("mixpanel.register_once({distinct_id: 'test'});" in r, r)
+        self.assertIn("mixpanel.identify('test');", r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_anonymous_user(self):
