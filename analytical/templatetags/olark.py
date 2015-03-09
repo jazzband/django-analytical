@@ -21,6 +21,10 @@ SETUP_CODE = """
 """
 NICKNAME_CODE = "olark('api.chat.updateVisitorNickname', {snippet: '%s'});"
 NICKNAME_CONTEXT_KEY = 'olark_nickname'
+FULLNAME_CODE = u"olark('api.visitor.updateFullName', {{fullName: '{0}'}});"
+FULLNAME_CONTEXT_KEY = 'olark_fullname'
+EMAIL_CODE = "olark('api.visitor.updateEmailAddress', {{emailAddress: '{0}'}});"
+EMAIL_CONTEXT_KEY = 'olark_email'
 STATUS_CODE = "olark('api.chat.updateVisitorStatus', {snippet: %s});"
 STATUS_CONTEXT_KEY = 'olark_status'
 MESSAGE_CODE = "olark.configure('locale.%(key)s', \"%(msg)s\");"
@@ -62,6 +66,14 @@ class OlarkNode(Node):
             identity = get_identity(context, 'olark', self._get_nickname)
             if identity is not None:
                 extra_code.append(NICKNAME_CODE % identity)
+        try:
+            extra_code.append(FULLNAME_CODE.format(context[FULLNAME_CONTEXT_KEY]))
+        except KeyError:
+            pass
+        try:
+            extra_code.append(EMAIL_CODE.format(context[EMAIL_CONTEXT_KEY]))
+        except KeyError:
+            pass
         try:
             extra_code.append(STATUS_CODE %
                     json.dumps(context[STATUS_CONTEXT_KEY], sort_keys=True))
