@@ -175,19 +175,19 @@ Identifying users
 -----------------
 
 If your websites identifies visitors, you can pass this information on
-to Uservoice.  By default, the
-name and email of an authenticated user is passed to Uservoice automatically.  See
-:ref:`identifying-visitors`.
+to Uservoice.  By default, the name and email of an authenticated user
+is passed to Uservoice automatically.  See :ref:`identifying-visitors`.
 
 You can also send the visitor identity yourself by adding either the
 ``uservoice_identity`` or the ``analytical_identity`` variable to
-the template context [1]_. This should be a dictionary with the desired user traits as its keys. Check the `documentation <https://developer.uservoice.com/docs/widgets/identify/>`_ to see valid traits. For example::
+the template context. (If both are set, the former takes precedence.)
+This should be a dictionary with the desired user traits as its keys.
+Check the `documentation on identifying users`_ to see valid traits.
+For example::
 
     context = RequestContext({'uservoice_identity': {'email': user_email,
                                                      'name': username }})
     return some_template.render(context)
-
-.. [1]: Remember that if both variables are set, the former takes precedence.
 
 If you can derive the identity from the HTTP request, you can also use
 a context processor that you add to the :data:`TEMPLATE_CONTEXT_PROCESSORS` list in :file:`settings.py`::
@@ -209,6 +209,8 @@ a context processor that you add to the :data:`TEMPLATE_CONTEXT_PROCESSORS` list
             }
         except AttributeError:
             return {}
+
+.. _`documentation on identifying users`: https://developer.uservoice.com/docs/widgets/identify/
 
 ----
 
