@@ -1,6 +1,14 @@
 django-analytical
 =================
 
+.. note::
+
+    *django-analytical is looking for a (co-)maintainer*
+
+    I am currently not using Django, which has the effect of making me
+    slow to respond to issues and merge pull requests.  If you are
+    interested in helping out or taking over, please get in touch.
+
 The django-analytical application integrates analytics services into a
 Django_ project.
 
