@@ -4,9 +4,10 @@ Tests for the Gauges template tags and filters.
 
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.gauges import GaugesNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -53,7 +54,7 @@ class GaugesTagTestCase(TagTestCase):
 """,
                 GaugesNode().render(Context()))
 
-    @override_settings(GAUGES_SITE_ID=SETTING_DELETED)
+    @override_settings(GAUGES_SITE_ID=None)
     def test_no_account_number(self):
         self.assertRaises(AnalyticalException, GaugesNode)
 

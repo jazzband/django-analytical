@@ -4,9 +4,10 @@ Tests for the HubSpot template tags and filters.
 
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.hubspot import HubSpotNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -26,7 +27,7 @@ class HubSpotTagTestCase(TagTestCase):
         self.assertTrue("n.id=i;n.src='//js.hs-analytics.net/analytics/'+(Math.ceil(new Date()/r)*r)+'/1234.js';"
                         in r, r)
 
-    @override_settings(HUBSPOT_PORTAL_ID=SETTING_DELETED)
+    @override_settings(HUBSPOT_PORTAL_ID=None)
     def test_no_portal_id(self):
         self.assertRaises(AnalyticalException, HubSpotNode)
 

@@ -5,10 +5,10 @@ Tests for the Woopra template tags and filters.
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.woopra import WoopraNode
-from analytical.tests.utils import TagTestCase, override_settings, \
-        SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -26,7 +26,7 @@ class WoopraTagTestCase(TagTestCase):
         r = WoopraNode().render(Context({}))
         self.assertTrue('var woo_settings = {"domain": "example.com"};' in r, r)
 
-    @override_settings(WOOPRA_DOMAIN=SETTING_DELETED)
+    @override_settings(WOOPRA_DOMAIN=None)
     def test_no_domain(self):
         self.assertRaises(AnalyticalException, WoopraNode)
 

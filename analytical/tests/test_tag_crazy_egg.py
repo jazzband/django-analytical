@@ -4,9 +4,10 @@ Tests for the Crazy Egg template tags and filters.
 
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.crazy_egg import CrazyEggNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -24,7 +25,7 @@ class CrazyEggTagTestCase(TagTestCase):
         r = CrazyEggNode().render(Context())
         self.assertTrue('/1234/5678.js' in r, r)
 
-    @override_settings(CRAZY_EGG_ACCOUNT_NUMBER=SETTING_DELETED)
+    @override_settings(CRAZY_EGG_ACCOUNT_NUMBER=None)
     def test_no_account_number(self):
         self.assertRaises(AnalyticalException, CrazyEggNode)
 

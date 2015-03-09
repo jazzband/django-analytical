@@ -22,6 +22,8 @@ def get_required_setting(setting, value_re, invalid_msg):
         value = getattr(settings, setting)
     except AttributeError:
         raise AnalyticalException("%s setting: not found" % setting)
+    if value is None:
+        raise AnalyticalException("%s setting is set to None" % setting)
     value = str(value)
     if not value_re.search(value):
         raise AnalyticalException("%s setting: %s: '%s'"

@@ -4,20 +4,18 @@ Tests for the Chartbeat template tags and filters.
 
 import re
 
-from django.conf import settings
 from django.contrib.sites.models import Site
 from django.http import HttpRequest
 from django.template import Context
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from analytical.templatetags.chartbeat import ChartbeatTopNode, \
         ChartbeatBottomNode
-from analytical.tests.utils import TagTestCase, with_apps, without_apps, \
-        override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
-@without_apps('django.contrib.sites')
 @override_settings(CHARTBEAT_USER_ID='12345')
 class ChartbeatTagTestCaseNoSites(TestCase):
     def test_rendering_setup_no_site(self):
@@ -25,7 +23,7 @@ class ChartbeatTagTestCaseNoSites(TestCase):
         self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
 
-@with_apps('django.contrib.sites')
+@override_settings(INSTALLED_APPS=('analytical', 'django.contrib.sites'))
 @override_settings(CHARTBEAT_USER_ID='12345')
 class ChartbeatTagTestCaseWithSites(TestCase):
     def setUp(self):
@@ -86,7 +84,7 @@ class ChartbeatTagTestCase(TagTestCase):
         self.assertTrue(re.search(
                 'var _sf_async_config={.*"domain": "test.com".*};', r), r)
 
-    @override_settings(CHARTBEAT_USER_ID=SETTING_DELETED)
+    @override_settings(CHARTBEAT_USER_ID=None)
     def test_no_user_id(self):
         self.assertRaises(AnalyticalException, ChartbeatBottomNode)
 

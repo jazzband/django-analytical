@@ -4,10 +4,10 @@ Tests for the Piwik template tags and filters.
 
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.piwik import PiwikNode
-from analytical.tests.utils import TagTestCase, override_settings, \
-    SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -38,11 +38,11 @@ class PiwikTagTestCase(TagTestCase):
         self.assertTrue(' ? "https" : "http") + "://example.com/piwik/";' in r,
                         r)
 
-    @override_settings(PIWIK_DOMAIN_PATH=SETTING_DELETED)
+    @override_settings(PIWIK_DOMAIN_PATH=None)
     def test_no_domain(self):
         self.assertRaises(AnalyticalException, PiwikNode)
 
-    @override_settings(PIWIK_SITE_ID=SETTING_DELETED)
+    @override_settings(PIWIK_SITE_ID=None)
     def test_no_siteid(self):
         self.assertRaises(AnalyticalException, PiwikNode)
 

@@ -4,12 +4,12 @@ Tests for the Google Analytics template tags and filters.
 
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.google_analytics import GoogleAnalyticsNode, \
         TRACK_SINGLE_DOMAIN, TRACK_MULTIPLE_DOMAINS, TRACK_MULTIPLE_SUBDOMAINS,\
         SCOPE_VISITOR, SCOPE_SESSION, SCOPE_PAGE
-from analytical.tests.utils import TestCase, TagTestCase, override_settings, \
-        without_apps, SETTING_DELETED
+from analytical.tests.utils import TestCase, TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -30,7 +30,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         self.assertTrue("_gaq.push(['_setAccount', 'UA-123456-7']);" in r, r)
         self.assertTrue("_gaq.push(['_trackPageview']);" in r, r)
 
-    @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID=SETTING_DELETED)
+    @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID=None)
     def test_no_property_id(self):
         self.assertRaises(AnalyticalException, GoogleAnalyticsNode)
 
@@ -104,11 +104,10 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         r = GoogleAnalyticsNode().render(Context())
         self.assertFalse("_gaq.push (['_gat._anonymizeIp']);" in r, r)
 
-@without_apps('django.contrib.sites')
 @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
         GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
-        GOOGLE_ANALYTICS_DOMAIN=SETTING_DELETED,
-        ANALYTICAL_DOMAIN=SETTING_DELETED)
+        GOOGLE_ANALYTICS_DOMAIN=None,
+        ANALYTICAL_DOMAIN=None)
 class NoDomainTestCase(TestCase):
     def test_exception_without_domain(self):
         context = Context()

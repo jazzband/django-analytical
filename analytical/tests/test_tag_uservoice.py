@@ -2,13 +2,11 @@
 Tests for the UserVoice tags and filters.
 """
 
-from django.contrib.auth.models import User, AnonymousUser
-from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.uservoice import UserVoiceNode
-from analytical.tests.utils import TagTestCase, override_settings, \
-        SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -32,7 +30,7 @@ class UserVoiceTagTestCase(TagTestCase):
         r = self.render_tag('uservoice', 'uservoice')
         self.assertIn("widget.uservoice.com/abcdefghijklmnopqrst.js", r)
 
-    @override_settings(USERVOICE_WIDGET_KEY=SETTING_DELETED)
+    @override_settings(USERVOICE_WIDGET_KEY=None)
     def test_no_key(self):
         self.assertRaises(AnalyticalException, UserVoiceNode)
 

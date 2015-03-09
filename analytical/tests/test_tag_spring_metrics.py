@@ -7,10 +7,10 @@ import re
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.spring_metrics import SpringMetricsNode
-from analytical.tests.utils import TagTestCase, override_settings, \
-        SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -28,7 +28,7 @@ class SpringMetricsTagTestCase(TagTestCase):
         r = SpringMetricsNode().render(Context({}))
         self.assertTrue("_springMetq.push(['id', '12345678']);" in r, r)
 
-    @override_settings(SPRING_METRICS_TRACKING_ID=SETTING_DELETED)
+    @override_settings(SPRING_METRICS_TRACKING_ID=None)
     def test_no_site_id(self):
         self.assertRaises(AnalyticalException, SpringMetricsNode)
 

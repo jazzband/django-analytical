@@ -4,9 +4,10 @@ Tests for the Olark template tags and filters.
 
 from django.contrib.auth.models import User, AnonymousUser
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.olark import OlarkNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -24,7 +25,7 @@ class OlarkTestCase(TagTestCase):
         r = OlarkNode().render(Context())
         self.assertTrue("olark.identify('1234-567-89-0123');" in r, r)
 
-    @override_settings(OLARK_SITE_ID=SETTING_DELETED)
+    @override_settings(OLARK_SITE_ID=None)
     def test_no_site_id(self):
         self.assertRaises(AnalyticalException, OlarkNode)
 

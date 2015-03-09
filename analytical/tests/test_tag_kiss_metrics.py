@@ -5,9 +5,10 @@ Tests for the KISSmetrics tags and filters.
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.kiss_metrics import KissMetricsNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -28,7 +29,7 @@ class KissMetricsTagTestCase(TagTestCase):
         self.assertTrue("//doug1izaerwt3.cloudfront.net/0123456789abcdef012345"
                 "6789abcdef01234567.1.js" in r, r)
 
-    @override_settings(KISS_METRICS_API_KEY=SETTING_DELETED)
+    @override_settings(KISS_METRICS_API_KEY=None)
     def test_no_api_key(self):
         self.assertRaises(AnalyticalException, KissMetricsNode)
 

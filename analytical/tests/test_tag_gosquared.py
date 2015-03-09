@@ -5,10 +5,11 @@ Tests for the GoSquared template tags and filters.
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.gosquared import GoSquaredNode
 from analytical.tests import override_settings
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -26,7 +27,7 @@ class GoSquaredTagTestCase(TagTestCase):
         r = GoSquaredNode().render(Context({}))
         self.assertTrue('GoSquared.acct = "ABC-123456-D";' in r, r)
 
-    @override_settings(GOSQUARED_SITE_TOKEN=SETTING_DELETED)
+    @override_settings(GOSQUARED_SITE_TOKEN=None)
     def test_no_token(self):
         self.assertRaises(AnalyticalException, GoSquaredNode)
 

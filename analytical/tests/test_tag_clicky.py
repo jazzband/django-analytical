@@ -7,9 +7,10 @@ import re
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
+from django.test.utils import override_settings
 
 from analytical.templatetags.clicky import ClickyNode
-from analytical.tests.utils import TagTestCase, override_settings, SETTING_DELETED
+from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
@@ -31,7 +32,7 @@ class ClickyTagTestCase(TagTestCase):
         self.assertTrue('src="//in.getclicky.com/12345678ns.gif"' in r,
                 r)
 
-    @override_settings(CLICKY_SITE_ID=SETTING_DELETED)
+    @override_settings(CLICKY_SITE_ID=None)
     def test_no_site_id(self):
         self.assertRaises(AnalyticalException, ClickyNode)
 
