@@ -22,7 +22,8 @@ e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
     %(commands)s
     </script>
 """
-IDENTIFY_CODE = "mixpanel.register_once({distinct_id: '%s'});"
+IDENTIFY_CODE = "mixpanel.identify('%s');"
+IDENTIFY_PROPERTIES = "mixpanel.people.set(%s);"
 EVENT_CODE = "mixpanel.track('%(name)s', %(properties)s);"
 EVENT_CONTEXT_KEY = 'mixpanel_event'
 
@@ -42,6 +43,7 @@ def mixpanel(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return MixpanelNode()
 
+
 class MixpanelNode(Node):
     def __init__(self):
         self.token = get_required_setting(
@@ -52,7 +54,11 @@ class MixpanelNode(Node):
         commands = []
         identity = get_identity(context, 'mixpanel')
         if identity is not None:
-            commands.append(IDENTIFY_CODE % identity)
+            if isinstance(identity, dict):
+                commands.append(IDENTIFY_CODE % identity.get('id', identity.get('username')))
+                commands.append(IDENTIFY_PROPERTIES % json.dumps(identity, sort_keys=True))
+            else:
+                commands.append(IDENTIFY_CODE % identity)
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
             commands.append(EVENT_CODE % {'name': name,

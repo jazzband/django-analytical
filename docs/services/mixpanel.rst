@@ -109,6 +109,16 @@ Just remember that if you set the same context variable in the
 :class:`~django.template.context.RequestContext` constructor and in a
 context processor, the latter clobbers the former.
 
+Mixpanel can also receive properties for your identified user, using `mixpanel.people.set <https://mixpanel.com/help/reference/javascript-full-api-reference#mixpanel.people.set>`_. If want to send extra properties, just set a dictionary instead of a string in the ``mixpanel_indentity`` context variable. The key ``id`` or ``username`` will be used as the user unique id, and any other key-value pair will be passed as *people properties*. For example::
+
+    def identify(request):
+        try:
+            return {'mixpanel_identity': {'id': request.user.id,
+            'last_login': str(request.user.last_login),
+            'date_joined': str(request.user.date_joined)}
+        except AttributeError:
+            return {}
+
 
 .. mixpanel-events:
 
