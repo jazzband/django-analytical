@@ -49,8 +49,8 @@ If you want to help out with the development of django-analytical, by
 posting detailed bug reports, proposing new features or other analytics
 services to support, or suggesting documentation improvements, use the
 `issue tracker`_.  If you want to get your hands dirty, great!  Clone
-the repository, make changes and send a pull request.  Please do create
-an issue to discuss your plans.
+the repository, make changes and place a `pull request`_.  Please do
+create an issue to discuss your plans.
 
 .. _`Django`: http://www.djangoproject.com/
 .. _`Chartbeat`: http://www.chartbeat.com/
@@ -78,3 +78,4 @@ an issue to discuss your plans.
 .. _`read online`: http://packages.python.org/django-analytical/
 .. _`hosted by GitHub`: http://github.com/jcassee/django-analytical
 .. _`issue tracker`: http://github.com/jcassee/django-analytical/issues
+.. _`pull request`: https://github.com/jcassee/django-analytical/pulls
