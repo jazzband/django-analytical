@@ -1,3 +1,10 @@
+Version 0.20.0
+--------------
+* Support Django 1.7 (Craig Bruce)
+* Update Mixpanel identity code (Martín Gaitán)
+* Identify authenticated users in Uservoice (Martín Gaitán)
+* Add full name and email to Olark (Scott Adams)
+
 Version 0.19.0
 --------------
 * Add Piwik integration (Peter Bittner)
