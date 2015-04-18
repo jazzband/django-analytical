@@ -19,8 +19,13 @@ class SettingDeletedTestCase(TestCase):
         """
         Make sure using get_required_setting fails in the right place.
         """
-        # only available in python >= 2.7
-        if hasattr(self, 'assertRaisesRegexp'):
+
+        # available in python >= 3.2
+        if hasattr(self, 'assertRaisesRegex'):
+            with self.assertRaisesRegex(AnalyticalException, "^USER_ID setting is set to None$"):
+                user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
+        # available in python >= 2.7, deprecated in 3.2
+        elif hasattr(self, 'assertRaisesRegexp'):
             with self.assertRaisesRegexp(AnalyticalException, "^USER_ID setting is set to None$"):
                 user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
         else:
