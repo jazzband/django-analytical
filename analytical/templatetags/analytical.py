@@ -75,7 +75,7 @@ def _load_template_nodes():
         module = _import_tag_module(path)
         try:
             module.contribute_to_analytical(add_node_cls)
-        except AnalyticalException, e:
+        except AnalyticalException as e:
             logger.debug("not loading tags from '%s': %s", path, e)
     for location in TAG_LOCATIONS:
         template_nodes[location] = sum((template_nodes[location][p]
