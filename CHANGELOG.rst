@@ -1,3 +1,7 @@
+Development
+-----------
+* Fix Clickmap tracker id regular expression
+
 Version 0.21.0
 --------------
 * Added compatibility with Python 3 (Eric Amador)

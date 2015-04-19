@@ -11,7 +11,7 @@ from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
-@override_settings(CLICKMAP_TRACKER_ID='12345')
+@override_settings(CLICKMAP_TRACKER_ID='12345ABC')
 class ClickmapTagTestCase(TagTestCase):
     """
     Tests for the ``clickmap`` template tag.
@@ -19,17 +19,17 @@ class ClickmapTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('clickmap', 'clickmap')
-        self.assertTrue("tracker: '12345', version:'2'};" in r, r)
+        self.assertTrue("tracker: '12345ABC', version:'2'};" in r, r)
 
     def test_node(self):
         r = ClickmapNode().render(Context({}))
-        self.assertTrue("tracker: '12345', version:'2'};" in r, r)
+        self.assertTrue("tracker: '12345ABC', version:'2'};" in r, r)
 
     @override_settings(CLICKMAP_TRACKER_ID=None)
     def test_no_site_id(self):
         self.assertRaises(AnalyticalException, ClickmapNode)
 
-    @override_settings(CLICKMAP_TRACKER_ID='abc')
+    @override_settings(CLICKMAP_TRACKER_ID='ab#c')
     def test_wrong_site_id(self):
         self.assertRaises(AnalyticalException, ClickmapNode)
 
