@@ -1,3 +1,7 @@
+Version 0.21.0
+--------------
+* Added compatibility with Python 3 (Eric Amador)
+
 Version 0.20.0
 --------------
 * Support Django 1.7 (Craig Bruce)

@@ -2,7 +2,8 @@ The django-analytical package was written by `Joost Cassee`_, with
 contributions from `Eric Davis`_, `Paul Oswald`_, `Uros Trebec`_,
 `Steven Skoczen`_, `Piet Delport`_, `Sandra Mau`_, `Simon Ye`_,
 `Tinnet Coronam`_, `Philippe O. Wagner`_, `Max Arnold`_ , `Martín
-Gaitán`_, `Craig Bruce`_, `Peter Bittner`_, `Scott Adams`_ and others.
+Gaitán`_, `Craig Bruce`_, `Peter Bittner`_, `Scott Adams`_, `Eric Amador`_
+and others.
 
 Included Javascript code snippets for integration of the analytics
 services were written by the respective service providers.
@@ -28,6 +29,7 @@ The work on Intercom was made possible by `GreenKahuna`_.
 .. _`Craig Bruce`: https://github.com/craigbruce
 .. _`Peter Bittner`: https://github.com/bittner
 .. _`Scott Adams`: https://github.com/7wonders
+.. _`Eric Amador`: https://github.com/amadornimbis
 .. _`Analytical`: https://github.com/jkrall/analytical
 .. _`Bateau Knowledge`: http://www.bateauknowledge.nl/
 .. _`GreenKahuna`: http://www.greenkahuna.com/
