@@ -34,7 +34,7 @@ class IntercomTagTestCase(TagTestCase):
                 date_joined=now)
         }))
         # Because the json isn't predictably ordered, we can't just test the whole thing verbatim.
-        self.assertEquals("""
+        self.assertEqual("""
 <script id="IntercomSettingsScriptTag">
   window.intercomSettings = {"app_id": "1234567890abcdef0123456789", "created_at": 1397074500, "email": "test@example.com", "name": "Firstname Lastname"};
 </script>
