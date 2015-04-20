@@ -1,6 +1,7 @@
 Development
 -----------
 * Fix Clickmap tracker id regular expression
+* Test with Django 1.8
 
 Version 0.21.0
 --------------
