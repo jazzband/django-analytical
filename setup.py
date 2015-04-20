@@ -11,12 +11,14 @@ cmdclass = {}
 
 try:
     from sphinx.setup_command import BuildDoc
+
     cmdclass['build_sphinx'] = BuildDoc
 except ImportError:
     pass
 
 try:
     from sphinx_pypi_upload import UploadDoc
+
     cmdclass['upload_sphinx'] = UploadDoc
 except ImportError:
     pass
@@ -34,7 +36,9 @@ class TestCommand(Command):
 
     def run(self):
         from analytical.tests.utils import run_tests
+
         run_tests()
+
 
 cmdclass['test'] = TestCommand
 
@@ -42,24 +46,25 @@ cmdclass['test'] = TestCommand
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+
 import analytical
 
 setup(
-    name = 'django-analytical',
-    version = analytical.__version__,
-    license = analytical.__license__,
-    description = 'Analytics service integration for Django projects',
-    long_description = read('README.rst'),
-    author = analytical.__author__,
-    author_email = analytical.__email__,
-    packages = [
+    name='django-analytical',
+    version=analytical.__version__,
+    license=analytical.__license__,
+    description='Analytics service integration for Django projects',
+    long_description=read('README.rst'),
+    author=analytical.__author__,
+    author_email=analytical.__email__,
+    packages=[
         'analytical',
         'analytical.templatetags',
         'analytical.tests',
         'analytical.tests.templatetags',
     ],
-    keywords = ['django', 'analytics'],
-    classifiers = [
+    keywords=['django', 'analytics'],
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
@@ -72,11 +77,11 @@ setup(
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
     ],
-    platforms = ['any'],
-    url = 'http://github.com/jcassee/django-analytical',
-    download_url = 'http://github.com/jcassee/django-analytical/archives/master',
-    cmdclass = cmdclass,
-    install_requires = [
+    platforms=['any'],
+    url='http://github.com/jcassee/django-analytical',
+    download_url='http://github.com/jcassee/django-analytical/archives/master',
+    cmdclass=cmdclass,
+    install_requires=[
         'Django>=1.4',
     ],
 )

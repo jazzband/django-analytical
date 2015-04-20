@@ -3,7 +3,9 @@
 # This file is execfile()d with the current directory set to its containing
 # directory.
 
-import sys, os
+import os
+import sys
+
 sys.path.append(os.path.join(os.path.abspath('.'), '_ext'))
 sys.path.append(os.path.dirname(os.path.abspath('.')))
 
@@ -42,6 +44,6 @@ htmlhelp_basename = 'analyticaldoc'
 # -- Options for LaTeX output --------------------------------------------------
 
 latex_documents = [
-  ('index', 'django-analytical.tex', u'Documentation for django-analytical',
-   u'Joost Cassee', 'manual'),
+    ('index', 'django-analytical.tex', u'Documentation for django-analytical',
+     u'Joost Cassee', 'manual'),
 ]
