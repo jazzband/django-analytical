@@ -1,23 +1,22 @@
 language: python
-python:
-- "2.6"
-- "2.7"
-- "3.3"
-- "3.4"
-env:
-- DJANGO="Django>=1.4,<1.5"
-- DJANGO="Django>=1.5,<1.6"
-- DJANGO="Django>=1.6,<1.7"
-- DJANGO="Django>=1.7,<1.8"
-matrix:
-  exclude:
-    - python: "2.6"
-      env: DJANGO="Django>=1.7,<1.8"
-    - python: "3.3"
-      env: DJANGO="Django>=1.4,<1.5"
-    - python: "3.4"
-      env: DJANGO="Django>=1.4,<1.5"
 install:
-- pip install $DJANGO
+  - pip install tox
 script:
-- python setup.py test
+  - tox
+env:  # generate list with: $ tox -l | xargs -I ITEM echo "  - TOXENV="ITEM
+  - TOXENV=py26-django14
+  - TOXENV=py26-django15
+  - TOXENV=py26-django16
+  - TOXENV=py27-django14
+  - TOXENV=py27-django15
+  - TOXENV=py27-django16
+  - TOXENV=py27-django17
+  - TOXENV=py27-django18
+  - TOXENV=py33-django15
+  - TOXENV=py33-django16
+  - TOXENV=py33-django17
+  - TOXENV=py33-django18
+  - TOXENV=py34-django15
+  - TOXENV=py34-django16
+  - TOXENV=py34-django17
+  - TOXENV=py34-django18
