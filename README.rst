@@ -17,6 +17,8 @@ set-up very simple, while allowing advanced users to customize tracking.
 Each service is set up as recommended by the services themselves, using
 an asynchronous version of the Javascript code if possible.
 
+.. _`Django`: http://www.djangoproject.com/
+
 Currently Supported Services
 ----------------------------
 
@@ -42,7 +44,6 @@ Currently Supported Services
 * `UserVoice`_ user feedback and helpdesk
 * `Woopra`_ web analytics
 
-.. _`Django`: http://www.djangoproject.com/
 .. _`Chartbeat`: http://www.chartbeat.com/
 .. _`Clickmap`: http://getclickmap.com/
 .. _`Clicky`: http://getclicky.com/
