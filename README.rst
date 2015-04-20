@@ -1,14 +1,6 @@
 django-analytical
 =================
 
-.. note::
-
-    *django-analytical is looking for a (co-)maintainer*
-
-    I am currently not using Django, which has the effect of making me
-    slow to respond to issues and merge pull requests.  If you are
-    interested in helping out or taking over, please get in touch.
-
 The django-analytical application integrates analytics services into a
 Django_ project.
 
@@ -25,7 +17,10 @@ set-up very simple, while allowing advanced users to customize tracking.
 Each service is set up as recommended by the services themselves, using
 an asynchronous version of the Javascript code if possible.
 
-Currently supported services:
+.. _`Django`: http://www.djangoproject.com/
+
+Currently Supported Services
+----------------------------
 
 * `Chartbeat`_ traffic analysis
 * `Clickmap`_ visual click tracking
@@ -49,18 +44,6 @@ Currently supported services:
 * `UserVoice`_ user feedback and helpdesk
 * `Woopra`_ web analytics
 
-The documentation can be found in the ``docs`` directory or `read
-online`_.  The source code and issue tracker are generously `hosted by
-GitHub`_.
-
-If you want to help out with the development of django-analytical, by
-posting detailed bug reports, proposing new features or other analytics
-services to support, or suggesting documentation improvements, use the
-`issue tracker`_.  If you want to get your hands dirty, great!  Clone
-the repository, make changes and place a `pull request`_.  Please do
-create an issue to discuss your plans.
-
-.. _`Django`: http://www.djangoproject.com/
 .. _`Chartbeat`: http://www.chartbeat.com/
 .. _`Clickmap`: http://getclickmap.com/
 .. _`Clicky`: http://getclicky.com/
@@ -83,7 +66,25 @@ create an issue to discuss your plans.
 .. _`UserVoice`: http://www.uservoice.com/
 .. _`Woopra`: http://www.woopra.com/
 
+Documentation
+-------------
+
+The documentation can be found in the ``docs`` directory or `read
+online`_.  The source code and issue tracker are generously `hosted by
+GitHub`_.
+
 .. _`read online`: http://packages.python.org/django-analytical/
 .. _`hosted by GitHub`: http://github.com/jcassee/django-analytical
+
+How To Contribute
+-----------------
+
+If you want to help out with the development of django-analytical, by
+posting detailed bug reports, proposing new features or other analytics
+services to support, or suggesting documentation improvements, use the
+`issue tracker`_.  If you want to get your hands dirty, great!  Clone
+the repository, make changes and place a `pull request`_.  Please do
+create an issue to discuss your plans.
+
 .. _`issue tracker`: http://github.com/jcassee/django-analytical/issues
 .. _`pull request`: https://github.com/jcassee/django-analytical/pulls
