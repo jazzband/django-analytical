@@ -27,7 +27,7 @@ an asynchronous version of the Javascript code if possible.
    :target: https://travis-ci.org/jcassee/django-analytical
 .. |downloads| image:: https://img.shields.io/pypi/dm/django-analytical.svg
    :alt: Monthly downloads from PyPI
-   :target: https://pypi.python.org/porypi/django-analytical
+   :target: https://pypi.python.org/pypi/django-analytical
 .. |license| image:: https://img.shields.io/pypi/l/django-analytical.svg
    :alt: Software license
    :target: https://github.com/jcassee/django-analytical/blob/master/LICENSE.txt
