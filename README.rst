@@ -1,5 +1,7 @@
-django-analytical
-=================
+django-analytical |latest-version|
+==================================
+
+|travis-ci| |downloads| |license|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -17,6 +19,18 @@ set-up very simple, while allowing advanced users to customize tracking.
 Each service is set up as recommended by the services themselves, using
 an asynchronous version of the Javascript code if possible.
 
+.. |latest-version| image:: https://img.shields.io/pypi/v/django-analytical.svg
+   :alt: Latest version on PyPI
+   :target: https://pypi.python.org/pypi/django-analytical
+.. |travis-ci| image:: https://travis-ci.org/jcassee/django-analytical.svg?branch=master
+   :alt: Build status - develop branch
+   :target: https://travis-ci.org/jcassee/django-analytical
+.. |downloads| image:: https://img.shields.io/pypi/dm/django-analytical.svg
+   :alt: Monthly downloads from PyPI
+   :target: https://pypi.python.org/porypi/django-analytical
+.. |license| image:: https://img.shields.io/pypi/l/django-analytical.svg
+   :alt: Software license
+   :target: https://github.com/jcassee/django-analytical/blob/master/LICENSE.txt
 .. _`Django`: http://www.djangoproject.com/
 
 Currently Supported Services
