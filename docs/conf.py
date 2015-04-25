@@ -12,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.abspath('.')))
 import analytical
 
 
-# -- General configuration -----------------------------------------------------
+# -- General configuration --------------------------------------------------
 
 project = u'django-analytical'
 copyright = u'2011, Joost Cassee <joost@cassee.net>'
@@ -31,17 +31,18 @@ pygments_style = 'sphinx'
 
 intersphinx_mapping = {
     'http://docs.python.org/2.7': None,
-    'http://docs.djangoproject.com/en/1.8': 'http://docs.djangoproject.com/en/1.8/_objects/',
+    'http://docs.djangoproject.com/en/1.8':
+        'http://docs.djangoproject.com/en/1.8/_objects/',
 }
 
 
-# -- Options for HTML output ---------------------------------------------------
+# -- Options for HTML output ------------------------------------------------
 
 html_theme = 'default'
 htmlhelp_basename = 'analyticaldoc'
 
 
-# -- Options for LaTeX output --------------------------------------------------
+# -- Options for LaTeX output -----------------------------------------------
 
 latex_documents = [
     ('index', 'django-analytical.tex', u'Documentation for django-analytical',
