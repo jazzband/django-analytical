@@ -22,8 +22,8 @@ an asynchronous version of the Javascript code if possible.
 .. |latest-version| image:: https://img.shields.io/pypi/v/django-analytical.svg
    :alt: Latest version on PyPI
    :target: https://pypi.python.org/pypi/django-analytical
-.. |travis-ci| image:: https://travis-ci.org/jcassee/django-analytical.svg?branch=master
-   :alt: Build status - develop branch
+.. |travis-ci| image:: https://travis-ci.org/jcassee/django-analytical.svg
+   :alt: Build status
    :target: https://travis-ci.org/jcassee/django-analytical
 .. |downloads| image:: https://img.shields.io/pypi/dm/django-analytical.svg
    :alt: Monthly downloads from PyPI
