@@ -6,6 +6,8 @@ django-analytical |latest-version|
 The django-analytical application integrates analytics services into a
 Django_ project.
 
+.. start docs include
+
 Using an analytics service with a Django project means adding Javascript
 tracking code to the project templates.  Of course, every service has
 its own specific installation instructions.  Furthermore, you need to
@@ -18,6 +20,8 @@ configuration out of the templates.  Its goal is to make the basic
 set-up very simple, while allowing advanced users to customize tracking.
 Each service is set up as recommended by the services themselves, using
 an asynchronous version of the Javascript code if possible.
+
+.. end docs include
 
 .. |latest-version| image:: https://img.shields.io/pypi/v/django-analytical.svg
    :alt: Latest version on PyPI

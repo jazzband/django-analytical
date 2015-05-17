@@ -15,8 +15,8 @@ Overview
 ========
 
 .. include:: ../README.rst
-    :start-after: Django_ project.
-    :end-before: Currently supported services:
+    :start-after: .. start docs include
+    :end-before: .. end docs include
 
 To get a feel of how django-analytical works, check out the
 :doc:`tutorial`.
