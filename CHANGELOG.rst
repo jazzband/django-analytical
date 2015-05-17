@@ -1,5 +1,6 @@
-Development
------------
+Version 0.22.0
+--------------
+* Mark package as Python 3 compatible (Martín Gaitán)
 * Fix Clickmap tracker id regular expression
 * Test with Django 1.8
 
