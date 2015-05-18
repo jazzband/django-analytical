@@ -1,6 +1,6 @@
 language: python
 install:
-  - pip install tox
+  - pip install coveralls tox
 script:
   - tox
 env:  # generate list with: $ tox -l | xargs -I ITEM echo "  - TOXENV="ITEM
