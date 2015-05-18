@@ -1,6 +1,7 @@
 /*.geany
 /.idea
 /.tox
+/.coverage
 
 /build
 /dist

@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|travis-ci| |downloads| |license|
+|travis-ci| |coveralls| |downloads| |license|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -29,6 +29,9 @@ an asynchronous version of the Javascript code if possible.
 .. |travis-ci| image:: https://travis-ci.org/jcassee/django-analytical.svg
    :alt: Build status
    :target: https://travis-ci.org/jcassee/django-analytical
+.. |coveralls| image:: https://coveralls.io/repos/jcassee/django-analytical/badge.svg
+   :alt: Test coverage
+   :target: https://coveralls.io/r/jcassee/django-analytical
 .. |downloads| image:: https://img.shields.io/pypi/dm/django-analytical.svg
    :alt: Monthly downloads from PyPI
    :target: https://pypi.python.org/pypi/django-analytical
