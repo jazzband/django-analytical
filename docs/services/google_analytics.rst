@@ -124,7 +124,7 @@ You can view page load times in the `Site Speed report`_ by setting the
 
 By default, page load times are not tracked.
 
-.. _`Site Speed report`: http://www.google.com/support/analyticshelp/bin/answer.py?answer=1205784&topic=1282106
+.. _`Site Speed report`: https://support.google.com/analytics/answer/1205784
 
 
 .. _google-analytics-internal-ips:
