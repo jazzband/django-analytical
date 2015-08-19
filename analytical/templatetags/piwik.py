@@ -3,6 +3,7 @@ Piwik template tags and filters.
 """
 
 from __future__ import absolute_import
+from collections import namedtuple
 
 import re
 
@@ -20,6 +21,7 @@ SITEID_RE = re.compile(r'^\d+$')
 TRACKING_CODE = """
 <script type="text/javascript">
   var _paq = _paq || [];
+  %(variables)s
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
@@ -33,6 +35,11 @@ TRACKING_CODE = """
 <noscript><p><img src="http://%(url)s/piwik.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
 """  # noqa
 
+VARIABLE_CODE = '_paq.push([%(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'
+PiwikVar = namedtuple('PiwikVar', ('index', 'name', 'value', 'scope'))
+
+DEFAULT_SCOPE = 'page'
+
 
 register = Library()
 
@@ -45,6 +52,13 @@ def piwik(parser, token):
     Renders Javascript code to track page visits.  You must supply
     your Piwik domain (plus optional URI path), and tracked site ID
     in the ``PIWIK_DOMAIN_PATH`` and the ``PIWIK_SITE_ID`` setting.
+
+    Custom variables can be passed in the ``piwik_vars`` context
+    variable. It is an iterable of custom variables as tuples like:
+    ``(index, name, value[, scope])`` where scope may be ``'page'``
+    (default) or ``'visit'``. Index should be an integer and the
+    other parameters should be strings.
+    See the [Piwik documentation](http://developer.piwik.org/guides/tracking-javascript-guide#custom-variables)
     """
     bits = token.split_contents()
     if len(bits) > 1:
@@ -64,9 +78,16 @@ class PiwikNode(Node):
                                  "must be a (string containing a) number")
 
     def render(self, context):
+        custom_variables = context.get('piwik_vars', ())
+
+        complete_variables = (var if len(var) >= 4 else var + (DEFAULT_SCOPE,) for var in custom_variables)
+
+        variables_code = (VARIABLE_CODE % PiwikVar(*var)._asdict() for var in complete_variables)
+
         html = TRACKING_CODE % {
             'url': self.domain_path,
             'siteid': self.site_id,
+            'variables': '\n   '.join(variables_code)
         }
         if is_internal_ip(context, 'PIWIK'):
             html = disable_html(html, 'Piwik')

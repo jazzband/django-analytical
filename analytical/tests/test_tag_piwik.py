@@ -67,3 +67,14 @@ class PiwikTagTestCase(TagTestCase):
         self.assertTrue(r.startswith(
             '<!-- Piwik disabled on internal IP address'), r)
         self.assertTrue(r.endswith('-->'), r)
+
+    def test_uservars(self):
+        context = Context({'piwik_vars': [(1, 'foo', 'foo_val'),
+                                          (2, 'bar', 'bar_val', 'page'),
+                                          (3, 'spam', 'spam_val', 'visit')]})
+        r = PiwikNode().render(context)
+        msg = 'Incorrect Piwik custom variable rendering. Expected:\n%s\nIn:\n%s'
+        for var_code in ['_paq.push([1, "foo", "foo_val", "page"]);',
+                         '_paq.push([2, "bar", "bar_val", "page"]);',
+                         '_paq.push([3, "spam", "spam_val", "visit"]);']:
+            self.assertIn(var_code, r, msg % (var_code, r))
