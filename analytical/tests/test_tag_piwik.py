@@ -5,6 +5,7 @@ Tests for the Piwik template tags and filters.
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from django.contrib.auth.models import User
 
 from analytical.templatetags.piwik import PiwikNode
 from analytical.tests.utils import TagTestCase
@@ -74,7 +75,46 @@ class PiwikTagTestCase(TagTestCase):
                                           (3, 'spam', 'spam_val', 'visit')]})
         r = PiwikNode().render(context)
         msg = 'Incorrect Piwik custom variable rendering. Expected:\n%s\nIn:\n%s'
-        for var_code in ['_paq.push([1, "foo", "foo_val", "page"]);',
-                         '_paq.push([2, "bar", "bar_val", "page"]);',
-                         '_paq.push([3, "spam", "spam_val", "visit"]);']:
+        for var_code in ['_paq.push(["setCustomVariable", 1, "foo", "foo_val", "page"]);',
+                         '_paq.push(["setCustomVariable", 2, "bar", "bar_val", "page"]);',
+                         '_paq.push(["setCustomVariable", 3, "spam", "spam_val", "visit"]);']:
             self.assertIn(var_code, r, msg % (var_code, r))
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_default_usertrack(self):
+        context = Context({
+            'user': User(username='BDFL', first_name='Guido', last_name='van Rossum')
+        })
+        r = PiwikNode().render(context)
+        msg = 'Incorrect Piwik user tracking rendering. Expected:\n%s\nIn:\n%s'
+        var_code = '_paq.push(["setUserId", "BDFL"]);'
+        self.assertIn(var_code, r, msg % (var_code, r))
+
+    def test_piwik_usertrack(self):
+        context = Context({
+            'piwik_identity': 'BDFL'
+        })
+        r = PiwikNode().render(context)
+        msg = 'Incorrect Piwik user tracking rendering. Expected:\n%s\nIn:\n%s'
+        var_code = '_paq.push(["setUserId", "BDFL"]);'
+        self.assertIn(var_code, r, msg % (var_code, r))
+
+    def test_analytical_usertrack(self):
+        context = Context({
+            'analytical_identity': 'BDFL'
+        })
+        r = PiwikNode().render(context)
+        msg = 'Incorrect Piwik user tracking rendering. Expected:\n%s\nIn:\n%s'
+        var_code = '_paq.push(["setUserId", "BDFL"]);'
+        self.assertIn(var_code, r, msg % (var_code, r))
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_disable_usertrack(self):
+        context = Context({
+            'user': User(username='BDFL', first_name='Guido', last_name='van Rossum'),
+            'piwik_identity': None
+        })
+        r = PiwikNode().render(context)
+        msg = 'Incorrect Piwik user tracking rendering. Expected:\n%s\nIn:\n%s'
+        var_code = '_paq.push(["setUserId", "BDFL"]);'
+        self.assertNotIn(var_code, r, msg % (var_code, r))
