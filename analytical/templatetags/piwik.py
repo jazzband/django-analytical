@@ -87,7 +87,7 @@ class PiwikNode(Node):
         html = TRACKING_CODE % {
             'url': self.domain_path,
             'siteid': self.site_id,
-            'variables': '\n   '.join(variables_code)
+            'variables': '\n  '.join(variables_code)
         }
         if is_internal_ip(context, 'PIWIK'):
             html = disable_html(html, 'Piwik')
