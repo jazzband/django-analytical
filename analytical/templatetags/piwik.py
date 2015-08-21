@@ -3,14 +3,15 @@ Piwik template tags and filters.
 """
 
 from __future__ import absolute_import
-from collections import namedtuple
 
+from collections import namedtuple
+from itertools import chain
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
-from django.conf import settings
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting, get_identity
+from analytical.utils import (is_internal_ip, disable_html,
+                              get_required_setting, get_identity)
 
 
 # domain name (characters separated by a dot), optional URI path, no slash
@@ -36,7 +37,7 @@ TRACKING_CODE = """
 <noscript><p><img src="http://%(url)s/piwik.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
 """  # noqa
 
-VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'
+VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
 
 DEFAULT_SCOPE = 'page'
@@ -61,7 +62,6 @@ def piwik(parser, token):
     ``(index, name, value[, scope])`` where scope may be ``'page'``
     (default) or ``'visit'``. Index should be an integer and the
     other parameters should be strings.
-    See the [Piwik documentation](http://developer.piwik.org/guides/tracking-javascript-guide#custom-variables)
     """
     bits = token.split_contents()
     if len(bits) > 1:
@@ -83,15 +83,17 @@ class PiwikNode(Node):
     def render(self, context):
         custom_variables = context.get('piwik_vars', ())
 
-        complete_variables = (var if len(var) >= 4 else var + (DEFAULT_SCOPE,) for var in custom_variables)
+        complete_variables = (var if len(var) >= 4 else var + (DEFAULT_SCOPE,)
+                              for var in custom_variables)
 
-        variables_code = [VARIABLE_CODE % PiwikVar(*var)._asdict() for var in complete_variables]
+        variables_code = (VARIABLE_CODE % PiwikVar(*var)._asdict()
+                          for var in complete_variables)
 
         userid = get_identity(context, 'piwik')
         if userid is not None:
-            variables_code.append(
-                IDENTITY_CODE % {'userid': userid}
-            )
+            variables_code = chain(variables_code, (
+                IDENTITY_CODE % {'userid': userid},
+            ))
 
         html = TRACKING_CODE % {
             'url': self.domain_path,

@@ -2,10 +2,10 @@
 Tests for the Piwik template tags and filters.
 """
 
+from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
-from django.contrib.auth.models import User
 
 from analytical.templatetags.piwik import PiwikNode
 from analytical.tests.utils import TagTestCase
@@ -86,7 +86,7 @@ class PiwikTagTestCase(TagTestCase):
             'user': User(username='BDFL', first_name='Guido', last_name='van Rossum')
         })
         r = PiwikNode().render(context)
-        msg = 'Incorrect Piwik user tracking rendering. Expected:\n%s\nIn:\n%s'
+        msg = 'Incorrect Piwik user tracking rendering.\nNot found:\n%s\nIn:\n%s'
         var_code = '_paq.push(["setUserId", "BDFL"]);'
         self.assertIn(var_code, r, msg % (var_code, r))
 
@@ -95,7 +95,7 @@ class PiwikTagTestCase(TagTestCase):
             'piwik_identity': 'BDFL'
         })
         r = PiwikNode().render(context)
-        msg = 'Incorrect Piwik user tracking rendering. Expected:\n%s\nIn:\n%s'
+        msg = 'Incorrect Piwik user tracking rendering.\nNot found:\n%s\nIn:\n%s'
         var_code = '_paq.push(["setUserId", "BDFL"]);'
         self.assertIn(var_code, r, msg % (var_code, r))
 
@@ -104,7 +104,7 @@ class PiwikTagTestCase(TagTestCase):
             'analytical_identity': 'BDFL'
         })
         r = PiwikNode().render(context)
-        msg = 'Incorrect Piwik user tracking rendering. Expected:\n%s\nIn:\n%s'
+        msg = 'Incorrect Piwik user tracking rendering.\nNot found:\n%s\nIn:\n%s'
         var_code = '_paq.push(["setUserId", "BDFL"]);'
         self.assertIn(var_code, r, msg % (var_code, r))
 
@@ -115,6 +115,6 @@ class PiwikTagTestCase(TagTestCase):
             'piwik_identity': None
         })
         r = PiwikNode().render(context)
-        msg = 'Incorrect Piwik user tracking rendering. Expected:\n%s\nIn:\n%s'
+        msg = 'Incorrect Piwik user tracking rendering.\nFound:\n%s\nIn:\n%s'
         var_code = '_paq.push(["setUserId", "BDFL"]);'
         self.assertNotIn(var_code, r, msg % (var_code, r))
