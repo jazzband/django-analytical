@@ -79,6 +79,70 @@ the value corresponding to the website you're tracking::
 If you do not set the site ID the tracking code will not be rendered.
 
 
+.. _piwik-uservars:
+
+User variables
+--------------
+
+Piwik supports sending `custom variables`_ along with default statistics. If
+you want to set a custom variable, use the context variable ``piwik_vars`` when
+you render your template. It should be an iterable of custom variables
+represented by tuples like: ``(index, name, value[, scope])``, where scope may
+be ``'page'`` (default) or ``'visit'``. ``index`` should be an integer and the
+other parameters should be strings. ::
+
+    context = Context({
+        'piwik_vars': [(1, 'foo', 'Sir Lancelot of Camelot'),
+                       (2, 'bar', 'To seek the Holy Grail', 'page'),
+                       (3, 'spam', 'Blue', 'visit')]
+    })
+    return some_template.render(context)
+
+Piwik default settings allow up to 5 custom variables for both scope. Variable
+mapping betweeen index and name must stay constant, or the latest name
+override the previous one.
+
+If you use the same user variables in different views and its value can
+be computed from the HTTP request, you can also set them in a context
+processor that you add to the :data:`TEMPLATE_CONTEXT_PROCESSORS` list
+in :file:`settings.py`.
+
+.. _`custom variables`: http://developer.piwik.org/guides/tracking-javascript-guide#custom-variables
+
+
+.. _piwik-user-tracking:
+
+User tracking
+-------------
+
+If you use the standard Django authentication system, you can allow Piwik to
+`track individual users`_ by setting the :data:`ANALYTICAL_AUTO_IDENTIFY`
+setting to :const:`True`. This is enabled by default. Piwik will identify
+users based on their ``username``.
+
+If you disable this settings, or want to customize what user id to use, you can
+set the context variable ``analytical_identity`` (for global configuration) or
+``piwik_identity`` (for Piwik specific configuration). Setting one to
+:const:`None` will disable the user tracking feature::
+
+    # Piwik will identify this user as 'BDFL' if ANALYTICAL_AUTO_IDENTIFY is True or unset
+    request.user = User(username='BDFL', first_name='Guido', last_name='van Rossum')
+
+    # Piwik will identify this user as 'Guido van Rossum'
+    request.user = User(username='BDFL', first_name='Guido', last_name='van Rossum')
+    context = Context({
+        'piwik_identity': request.user.get_full_name()
+    })
+
+    # Piwik will not identify this user (but will still collect statistics)
+    request.user = User(username='BDFL', first_name='Guido', last_name='van Rossum')
+    context = Context({
+        'piwik_identity': None
+    })
+
+.. _`track individual users`: http://developer.piwik.org/guides/tracking-javascript-guide#user-id
+
+
 Internal IP addresses
 ---------------------
 
