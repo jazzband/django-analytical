@@ -1,3 +1,7 @@
+Version 1.0.0
+-------------
+* Add Piwik user variables support (Alexandre Pocquet)
+
 Version 0.22.0
 --------------
 * Mark package as Python 3 compatible (Martín Gaitán)
