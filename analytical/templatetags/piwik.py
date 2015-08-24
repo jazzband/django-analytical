@@ -58,9 +58,9 @@ def piwik(parser, token):
     in the ``PIWIK_DOMAIN_PATH`` and the ``PIWIK_SITE_ID`` setting.
 
     Custom variables can be passed in the ``piwik_vars`` context
-    variable. It is an iterable of custom variables as tuples like:
+    variable.  It is an iterable of custom variables as tuples like:
     ``(index, name, value[, scope])`` where scope may be ``'page'``
-    (default) or ``'visit'``. Index should be an integer and the
+    (default) or ``'visit'``.  Index should be an integer and the
     other parameters should be strings.
     """
     bits = token.split_contents()
