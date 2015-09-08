@@ -12,6 +12,7 @@ from django.template import Library, Node, TemplateSyntaxError
 from analytical.utils import is_internal_ip, disable_html, \
         get_required_setting, get_domain, AnalyticalException
 
+
 def enumerate(sequence, start=0):
     """Copy of the Python 2.6 `enumerate` builtin for compatibility."""
     n = start
@@ -56,6 +57,7 @@ DISPLAY_ADVERTISING_SOURCE = ("'https://' : 'http://'", "'stats.g.doubleclick.ne
 
 register = Library()
 
+
 @register.tag
 def google_analytics(parser, token):
     """
@@ -69,6 +71,7 @@ def google_analytics(parser, token):
     if len(bits) > 1:
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return GoogleAnalyticsNode()
+
 
 class GoogleAnalyticsNode(Node):
     def __init__(self):
@@ -131,6 +134,7 @@ class GoogleAnalyticsNode(Node):
         if getattr(settings, 'GOOGLE_ANALYTICS_ANONYMIZE_IP', False):
             commands.append(ANONYMIZE_IP_CODE)
         return commands
+
 
 def contribute_to_analytical(add_node):
     GoogleAnalyticsNode()  # ensure properly configured

@@ -104,6 +104,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         r = GoogleAnalyticsNode().render(Context())
         self.assertFalse("_gaq.push (['_gat._anonymizeIp']);" in r, r)
 
+
 @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
         GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
         GOOGLE_ANALYTICS_DOMAIN=None,

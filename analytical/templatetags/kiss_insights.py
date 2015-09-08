@@ -40,6 +40,7 @@ def kiss_insights(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return KissInsightsNode()
 
+
 class KissInsightsNode(Node):
     def __init__(self):
         self.account_number = get_required_setting(

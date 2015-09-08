@@ -50,6 +50,7 @@ def performable(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return PerformableNode()
 
+
 class PerformableNode(Node):
     def __init__(self):
         self.api_key = get_required_setting('PERFORMABLE_API_KEY', API_KEY_RE,

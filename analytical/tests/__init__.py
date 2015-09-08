@@ -1,6 +1,7 @@
 """
 Tests for django-analytical.
 """
+# flake8: noqa
 
 from analytical.tests.test_tag_analytical import *
 from analytical.tests.test_tag_chartbeat import *

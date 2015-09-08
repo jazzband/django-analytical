@@ -55,6 +55,7 @@ def chartbeat_top(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return ChartbeatTopNode()
 
+
 class ChartbeatTopNode(Node):
     def render(self, context):
         if is_internal_ip(context):
@@ -75,6 +76,7 @@ def chartbeat_bottom(parser, token):
     if len(bits) > 1:
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return ChartbeatBottomNode()
+
 
 class ChartbeatBottomNode(Node):
     def __init__(self):
@@ -109,5 +111,5 @@ def _get_domain(context):
         elif getattr(settings, 'CHARTBEAT_AUTO_DOMAIN', True):
             try:
                 return Site.objects.get_current().domain
-            except (ImproperlyConfigured, Site.DoesNotExist): #pylint: disable=E1101
+            except (ImproperlyConfigured, Site.DoesNotExist):  # pylint: disable=E1101
                 return

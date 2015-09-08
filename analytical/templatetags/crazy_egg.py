@@ -33,6 +33,7 @@ def crazy_egg(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return CrazyEggNode()
 
+
 class CrazyEggNode(Node):
     def __init__(self):
         self.account_nr = get_required_setting('CRAZY_EGG_ACCOUNT_NUMBER',

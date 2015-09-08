@@ -7,6 +7,7 @@ from __future__ import with_statement
 from django.template import Template, Context, RequestContext
 from django.test.testcases import TestCase
 
+
 def run_tests():
     """
     Use the Django test runner to run the tests.
