@@ -72,7 +72,7 @@ Tracking multiple domains
 
 The default code is suitable for tracking a single domain.  If you track
 multiple domains, set the :const:`GOOGLE_ANALYTICS_TRACKING_STYLE`
-setting to one of the :const:`analytical.google_analytics.SCOPE_*`
+setting to one of the :const:`analytical.templatetags.google_analytics.SCOPE_*`
 constants:
 
 =============================  =====  =============================================
@@ -87,7 +87,7 @@ Constant                       Value  Description
 =============================  =====  =============================================
 
 As noted, the default tracking style is
-:const:`~analytical.google_analytics.TRACK_SINGLE_DOMAIN`.
+:const:`~analytical.templatetags.google_analytics.TRACK_SINGLE_DOMAIN`.
 
 When you track multiple (sub)domains, django-analytical needs to know
 what domain name to pass to Google Analytics.  If you use the contrib
@@ -159,7 +159,7 @@ when your render a template containing the tracking code::
 
 The value of the context variable is a tuple *(name, value, [scope])*.
 The scope parameter is one of the
-:const:`analytical.google_analytics.SCOPE_*` constants:
+:const:`analytical.templatetags.google_analytics.SCOPE_*` constants:
 
 =================  ======  =============================================
 Constant           Value   Description
@@ -171,7 +171,7 @@ Constant           Value   Description
 ``SCOPE_PAGE``       3     Defines page-level activity.
 =================  ======  =============================================
 
-The default scope is :const:`~analytical.google_analytics.SCOPE_PAGE`.
+The default scope is :const:`~analytical.templatetags.google_analytics.SCOPE_PAGE`.
 
 You may want to set custom variables in a context processor that you add
 to the :data:`TEMPLATE_CONTEXT_PROCESSORS` list in :file:`settings.py`::
