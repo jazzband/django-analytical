@@ -48,6 +48,7 @@ def gosquared(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return GoSquaredNode()
 
+
 class GoSquaredNode(Node):
     def __init__(self):
         self.site_token = get_required_setting('GOSQUARED_SITE_TOKEN', TOKEN_RE,

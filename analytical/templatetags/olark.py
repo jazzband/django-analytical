@@ -53,6 +53,7 @@ def olark(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return OlarkNode()
 
+
 class OlarkNode(Node):
     def __init__(self):
         self.site_id = get_required_setting('OLARK_SITE_ID', SITE_ID_RE,

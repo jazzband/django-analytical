@@ -49,6 +49,7 @@ def clicky(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return ClickyNode()
 
+
 class ClickyNode(Node):
     def __init__(self):
         self.site_id = get_required_setting('CLICKY_SITE_ID', SITE_ID_RE,

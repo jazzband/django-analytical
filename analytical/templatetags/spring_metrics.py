@@ -49,6 +49,7 @@ def spring_metrics(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return SpringMetricsNode()
 
+
 class SpringMetricsNode(Node):
     def __init__(self):
         self.tracking_id = get_required_setting('SPRING_METRICS_TRACKING_ID',

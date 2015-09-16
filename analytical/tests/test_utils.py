@@ -32,6 +32,7 @@ class SettingDeletedTestCase(TestCase):
             self.assertRaises(AnalyticalException,
                               get_required_setting, "USER_ID", "\d+", "invalid USER_ID")
 
+
 @override_settings(ANALYTICAL_DOMAIN="example.org")
 class GetDomainTestCase(TestCase):
     def test_get_service_domain_from_context(self):

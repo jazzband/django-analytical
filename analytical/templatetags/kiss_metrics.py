@@ -58,6 +58,7 @@ def kiss_metrics(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return KissMetricsNode()
 
+
 class KissMetricsNode(Node):
     def __init__(self):
         self.api_key = get_required_setting('KISS_METRICS_API_KEY',
@@ -72,9 +73,9 @@ class KissMetricsNode(Node):
         try:
             properties = context[ALIAS_CONTEXT_KEY]
             key, value = properties.popitem()
-            commands.append(ALIAS_CODE % (key,value))
+            commands.append(ALIAS_CODE % (key, value))
         except KeyError:
-            pass                         
+            pass
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
             commands.append(EVENT_CODE % {'name': name,

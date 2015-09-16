@@ -47,6 +47,7 @@ def woopra(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return WoopraNode()
 
+
 class WoopraNode(Node):
     def __init__(self):
         self.domain = get_required_setting('WOOPRA_DOMAIN', DOMAIN_RE,

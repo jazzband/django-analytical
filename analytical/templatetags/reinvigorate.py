@@ -44,6 +44,7 @@ def reinvigorate(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return ReinvigorateNode()
 
+
 class ReinvigorateNode(Node):
     def __init__(self):
         self.tracking_id = get_required_setting('REINVIGORATE_TRACKING_ID',

@@ -82,6 +82,7 @@ class UserVoiceNode(Node):
             name = user.username
         return {'name': name, 'email': user.email}
 
+
 def contribute_to_analytical(add_node):
     UserVoiceNode()  # ensure properly configured
     add_node('body_bottom', UserVoiceNode)

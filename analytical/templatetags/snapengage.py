@@ -66,6 +66,7 @@ def snapengage(parser, token):
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
     return SnapEngageNode()
 
+
 class SnapEngageNode(Node):
     def __init__(self):
         self.widget_id = get_required_setting('SNAPENGAGE_WIDGET_ID',

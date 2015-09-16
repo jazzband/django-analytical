@@ -68,8 +68,7 @@ class KissMetricsTagTestCase(TagTestCase):
     def test_alias(self):
         r = KissMetricsNode().render(Context({'kiss_metrics_alias':
                 {'test': 'test_alias'}}))
-        self.assertTrue("_kmq.push(['alias', 'test', 'test_alias']);" in r,r)
-                
+        self.assertTrue("_kmq.push(['alias', 'test', 'test_alias']);" in r, r)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
