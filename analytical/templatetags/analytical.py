@@ -8,7 +8,10 @@ import logging
 
 from django import template
 from django.template import Node, TemplateSyntaxError
-from django.utils.importlib import import_module
+try:
+    from importlib import import_module
+except ImportError:  # Python 2.6
+    from django.utils.importlib import import_module
 from analytical.utils import AnalyticalException
 
 
