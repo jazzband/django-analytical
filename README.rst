@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|travis-ci| |coveralls| |health| |downloads| |license|
+|travis-ci| |coveralls| |health| |downloads| |license| |gitter|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -41,6 +41,9 @@ an asynchronous version of the Javascript code if possible.
 .. |license| image:: https://img.shields.io/pypi/l/django-analytical.svg
    :alt: Software license
    :target: https://github.com/jcassee/django-analytical/blob/master/LICENSE.txt
+.. |gitter| image:: https://badges.gitter.im/Join%20Chat.svg
+   :alt: Gitter chat room
+   :target: https://gitter.im/jcassee/django-analytical
 .. _`Django`: http://www.djangoproject.com/
 
 Currently Supported Services
@@ -90,15 +93,18 @@ Currently Supported Services
 .. _`UserVoice`: http://www.uservoice.com/
 .. _`Woopra`: http://www.woopra.com/
 
-Documentation
--------------
+Documentation and Support
+-------------------------
 
 The documentation can be found in the ``docs`` directory or `read
 online`_.  The source code and issue tracker are generously `hosted by
-GitHub`_.
+GitHub`_.  Bugs should be reported there, whereas for lengthy chats
+and coding support when implementing new service integrations you're
+welcome to use our `Gitter chat room`_.
 
-.. _`read online`: http://packages.python.org/django-analytical/
-.. _`hosted by GitHub`: http://github.com/jcassee/django-analytical
+.. _`read online`: https://packages.python.org/django-analytical/
+.. _`hosted by GitHub`: https://github.com/jcassee/django-analytical
+.. _`Gitter chat room`: https://gitter.im/jcassee/django-analytical
 
 How To Contribute
 -----------------
@@ -110,5 +116,5 @@ services to support, or suggesting documentation improvements, use the
 the repository, make changes and place a `pull request`_.  Please do
 create an issue to discuss your plans.
 
-.. _`issue tracker`: http://github.com/jcassee/django-analytical/issues
+.. _`issue tracker`: https://github.com/jcassee/django-analytical/issues
 .. _`pull request`: https://github.com/jcassee/django-analytical/pulls
