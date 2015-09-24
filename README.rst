@@ -1,6 +1,10 @@
 django-analytical |latest-version|
 ==================================
 
+.. image:: https://badges.gitter.im/Join%20Chat.svg
+   :alt: Join the chat at https://gitter.im/jcassee/django-analytical
+   :target: https://gitter.im/jcassee/django-analytical?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
 |travis-ci| |coveralls| |health| |downloads| |license|
 
 The django-analytical application integrates analytics services into a
