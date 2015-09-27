@@ -21,7 +21,7 @@ SETUP_CODE = """
 """
 NICKNAME_CODE = "olark('api.chat.updateVisitorNickname', {snippet: '%s'});"
 NICKNAME_CONTEXT_KEY = 'olark_nickname'
-FULLNAME_CODE = u"olark('api.visitor.updateFullName', {{fullName: '{0}'}});"
+FULLNAME_CODE = "olark('api.visitor.updateFullName', {{fullName: '{0}'}});"
 FULLNAME_CONTEXT_KEY = 'olark_fullname'
 EMAIL_CODE = "olark('api.visitor.updateEmailAddress', {{emailAddress: '{0}'}});"
 EMAIL_CONTEXT_KEY = 'olark_email'
