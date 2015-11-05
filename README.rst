@@ -53,7 +53,7 @@ Currently Supported Services
 * `Clickmap`_ visual click tracking
 * `Clicky`_ traffic analysis
 * `Crazy Egg`_ visual click tracking
-* `Gaug.es`_ realtime traffic tracking
+* `Gaug.es`_ real time web analytics
 * `Google Analytics`_ traffic analysis
 * `GoSquared`_ traffic monitoring
 * `HubSpot`_ inbound marketing
@@ -75,7 +75,7 @@ Currently Supported Services
 .. _`Clickmap`: http://getclickmap.com/
 .. _`Clicky`: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
-.. _`Gaug.es`: http://gaug.es/
+.. _`Gaug.es`: http://get.gaug.es/
 .. _`Google Analytics`: http://www.google.com/analytics/
 .. _`GoSquared`: http://www.gosquared.com/
 .. _`HubSpot`: http://www.hubspot.com/
