@@ -47,10 +47,18 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-import django
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "analytical.tests.settings")
-django.setup()
+try:
+    import django
+    os.environ.setdefault(
+        "DJANGO_SETTINGS_MODULE",
+        "analytical.tests.settings"
+    )
+    django.setup()
+except ImportError:
+    print(
+        "Could not import django. "
+        "This is fine, unless you intend to run unit tests."
+    )
 
 import analytical
 
