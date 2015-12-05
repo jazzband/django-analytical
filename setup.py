@@ -47,6 +47,11 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "analytical.tests.settings")
+django.setup()
+
 import analytical
 
 setup(
