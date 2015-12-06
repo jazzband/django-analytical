@@ -63,8 +63,9 @@ class PerformableEmbedTagTestCase(TagTestCase):
     def test_tag(self):
         domain = 'example.com'
         page = 'test'
-        r = self.render_tag('performable', 'performable_embed "%s" "%s"'
-                % (domain, page))
-        self.assertTrue(
-                "$f.initialize({'host': 'example.com', 'page': 'test'});" in r,
-                r)
+        tag = self.render_tag(
+            'performable', 'performable_embed "%s" "%s"' % (domain, page)
+        )
+        self.assertIn(
+            "$f.initialize({'host': 'example.com', 'page': 'test'});", tag
+        )
