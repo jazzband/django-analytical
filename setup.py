@@ -98,6 +98,6 @@ setup(
     download_url='https://github.com/jcassee/django-analytical/archive/master.zip',
     cmdclass=cmdclass,
     install_requires=[
-        'Django>=1.4',
+        'Django>=1.7.0',
     ],
 )
