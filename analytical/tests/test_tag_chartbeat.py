@@ -4,7 +4,6 @@ Tests for the Chartbeat template tags and filters.
 
 import re
 
-from django.contrib.sites.models import Site
 from django.http import HttpRequest
 from django.template import Context
 from django.test import TestCase
@@ -31,6 +30,7 @@ class ChartbeatTagTestCaseWithSites(TestCase):
         call_command("migrate", verbosity=0)
 
     def test_rendering_setup_site(self):
+        from django.contrib.sites.models import Site
         site = Site.objects.create(domain="test.com", name="test")
         with override_settings(SITE_ID=site.id):
             r = ChartbeatBottomNode().render(Context())

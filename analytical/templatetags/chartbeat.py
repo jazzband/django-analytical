@@ -8,7 +8,6 @@ import json
 import re
 
 from django.conf import settings
-from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 from django.template import Library, Node, TemplateSyntaxError
 
@@ -109,6 +108,7 @@ def _get_domain(context):
         if 'django.contrib.sites' not in settings.INSTALLED_APPS:
             return
         elif getattr(settings, 'CHARTBEAT_AUTO_DOMAIN', True):
+            from django.contrib.sites.models import Site
             try:
                 return Site.objects.get_current().domain
             except (ImproperlyConfigured, Site.DoesNotExist):  # pylint: disable=E1101

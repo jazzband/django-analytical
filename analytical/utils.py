@@ -3,7 +3,6 @@ Utility function for django-analytical.
 """
 
 from django.conf import settings
-from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -100,6 +99,7 @@ def get_domain(context, prefix):
         domain = getattr(settings, 'ANALYTICAL_DOMAIN', None)
     if domain is None:
         if 'django.contrib.sites' in settings.INSTALLED_APPS:
+            from django.contrib.sites.models import Site
             try:
                 domain = Site.objects.get_current().domain
             except (ImproperlyConfigured, Site.DoesNotExist):
