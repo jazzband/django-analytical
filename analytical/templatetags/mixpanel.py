@@ -8,6 +8,7 @@ import json
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
+from django.utils.safestring import mark_safe
 
 from analytical.utils import is_internal_ip, disable_html, get_identity, \
         get_required_setting
@@ -46,7 +47,7 @@ def mixpanel(parser, token):
 
 class MixpanelNode(Node):
     def __init__(self):
-        self.token = get_required_setting(
+        self._token = get_required_setting(
                 'MIXPANEL_API_TOKEN', MIXPANEL_API_TOKEN_RE,
                 "must be a string containing a 32-digit hexadecimal number")
 
@@ -65,11 +66,11 @@ class MixpanelNode(Node):
                     'properties': json.dumps(properties, sort_keys=True)})
         except KeyError:
             pass
-        html = TRACKING_CODE % {'token': self.token,
+        html = TRACKING_CODE % {'token': self._token,
                 'commands': " ".join(commands)}
         if is_internal_ip(context, 'MIXPANEL'):
             html = disable_html(html, 'Mixpanel')
-        return html
+        return mark_safe(html)
 
 
 def contribute_to_analytical(add_node):
