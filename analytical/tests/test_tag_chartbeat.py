@@ -28,9 +28,7 @@ class ChartbeatTagTestCaseNoSites(TestCase):
 class ChartbeatTagTestCaseWithSites(TestCase):
     def setUp(self):
         from django.core.management import call_command
-        from django.db.models import loading
-        loading.cache.loaded = False
-        call_command("syncdb", verbosity=0)
+        call_command("migrate", verbosity=0)
 
     def test_rendering_setup_site(self):
         site = Site.objects.create(domain="test.com", name="test")
