@@ -22,7 +22,12 @@ class ChartbeatTagTestCaseNoSites(TestCase):
         self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
 
-@override_settings(INSTALLED_APPS=('analytical', 'django.contrib.sites'))
+@override_settings(INSTALLED_APPS=(
+    'analytical',
+    'django.contrib.sites',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+))
 @override_settings(CHARTBEAT_USER_ID='12345')
 class ChartbeatTagTestCaseWithSites(TestCase):
     def setUp(self):
