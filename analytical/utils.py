@@ -123,15 +123,15 @@ def is_internal_ip(context, prefix=None):
         if not remote_ip:
             return False
 
-        internal_ips = ''
+        internal_ips = None
         if prefix is not None:
-            internal_ips = getattr(settings, '%s_INTERNAL_IPS' % prefix, '')
-        if not internal_ips:
-            internal_ips = getattr(settings, 'ANALYTICAL_INTERNAL_IPS', '')
-        if not internal_ips:
-            internal_ips = getattr(settings, 'INTERNAL_IPS', '')
+            internal_ips = getattr(settings, '%s_INTERNAL_IPS' % prefix, None)
+        if internal_ips is None:
+            internal_ips = getattr(settings, 'ANALYTICAL_INTERNAL_IPS', None)
+        if internal_ips is None:
+            internal_ips = getattr(settings, 'INTERNAL_IPS', None)
 
-        return remote_ip in internal_ips
+        return remote_ip in (internal_ips or [])
     except (KeyError, AttributeError):
         return False
 
