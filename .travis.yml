@@ -5,7 +5,7 @@ install:
   - pip install coveralls tox
 script:
   - tox
-env:  # generate list with: $ tox -l | xargs -I ITEM echo "  - TOXENV="ITEM
+env:  # generate list with: $ tox -l | sort | xargs -I ITEM echo "  - TOXENV="ITEM
     - TOXENV=py27-django17
     - TOXENV=py27-django18
     - TOXENV=py27-django19
