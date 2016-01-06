@@ -1,7 +1,7 @@
-Development
------------
-* Support custom user models with an alternative username field (Brad Pitcher)
+Version 2.0.0
+-------------
 * Support Django 1.9, drop support for Django < 1.7 (Hugo Osvaldo Barrera)
+* Support custom user models with an alternative username field (Brad Pitcher)
 
 Version 1.0.0
 -------------
