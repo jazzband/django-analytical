@@ -76,7 +76,10 @@ def get_identity(context, prefix=None, identity_func=None, user=None):
                 if identity_func is not None:
                     return identity_func(user)
                 else:
-                    return user.username
+                    try:
+                        return user.get_username()
+                    except AttributeError:  # Django < 1.5 fallback
+                        return user.username
         except (KeyError, AttributeError):
             pass
     return None
