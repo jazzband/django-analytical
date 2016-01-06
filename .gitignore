@@ -1,3 +1,4 @@
+.*.sw?
 /*.geany
 /.idea
 /.tox

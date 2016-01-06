@@ -4,7 +4,6 @@ Tests for the Chartbeat template tags and filters.
 
 import re
 
-from django.contrib.sites.models import Site
 from django.http import HttpRequest
 from django.template import Context
 from django.test import TestCase
@@ -23,16 +22,20 @@ class ChartbeatTagTestCaseNoSites(TestCase):
         self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
 
-@override_settings(INSTALLED_APPS=('analytical', 'django.contrib.sites'))
+@override_settings(INSTALLED_APPS=(
+    'analytical',
+    'django.contrib.sites',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+))
 @override_settings(CHARTBEAT_USER_ID='12345')
 class ChartbeatTagTestCaseWithSites(TestCase):
     def setUp(self):
         from django.core.management import call_command
-        from django.db.models import loading
-        loading.cache.loaded = False
-        call_command("syncdb", verbosity=0)
+        call_command("migrate", verbosity=0)
 
     def test_rendering_setup_site(self):
+        from django.contrib.sites.models import Site
         site = Site.objects.create(domain="test.com", name="test")
         with override_settings(SITE_ID=site.id):
             r = ChartbeatBottomNode().render(Context())

@@ -7,6 +7,7 @@ from __future__ import absolute_import
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
+from django.utils.safestring import mark_safe
 
 from analytical.utils import is_internal_ip, disable_html, get_identity, \
         get_required_setting
@@ -71,7 +72,7 @@ def performable_embed(hostname, page_id):
     """
     Include a Performable landing page.
     """
-    return EMBED_CODE % {'hostname': hostname, 'page_id': page_id}
+    return mark_safe(EMBED_CODE % {'hostname': hostname, 'page_id': page_id})
 
 
 def contribute_to_analytical(add_node):

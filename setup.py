@@ -47,6 +47,19 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
+try:
+    import django
+    os.environ.setdefault(
+        "DJANGO_SETTINGS_MODULE",
+        "analytical.tests.settings"
+    )
+    django.setup()
+except ImportError:
+    print(
+        "Could not import django. "
+        "This is fine, unless you intend to run unit tests."
+    )
+
 import analytical
 
 setup(
@@ -85,6 +98,6 @@ setup(
     download_url='https://github.com/jcassee/django-analytical/archive/master.zip',
     cmdclass=cmdclass,
     install_requires=[
-        'Django>=1.4',
+        'Django>=1.7.0',
     ],
 )

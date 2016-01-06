@@ -20,15 +20,15 @@ class MixpanelTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('mixpanel', 'mixpanel')
-        self.assertTrue(
-                "mixpanel.init('0123456789abcdef0123456789abcdef');" in r,
-                r)
+        self.assertIn(
+            "mixpanel.init('0123456789abcdef0123456789abcdef');", r,
+        )
 
     def test_node(self):
         r = MixpanelNode().render(Context())
-        self.assertTrue(
-                "mixpanel.init('0123456789abcdef0123456789abcdef');" in r,
-                r)
+        self.assertIn(
+            "mixpanel.init('0123456789abcdef0123456789abcdef');", r,
+        )
 
     @override_settings(MIXPANEL_API_TOKEN=None)
     def test_no_token(self):

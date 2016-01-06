@@ -21,6 +21,9 @@ set-up very simple, while allowing advanced users to customize tracking.
 Each service is set up as recommended by the services themselves, using
 an asynchronous version of the Javascript code if possible.
 
+Version 1.0.0 is the last to support Django < 1.7. Users of older django
+versions should stick to 1.0.0, and are encouraged to upgrade their setups.
+
 .. end docs include
 
 .. |latest-version| image:: https://img.shields.io/pypi/v/django-analytical.svg
