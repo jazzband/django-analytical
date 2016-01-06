@@ -1,3 +1,8 @@
+Development
+-----------
+* Support custom user models with an alternative username field (Brad Pitcher)
+* Support Django 1.9, drop support for Django < 1.7 (Hugo Osvaldo Barrera)
+
 Version 1.0.0
 -------------
 * Add Piwik user variables support (Alexandre Pocquet)

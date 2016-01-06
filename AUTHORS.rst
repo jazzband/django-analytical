@@ -3,7 +3,7 @@ contributions from `Eric Davis`_, `Paul Oswald`_, `Uros Trebec`_,
 `Steven Skoczen`_, `Piet Delport`_, `Sandra Mau`_, `Simon Ye`_,
 `Tinnet Coronam`_, `Philippe O. Wagner`_, `Max Arnold`_ , `Martín
 Gaitán`_, `Craig Bruce`_, `Peter Bittner`_, `Scott Adams`_, `Eric Amador`_,
-`Alexandre Pocquet`_ and others.
+`Alexandre Pocquet`_, `Brad Pitcher`_, `Hugo Osvaldo Barrera`_ and others.
 
 Included Javascript code snippets for integration of the analytics
 services were written by the respective service providers.
@@ -31,6 +31,8 @@ The work on Intercom was made possible by `GreenKahuna`_.
 .. _`Scott Adams`: https://github.com/7wonders
 .. _`Eric Amador`: https://github.com/amadornimbis
 .. _`Alexandre Pocquet`: https://github.com/apocquet
+.. _`Brad Pitcher`: https://github.com/brad
+.. _`Hugo Osvaldo Barrera`: https://github.com/hobarrera
 .. _`Analytical`: https://github.com/jkrall/analytical
 .. _`Bateau Knowledge`: http://www.bateauknowledge.nl/
 .. _`GreenKahuna`: http://www.greenkahuna.com/
