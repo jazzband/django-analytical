@@ -47,7 +47,7 @@ class SettingDeletedTestCase(TestCase):
 
 
 class MyUser(AbstractBaseUser):
-    identity = models.CharField()
+    identity = models.CharField(max_length=50)
     USERNAME_FIELD = 'identity'
 
 
