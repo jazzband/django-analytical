@@ -27,4 +27,6 @@ Helping out
 ===========
 
 .. include:: ../README.rst
-    :start-after: GitHub`_.
+    :start-after: .. start contribute include
+    :end-before: .. end contribute include
+	 

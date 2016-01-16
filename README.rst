@@ -112,12 +112,16 @@ welcome to use our `Gitter chat room`_.
 How To Contribute
 -----------------
 
+.. start contribute include
+
 If you want to help out with the development of django-analytical, by
 posting detailed bug reports, proposing new features or other analytics
 services to support, or suggesting documentation improvements, use the
 `issue tracker`_.  If you want to get your hands dirty, great!  Clone
-the repository, make changes and place a `pull request`_.  Please do
-create an issue to discuss your plans.
+the repository, make changes and place a `pull request`_.  Creating an
+issue to discuss your plans is useful.
 
 .. _`issue tracker`: https://github.com/jcassee/django-analytical/issues
 .. _`pull request`: https://github.com/jcassee/django-analytical/pulls
+
+.. end contribute include

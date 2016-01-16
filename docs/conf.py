@@ -15,7 +15,7 @@ import analytical
 # -- General configuration --------------------------------------------------
 
 project = u'django-analytical'
-copyright = u'2011, Joost Cassee <joost@cassee.net>'
+copyright = u'2011-2016, Joost Cassee <joost@cassee.net>'
 
 release = analytical.__version__
 # The short X.Y version.
