@@ -23,6 +23,8 @@ an asynchronous version of the Javascript code if possible.
 
 Version 1.0.0 is the last to support Django < 1.7. Users of older django
 versions should stick to 1.0.0, and are encouraged to upgrade their setups.
+Starting with 2.0.0, dropping support for obsolete Django versions is not
+considered to be a backward-incompatible change.
 
 .. end docs include
 
