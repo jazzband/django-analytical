@@ -31,8 +31,8 @@ pygments_style = 'sphinx'
 
 intersphinx_mapping = {
     'http://docs.python.org/2.7': None,
-    'http://docs.djangoproject.com/en/1.8':
-        'http://docs.djangoproject.com/en/1.8/_objects/',
+    'http://docs.djangoproject.com/en/1.9':
+        'http://docs.djangoproject.com/en/1.9/_objects/',
 }
 
 
