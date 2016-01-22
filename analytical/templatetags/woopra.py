@@ -50,7 +50,8 @@ def woopra(parser, token):
 
 class WoopraNode(Node):
     def __init__(self):
-        self.domain = get_required_setting('WOOPRA_DOMAIN', DOMAIN_RE,
+        self.domain = get_required_setting(
+                'WOOPRA_DOMAIN', DOMAIN_RE,
                 "must be a domain name")
 
     def render(self, context):
@@ -74,19 +75,19 @@ class WoopraNode(Node):
         return vars
 
     def _get_visitor(self, context):
-        vars = {}
+        params = {}
         for dict_ in context:
             for var, val in dict_.items():
                 if var.startswith('woopra_'):
-                    vars[var[7:]] = val
-        if 'name' not in vars and 'email' not in vars:
+                    params[var[7:]] = val
+        if 'name' not in params and 'email' not in params:
             user = get_user_from_context(context)
             if user is not None and user.is_authenticated():
-                vars['name'] = get_identity(context, 'woopra',
-                        self._identify, user)
+                params['name'] = get_identity(
+                        context, 'woopra', self._identify, user)
                 if user.email:
-                    vars['email'] = user.email
-        return vars
+                    params['email'] = user.email
+        return params
 
     def _identify(self, user):
         name = user.get_full_name()
