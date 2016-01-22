@@ -13,14 +13,6 @@ from analytical.utils import is_internal_ip, disable_html, \
         get_required_setting, get_domain, AnalyticalException
 
 
-def enumerate(sequence, start=0):
-    """Copy of the Python 2.6 `enumerate` builtin for compatibility."""
-    n = start
-    for elem in sequence:
-        yield n, elem
-        n += 1
-
-
 TRACK_SINGLE_DOMAIN = 1
 TRACK_MULTIPLE_SUBDOMAINS = 2
 TRACK_MULTIPLE_DOMAINS = 3
@@ -98,14 +90,15 @@ class GoogleAnalyticsNode(Node):
     def _get_domain_commands(self, context):
         commands = []
         tracking_type = getattr(settings, 'GOOGLE_ANALYTICS_TRACKING_STYLE',
-                TRACK_SINGLE_DOMAIN)
+                                TRACK_SINGLE_DOMAIN)
         if tracking_type == TRACK_SINGLE_DOMAIN:
             pass
         else:
             domain = get_domain(context, 'google_analytics')
             if domain is None:
-                raise AnalyticalException("tracking multiple domains with"
-                        " Google Analytics requires a domain name")
+                raise AnalyticalException(
+                        "tracking multiple domains with Google Analytics"
+                        " requires a domain name")
             commands.append(DOMAIN_CODE % domain)
             commands.append(NO_ALLOW_HASH_CODE)
             if tracking_type == TRACK_MULTIPLE_DOMAINS:
@@ -113,11 +106,12 @@ class GoogleAnalyticsNode(Node):
         return commands
 
     def _get_custom_var_commands(self, context):
-        values = (context.get('google_analytics_var%s' % i)
-                for i in range(1, 6))
-        vars = [(i, v) for i, v in enumerate(values, 1) if v is not None]
+        values = (
+            context.get('google_analytics_var%s' % i) for i in range(1, 6)
+        )
+        params = [(i, v) for i, v in enumerate(values, 1) if v is not None]
         commands = []
-        for index, var in vars:
+        for index, var in params:
             name = var[0]
             value = var[1]
             try:
