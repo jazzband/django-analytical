@@ -9,8 +9,8 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import disable_html, get_required_setting, is_internal_ip,\
-                            get_user_from_context, get_identity
+from analytical.utils import disable_html, get_required_setting, \
+        is_internal_ip, get_user_from_context, get_identity
 
 APP_ID_RE = re.compile(r'[\da-f]+$')
 TRACKING_CODE = """
@@ -51,33 +51,37 @@ class IntercomNode(Node):
         return name
 
     def _get_custom_attrs(self, context):
-        vars = {}
+        params = {}
         for dict_ in context:
             for var, val in dict_.items():
                 if var.startswith('intercom_'):
-                    vars[var[9:]] = val
+                    params[var[9:]] = val
 
         user = get_user_from_context(context)
         if user is not None and user.is_authenticated():
-            if 'name' not in vars:
-                vars['name'] = get_identity(context, 'intercom', self._identify, user)
-            if 'email' not in vars and user.email:
-                vars['email'] = user.email
+            if 'name' not in params:
+                params['name'] = get_identity(
+                        context, 'intercom', self._identify, user)
+            if 'email' not in params and user.email:
+                params['email'] = user.email
 
-            vars['created_at'] = int(time.mktime(user.date_joined.timetuple()))
+            params['created_at'] = int(time.mktime(
+                    user.date_joined.timetuple()))
         else:
-            vars['created_at'] = None
+            params['created_at'] = None
 
-        return vars
+        return params
 
     def render(self, context):
-        html = ""
         user = get_user_from_context(context)
-        vars = self._get_custom_attrs(context)
-        vars["app_id"] = self.app_id
-        html = TRACKING_CODE % {"settings_json": json.dumps(vars, sort_keys=True)}
+        params = self._get_custom_attrs(context)
+        params["app_id"] = self.app_id
+        html = TRACKING_CODE % {
+            "settings_json": json.dumps(params, sort_keys=True)
+        }
 
-        if is_internal_ip(context, 'INTERCOM') or not user or not user.is_authenticated():
+        if is_internal_ip(context, 'INTERCOM') \
+                or not user or not user.is_authenticated():
             # Intercom is disabled for non-logged in users.
             html = disable_html(html, 'Intercom')
         return html
