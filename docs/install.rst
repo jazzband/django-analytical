@@ -176,6 +176,10 @@ settings required to enable each service are listed here:
 
     WOOPRA_DOMAIN = 'abcde.com'
 
+* :doc:`Yandex.Metrica <services/yandex_metrica>`::
+
+    YANDEX_METRICA_COUNTER_ID = '12345678'
+
 ----
 
 The django-analytical application is now set-up to track visitors.  For
