@@ -1,6 +1,8 @@
 language: python
 python: "3.5"
 install:
+  # continue to support Python 3.2 (see issue #84)
+  - pip install --upgrade "pip<8.0.0"
   - pip install coveralls tox
 script:
   - tox
