@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|travis-ci| |coveralls| |health| |downloads| |license| |gitter|
+|travis-ci| |coveralls| |health| |python-support| |downloads| |license| |gitter|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -35,6 +35,9 @@ an asynchronous version of the Javascript code if possible.
 .. |health| image:: https://landscape.io/github/jcassee/django-analytical/master/landscape.svg?style=flat
    :target: https://landscape.io/github/jcassee/django-analytical/master
    :alt: Code health
+.. |python-support| image:: https://img.shields.io/pypi/pyversions/django-analytical.svg
+   :target: https://pypi.python.org/pypi/django-analytical
+   :alt: Python versions
 .. |downloads| image:: https://img.shields.io/pypi/dm/django-analytical.svg
    :alt: Monthly downloads from PyPI
    :target: https://pypi.python.org/pypi/django-analytical
