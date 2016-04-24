@@ -68,6 +68,7 @@ Currently Supported Services
 * `Optimizely`_ A/B testing
 * `Performable`_ web analytics and landing pages
 * `Piwik`_ open source web analytics
+* `Rating@Mail.ru`_ web analytics
 * `SnapEngage`_ live chat
 * `Spring Metrics`_ conversion tracking
 * `UserVoice`_ user feedback and helpdesk
@@ -90,6 +91,7 @@ Currently Supported Services
 .. _`Optimizely`: http://www.optimizely.com/
 .. _`Performable`: http://www.performable.com/
 .. _`Piwik`: http://www.piwik.org/
+.. _`Rating@Mail.ru`: http://top.mail.ru/
 .. _`SnapEngage`: http://www.snapengage.com/
 .. _`Spring Metrics`: http://www.springmetrics.com/
 .. _`UserVoice`: http://www.uservoice.com/
