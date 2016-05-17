@@ -4,6 +4,7 @@ Google Analytics template tags and filters.
 
 from __future__ import absolute_import
 
+import decimal
 import re
 
 from django.conf import settings
@@ -52,8 +53,15 @@ CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
         "'%(value)s', %(scope)s]);"
 SITE_SPEED_CODE = "_gaq.push(['_trackPageLoadTime']);"
 ANONYMIZE_IP_CODE = "_gaq.push (['_gat._anonymizeIp']);"
+SAMPLE_RATE_CODE = "_gaq.push (['_gat._setSampleRate', '%s']);"
+SITE_SPEED_SAMPLE_RATE_CODE = "_gaq.push (['_gat._setSiteSpeedSampleRate', '%s']);"
+SESSION_COOKIE_TIMEOUT_CODE = "_gaq.push (['_gat._setSessionCookieTimeout', '%s']);"
+VISITOR_COOKIE_TIMEOUT_CODE = "_gaq.push (['_gat._setVisitorCookieTimeout', '%s']);"
 DEFAULT_SOURCE = ("'https://ssl' : 'http://www'", "'.google-analytics.com/ga.js'")
 DISPLAY_ADVERTISING_SOURCE = ("'https://' : 'http://'", "'stats.g.doubleclick.net/dc.js'")
+
+ZEROPLACES = decimal.Decimal('0')
+TWOPLACES = decimal.Decimal('0.01')
 
 register = Library()
 
@@ -131,8 +139,37 @@ class GoogleAnalyticsNode(Node):
         commands = []
         if getattr(settings, 'GOOGLE_ANALYTICS_SITE_SPEED', False):
             commands.append(SITE_SPEED_CODE)
+
         if getattr(settings, 'GOOGLE_ANALYTICS_ANONYMIZE_IP', False):
             commands.append(ANONYMIZE_IP_CODE)
+
+        sampleRate = getattr(settings, 'GOOGLE_ANALYTICS_SAMPLE_RATE', False)
+        if sampleRate is not False:
+            value = decimal.Decimal(sampleRate)
+            if not 0 <= value <= 100:
+                raise AnalyticalException("'GOOGLE_ANALYTICS_SAMPLE_RATE' must be >= 0 and <= 100")
+            commands.append(SAMPLE_RATE_CODE % value.quantize(TWOPLACES))
+
+        siteSpeedSampleRate = getattr(settings, 'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE', False)
+        if siteSpeedSampleRate is not False:
+            value = decimal.Decimal(siteSpeedSampleRate)
+            if not 0 <= value <= 100:
+                raise AnalyticalException("'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE' must be >= 0 and <= 100")
+            commands.append(SITE_SPEED_SAMPLE_RATE_CODE % value.quantize(TWOPLACES))
+
+        sessionCookieTimeout = getattr(settings, 'GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT', False)
+        if sessionCookieTimeout is not False:
+            value = decimal.Decimal(sessionCookieTimeout)
+            if value < 0:
+                raise AnalyticalException("'GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT' must be >= 0")
+            commands.append(SESSION_COOKIE_TIMEOUT_CODE % value.quantize(ZEROPLACES))
+
+        visitorCookieTimeout = getattr(settings, 'GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT', False)
+        if visitorCookieTimeout is not False:
+            value = decimal.Decimal(visitorCookieTimeout)
+            if value < 0:
+                raise AnalyticalException("'GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT' must be >= 0")
+            commands.append(VISITOR_COOKIE_TIMEOUT_CODE % value.quantize(ZEROPLACES))
         return commands
 
 
