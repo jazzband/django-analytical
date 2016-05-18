@@ -48,7 +48,7 @@ class GoSquaredTagTestCase(TagTestCase):
         }))
         self.assertTrue('GoSquared.UserName = "test_identity";' in r, r)
 
-    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True, USER_ID=None)
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_anonymous_user(self):
         r = GoSquaredNode().render(Context({'user': AnonymousUser()}))
         self.assertFalse('GoSquared.UserName = ' in r, r)
