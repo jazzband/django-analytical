@@ -34,7 +34,6 @@ TAG_MODULES = [
     'analytical.optimizely',
     'analytical.performable',
     'analytical.piwik',
-    'analytical.reinvigorate',
     'analytical.snapengage',
     'analytical.spring_metrics',
     'analytical.uservoice',
