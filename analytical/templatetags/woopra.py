@@ -10,9 +10,13 @@ import re
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_identity, get_user_from_context, \
-        is_internal_ip, disable_html, get_required_setting
-
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    get_user_from_context,
+    is_internal_ip,
+)
 
 DOMAIN_RE = re.compile(r'^\S+$')
 TRACKING_CODE = """
@@ -29,7 +33,6 @@ TRACKING_CODE = """
       })();
     </script>
 """
-
 
 register = Library()
 
@@ -51,8 +54,8 @@ def woopra(parser, token):
 class WoopraNode(Node):
     def __init__(self):
         self.domain = get_required_setting(
-                'WOOPRA_DOMAIN', DOMAIN_RE,
-                "must be a domain name")
+            'WOOPRA_DOMAIN', DOMAIN_RE,
+            "must be a domain name")
 
     def render(self, context):
         settings = self._get_settings(context)
@@ -67,12 +70,12 @@ class WoopraNode(Node):
         return html
 
     def _get_settings(self, context):
-        vars = {'domain': self.domain}
+        variables = {'domain': self.domain}
         try:
-            vars['idle_timeout'] = str(settings.WOOPRA_IDLE_TIMEOUT)
+            variables['idle_timeout'] = str(settings.WOOPRA_IDLE_TIMEOUT)
         except AttributeError:
             pass
-        return vars
+        return variables
 
     def _get_visitor(self, context):
         params = {}
@@ -84,7 +87,7 @@ class WoopraNode(Node):
             user = get_user_from_context(context)
             if user is not None and user.is_authenticated():
                 params['name'] = get_identity(
-                        context, 'woopra', self._identify, user)
+                    context, 'woopra', self._identify, user)
                 if user.email:
                     params['email'] = user.email
         return params
