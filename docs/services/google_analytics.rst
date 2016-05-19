@@ -1,6 +1,6 @@
-====================================
-Google Analytics -- traffic analysis
-====================================
+======================================
+ Google Analytics -- traffic analysis
+======================================
 
 `Google Analytics`_ is the well-known web analytics service from
 Google.  The product is aimed more at marketers than webmasters or
@@ -192,7 +192,7 @@ context processor, the latter clobbers the former.
 .. _google-analytics-anonimyze-ips:
 
 Anonymize IPs
-----------------
+-------------
 
 You can enable the `IP anonymization`_ feature by setting the
 :const:`GOOGLE_ANALYTICS_ANONYMIZE_IP` configuration setting::
@@ -205,3 +205,65 @@ concerning data privacy (e.g. Germany).
 By default, IPs are not anonymized.
 
 .. _`IP anonymization`: https://support.google.com/analytics/bin/answer.py?hl=en&answer=2763052
+
+
+.. _google-analytics-sample-rate:
+
+Sample Rate
+-----------
+
+You can configure the `Sample Rate`_ feature by setting the
+:const:`GOOGLE_ANALYTICS_SAMPLE_RATE` configuration setting::
+
+    GOOGLE_ANALYTICS_SAMPLE_RATE = 10
+
+The value is a percentage and can be between 0 and 100 and can be a string or
+decimal value of with up to two decimal places.
+
+.. _`Sample Rate`_: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsamplerate
+
+
+.. _google-analytics-site-speed-sample-rate:
+
+Site Speed Sample Rate
+----------------------
+
+You can configure the `Site Speed Sample Rate`_ feature by setting the
+:const:`GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE` configuration setting::
+
+    GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE = 10
+
+The value is a percentage and can be between 0 and 100 and can be a string or
+decimal value of with up to two decimal places.
+
+.. _`Site Speed Sample Rate`_: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsitespeedsamplerate
+
+
+.. _google-analytics-session-cookie-timeout:
+
+Session Cookie Timeout
+----------------------
+
+You can configure the `Session Cookie Timeout`_ feature by setting the
+:const:`GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT` configuration setting::
+
+    GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT = 3600000
+
+The value is the session cookie timeout in milliseconds or 0 to delete the cookie when the browser is closed.
+
+.. _`Session Cookie Timeout`_: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsessioncookietimeout
+
+
+.. _google-analytics-visitor-cookie-timeout:
+
+Visitor Cookie Timeout
+----------------------
+
+You can configure the `Visitor Cookie Timeout`_ feature by setting the
+:const:`GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT` configuration setting::
+
+    GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT = 3600000
+
+The value is the visitor cookie timeout in milliseconds or 0 to delete the cookie when the browser is closed.
+
+.. _`Visitor Cookie Timeout`_: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setvisitorcookietimeout
