@@ -68,7 +68,6 @@ Currently Supported Services
 * `Optimizely`_ A/B testing
 * `Performable`_ web analytics and landing pages
 * `Piwik`_ open source web analytics
-* `Reinvigorate`_ visitor tracking
 * `SnapEngage`_ live chat
 * `Spring Metrics`_ conversion tracking
 * `UserVoice`_ user feedback and helpdesk
