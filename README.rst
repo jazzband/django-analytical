@@ -72,6 +72,7 @@ Currently Supported Services
 * `Spring Metrics`_ conversion tracking
 * `UserVoice`_ user feedback and helpdesk
 * `Woopra`_ web analytics
+* `Yandex.Metrica`_ web analytics
 
 .. _`Chartbeat`: http://www.chartbeat.com/
 .. _`Clickmap`: http://getclickmap.com/
@@ -93,6 +94,7 @@ Currently Supported Services
 .. _`Spring Metrics`: http://www.springmetrics.com/
 .. _`UserVoice`: http://www.uservoice.com/
 .. _`Woopra`: http://www.woopra.com/
+.. _`Yandex.Metrica`: http://metrica.yandex.com
 
 Documentation and Support
 -------------------------

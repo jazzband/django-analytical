@@ -36,6 +36,7 @@ TAG_MODULES = [
     'analytical.spring_metrics',
     'analytical.uservoice',
     'analytical.woopra',
+    'analytical.yandex_metrica',
 ]
 
 logger = logging.getLogger(__name__)
