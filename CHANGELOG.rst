@@ -1,3 +1,7 @@
+Version 2.2.0
+-------------
+* Update Woopra JavaScript snippet (Aleck Landgraf)
+
 Version 2.1.0
 -------------
 * Support Rating@Mmail.ru (Nikolay Korotkiy)
