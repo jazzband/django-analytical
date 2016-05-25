@@ -172,6 +172,10 @@ settings required to enable each service are listed here:
     PIWIK_DOMAIN_PATH = 'your.piwik.server/optional/path'
     PIWIK_SITE_ID = '123'
 
+* :doc:`Rating@Mail.ru <services/rating_mailru>`::
+
+    RATING_MAILRU_COUNTER_ID = '1234567'
+
 * :doc:`Woopra <services/woopra>`::
 
     WOOPRA_DOMAIN = 'abcde.com'
