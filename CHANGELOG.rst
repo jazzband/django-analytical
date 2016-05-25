@@ -4,7 +4,7 @@ Version 2.2.0
 
 Version 2.1.0
 -------------
-* Support Rating@Mmail.ru (Nikolay Korotkiy)
+* Support Rating\@mail.ru (Nikolay Korotkiy)
 * Support Yandex.Metrica (Nikolay Korotkiy)
 * Add support for extra Google Analytics variables (Steve Schwarz)
 * Remove support for Reinvigorate (service shut down)

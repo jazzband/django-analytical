@@ -1,10 +1,10 @@
 ===================================
-Rating@Mail.ru -- traffic analysis
+Rating\@Mail.ru -- traffic analysis
 ===================================
 
-`Rating@Mail.ru`_ is an analytics tool like as google analytics.
+`Rating\@Mail.ru`_ is an analytics tool like as google analytics.
 
-.. _`Rating@Mail.ru`: http://top.mail.ru/
+.. _`Rating\@Mail.ru`: http://top.mail.ru/
 
 
 .. rating-mailru-installation:
@@ -12,17 +12,17 @@ Rating@Mail.ru -- traffic analysis
 Installation
 ============
 
-To start using the Rating@Mail.ru integration, you must have installed the
+To start using the Rating\@Mail.ru integration, you must have installed the
 django-analytical package and have added the ``analytical`` application
 to :const:`INSTALLED_APPS` in your project :file:`settings.py` file.
 See :doc:`../install` for details.
 
-Next you need to add the Rating@Mail.ru template tag to your templates. This
+Next you need to add the Rating\@Mail.ru template tag to your templates. This
 step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`rating-mailru-configuration`.
 
-The Rating@Mail.ru counter code is inserted into templates using a template
+The Rating\@Mail.ru counter code is inserted into templates using a template
 tag.  Load the :mod:`rating_mailru` template tag library and insert the
 :ttag:`rating_mailru` tag.  Because every page that you want to track must
 have the tag, it is useful to add it to your base template.  Insert
@@ -42,7 +42,7 @@ the tag at the bottom of the HTML head::
 Configuration
 =============
 
-Before you can use the Rating@Mail.ru integration, you must first set
+Before you can use the Rating\@Mail.ru integration, you must first set
 your website counter ID.
 
 
@@ -51,7 +51,7 @@ your website counter ID.
 Setting the counter ID
 ----------------------
 
-Every website you track with Rating@Mail.ru gets its own counter ID,
+Every website you track with Rating\@Mail.ru gets its own counter ID,
 and the :ttag:`rating_mailru` tag will include it in the rendered
 Javascript code.  You can find the web counter ID on the overview page
 of your account.  Set :const:`RATING_MAILRU_COUNTER_ID` in the
