@@ -39,7 +39,7 @@ get the development code:
 
 Then install the package by running the setup script:
 
-.. code-block::
+.. code-block:: bash
 
     $ cd django-analytical
     $ python setup.py install
