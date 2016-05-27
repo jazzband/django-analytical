@@ -20,23 +20,29 @@ Installing the Python package
 
 To install django-analytical the ``analytical`` package must be added to
 the Python path.  You can install it directly from PyPI using
-``easy_install``::
+``easy_install``:
 
-	$ easy_install django-analytical
+.. code-block:: bash
+
+    $ easy_install django-analytical
 
 You can also install directly from source.  Download either the latest
 stable version from PyPI_ or any release from GitHub_, or use Git to
-get the development code::
+get the development code:
 
-	$ git clone https://github.com/jcassee/django-analytical.git
+.. code-block:: bash
+
+    $ git clone https://github.com/jcassee/django-analytical.git
 
 .. _PyPI: http://pypi.python.org/pypi/django-analytical/
 .. _GitHub: http://github.com/jcassee/django-analytical
 
-Then install the package by running the setup script::
+Then install the package by running the setup script:
 
-	$ cd django-analytical
-	$ python setup.py install
+.. code-block:: bash
+
+    $ cd django-analytical
+    $ python setup.py install
 
 
 .. _installing-the-application:
@@ -46,13 +52,15 @@ Installing the Django application
 
 After you installed django-analytical, add the ``analytical`` Django
 application to the list of installed applications in the ``settings.py``
-file of your project::
+file of your project:
 
-	INSTALLED_APPS = [
-		...
-		'analytical',
-		...
-	]
+.. code-block:: python
+
+    INSTALLED_APPS = [
+        ...
+        'analytical',
+        ...
+    ]
 
 
 .. _adding-the-template-tags:
@@ -64,7 +72,9 @@ Because every analytics service uses own specific Javascript code that
 should be added to the top or bottom of either the head or body of the
 HTML page, django-analytical provides four general-purpose template tags
 that will render the code needed for the services you are using.  Your
-base template should look like this::
+base template should look like this:
+
+.. code-block:: html
 
 	{% load analytical %}
 	<!DOCTYPE ... >
@@ -101,27 +111,27 @@ settings required to enable each service are listed here:
 
 * :doc:`Chartbeat <services/chartbeat>`::
 
-	CHARTBEAT_USER_ID = '12345'
+    CHARTBEAT_USER_ID = '12345'
 
 * :doc:`Clickmap <services/clickmap>`::
 
-	CLICKMAP_TRACKER_CODE = '12345678....912'
+    CLICKMAP_TRACKER_CODE = '12345678....912'
 
 * :doc:`Clicky <services/clicky>`::
 
-	CLICKY_SITE_ID = '12345678'
+    CLICKY_SITE_ID = '12345678'
 
 * :doc:`Crazy Egg <services/crazy_egg>`::
 
-	CRAZY_EGG_ACCOUNT_NUMBER = '12345678'
+    CRAZY_EGG_ACCOUNT_NUMBER = '12345678'
 
 * :doc:`Gaug.es <services/gauges>`::
 
-	GAUGES_SITE_ID = '0123456789abcdef0123456789abcdef'
+    GAUGES_SITE_ID = '0123456789abcdef0123456789abcdef'
 
 * :doc:`Google Analytics <services/google_analytics>`::
 
-	GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-1234567-8'
+    GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-1234567-8'
 
 * :doc:`HubSpot <services/hubspot>`::
 
@@ -134,16 +144,16 @@ settings required to enable each service are listed here:
 
 * :doc:`KISSinsights <services/kiss_insights>`::
 
-	KISS_INSIGHTS_ACCOUNT_NUMBER = '12345'
-	KISS_INSIGHTS_SITE_CODE = 'abc'
+    KISS_INSIGHTS_ACCOUNT_NUMBER = '12345'
+    KISS_INSIGHTS_SITE_CODE = 'abc'
 
 * :doc:`KISSmetrics <services/kiss_metrics>`::
 
-	KISS_METRICS_API_KEY = '0123456789abcdef0123456789abcdef01234567'
+    KISS_METRICS_API_KEY = '0123456789abcdef0123456789abcdef01234567'
 
 * :doc:`Mixpanel <services/mixpanel>`::
 
-	MIXPANEL_API_TOKEN = '0123456789abcdef0123456789abcdef'
+    MIXPANEL_API_TOKEN = '0123456789abcdef0123456789abcdef'
 
 * :doc:`Olark <services/olark>`::
 
@@ -151,7 +161,7 @@ settings required to enable each service are listed here:
 
 * :doc:`Optimizely <services/optimizely>`::
 
-	OPTIMIZELY_ACCOUNT_NUMBER = '1234567'
+    OPTIMIZELY_ACCOUNT_NUMBER = '1234567'
 
 * :doc:`Performable <services/performable>`::
 
@@ -162,14 +172,17 @@ settings required to enable each service are listed here:
     PIWIK_DOMAIN_PATH = 'your.piwik.server/optional/path'
     PIWIK_SITE_ID = '123'
 
-* :doc:`Reinvigorate <services/reinvigorate>`::
+* :doc:`Rating\@Mail.ru <services/rating_mailru>`::
 
-    REINVIGORATE_TRACKING_ID = '12345-abcdefghij'
+    RATING_MAILRU_COUNTER_ID = '1234567'
 
 * :doc:`Woopra <services/woopra>`::
 
     WOOPRA_DOMAIN = 'abcde.com'
 
+* :doc:`Yandex.Metrica <services/yandex_metrica>`::
+
+    YANDEX_METRICA_COUNTER_ID = '12345678'
 
 ----
 

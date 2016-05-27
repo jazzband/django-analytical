@@ -8,10 +8,8 @@ import logging
 
 from django import template
 from django.template import Node, TemplateSyntaxError
-try:
-    from importlib import import_module
-except ImportError:  # Python 2.6
-    from django.utils.importlib import import_module
+from importlib import import_module
+
 from analytical.utils import AnalyticalException
 
 
@@ -34,11 +32,12 @@ TAG_MODULES = [
     'analytical.optimizely',
     'analytical.performable',
     'analytical.piwik',
-    'analytical.reinvigorate',
+    'analytical.rating_mailru',
     'analytical.snapengage',
     'analytical.spring_metrics',
     'analytical.uservoice',
     'analytical.woopra',
+    'analytical.yandex_metrica',
 ]
 
 logger = logging.getLogger(__name__)

@@ -1,28 +1,22 @@
 """
 Tests for the analytical.utils module.
 """
-import django
+# import django
 
-from django.conf import settings
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
 
 from analytical.utils import (
-    get_domain, get_identity, is_internal_ip, get_required_setting,
-    AnalyticalException)
+    AnalyticalException,
+    get_domain,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 from analytical.tests.utils import TestCase
-
-try:
-    from unittest import skipIf
-except ImportError:  # Python 2.6 fallback
-    from unittest2 import skipIf
-
-try:
-    from django.contrib.auth.models import AbstractBaseUser
-except ImportError:  # Django < 1.5 fallback
-    AbstractBaseUser = models.Model
 
 
 class SettingDeletedTestCase(TestCase):
@@ -52,7 +46,6 @@ class MyUser(AbstractBaseUser):
 
 
 class GetIdentityTestCase(TestCase):
-    @skipIf(django.VERSION < (1, 5,), 'Custom usernames not supported in Django < 1.5')
     def test_custom_username_field(self):
         get_id = get_identity(Context({}), user=MyUser(identity='fake_id'))
         self.assertEqual(get_id, 'fake_id')

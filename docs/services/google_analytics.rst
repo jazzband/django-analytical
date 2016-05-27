@@ -220,7 +220,7 @@ You can configure the `Sample Rate`_ feature by setting the
 The value is a percentage and can be between 0 and 100 and can be a string or
 decimal value of with up to two decimal places.
 
-.. _`Sample Rate`_: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsamplerate
+.. _`Sample Rate`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsamplerate
 
 
 .. _google-analytics-site-speed-sample-rate:
@@ -236,7 +236,7 @@ You can configure the `Site Speed Sample Rate`_ feature by setting the
 The value is a percentage and can be between 0 and 100 and can be a string or
 decimal value of with up to two decimal places.
 
-.. _`Site Speed Sample Rate`_: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsitespeedsamplerate
+.. _`Site Speed Sample Rate`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsitespeedsamplerate
 
 
 .. _google-analytics-session-cookie-timeout:
@@ -251,7 +251,7 @@ You can configure the `Session Cookie Timeout`_ feature by setting the
 
 The value is the session cookie timeout in milliseconds or 0 to delete the cookie when the browser is closed.
 
-.. _`Session Cookie Timeout`_: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsessioncookietimeout
+.. _`Session Cookie Timeout`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsessioncookietimeout
 
 
 .. _google-analytics-visitor-cookie-timeout:
@@ -266,4 +266,4 @@ You can configure the `Visitor Cookie Timeout`_ feature by setting the
 
 The value is the visitor cookie timeout in milliseconds or 0 to delete the cookie when the browser is closed.
 
-.. _`Visitor Cookie Timeout`_: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setvisitorcookietimeout
+.. _`Visitor Cookie Timeout`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setvisitorcookietimeout

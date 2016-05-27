@@ -10,26 +10,25 @@ import re
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_identity, get_user_from_context, \
-        is_internal_ip, disable_html, get_required_setting
-
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    get_user_from_context,
+    is_internal_ip,
+)
 
 DOMAIN_RE = re.compile(r'^\S+$')
 TRACKING_CODE = """
      <script type="text/javascript">
       var woo_settings = %(settings)s;
       var woo_visitor = %(visitor)s;
-      (function(){
-        var wsc=document.createElement('script');
-        wsc.type='text/javascript';
-        wsc.src=document.location.protocol+'//static.woopra.com/js/woopra.js';
-        wsc.async=true;
-        var ssc = document.getElementsByTagName('script')[0];
-        ssc.parentNode.insertBefore(wsc, ssc);
-      })();
+      !function(){var a,b,c,d=window,e=document,f=arguments,g="script",h=["config","track","trackForm","trackClick","identify","visit","push","call"],i=function(){var a,b=this,c=function(a){b[a]=function(){return b._e.push([a].concat(Array.prototype.slice.call(arguments,0))),b}};for(b._e=[],a=0;a<h.length;a++)c(h[a])};for(d.__woo=d.__woo||{},a=0;a<f.length;a++)d.__woo[f[a]]=d[f[a]]=d[f[a]]||new i;b=e.createElement(g),b.async=1,b.src="//static.woopra.com/js/w.js",c=e.getElementsByTagName(g)[0],c.parentNode.insertBefore(b,c)}("woopra");
+      woopra.config(woo_settings);
+      woopra.identify(woo_visitor);
+      woopra.track();
     </script>
 """
-
 
 register = Library()
 
@@ -50,8 +49,9 @@ def woopra(parser, token):
 
 class WoopraNode(Node):
     def __init__(self):
-        self.domain = get_required_setting('WOOPRA_DOMAIN', DOMAIN_RE,
-                "must be a domain name")
+        self.domain = get_required_setting(
+            'WOOPRA_DOMAIN', DOMAIN_RE,
+            "must be a domain name")
 
     def render(self, context):
         settings = self._get_settings(context)
@@ -66,27 +66,27 @@ class WoopraNode(Node):
         return html
 
     def _get_settings(self, context):
-        vars = {'domain': self.domain}
+        variables = {'domain': self.domain}
         try:
-            vars['idle_timeout'] = str(settings.WOOPRA_IDLE_TIMEOUT)
+            variables['idle_timeout'] = str(settings.WOOPRA_IDLE_TIMEOUT)
         except AttributeError:
             pass
-        return vars
+        return variables
 
     def _get_visitor(self, context):
-        vars = {}
+        params = {}
         for dict_ in context:
             for var, val in dict_.items():
                 if var.startswith('woopra_'):
-                    vars[var[7:]] = val
-        if 'name' not in vars and 'email' not in vars:
+                    params[var[7:]] = val
+        if 'name' not in params and 'email' not in params:
             user = get_user_from_context(context)
             if user is not None and user.is_authenticated():
-                vars['name'] = get_identity(context, 'woopra',
-                        self._identify, user)
+                params['name'] = get_identity(
+                    context, 'woopra', self._identify, user)
                 if user.email:
-                    vars['email'] = user.email
-        return vars
+                    params['email'] = user.email
+        return params
 
     def _identify(self, user):
         name = user.get_full_name()

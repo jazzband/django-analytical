@@ -6,10 +6,9 @@ from __future__ import absolute_import
 
 import re
 
-from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_identity, get_user_from_context, \
+from analytical.utils import get_identity, \
         is_internal_ip, disable_html, get_required_setting
 
 
@@ -51,7 +50,8 @@ def gosquared(parser, token):
 
 class GoSquaredNode(Node):
     def __init__(self):
-        self.site_token = get_required_setting('GOSQUARED_SITE_TOKEN', TOKEN_RE,
+        self.site_token = get_required_setting(
+                'GOSQUARED_SITE_TOKEN', TOKEN_RE,
                 "must be a string looking like XXX-XXXXXX-X")
 
     def render(self, context):

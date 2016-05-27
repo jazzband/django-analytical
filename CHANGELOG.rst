@@ -1,3 +1,14 @@
+Version 2.2.0
+-------------
+* Update Woopra JavaScript snippet (Aleck Landgraf)
+
+Version 2.1.0
+-------------
+* Support Rating\@mail.ru (Nikolay Korotkiy)
+* Support Yandex.Metrica (Nikolay Korotkiy)
+* Add support for extra Google Analytics variables (Steve Schwarz)
+* Remove support for Reinvigorate (service shut down)
+
 Version 2.0.0
 -------------
 * Support Django 1.9, drop support for Django < 1.7 (Hugo Osvaldo Barrera)

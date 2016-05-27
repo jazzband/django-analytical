@@ -1,12 +1,14 @@
 language: python
 python: "3.5"
 install:
+  # continue to support Python 3.2 (see issue #84)
+  - pip install "virtualenv<14.0.0"
   - pip install coveralls tox
 script:
   - tox
-# NOTE: To generate (update) the env list run
-# $ tox -l | sort | xargs -I ITEM echo "  - TOXENV="ITEM
 env:
+  # NOTE: To generate (update) the env list run
+  # $ tox -l | sort | xargs -I ITEM echo "  - TOXENV="ITEM
   - TOXENV=py27-django17
   - TOXENV=py27-django18
   - TOXENV=py27-django19

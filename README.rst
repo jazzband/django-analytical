@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|travis-ci| |coveralls| |health| |downloads| |license| |gitter|
+|travis-ci| |coveralls| |health| |python-support| |downloads| |license| |gitter|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -35,6 +35,9 @@ an asynchronous version of the Javascript code if possible.
 .. |health| image:: https://landscape.io/github/jcassee/django-analytical/master/landscape.svg?style=flat
    :target: https://landscape.io/github/jcassee/django-analytical/master
    :alt: Code health
+.. |python-support| image:: https://img.shields.io/pypi/pyversions/django-analytical.svg
+   :target: https://pypi.python.org/pypi/django-analytical
+   :alt: Python versions
 .. |downloads| image:: https://img.shields.io/pypi/dm/django-analytical.svg
    :alt: Monthly downloads from PyPI
    :target: https://pypi.python.org/pypi/django-analytical
@@ -65,11 +68,12 @@ Currently Supported Services
 * `Optimizely`_ A/B testing
 * `Performable`_ web analytics and landing pages
 * `Piwik`_ open source web analytics
-* `Reinvigorate`_ visitor tracking
+* `Rating\@Mail.ru`_ web analytics
 * `SnapEngage`_ live chat
 * `Spring Metrics`_ conversion tracking
 * `UserVoice`_ user feedback and helpdesk
 * `Woopra`_ web analytics
+* `Yandex.Metrica`_ web analytics
 
 .. _`Chartbeat`: http://www.chartbeat.com/
 .. _`Clickmap`: http://getclickmap.com/
@@ -87,11 +91,12 @@ Currently Supported Services
 .. _`Optimizely`: http://www.optimizely.com/
 .. _`Performable`: http://www.performable.com/
 .. _`Piwik`: http://www.piwik.org/
-.. _`Reinvigorate`: http://www.reinvigorate.net/
+.. _`Rating\@Mail.ru`: http://top.mail.ru/
 .. _`SnapEngage`: http://www.snapengage.com/
 .. _`Spring Metrics`: http://www.springmetrics.com/
 .. _`UserVoice`: http://www.uservoice.com/
 .. _`Woopra`: http://www.woopra.com/
+.. _`Yandex.Metrica`: http://metrica.yandex.com
 
 Documentation and Support
 -------------------------
