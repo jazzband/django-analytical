@@ -1,3 +1,8 @@
+Version 2.2.1
+-------------
+* Fix a bug with the extra Google Analytics variables also pushing the `_gat.`
+  flag onto the configuration array.
+
 Version 2.2.0
 -------------
 * Update Woopra JavaScript snippet (Aleck Landgraf)
