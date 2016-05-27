@@ -107,12 +107,12 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     @override_settings(GOOGLE_ANALYTICS_SAMPLE_RATE=0.0)
     def test_set_sample_rate_min(self):
         r = GoogleAnalyticsNode().render(Context())
-        self.assertTrue("_gaq.push (['_gat._setSampleRate', '0.00']);" in r, r)
+        self.assertTrue("_gaq.push (['_setSampleRate', '0.00']);" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SAMPLE_RATE='100.00')
     def test_set_sample_rate_max(self):
         r = GoogleAnalyticsNode().render(Context())
-        self.assertTrue("_gaq.push (['_gat._setSampleRate', '100.00']);" in r, r)
+        self.assertTrue("_gaq.push (['_setSampleRate', '100.00']);" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SAMPLE_RATE=-1)
     def test_exception_whenset_sample_rate_too_small(self):
@@ -129,12 +129,12 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=0.0)
     def test_set_site_speed_sample_rate_min(self):
         r = GoogleAnalyticsNode().render(Context())
-        self.assertTrue("_gaq.push (['_gat._setSiteSpeedSampleRate', '0.00']);" in r, r)
+        self.assertTrue("_gaq.push (['_setSiteSpeedSampleRate', '0.00']);" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE='100.00')
     def test_set_site_speed_sample_rate_max(self):
         r = GoogleAnalyticsNode().render(Context())
-        self.assertTrue("_gaq.push (['_gat._setSiteSpeedSampleRate', '100.00']);" in r, r)
+        self.assertTrue("_gaq.push (['_setSiteSpeedSampleRate', '100.00']);" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=-1)
     def test_exception_whenset_site_speed_sample_rate_too_small(self):
@@ -151,12 +151,12 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     @override_settings(GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT=0)
     def test_set_session_cookie_timeout_min(self):
         r = GoogleAnalyticsNode().render(Context())
-        self.assertTrue("_gaq.push (['_gat._setSessionCookieTimeout', '0']);" in r, r)
+        self.assertTrue("_gaq.push (['_setSessionCookieTimeout', '0']);" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT='10000')
     def test_set_session_cookie_timeout_as_string(self):
         r = GoogleAnalyticsNode().render(Context())
-        self.assertTrue("_gaq.push (['_gat._setSessionCookieTimeout', '10000']);" in r, r)
+        self.assertTrue("_gaq.push (['_setSessionCookieTimeout', '10000']);" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT=-1)
     def test_exception_when_set_session_cookie_timeout_too_small(self):
@@ -167,12 +167,12 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     @override_settings(GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT=0)
     def test_set_visitor_cookie_timeout_min(self):
         r = GoogleAnalyticsNode().render(Context())
-        self.assertTrue("_gaq.push (['_gat._setVisitorCookieTimeout', '0']);" in r, r)
+        self.assertTrue("_gaq.push (['_setVisitorCookieTimeout', '0']);" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT='10000')
     def test_set_visitor_cookie_timeout_as_string(self):
         r = GoogleAnalyticsNode().render(Context())
-        self.assertTrue("_gaq.push (['_gat._setVisitorCookieTimeout', '10000']);" in r, r)
+        self.assertTrue("_gaq.push (['_setVisitorCookieTimeout', '10000']);" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT=-1)
     def test_exception_when_set_visitor_cookie_timeout_too_small(self):
