@@ -12,7 +12,7 @@ from django.template import Library, Node, TemplateSyntaxError
 from analytical.utils import disable_html, get_required_setting, \
         is_internal_ip, get_user_from_context, get_identity
 
-APP_ID_RE = re.compile(r'[\da-f]+$')
+APP_ID_RE = re.compile(r'[\da-z]+$')
 TRACKING_CODE = """
 <script id="IntercomSettingsScriptTag">
   window.intercomSettings = %(settings_json)s;
