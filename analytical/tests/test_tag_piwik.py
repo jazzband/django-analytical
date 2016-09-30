@@ -39,6 +39,20 @@ class PiwikTagTestCase(TagTestCase):
         self.assertTrue(' ? "https" : "http") + "://example.com/piwik/";' in r,
                         r)
 
+    @override_settings(PIWIK_DOMAIN_PATH='example.com:1234',
+                       PIWIK_SITE_ID='345')
+    def test_domain_port_valid(self):
+        r = self.render_tag('piwik', 'piwik')
+        self.assertTrue(' ? "https" : "http") + "://example.com:1234/";' in r,
+                        r)
+
+    @override_settings(PIWIK_DOMAIN_PATH='example.com:1234/piwik',
+                       PIWIK_SITE_ID='345')
+    def test_domain_port_path_valid(self):
+        r = self.render_tag('piwik', 'piwik')
+        self.assertTrue(' ? "https" : "http") + "://example.com:1234/piwik/";' in r,
+                        r)
+
     @override_settings(PIWIK_DOMAIN_PATH=None)
     def test_no_domain(self):
         self.assertRaises(AnalyticalException, PiwikNode)
@@ -57,6 +71,22 @@ class PiwikTagTestCase(TagTestCase):
 
     @override_settings(PIWIK_DOMAIN_PATH='example.com/')
     def test_domain_slash_invalid(self):
+        self.assertRaises(AnalyticalException, PiwikNode)
+
+    @override_settings(PIWIK_DOMAIN_PATH='example.com:123:456')
+    def test_domain_multi_port(self):
+        self.assertRaises(AnalyticalException, PiwikNode)
+
+    @override_settings(PIWIK_DOMAIN_PATH='example.com:')
+    def test_domain_incomplete_port(self):
+        self.assertRaises(AnalyticalException, PiwikNode)
+
+    @override_settings(PIWIK_DOMAIN_PATH='example.com:/piwik')
+    def test_domain_uri_incomplete_port(self):
+        self.assertRaises(AnalyticalException, PiwikNode)
+
+    @override_settings(PIWIK_DOMAIN_PATH='example.com:12df')
+    def test_domain_port_invalid(self):
         self.assertRaises(AnalyticalException, PiwikNode)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
