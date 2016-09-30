@@ -14,8 +14,8 @@ from analytical.utils import (is_internal_ip, disable_html,
                               get_required_setting, get_identity)
 
 
-# domain name (characters separated by a dot), optional URI path, no slash
-DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(/[^/?#@:]+)*$')
+# domain name (characters separated by a dot), optional port, optional URI path, no slash
+DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)*$')
 
 # numeric ID
 SITEID_RE = re.compile(r'^\d+$')
