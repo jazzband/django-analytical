@@ -1,3 +1,7 @@
+Version 2.2.2
+
+* Allow port in Piwik domain path. (Alex Ramsay)
+
 Version 2.2.1
 -------------
 * Fix a bug with the extra Google Analytics variables also pushing the `_gat.`
