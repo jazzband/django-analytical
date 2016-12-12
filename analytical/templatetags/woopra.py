@@ -71,6 +71,63 @@ class WoopraNode(Node):
             variables['idle_timeout'] = str(settings.WOOPRA_IDLE_TIMEOUT)
         except AttributeError:
             pass
+        try:
+            variables['cookie_name'] = str(settings.WOOPRA_COOKIE_NAME)
+        except AttributeError:
+            pass
+        try:
+            variables['cookie_domain'] = str(settings.WOOPRA_COOKIE_DOMAIN)
+        except AttributeError:
+            pass
+        try:
+            variables['cookie_path'] = str(settings.WOOPRA_COOKIE_PATH)
+        except AttributeError:
+            pass
+        try:
+            variables['cookie_expire'] = str(settings.WOOPRA_COOKIE_EXPIRE)
+        except AttributeError:
+            pass
+        try:
+            variables['ping'] = str(settings.WOOPRA_PING)
+        except AttributeError:
+            pass
+        try:
+            variables['ping_interval'] = str(settings.WOOPRA_PING_INTERVAL)
+        except AttributeError:
+            pass
+        try:
+            variables['download_tracking'] = str(settings.WOOPRA_DOWNLOAD_TRACKING)
+        except AttributeError:
+            pass
+        try:
+            variables['outgoing_tracking'] = str(settings.WOOPRA_OUTGOING_TRACKING)
+        except AttributeError:
+            pass
+        try:
+            variables['outgoing_ignore_subdomain'] = str(settings.WOOPRA_OUTGOING_IGNORE_SUBDOMAIN)
+        except AttributeError:
+            pass
+        try:
+            variables['download_pause'] = str(settings.WOOPRA_DOWNLOAD_PAUSE)
+        except AttributeError:
+            pass
+        try:
+            variables['outgoing_pause'] = str(settings.WOOPRA_OUTGOING_PAUSE)
+        except AttributeError:
+            pass
+        try:
+            variables['ignore_query_url'] = str(settings.WOOPRA_IGNORE_QUERY_URL)
+        except AttributeError:
+            pass
+        try:
+            variables['map_query_params'] = str(settings.WOOPRA_MAP_QUERY_PARAMS)
+        except AttributeError:
+            pass
+        try:
+            variables['hide_campaign'] = str(settings.WOOPRA_HIDE_CAMPAIGN)
+        except AttributeError:
+            pass
+            
         return variables
 
     def _get_visitor(self, context):
