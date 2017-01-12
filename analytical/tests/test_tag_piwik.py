@@ -22,14 +22,14 @@ class PiwikTagTestCase(TagTestCase):
         r = self.render_tag('piwik', 'piwik')
         self.assertTrue(' ? "https" : "http") + "://example.com/";' in r, r)
         self.assertTrue("_paq.push(['setSiteId', 345]);" in r, r)
-        self.assertTrue('img src="http://example.com/piwik.php?idsite=345"'
+        self.assertTrue('img src="//example.com/piwik.php?idsite=345"'
                         in r, r)
 
     def test_node(self):
         r = PiwikNode().render(Context({}))
         self.assertTrue(' ? "https" : "http") + "://example.com/";' in r, r)
         self.assertTrue("_paq.push(['setSiteId', 345]);" in r, r)
-        self.assertTrue('img src="http://example.com/piwik.php?idsite=345"'
+        self.assertTrue('img src="//example.com/piwik.php?idsite=345"'
                         in r, r)
 
     @override_settings(PIWIK_DOMAIN_PATH='example.com/piwik',
