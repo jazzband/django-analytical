@@ -34,7 +34,7 @@ TRACKING_CODE = """
     g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<noscript><p><img src="http://%(url)s/piwik.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
+<noscript><p><img src="//%(url)s/piwik.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
 """  # noqa
 
 VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
