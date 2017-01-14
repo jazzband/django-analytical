@@ -21,7 +21,6 @@ DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)
 SITEID_RE = re.compile(r'^\d+$')
 
 TRACKING_CODE = """
-<!-- Piwik -->
 <script type="text/javascript">
   var _paq = _paq || [];
   %(variables)s
@@ -35,7 +34,6 @@ TRACKING_CODE = """
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<!-- End Piwik Code -->
 <noscript><p><img src="//%(url)s/piwik.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
 """  # noqa
 

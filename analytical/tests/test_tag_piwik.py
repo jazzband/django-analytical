@@ -36,22 +36,19 @@ class PiwikTagTestCase(TagTestCase):
                        PIWIK_SITE_ID='345')
     def test_domain_path_valid(self):
         r = self.render_tag('piwik', 'piwik')
-        self.assertTrue('"//example.com/piwik/"' in r,
-                        r)
+        self.assertTrue('"//example.com/piwik/"' in r, r)
 
     @override_settings(PIWIK_DOMAIN_PATH='example.com:1234',
                        PIWIK_SITE_ID='345')
     def test_domain_port_valid(self):
         r = self.render_tag('piwik', 'piwik')
-        self.assertTrue('"//example.com:1234/";' in r,
-                        r)
+        self.assertTrue('"//example.com:1234/";' in r, r)
 
     @override_settings(PIWIK_DOMAIN_PATH='example.com:1234/piwik',
                        PIWIK_SITE_ID='345')
     def test_domain_port_path_valid(self):
         r = self.render_tag('piwik', 'piwik')
-        self.assertTrue('"//example.com:1234/piwik/"' in r,
-                        r)
+        self.assertTrue('"//example.com:1234/piwik/"' in r, r)
 
     @override_settings(PIWIK_DOMAIN_PATH=None)
     def test_no_domain(self):
