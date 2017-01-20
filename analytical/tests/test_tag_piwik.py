@@ -20,38 +20,35 @@ class PiwikTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('piwik', 'piwik')
-        self.assertTrue(' ? "https" : "http") + "://example.com/";' in r, r)
+        self.assertTrue('"//example.com/"' in r, r)
         self.assertTrue("_paq.push(['setSiteId', 345]);" in r, r)
-        self.assertTrue('img src="http://example.com/piwik.php?idsite=345"'
+        self.assertTrue('img src="//example.com/piwik.php?idsite=345"'
                         in r, r)
 
     def test_node(self):
         r = PiwikNode().render(Context({}))
-        self.assertTrue(' ? "https" : "http") + "://example.com/";' in r, r)
+        self.assertTrue('"//example.com/";' in r, r)
         self.assertTrue("_paq.push(['setSiteId', 345]);" in r, r)
-        self.assertTrue('img src="http://example.com/piwik.php?idsite=345"'
+        self.assertTrue('img src="//example.com/piwik.php?idsite=345"'
                         in r, r)
 
     @override_settings(PIWIK_DOMAIN_PATH='example.com/piwik',
                        PIWIK_SITE_ID='345')
     def test_domain_path_valid(self):
         r = self.render_tag('piwik', 'piwik')
-        self.assertTrue(' ? "https" : "http") + "://example.com/piwik/";' in r,
-                        r)
+        self.assertTrue('"//example.com/piwik/"' in r, r)
 
     @override_settings(PIWIK_DOMAIN_PATH='example.com:1234',
                        PIWIK_SITE_ID='345')
     def test_domain_port_valid(self):
         r = self.render_tag('piwik', 'piwik')
-        self.assertTrue(' ? "https" : "http") + "://example.com:1234/";' in r,
-                        r)
+        self.assertTrue('"//example.com:1234/";' in r, r)
 
     @override_settings(PIWIK_DOMAIN_PATH='example.com:1234/piwik',
                        PIWIK_SITE_ID='345')
     def test_domain_port_path_valid(self):
         r = self.render_tag('piwik', 'piwik')
-        self.assertTrue(' ? "https" : "http") + "://example.com:1234/piwik/";' in r,
-                        r)
+        self.assertTrue('"//example.com:1234/piwik/"' in r, r)
 
     @override_settings(PIWIK_DOMAIN_PATH=None)
     def test_no_domain(self):
