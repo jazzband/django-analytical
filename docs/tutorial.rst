@@ -29,7 +29,9 @@ Setting up basic tracking
 
 To get started with django-analytical, the package must first be
 installed.  You can download and install the latest stable package from
-the Python Package Index automatically by using ``easy_install``::
+the Python Package Index automatically by using ``easy_install``:
+
+.. code-block:: bash
 
     $ easy_install django-analytical
 
@@ -37,7 +39,9 @@ For more ways to install django-analytical, see
 :ref:`installing-the-package`.
 
 After you install django-analytical, you need to add it to the list of
-installed applications in the ``settings.py`` file of your project::
+installed applications in the ``settings.py`` file of your project:
+
+.. code-block:: python
 
     INSTALLED_APPS = [
         ...
@@ -46,7 +50,9 @@ installed applications in the ``settings.py`` file of your project::
     ]
 
 Then you have to add the general-purpose django-analytical template tags
-to your base template::
+to your base template:
+
+.. code-block:: django
 
     {% load analytical %}
     <!DOCTYPE ... >
@@ -69,7 +75,9 @@ to your base template::
 
 Finally, you need to configure the Clicky Site ID and the Crazy Egg
 account number.  Add the following to your project :file:`settings.py`
-file (replacing the ``x``'s with your own codes)::
+file (replacing the ``x``'s with your own codes):
+
+.. code-block:: python
 
     CLICKY_SITE_ID = 'xxxxxxxx'
     CRAZY_EGG_ACCOUNT_NUMBER = 'xxxxxxxx'
@@ -110,7 +118,9 @@ protocol version.
 
 In order to filter on protocol version in Crazy Egg, you need to
 include the visitor IP protocol version in the Crazy Egg tracking code.
-The easiest way to do this is by using a context processor::
+The easiest way to do this is by using a context processor:
+
+.. code-block:: python
 
     def track_ip_proto(request):
         addr = request.META.get('HTTP_X_FORWARDED_FOR', '')

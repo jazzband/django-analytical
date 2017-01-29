@@ -19,7 +19,7 @@ django-analytical, please create an issue on the project
 Currently supported services:
 
 .. toctree::
-	:maxdepth: 1
-	:glob:
+    :maxdepth: 1
+    :glob:
 
-   	services/*
+    services/*
