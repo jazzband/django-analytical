@@ -74,26 +74,26 @@ HTML page, django-analytical provides four general-purpose template tags
 that will render the code needed for the services you are using.  Your
 base template should look like this:
 
-.. code-block:: html
+.. code-block:: django
 
-	{% load analytical %}
-	<!DOCTYPE ... >
-	<html>
-		<head>
-			{% analytical_head_top %}
+    {% load analytical %}
+    <!DOCTYPE ... >
+    <html>
+        <head>
+            {% analytical_head_top %}
 
-			...
+            ...
 
-			{% analytical_head_bottom %}
-		</head>
-		<body>
-			{% analytical_body_top %}
+            {% analytical_head_bottom %}
+        </head>
+        <body>
+            {% analytical_body_top %}
 
-			...
+            ...
 
-			{% analytical_body_bottom %}
-		</body>
-	</html>
+            {% analytical_body_bottom %}
+        </body>
+    </html>
 
 Instead of using the generic tags, you can also just use tags specific
 for the analytics service(s) you are using.  See :ref:`services` for

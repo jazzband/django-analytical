@@ -6,7 +6,6 @@ Here's a full list of all available settings, in alphabetical order, and
 their default values.
 
 
-
 .. data:: ANALYTICAL_AUTO_IDENTIFY
 
     Default: ``True``

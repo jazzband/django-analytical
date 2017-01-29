@@ -18,7 +18,9 @@ initialization code if the client IP address is detected as one from the
 :data:`ANALYTICAL_INTERNAL_IPS` setting.  The default value for this
 setting is :data:`INTERNAL_IPS`.
 
-Example::
+Example:
+
+.. code-block:: python
 
     ANALYTICAL_INTERNAL_IPS = ['192.168.1.45', '192.168.1.57']
 
@@ -45,7 +47,9 @@ logged in through the standard Django authentication system and the
 current user is accessible in the template context, the username can be
 passed to the analytics services that support identifying users.  This
 feature is configured by the :data:`ANALYTICAL_AUTO_IDENTIFY` setting
-and is enabled by default. To disable::
+and is enabled by default.  To disable:
+
+.. code-block:: python
 
     ANALYTICAL_AUTO_IDENTIFY = False
 
