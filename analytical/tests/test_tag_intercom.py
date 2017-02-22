@@ -13,7 +13,7 @@ from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
-@override_settings(INTERCOM_APP_ID='1234567890abcdef0123456789')
+@override_settings(INTERCOM_APP_ID="abc123xyz")
 class IntercomTagTestCase(TagTestCase):
     """
     Tests for the ``intercom`` template tag.
@@ -36,7 +36,7 @@ class IntercomTagTestCase(TagTestCase):
         # Because the json isn't predictably ordered, we can't just test the whole thing verbatim.
         self.assertEqual("""
 <script id="IntercomSettingsScriptTag">
-  window.intercomSettings = {"app_id": "1234567890abcdef0123456789", "created_at": 1397074500, "email": "test@example.com", "name": "Firstname Lastname"};
+  window.intercomSettings = {"app_id": "abc123xyz", "created_at": 1397074500, "email": "test@example.com", "name": "Firstname Lastname"};
 </script>
 <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://static.intercomcdn.com/intercom.v1.js';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 """, rendered_tag)
@@ -55,7 +55,7 @@ class IntercomTagTestCase(TagTestCase):
                 first_name='Firstname', last_name='Lastname',
                 email="test@example.com", date_joined=now)}))
         self.assertTrue(
-            """window.intercomSettings = {"app_id": "1234567890abcdef0123456789", "created_at": 1397074500, "email": "test@example.com", "name": "Firstname Lastname"};"""\
+            """window.intercomSettings = {"app_id": "abc123xyz", "created_at": 1397074500, "email": "test@example.com", "name": "Firstname Lastname"};"""\
             in r
         )
 
