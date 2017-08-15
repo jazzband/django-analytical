@@ -70,7 +70,7 @@ contains a line that looks like this::
 Here, ``XXXXX`` is your User ID.  Set :const:`CHARTBEAT_USER_ID` in the
 project :file:`settings.py` file::
 
-    CHARTBEAT_SITE_ID = 'XXXXX'
+    CHARTBEAT_USER_ID = 'XXXXX'
 
 If you do not set a User ID, the tracking code will not be rendered.
 
