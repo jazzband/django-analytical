@@ -29,11 +29,11 @@ class SettingDeletedTestCase(TestCase):
 
         # available in python >= 3.2
         if hasattr(self, 'assertRaisesRegex'):
-            with self.assertRaisesRegex(AnalyticalException, "^USER_ID setting is set to None$"):
+            with self.assertRaisesRegex(AnalyticalException, "^USER_ID setting is not set$"):
                 user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
         # available in python >= 2.7, deprecated in 3.2
         elif hasattr(self, 'assertRaisesRegexp'):
-            with self.assertRaisesRegexp(AnalyticalException, "^USER_ID setting is set to None$"):
+            with self.assertRaisesRegexp(AnalyticalException, "^USER_ID setting is not set$"):
                 user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
         else:
             self.assertRaises(AnalyticalException,
