@@ -19,13 +19,13 @@ class HubSpotTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('hubspot', 'hubspot')
-        self.assertTrue("n.id=i;n.src='//js.hs-analytics.net/analytics/'+(Math.ceil(new Date()/r)*r)+'/1234.js';"
-                        in r, r)
+        self.assertTrue("n.id=i;n.src='//js.hs-analytics.net/analytics/'"
+                        "+(Math.ceil(new Date()/r)*r)+'/1234.js';" in r, r)
 
     def test_node(self):
         r = HubSpotNode().render(Context())
-        self.assertTrue("n.id=i;n.src='//js.hs-analytics.net/analytics/'+(Math.ceil(new Date()/r)*r)+'/1234.js';"
-                        in r, r)
+        self.assertTrue("n.id=i;n.src='//js.hs-analytics.net/analytics/'"
+                        "+(Math.ceil(new Date()/r)*r)+'/1234.js';" in r, r)
 
     @override_settings(HUBSPOT_PORTAL_ID=None)
     def test_no_portal_id(self):

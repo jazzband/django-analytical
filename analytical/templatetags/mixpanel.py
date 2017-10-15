@@ -22,7 +22,7 @@ e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
     mixpanel.init('%(token)s');
     %(commands)s
     </script>
-"""
+"""  # noqa
 IDENTIFY_CODE = "mixpanel.identify('%s');"
 IDENTIFY_PROPERTIES = "mixpanel.people.set(%s);"
 EVENT_CODE = "mixpanel.track('%(name)s', %(properties)s);"
@@ -62,12 +62,16 @@ class MixpanelNode(Node):
                 commands.append(IDENTIFY_CODE % identity)
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
-            commands.append(EVENT_CODE % {'name': name,
-                    'properties': json.dumps(properties, sort_keys=True)})
+            commands.append(EVENT_CODE % {
+                'name': name,
+                'properties': json.dumps(properties, sort_keys=True),
+            })
         except KeyError:
             pass
-        html = TRACKING_CODE % {'token': self._token,
-                'commands': " ".join(commands)}
+        html = TRACKING_CODE % {
+            'token': self._token,
+            'commands': " ".join(commands),
+        }
         if is_internal_ip(context, 'MIXPANEL'):
             html = disable_html(html, 'Mixpanel')
         return mark_safe(html)

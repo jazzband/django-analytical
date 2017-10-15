@@ -2,8 +2,6 @@
 Tests for the Spring Metrics template tags and filters.
 """
 
-import re
-
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
@@ -38,10 +36,10 @@ class SpringMetricsTagTestCase(TagTestCase):
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
-        r = SpringMetricsNode().render(Context({'user':
-                User(email='test@test.com')}))
-        self.assertTrue("_springMetq.push(['setdata', "
-                "{'email': 'test@test.com'}]);" in r, r)
+        r = SpringMetricsNode().render(Context({
+            'user': User(email='test@test.com'),
+        }))
+        self.assertTrue("_springMetq.push(['setdata', {'email': 'test@test.com'}]);" in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_anonymous_user(self):
@@ -49,12 +47,12 @@ class SpringMetricsTagTestCase(TagTestCase):
         self.assertFalse("_springMetq.push(['setdata', {'email':" in r, r)
 
     def test_custom(self):
-        r = SpringMetricsNode().render(Context({'spring_metrics_var1': 'val1',
-                'spring_metrics_var2': 'val2'}))
-        self.assertTrue("_springMetq.push(['setdata', {'var1': 'val1'}]);" in r,
-                r)
-        self.assertTrue("_springMetq.push(['setdata', {'var2': 'val2'}]);" in r,
-                r)
+        r = SpringMetricsNode().render(Context({
+            'spring_metrics_var1': 'val1',
+            'spring_metrics_var2': 'val2',
+        }))
+        self.assertTrue("_springMetq.push(['setdata', {'var1': 'val1'}]);" in r, r)
+        self.assertTrue("_springMetq.push(['setdata', {'var2': 'val2'}]);" in r, r)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):

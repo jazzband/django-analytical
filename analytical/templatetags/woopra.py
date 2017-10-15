@@ -28,7 +28,7 @@ TRACKING_CODE = """
       woopra.identify(woo_visitor);
       woopra.track();
     </script>
-"""
+"""  # noqa
 
 register = Library()
 

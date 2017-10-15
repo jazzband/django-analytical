@@ -2,9 +2,7 @@
 Tests for the Yandex.Metrica template tags and filters.
 """
 
-import re
 
-from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings

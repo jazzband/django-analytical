@@ -60,16 +60,16 @@ except ImportError:
         "This is fine, unless you intend to run unit tests."
     )
 
-import analytical
+import analytical as package  # noqa
 
 setup(
     name='django-analytical',
-    version=analytical.__version__,
-    license=analytical.__license__,
+    version=package.__version__,
+    license=package.__license__,
     description='Analytics service integration for Django projects',
     long_description=read('README.rst'),
-    author=analytical.__author__,
-    author_email=analytical.__email__,
+    author=package.__author__,
+    author_email=package.__email__,
     packages=[
         'analytical',
         'analytical.templatetags',
@@ -84,6 +84,8 @@ setup(
         'Framework :: Django :: 1.7',
         'Framework :: Django :: 1.8',
         'Framework :: Django :: 1.9',
+        # 'Framework :: Django :: 1.10',
+        # 'Framework :: Django :: 1.11',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
@@ -93,10 +95,10 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        # 'Programming Language :: Python :: 3.6',
     ],
     platforms=['any'],
     url='https://github.com/jcassee/django-analytical',

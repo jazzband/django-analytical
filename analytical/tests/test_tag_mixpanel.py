@@ -20,15 +20,11 @@ class MixpanelTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('mixpanel', 'mixpanel')
-        self.assertIn(
-            "mixpanel.init('0123456789abcdef0123456789abcdef');", r,
-        )
+        self.assertIn("mixpanel.init('0123456789abcdef0123456789abcdef');", r)
 
     def test_node(self):
         r = MixpanelNode().render(Context())
-        self.assertIn(
-            "mixpanel.init('0123456789abcdef0123456789abcdef');", r,
-        )
+        self.assertIn("mixpanel.init('0123456789abcdef0123456789abcdef');", r)
 
     @override_settings(MIXPANEL_API_TOKEN=None)
     def test_no_token(self):
@@ -53,8 +49,9 @@ class MixpanelTagTestCase(TagTestCase):
         self.assertFalse("mixpanel.register_once({distinct_id:" in r, r)
 
     def test_event(self):
-        r = MixpanelNode().render(Context({'mixpanel_event':
-            ('test_event', {'prop1': 'val1', 'prop2': 'val2'})}))
+        r = MixpanelNode().render(Context({
+            'mixpanel_event': ('test_event', {'prop1': 'val1', 'prop2': 'val2'}),
+        }))
         self.assertTrue("mixpanel.track('test_event', "
                         '{"prop1": "val1", "prop2": "val2"});' in r, r)
 

@@ -29,8 +29,7 @@ TRACKING_CODE = """
     })();
     </script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/%(site_id)sns.gif" /></p></noscript>
-"""
-
+"""  # noqa
 
 register = Library()
 
@@ -52,8 +51,9 @@ def clicky(parser, token):
 
 class ClickyNode(Node):
     def __init__(self):
-        self.site_id = get_required_setting('CLICKY_SITE_ID', SITE_ID_RE,
-                "must be a (string containing) a number")
+        self.site_id = get_required_setting(
+            'CLICKY_SITE_ID', SITE_ID_RE,
+            "must be a (string containing) a number")
 
     def render(self, context):
         custom = {}
@@ -66,8 +66,10 @@ class ClickyNode(Node):
             if identity is not None:
                 custom.setdefault('session', {})['username'] = identity
 
-        html = TRACKING_CODE % {'site_id': self.site_id,
-                'custom': json.dumps(custom, sort_keys=True)}
+        html = TRACKING_CODE % {
+            'site_id': self.site_id,
+            'custom': json.dumps(custom, sort_keys=True),
+        }
         if is_internal_ip(context, 'CLICKY'):
             html = disable_html(html, 'Clicky')
         return html

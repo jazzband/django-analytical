@@ -91,10 +91,12 @@ class GoogleAnalyticsNode(Node):
             source = DISPLAY_ADVERTISING_SOURCE
         else:
             source = DEFAULT_SOURCE
-        html = SETUP_CODE % {'property_id': self.property_id,
-                             'commands': " ".join(commands),
-                             'source_scheme': source[0],
-                             'source_url': source[1]}
+        html = SETUP_CODE % {
+            'property_id': self.property_id,
+            'commands': " ".join(commands),
+            'source_scheme': source[0],
+            'source_url': source[1],
+        }
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
             html = disable_html(html, 'Google Analytics')
         return html
@@ -109,8 +111,7 @@ class GoogleAnalyticsNode(Node):
             domain = get_domain(context, 'google_analytics')
             if domain is None:
                 raise AnalyticalException(
-                    "tracking multiple domains with Google Analytics"
-                    " requires a domain name")
+                    "tracking multiple domains with Google Analytics requires a domain name")
             commands.append(DOMAIN_CODE % domain)
             commands.append(NO_ALLOW_HASH_CODE)
             if tracking_type == TRACK_MULTIPLE_DOMAINS:
@@ -157,7 +158,8 @@ class GoogleAnalyticsNode(Node):
         if siteSpeedSampleRate is not False:
             value = decimal.Decimal(siteSpeedSampleRate)
             if not 0 <= value <= 100:
-                raise AnalyticalException("'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE' must be >= 0 and <= 100")
+                raise AnalyticalException(
+                    "'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE' must be >= 0 and <= 100")
             commands.append(SITE_SPEED_SAMPLE_RATE_CODE % value.quantize(TWOPLACES))
 
         sessionCookieTimeout = getattr(settings, 'GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT', False)

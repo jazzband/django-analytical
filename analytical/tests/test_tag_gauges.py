@@ -32,8 +32,7 @@ class GaugesTagTestCase(TagTestCase):
         s.parentNode.insertBefore(t, s);
       })();
     </script>
-""",
-                self.render_tag('gauges', 'gauges'))
+""", self.render_tag('gauges', 'gauges'))
 
     def test_node(self):
         self.assertEqual(
@@ -51,8 +50,7 @@ class GaugesTagTestCase(TagTestCase):
         s.parentNode.insertBefore(t, s);
       })();
     </script>
-""",
-                GaugesNode().render(Context()))
+""", GaugesNode().render(Context()))
 
     @override_settings(GAUGES_SITE_ID=None)
     def test_no_account_number(self):

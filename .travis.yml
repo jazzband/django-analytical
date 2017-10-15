@@ -1,23 +1,27 @@
 language: python
-python: "3.5"
+python:
+  - 2.7
+  - 3.3
+  - 3.4
+  - 3.5
+#  - 3.6
+env:
+  - DJANGO=1.7
+  - DJANGO=1.8
+  - DJANGO=1.9
+#  - DJANGO=1.10
+#  - DJANGO=1.11
+matrix:
+  exclude:
+    - python: 3.5
+      env: DJANGO=1.7
+    - python: 3.3
+      env: DJANGO=1.9
+  include:
+    - python: 2.7
+      env: TOXENV=flake8
+
 install:
-  # continue to support Python 3.2 (see issue #84)
-  - pip install "virtualenv<14.0.0"
-  - pip install coveralls tox
+  - pip install tox-travis
 script:
   - tox
-env:
-  # NOTE: To generate (update) the env list run
-  # $ tox -l | sort | xargs -I ITEM echo "  - TOXENV="ITEM
-  - TOXENV=py27-django17
-  - TOXENV=py27-django18
-  - TOXENV=py27-django19
-  - TOXENV=py32-django17
-  - TOXENV=py32-django18
-  - TOXENV=py33-django17
-  - TOXENV=py33-django18
-  - TOXENV=py34-django17
-  - TOXENV=py34-django18
-  - TOXENV=py34-django19
-  - TOXENV=py35-django18
-  - TOXENV=py35-django19

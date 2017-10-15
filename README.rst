@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|travis-ci| |coveralls| |health| |python-support| |downloads| |license| |gitter|
+|travis-ci| |coveralls| |health| |python-support| |license| |gitter|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -26,7 +26,7 @@ an asynchronous version of the Javascript code if possible.
 .. |latest-version| image:: https://img.shields.io/pypi/v/django-analytical.svg
    :alt: Latest version on PyPI
    :target: https://pypi.python.org/pypi/django-analytical
-.. |travis-ci| image:: https://travis-ci.org/jcassee/django-analytical.svg
+.. |travis-ci| image:: https://img.shields.io/travis/jcassee/django-analytical/master.svg
    :alt: Build status
    :target: https://travis-ci.org/jcassee/django-analytical
 .. |coveralls| image:: https://coveralls.io/repos/jcassee/django-analytical/badge.svg
@@ -38,9 +38,6 @@ an asynchronous version of the Javascript code if possible.
 .. |python-support| image:: https://img.shields.io/pypi/pyversions/django-analytical.svg
    :target: https://pypi.python.org/pypi/django-analytical
    :alt: Python versions
-.. |downloads| image:: https://img.shields.io/pypi/dm/django-analytical.svg
-   :alt: Monthly downloads from PyPI
-   :target: https://pypi.python.org/pypi/django-analytical
 .. |license| image:: https://img.shields.io/pypi/l/django-analytical.svg
    :alt: Software license
    :target: https://github.com/jcassee/django-analytical/blob/master/LICENSE.txt

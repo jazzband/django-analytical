@@ -35,10 +35,11 @@ class OlarkTestCase(TagTestCase):
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
-        r = OlarkNode().render(Context({'user':
-                User(username='test', first_name='Test', last_name='User')}))
+        r = OlarkNode().render(Context({
+            'user': User(username='test', first_name='Test', last_name='User'),
+        }))
         self.assertTrue("olark('api.chat.updateVisitorNickname', "
-                "{snippet: 'Test User (test)'});" in r, r)
+                        "{snippet: 'Test User (test)'});" in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_anonymous_user(self):
@@ -48,18 +49,19 @@ class OlarkTestCase(TagTestCase):
     def test_nickname(self):
         r = OlarkNode().render(Context({'olark_nickname': 'testnick'}))
         self.assertTrue("olark('api.chat.updateVisitorNickname', "
-                "{snippet: 'testnick'});" in r, r)
+                        "{snippet: 'testnick'});" in r, r)
 
     def test_status_string(self):
         r = OlarkNode().render(Context({'olark_status': 'teststatus'}))
         self.assertTrue("olark('api.chat.updateVisitorStatus', "
-                '{snippet: "teststatus"});' in r, r)
+                        '{snippet: "teststatus"});' in r, r)
 
     def test_status_string_list(self):
-        r = OlarkNode().render(Context({'olark_status':
-                ['teststatus1', 'teststatus2']}))
+        r = OlarkNode().render(Context({
+            'olark_status': ['teststatus1', 'teststatus2'],
+        }))
         self.assertTrue("olark('api.chat.updateVisitorStatus', "
-                '{snippet: ["teststatus1", "teststatus2"]});' in r, r)
+                        '{snippet: ["teststatus1", "teststatus2"]});' in r, r)
 
     def test_messages(self):
         messages = [
@@ -88,5 +90,4 @@ class OlarkTestCase(TagTestCase):
         vars = dict(('olark_%s' % m, m) for m in messages)
         r = OlarkNode().render(Context(vars))
         for m in messages:
-            self.assertTrue("olark.configure('locale.%s', \"%s\");" % (m, m)
-                    in r, r)
+            self.assertTrue("olark.configure('locale.%s', \"%s\");" % (m, m) in r, r)

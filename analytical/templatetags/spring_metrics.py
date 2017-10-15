@@ -29,8 +29,7 @@ TRACKING_CODE = """
      )();
      %(custom_commands)s
     </script>
-"""
-
+"""  # noqa
 
 register = Library()
 

@@ -30,11 +30,11 @@ class SettingDeletedTestCase(TestCase):
         # available in python >= 3.2
         if hasattr(self, 'assertRaisesRegex'):
             with self.assertRaisesRegex(AnalyticalException, "^USER_ID setting is not set$"):
-                user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
+                get_required_setting("USER_ID", "\d+", "invalid USER_ID")
         # available in python >= 2.7, deprecated in 3.2
         elif hasattr(self, 'assertRaisesRegexp'):
             with self.assertRaisesRegexp(AnalyticalException, "^USER_ID setting is not set$"):
-                user_id = get_required_setting("USER_ID", "\d+", "invalid USER_ID")
+                get_required_setting("USER_ID", "\d+", "invalid USER_ID")
         else:
             self.assertRaises(AnalyticalException,
                               get_required_setting, "USER_ID", "\d+", "invalid USER_ID")
@@ -72,10 +72,9 @@ class GetDomainTestCase(TestCase):
 
 
 # FIXME: enable Django apps dynamically and enable test again
-#@with_apps('django.contrib.sites')
-#@override_settings(TEST_DOMAIN=SETTING_DELETED,
-#        ANALYTICAL_DOMAIN=SETTING_DELETED)
-#class GetDomainTestCaseWithSites(TestCase):
+# @with_apps('django.contrib.sites')
+# @override_settings(TEST_DOMAIN=SETTING_DELETED, ANALYTICAL_DOMAIN=SETTING_DELETED)
+# class GetDomainTestCaseWithSites(TestCase):
 #    def test_get_domain_from_site(self):
 #        site = Site.objects.create(domain="example.com", name="test")
 #        with override_settings(SITE_ID=site.id):

@@ -35,7 +35,7 @@ SETUP_CODE = """
            loadChartbeat : function() { oldonload(); loadChartbeat(); };
       })();
     </script>
-"""
+"""  # noqa
 DOMAIN_CONTEXT_KEY = 'chartbeat_domain'
 
 
@@ -80,7 +80,7 @@ def chartbeat_bottom(parser, token):
 class ChartbeatBottomNode(Node):
     def __init__(self):
         self.user_id = get_required_setting('CHARTBEAT_USER_ID', USER_ID_RE,
-                "must be (a string containing) a number")
+                                            "must be (a string containing) a number")
 
     def render(self, context):
         config = {'uid': self.user_id}
