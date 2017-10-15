@@ -4,10 +4,8 @@ Rating@Mail.ru template tags and filters.
 
 from __future__ import absolute_import
 
-import json
 import re
 
-from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import is_internal_ip, disable_html, \
@@ -30,7 +28,7 @@ COUNTER_CODE = """
     <noscript><div style="position:absolute;left:-10000px;">
     <img src="//top-fwz1.mail.ru/counter?id=%(counter_id)s;js=na" style="border:0;" height="1" width="1" alt="Rating@Mail.ru" />
     </div></noscript>
-"""
+"""  # noqa
 
 
 register = Library()
@@ -54,8 +52,8 @@ def rating_mailru(parser, token):
 class RatingMailruNode(Node):
     def __init__(self):
         self.counter_id = get_required_setting(
-                'RATING_MAILRU_COUNTER_ID', COUNTER_ID_RE,
-                "must be (a string containing) a number'")
+            'RATING_MAILRU_COUNTER_ID', COUNTER_ID_RE,
+            "must be (a string containing) a number'")
 
     def render(self, context):
         html = COUNTER_CODE % {

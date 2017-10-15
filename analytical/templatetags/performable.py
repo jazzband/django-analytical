@@ -16,7 +16,7 @@ from analytical.utils import is_internal_ip, disable_html, get_identity, \
 API_KEY_RE = re.compile(r'^\w+$')
 SETUP_CODE = """
     <script src="//d1nu2rn22elx8m.cloudfront.net/performable/pax/%(api_key)s.js" type="text/javascript"></script>
-"""
+"""  # noqa
 IDENTIFY_CODE = """
     <script type="text/javascript">
       var _paq = _paq || [];
@@ -32,7 +32,7 @@ EMBED_CODE = """
       $f.write();
     })()
     </script>
-"""
+"""  # noqa
 
 register = Library()
 
@@ -54,8 +54,9 @@ def performable(parser, token):
 
 class PerformableNode(Node):
     def __init__(self):
-        self.api_key = get_required_setting('PERFORMABLE_API_KEY', API_KEY_RE,
-                "must be a string looking like 'XXXXX'")
+        self.api_key = get_required_setting(
+            'PERFORMABLE_API_KEY', API_KEY_RE,
+            "must be a string looking like 'XXXXX'")
 
     def render(self, context):
         html = SETUP_CODE % {'api_key': self.api_key}
@@ -72,7 +73,10 @@ def performable_embed(hostname, page_id):
     """
     Include a Performable landing page.
     """
-    return mark_safe(EMBED_CODE % {'hostname': hostname, 'page_id': page_id})
+    return mark_safe(EMBED_CODE % {
+        'hostname': hostname,
+        'page_id': page_id,
+    })
 
 
 def contribute_to_analytical(add_node):

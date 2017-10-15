@@ -58,7 +58,7 @@ class UserVoiceTagTestCase(TagTestCase):
         r = UserVoiceNode().render(Context(data))
         self.assertIn("""UserVoice.push(['set', {"key1": "val2"}]);""", r)
 
-    def test_auto_trigger(self):
+    def test_auto_trigger_default(self):
         r = UserVoiceNode().render(Context())
         self.assertTrue("UserVoice.push(['addTrigger', {}]);" in r, r)
 

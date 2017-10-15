@@ -11,8 +11,7 @@ from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 
-@override_settings(KISS_INSIGHTS_ACCOUNT_NUMBER='12345',
-        KISS_INSIGHTS_SITE_CODE='abc')
+@override_settings(KISS_INSIGHTS_ACCOUNT_NUMBER='12345', KISS_INSIGHTS_SITE_CODE='abc')
 class KissInsightsTagTestCase(TagTestCase):
     """
     Tests for the ``kiss_insights`` template tag.
@@ -53,6 +52,5 @@ class KissInsightsTagTestCase(TagTestCase):
         self.assertFalse("_kiq.push(['identify', " in r, r)
 
     def test_show_survey(self):
-        r = KissInsightsNode().render(
-                Context({'kiss_insights_show_survey': 1234}))
+        r = KissInsightsNode().render(Context({'kiss_insights_show_survey': 1234}))
         self.assertTrue("_kiq.push(['showSurvey', 1234]);" in r, r)

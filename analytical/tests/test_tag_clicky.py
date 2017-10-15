@@ -23,14 +23,12 @@ class ClickyTagTestCase(TagTestCase):
     def test_tag(self):
         r = self.render_tag('clicky', 'clicky')
         self.assertTrue('clicky_site_ids.push(12345678);' in r, r)
-        self.assertTrue('src="//in.getclicky.com/12345678ns.gif"' in r,
-                r)
+        self.assertTrue('src="//in.getclicky.com/12345678ns.gif"' in r, r)
 
     def test_node(self):
         r = ClickyNode().render(Context({}))
         self.assertTrue('clicky_site_ids.push(12345678);' in r, r)
-        self.assertTrue('src="//in.getclicky.com/12345678ns.gif"' in r,
-                r)
+        self.assertTrue('src="//in.getclicky.com/12345678ns.gif"' in r, r)
 
     @override_settings(CLICKY_SITE_ID=None)
     def test_no_site_id(self):
@@ -43,9 +41,7 @@ class ClickyTagTestCase(TagTestCase):
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
         r = ClickyNode().render(Context({'user': User(username='test')}))
-        self.assertTrue(
-                'var clicky_custom = {"session": {"username": "test"}};' in r,
-                r)
+        self.assertTrue('var clicky_custom = {"session": {"username": "test"}};' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_anonymous_user(self):
@@ -53,10 +49,13 @@ class ClickyTagTestCase(TagTestCase):
         self.assertFalse('var clicky_custom = {"session": {"username":' in r, r)
 
     def test_custom(self):
-        r = ClickyNode().render(Context({'clicky_var1': 'val1',
-                'clicky_var2': 'val2'}))
-        self.assertTrue(re.search('var clicky_custom = {.*'
-                '"var1": "val1", "var2": "val2".*};', r), r)
+        r = ClickyNode().render(Context({
+            'clicky_var1': 'val1',
+            'clicky_var2': 'val2',
+        }))
+        self.assertTrue(
+            re.search(r'var clicky_custom = {.*"var1": "val1", "var2": "val2".*};', r),
+            r)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):

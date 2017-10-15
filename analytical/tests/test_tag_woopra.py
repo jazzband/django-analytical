@@ -37,22 +37,26 @@ class WoopraTagTestCase(TagTestCase):
     @override_settings(WOOPRA_IDLE_TIMEOUT=1234)
     def test_idle_timeout(self):
         r = WoopraNode().render(Context({}))
-        self.assertTrue('var woo_settings = {"domain": "example.com", '
-                '"idle_timeout": "1234"};' in r, r)
+        self.assertTrue('var woo_settings = '
+                        '{"domain": "example.com", "idle_timeout": "1234"};' in r, r)
 
     def test_custom(self):
-        r = WoopraNode().render(Context({'woopra_var1': 'val1',
-                'woopra_var2': 'val2'}))
-        self.assertTrue('var woo_visitor = {"var1": "val1", "var2": "val2"};'
-            in r, r)
+        r = WoopraNode().render(Context({
+            'woopra_var1': 'val1',
+            'woopra_var2': 'val2',
+        }))
+        self.assertTrue('var woo_visitor = {"var1": "val1", "var2": "val2"};' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_name_and_email(self):
-        r = WoopraNode().render(Context({'user': User(username='test',
-                first_name='Firstname', last_name='Lastname',
-                email="test@example.com")}))
-        self.assertTrue('var woo_visitor = {"email": "test@example.com", '
-                '"name": "Firstname Lastname"};' in r, r)
+        r = WoopraNode().render(Context({
+            'user': User(username='test',
+                         first_name='Firstname',
+                         last_name='Lastname',
+                         email="test@example.com"),
+        }))
+        self.assertTrue('var woo_visitor = '
+                        '{"email": "test@example.com", "name": "Firstname Lastname"};' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_username_no_email(self):
@@ -61,14 +65,18 @@ class WoopraTagTestCase(TagTestCase):
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_no_identify_when_explicit_name(self):
-        r = WoopraNode().render(Context({'woopra_name': 'explicit',
-                'user': User(username='implicit')}))
+        r = WoopraNode().render(Context({
+            'woopra_name': 'explicit',
+            'user': User(username='implicit'),
+        }))
         self.assertTrue('var woo_visitor = {"name": "explicit"};' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_no_identify_when_explicit_email(self):
-        r = WoopraNode().render(Context({'woopra_email': 'explicit',
-                'user': User(username='implicit')}))
+        r = WoopraNode().render(Context({
+            'woopra_email': 'explicit',
+            'user': User(username='implicit'),
+        }))
         self.assertTrue('var woo_visitor = {"email": "explicit"};' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)

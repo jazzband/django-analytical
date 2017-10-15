@@ -37,7 +37,7 @@ COUNTER_CODE = """
         })(document, window, "yandex_metrika_callbacks");
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/%(counter_id)s" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-"""
+"""  # noqa
 
 
 register = Library()

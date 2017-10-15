@@ -18,6 +18,7 @@ def _location_node(location):
             return "<!-- dummy_%s -->" % location
     return DummyNode
 
+
 _location_nodes = dict((l, _location_node(l)) for l in TAG_LOCATIONS)
 
 
@@ -28,6 +29,7 @@ def _location_tag(location):
             raise TemplateSyntaxError("'%s' tag takes no arguments" % bits[0])
         return _location_nodes[location]
     return dummy_tag
+
 
 for loc in TAG_LOCATIONS:
     register.tag('dummy_%s' % loc, _location_tag(loc))

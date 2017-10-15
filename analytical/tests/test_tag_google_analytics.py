@@ -14,7 +14,7 @@ from analytical.utils import AnalyticalException
 
 
 @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
-        GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_SINGLE_DOMAIN)
+                   GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_SINGLE_DOMAIN)
 class GoogleAnalyticsTagTestCase(TagTestCase):
     """
     Tests for the ``google_analytics`` template tag.
@@ -38,16 +38,15 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     def test_wrong_property_id(self):
         self.assertRaises(AnalyticalException, GoogleAnalyticsNode)
 
-    @override_settings(
-            GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_SUBDOMAINS,
-            GOOGLE_ANALYTICS_DOMAIN='example.com')
+    @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_SUBDOMAINS,
+                       GOOGLE_ANALYTICS_DOMAIN='example.com')
     def test_track_multiple_subdomains(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setDomainName', 'example.com']);" in r, r)
         self.assertTrue("_gaq.push(['_setAllowHash', false]);" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
-            GOOGLE_ANALYTICS_DOMAIN='example.com')
+                       GOOGLE_ANALYTICS_DOMAIN='example.com')
     def test_track_multiple_domains(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setDomainName', 'example.com']);" in r, r)
@@ -62,14 +61,10 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
             'google_analytics_var5': ('test5', 'qux', SCOPE_PAGE),
         })
         r = GoogleAnalyticsNode().render(context)
-        self.assertTrue("_gaq.push(['_setCustomVar', 1, 'test1', 'foo', 3]);"
-                in r, r)
-        self.assertTrue("_gaq.push(['_setCustomVar', 2, 'test2', 'bar', 1]);"
-                in r, r)
-        self.assertTrue("_gaq.push(['_setCustomVar', 4, 'test4', 'baz', 2]);"
-                in r, r)
-        self.assertTrue("_gaq.push(['_setCustomVar', 5, 'test5', 'qux', 3]);"
-                in r, r)
+        self.assertTrue("_gaq.push(['_setCustomVar', 1, 'test1', 'foo', 3]);" in r, r)
+        self.assertTrue("_gaq.push(['_setCustomVar', 2, 'test2', 'bar', 1]);" in r, r)
+        self.assertTrue("_gaq.push(['_setCustomVar', 4, 'test4', 'baz', 2]);" in r, r)
+        self.assertTrue("_gaq.push(['_setCustomVar', 5, 'test5', 'qux', 3]);" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED=True)
     def test_track_page_load_time(self):
@@ -117,14 +112,12 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     @override_settings(GOOGLE_ANALYTICS_SAMPLE_RATE=-1)
     def test_exception_whenset_sample_rate_too_small(self):
         context = Context()
-        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render,
-                          context)
+        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render, context)
 
     @override_settings(GOOGLE_ANALYTICS_SAMPLE_RATE=101)
     def test_exception_when_set_sample_rate_too_large(self):
         context = Context()
-        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render,
-                          context)
+        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render, context)
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=0.0)
     def test_set_site_speed_sample_rate_min(self):
@@ -139,14 +132,12 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=-1)
     def test_exception_whenset_site_speed_sample_rate_too_small(self):
         context = Context()
-        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render,
-                          context)
+        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render, context)
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=101)
     def test_exception_when_set_site_speed_sample_rate_too_large(self):
         context = Context()
-        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render,
-                          context)
+        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render, context)
 
     @override_settings(GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT=0)
     def test_set_session_cookie_timeout_min(self):
@@ -161,8 +152,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     @override_settings(GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT=-1)
     def test_exception_when_set_session_cookie_timeout_too_small(self):
         context = Context()
-        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render,
-                          context)
+        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render, context)
 
     @override_settings(GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT=0)
     def test_set_visitor_cookie_timeout_min(self):
@@ -177,16 +167,14 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     @override_settings(GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT=-1)
     def test_exception_when_set_visitor_cookie_timeout_too_small(self):
         context = Context()
-        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render,
-                          context)
+        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render, context)
 
 
 @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
-        GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
-        GOOGLE_ANALYTICS_DOMAIN=None,
-        ANALYTICAL_DOMAIN=None)
+                   GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
+                   GOOGLE_ANALYTICS_DOMAIN=None,
+                   ANALYTICAL_DOMAIN=None)
 class NoDomainTestCase(TestCase):
     def test_exception_without_domain(self):
         context = Context()
-        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render,
-                context)
+        self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render, context)

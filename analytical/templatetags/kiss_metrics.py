@@ -61,9 +61,9 @@ def kiss_metrics(parser, token):
 
 class KissMetricsNode(Node):
     def __init__(self):
-        self.api_key = get_required_setting('KISS_METRICS_API_KEY',
-                API_KEY_RE,
-                "must be a string containing a 40-digit hexadecimal number")
+        self.api_key = get_required_setting(
+            'KISS_METRICS_API_KEY', API_KEY_RE,
+            "must be a string containing a 40-digit hexadecimal number")
 
     def render(self, context):
         commands = []
@@ -78,18 +78,23 @@ class KissMetricsNode(Node):
             pass
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
-            commands.append(EVENT_CODE % {'name': name,
-                    'properties': json.dumps(properties, sort_keys=True)})
+            commands.append(EVENT_CODE % {
+                'name': name,
+                'properties': json.dumps(properties, sort_keys=True),
+            })
         except KeyError:
             pass
         try:
             properties = context[PROPERTY_CONTEXT_KEY]
             commands.append(PROPERTY_CODE % {
-                    'properties': json.dumps(properties, sort_keys=True)})
+                'properties': json.dumps(properties, sort_keys=True),
+            })
         except KeyError:
             pass
-        html = TRACKING_CODE % {'api_key': self.api_key,
-                'commands': " ".join(commands)}
+        html = TRACKING_CODE % {
+            'api_key': self.api_key,
+            'commands': " ".join(commands),
+        }
         if is_internal_ip(context, 'KISS_METRICS'):
             html = disable_html(html, 'KISSmetrics')
         return html
