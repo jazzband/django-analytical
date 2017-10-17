@@ -125,6 +125,10 @@ settings required to enable each service are listed here:
 
     CRAZY_EGG_ACCOUNT_NUMBER = '12345678'
 
+* :doc:`Facebook Pixel <services/facebook_pixel>`::
+
+    FACEBOOK_PIXEL_ID = '1234567890'
+
 * :doc:`Gaug.es <services/gauges>`::
 
     GAUGES_SITE_ID = '0123456789abcdef0123456789abcdef'
