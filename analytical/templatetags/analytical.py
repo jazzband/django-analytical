@@ -20,6 +20,7 @@ TAG_MODULES = [
     'analytical.clickmap',
     'analytical.clicky',
     'analytical.crazy_egg',
+    'analytical.facebook_pixel',
     'analytical.gauges',
     'analytical.google_analytics',
     'analytical.gosquared',
