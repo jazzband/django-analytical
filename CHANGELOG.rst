@@ -78,7 +78,7 @@ Version 0.14.0
 Version 0.13.0
 --------------
 * Add support for the KISSmetrics alias feature (Sandra Mau)
-* Update testing code for Django 1.4 (Piet Delport)
+* Update testing code for Django 1.4 (Pi Delport)
 
 Version 0.12.0
 --------------
