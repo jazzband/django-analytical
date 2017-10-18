@@ -16,13 +16,6 @@ try:
 except ImportError:
     pass
 
-try:
-    from sphinx_pypi_upload import UploadDoc
-
-    cmdclass['upload_sphinx'] = UploadDoc
-except ImportError:
-    pass
-
 
 class TestCommand(Command):
     description = "run package tests"

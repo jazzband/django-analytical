@@ -106,7 +106,7 @@ GitHub`_.  Bugs should be reported there, whereas for lengthy chats
 and coding support when implementing new service integrations you're
 welcome to use our `Gitter chat room`_.
 
-.. _`read online`: https://packages.python.org/django-analytical/
+.. _`read online`: https://django-analytical.readthedocs.io/
 .. _`hosted by GitHub`: https://github.com/jcassee/django-analytical
 .. _`Gitter chat room`: https://gitter.im/jcassee/django-analytical
 
