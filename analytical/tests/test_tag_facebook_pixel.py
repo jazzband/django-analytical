@@ -2,9 +2,10 @@
 Tests for the Facebook Pixel template tags.
 """
 from django.http import HttpRequest
-from django.template import Context
+from django.template import Context, Template, TemplateSyntaxError
 from django.test import override_settings
 
+from analytical.templatetags.analytical import _load_template_nodes
 from analytical.templatetags.facebook_pixel import FacebookPixelHeadNode, FacebookPixelBodyNode
 from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
@@ -54,6 +55,20 @@ class FacebookPixelTagTestCase(TagTestCase):
         html = FacebookPixelBodyNode().render(Context({}))
         self.assertEqual(expected_body_html, html)
 
+    def test_tags_take_no_args(self):
+        self.assertRaisesRegexp(
+            TemplateSyntaxError,
+            r"^'facebook_pixel_head' takes no arguments$",
+            lambda: (Template('{% load facebook_pixel %}{% facebook_pixel_head "arg" %}')
+                     .render(Context({}))),
+        )
+        self.assertRaisesRegexp(
+            TemplateSyntaxError,
+            r"^'facebook_pixel_body' takes no arguments$",
+            lambda: (Template('{% load facebook_pixel %}{% facebook_pixel_body "arg" %}')
+                     .render(Context({}))),
+        )
+
     @override_settings(FACEBOOK_PIXEL_ID=None)
     def test_no_id(self):
         expected_pattern = r'^FACEBOOK_PIXEL_ID setting is not set$'
@@ -85,3 +100,15 @@ class FacebookPixelTagTestCase(TagTestCase):
 
         body_html = FacebookPixelBodyNode().render(context)
         self.assertEqual(_disabled(expected_body_html), body_html)
+
+    def test_contribute_to_analytical(self):
+        """
+        `facebook_pixel.contribute_to_analytical` registers the head and body nodes.
+        """
+        template_nodes = _load_template_nodes()
+        self.assertEqual({
+            'head_top': [],
+            'head_bottom': [FacebookPixelHeadNode],
+            'body_top': [],
+            'body_bottom': [FacebookPixelBodyNode],
+        }, template_nodes)
