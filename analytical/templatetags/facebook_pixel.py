@@ -78,7 +78,7 @@ class _FacebookPixelNode(Node):
 
     @property
     def code_template(self):
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
 
 class FacebookPixelHeadNode(_FacebookPixelNode):
