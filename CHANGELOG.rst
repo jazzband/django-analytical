@@ -1,3 +1,8 @@
+Version 2.3.0
+-------------
+* Add Facebook Pixel support (Pi Delport)
+* Add Python 3.6 and Django 1.10 & 1.11 tests (Pi Delport)
+
 Version 2.2.2
 -------------
 * Allow port in Piwik domain path. (Alex Ramsay)
