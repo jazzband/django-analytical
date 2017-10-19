@@ -1,11 +1,5 @@
 """
-Analytics service integration for Django
-========================================
-
-The django-analytical application integrates analytics services into a
-Django_ project.  See the ``docs`` directory for more information.
-
-.. _Django: http://www.djangoproject.com/
+Analytics service integration for Django projects
 """
 
 __author__ = "Joost Cassee"

@@ -36,7 +36,7 @@ class TestCommand(Command):
 cmdclass['test'] = TestCommand
 
 
-def read(fname):
+def read_file(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
@@ -59,8 +59,8 @@ setup(
     name='django-analytical',
     version=package.__version__,
     license=package.__license__,
-    description='Analytics service integration for Django projects',
-    long_description=read('README.rst'),
+    description=package.__doc__.strip(),
+    long_description=read_file('README.rst'),
     author=package.__author__,
     author_email=package.__email__,
     packages=[
