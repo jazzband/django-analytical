@@ -71,7 +71,7 @@ def get_identity(context, prefix=None, identity_func=None, user=None):
         try:
             if user is None:
                 user = get_user_from_context(context)
-            if user.is_authenticated():
+            if user.is_authenticated:
                 if identity_func is not None:
                     return identity_func(user)
                 else:
