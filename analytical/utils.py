@@ -49,6 +49,19 @@ def get_user_from_context(context):
     return None
 
 
+def get_user_is_authenticated(user):
+    """Check if the user is authenticated.
+
+    This is a compatibility function needed to support both Django 1.x and 2.x;
+    Django 2.x turns the function into a proper boolean so function calls will
+    fail.
+    """
+    if callable(user.is_authenticated):
+        return user.is_authenticated()
+    else:
+        return user.is_authenticated
+
+
 def get_identity(context, prefix=None, identity_func=None, user=None):
     """
     Get the identity of a logged in user from a template context.
@@ -71,7 +84,7 @@ def get_identity(context, prefix=None, identity_func=None, user=None):
         try:
             if user is None:
                 user = get_user_from_context(context)
-            if user.is_authenticated:
+            if get_user_is_authenticated(user):
                 if identity_func is not None:
                     return identity_func(user)
                 else:
