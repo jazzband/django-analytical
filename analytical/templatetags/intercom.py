@@ -10,7 +10,8 @@ import re
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import disable_html, get_required_setting, \
-        is_internal_ip, get_user_from_context, get_identity
+        is_internal_ip, get_user_from_context, get_identity, \
+        get_user_is_authenticated
 
 APP_ID_RE = re.compile(r'[\da-z]+$')
 TRACKING_CODE = """
@@ -58,7 +59,7 @@ class IntercomNode(Node):
                     params[var[9:]] = val
 
         user = get_user_from_context(context)
-        if user is not None and user.is_authenticated():
+        if user is not None and get_user_is_authenticated(user):
             if 'name' not in params:
                 params['name'] = get_identity(
                         context, 'intercom', self._identify, user)
@@ -81,7 +82,7 @@ class IntercomNode(Node):
         }
 
         if is_internal_ip(context, 'INTERCOM') \
-                or not user or not user.is_authenticated():
+                or not user or not get_user_is_authenticated(user):
             # Intercom is disabled for non-logged in users.
             html = disable_html(html, 'Intercom')
         return html
