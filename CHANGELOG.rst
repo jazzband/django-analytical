@@ -1,3 +1,7 @@
+Version 2.4.0
+-------------
+* Support Django 2.0 (Matthäus G. Chajdas)
+
 Version 2.3.0
 -------------
 * Add Facebook Pixel support (Pi Delport)
