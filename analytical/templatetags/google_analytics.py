@@ -50,11 +50,11 @@ ALLOW_LINKER_CODE = "_gaq.push(['_setAllowLinker', true]);"
 CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
                   "'%(value)s', %(scope)s]);"
 SITE_SPEED_CODE = "_gaq.push(['_trackPageLoadTime']);"
-ANONYMIZE_IP_CODE = "_gaq.push (['_gat._anonymizeIp']);"
-SAMPLE_RATE_CODE = "_gaq.push (['_setSampleRate', '%s']);"
-SITE_SPEED_SAMPLE_RATE_CODE = "_gaq.push (['_setSiteSpeedSampleRate', '%s']);"
-SESSION_COOKIE_TIMEOUT_CODE = "_gaq.push (['_setSessionCookieTimeout', '%s']);"
-VISITOR_COOKIE_TIMEOUT_CODE = "_gaq.push (['_setVisitorCookieTimeout', '%s']);"
+ANONYMIZE_IP_CODE = "_gaq.push(['_gat._anonymizeIp']);"
+SAMPLE_RATE_CODE = "_gaq.push(['_setSampleRate', '%s']);"
+SITE_SPEED_SAMPLE_RATE_CODE = "_gaq.push(['_setSiteSpeedSampleRate', '%s']);"
+SESSION_COOKIE_TIMEOUT_CODE = "_gaq.push(['_setSessionCookieTimeout', '%s']);"
+VISITOR_COOKIE_TIMEOUT_CODE = "_gaq.push(['_setVisitorCookieTimeout', '%s']);"
 DEFAULT_SOURCE = ("'https://ssl' : 'http://www'", "'.google-analytics.com/ga.js'")
 DISPLAY_ADVERTISING_SOURCE = ("'https://' : 'http://'", "'stats.g.doubleclick.net/dc.js'")
 
