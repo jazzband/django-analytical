@@ -93,6 +93,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     def test_anonymize_ip(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push (['_gat._anonymizeIp']);" in r, r)
+        self.assertTrue(r.index('_gat._anonymizeIp') < r.index('_trackPageview'), r)
 
     @override_settings(GOOGLE_ANALYTICS_ANONYMIZE_IP=False)
     def test_anonymize_ip_not_present(self):

@@ -34,7 +34,6 @@ SETUP_CODE = """
 
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', '%(property_id)s']);
-      _gaq.push(['_trackPageview']);
       %(commands)s
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -46,6 +45,7 @@ SETUP_CODE = """
 """
 DOMAIN_CODE = "_gaq.push(['_setDomainName', '%s']);"
 NO_ALLOW_HASH_CODE = "_gaq.push(['_setAllowHash', false]);"
+TRACK_PAGE_VIEW = "_gaq.push(['_trackPageview']);"
 ALLOW_LINKER_CODE = "_gaq.push(['_setAllowLinker', true]);"
 CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
                   "'%(value)s', %(scope)s]);"
@@ -89,6 +89,7 @@ class GoogleAnalyticsNode(Node):
         commands = self._get_domain_commands(context)
         commands.extend(self._get_custom_var_commands(context))
         commands.extend(self._get_other_commands(context))
+        commands.append(TRACK_PAGE_VIEW)
         if getattr(settings, 'GOOGLE_ANALYTICS_DISPLAY_ADVERTISING', False):
             source = DISPLAY_ADVERTISING_SOURCE
         else:
