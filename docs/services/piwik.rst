@@ -1,5 +1,5 @@
 ==================================
-Piwik -- open source web analytics
+Matomo (formerly Piwik) -- open source web analytics
 ==================================
 
 Piwik_ is an open analytics platform currently used by individuals,
