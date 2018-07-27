@@ -65,7 +65,7 @@ Currently Supported Services
 * `Olark`_ visitor chat
 * `Optimizely`_ A/B testing
 * `Performable`_ web analytics and landing pages
-* `Piwik`_ open source web analytics
+* `Matomo (formerly Piwik)`_ open source web analytics
 * `Rating\@Mail.ru`_ web analytics
 * `SnapEngage`_ live chat
 * `Spring Metrics`_ conversion tracking
@@ -89,7 +89,7 @@ Currently Supported Services
 .. _`Olark`: http://www.olark.com/
 .. _`Optimizely`: http://www.optimizely.com/
 .. _`Performable`: http://www.performable.com/
-.. _`Piwik`: http://www.piwik.org/
+.. _`Matomo (formerly Piwik)`: https://matomo.org
 .. _`Rating\@Mail.ru`: http://top.mail.ru/
 .. _`SnapEngage`: http://www.snapengage.com/
 .. _`Spring Metrics`: http://www.springmetrics.com/
