@@ -124,7 +124,7 @@ Context variable       Description
 ====================  ===========================================
 
 
-.. _`custom visitor data`: http://docs.intercom.io/custom-data/adding-custom-data
+.. _`custom visitor data`: https://www.intercom.com/help/configure-intercom-for-your-product-or-site/customize-intercom-to-be-about-your-users/send-custom-user-attributes-to-intercom
 
 
 Identifying authenticated users
