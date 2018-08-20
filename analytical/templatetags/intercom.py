@@ -74,16 +74,13 @@ class IntercomNode(Node):
         return params
 
     def render(self, context):
-        user = get_user_from_context(context)
         params = self._get_custom_attrs(context)
         params["app_id"] = self.app_id
         html = TRACKING_CODE % {
             "settings_json": json.dumps(params, sort_keys=True)
         }
 
-        if is_internal_ip(context, 'INTERCOM') \
-                or not user or not get_user_is_authenticated(user):
-            # Intercom is disabled for non-logged in users.
+        if is_internal_ip(context, 'INTERCOM'):
             html = disable_html(html, 'Intercom')
         return html
 
