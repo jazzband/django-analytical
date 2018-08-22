@@ -4,7 +4,8 @@ Tests for the intercom template tags and filters.
 
 import datetime
 
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import User
+from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
 
@@ -21,7 +22,7 @@ class IntercomTagTestCase(TagTestCase):
 
     def test_tag(self):
         rendered_tag = self.render_tag('intercom', 'intercom')
-        self.assertTrue(rendered_tag.startswith('<!-- Intercom disabled on internal IP address'))
+        self.assertTrue(rendered_tag.strip().startswith('<script id="IntercomSettingsScriptTag">'))
 
     def test_node(self):
         now = datetime.datetime(2014, 4, 9, 15, 15, 0)
@@ -99,6 +100,11 @@ class IntercomTagTestCase(TagTestCase):
         }))
         self.assertTrue('"email": "explicit"' in r, r)
 
-    def test_disable_for_anonymous_users(self):
-        r = IntercomNode().render(Context({'user': AnonymousUser()}))
+    @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
+    def test_render_internal_ip(self):
+        req = HttpRequest()
+        req.META['REMOTE_ADDR'] = '1.1.1.1'
+        context = Context({'request': req})
+        r = IntercomNode().render(context)
         self.assertTrue(r.startswith('<!-- Intercom disabled on internal IP address'), r)
+        self.assertTrue(r.endswith('-->'), r)
