@@ -138,6 +138,23 @@ passed to Intercom automatically.  See :ref:`identifying-visitors`.
 
 .. _intercom-internal-ips:
 
+
+Verifying identified users
+--------------------------
+
+Intercom supports HMAC authentication of users identified by user ID or email, in order to prevent impersonation.
+For more information, see `Enable identity verification on your web product`_ in the Intercom documentation.
+
+To enable this, configure your Intercom account's HMAC secret key::
+
+    INTERCOM_HMAC_SECRET_KEY = 'XXXXXXXXXXXXXXXXXXXXXXX'
+
+(You can find this secret key under the "Identity verification" section of your Intercom account settings page.)
+
+.. _`Enable identity verification on your web product`: https://www.intercom.com/help/configure-intercom-for-your-product-or-site/staying-secure/enable-identity-verification-on-your-web-product
+
+
+
 Internal IP addresses
 ---------------------
 

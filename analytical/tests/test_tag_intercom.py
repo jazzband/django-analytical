@@ -9,7 +9,7 @@ from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
 
-from analytical.templatetags.intercom import IntercomNode
+from analytical.templatetags.intercom import IntercomNode, intercom_user_hash
 from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
@@ -102,6 +102,65 @@ class IntercomTagTestCase(TagTestCase):
             'user': User(username='implicit'),
         }))
         self.assertTrue('"email": "explicit"' in r, r)
+
+    @override_settings(INTERCOM_HMAC_SECRET_KEY='secret')
+    def test_user_hash__without_user_details(self):
+        """
+        No `user_hash` without `user_id` or `email`.
+        """
+        attrs = IntercomNode()._get_custom_attrs(Context())
+        self.assertEqual({
+            'created_at': None,
+        }, attrs)
+
+    @override_settings(INTERCOM_HMAC_SECRET_KEY='secret')
+    def test_user_hash__with_user(self):
+        """
+        'user_hash' of default `user_id`.
+        """
+        user = User.objects.create(
+            email='test@example.com',
+        )  # type: User
+        attrs = IntercomNode()._get_custom_attrs(Context({'user': user}))
+        self.assertEqual({
+            'created_at': int(user.date_joined.timestamp()),
+            'email': 'test@example.com',
+            'name': '',
+            'user_hash': intercom_user_hash(str(user.pk)),
+            'user_id': user.pk,
+        }, attrs)
+
+    @override_settings(INTERCOM_HMAC_SECRET_KEY='secret')
+    def test_user_hash__with_explicit_user_id(self):
+        """
+        'user_hash' of context-provided `user_id`.
+        """
+        attrs = IntercomNode()._get_custom_attrs(Context({
+            'intercom_email': 'test@example.com',
+            'intercom_user_id': '5',
+        }))
+        self.assertEqual({
+            'created_at': None,
+            'email': 'test@example.com',
+            # HMAC for user_id:
+            'user_hash': 'd3123a7052b42272d9b520235008c248a5aff3221cc0c530b754702ad91ab102',
+            'user_id': '5',
+        }, attrs)
+
+    @override_settings(INTERCOM_HMAC_SECRET_KEY='secret')
+    def test_user_hash__with_explicit_email(self):
+        """
+        'user_hash' of context-provided `email`.
+        """
+        attrs = IntercomNode()._get_custom_attrs(Context({
+            'intercom_email': 'test@example.com',
+        }))
+        self.assertEqual({
+            'created_at': None,
+            'email': 'test@example.com',
+            # HMAC for email:
+            'user_hash': '49e43229ee99dca2565241719b8341b04e71dd4de0628f991b5bea30a526e153',
+        }, attrs)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
