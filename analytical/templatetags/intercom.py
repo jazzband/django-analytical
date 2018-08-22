@@ -7,6 +7,7 @@ from __future__ import absolute_import
 import hashlib
 import hmac
 import json
+import sys
 import time
 import re
 
@@ -26,6 +27,14 @@ TRACKING_CODE = """
 """  # noqa
 
 register = Library()
+
+
+def _timestamp(when):  # type: (datetime) -> float
+    """
+    Python 2 compatibility for `datetime.timestamp()`.
+    """
+    return (time.mktime(when.timetuple()) if sys.version_info < (3,) else
+            when.timestamp())
 
 
 def _hashable_bytes(data):  # type: (AnyStr) -> bytes
@@ -100,8 +109,7 @@ class IntercomNode(Node):
 
             params.setdefault('user_id', user.pk)
 
-            params['created_at'] = int(time.mktime(
-                    user.date_joined.timetuple()))
+            params['created_at'] = int(_timestamp(user.date_joined))
         else:
             params['created_at'] = None
 

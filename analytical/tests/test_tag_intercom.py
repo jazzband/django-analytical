@@ -9,7 +9,7 @@ from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
 
-from analytical.templatetags.intercom import IntercomNode, intercom_user_hash
+from analytical.templatetags.intercom import IntercomNode, intercom_user_hash, _timestamp
 from analytical.tests.utils import TagTestCase
 from analytical.utils import AnalyticalException
 
@@ -123,7 +123,7 @@ class IntercomTagTestCase(TagTestCase):
         )  # type: User
         attrs = IntercomNode()._get_custom_attrs(Context({'user': user}))
         self.assertEqual({
-            'created_at': int(user.date_joined.timestamp()),
+            'created_at': int(_timestamp(user.date_joined)),
             'email': 'test@example.com',
             'name': '',
             'user_hash': intercom_user_hash(str(user.pk)),
