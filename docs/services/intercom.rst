@@ -120,6 +120,8 @@ Context variable       Description
 --------------------  -------------------------------------------
 ``intercom_email``      The visitor's email address.
 --------------------  -------------------------------------------
+``intercom_user_id``    The visitor's user id.
+--------------------  -------------------------------------------
 ``created_at``          The date the visitor created an account
 ====================  ===========================================
 
@@ -130,7 +132,7 @@ Context variable       Description
 Identifying authenticated users
 -------------------------------
 
-If you have not set the ``intercom_name`` or ``intercom_email`` variables
+If you have not set the ``intercom_name``, ``intercom_email``, or ``intercom_user_id`` variables
 explicitly, the username and email address of an authenticated user are
 passed to Intercom automatically.  See :ref:`identifying-visitors`.
 

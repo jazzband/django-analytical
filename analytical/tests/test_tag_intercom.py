@@ -26,21 +26,21 @@ class IntercomTagTestCase(TagTestCase):
 
     def test_node(self):
         now = datetime.datetime(2014, 4, 9, 15, 15, 0)
-        rendered_tag = IntercomNode().render(Context({
-            'user': User(
-                username='test',
-                first_name='Firstname',
-                last_name='Lastname',
-                email="test@example.com",
-                date_joined=now),
-        }))
+        user = User.objects.create(
+            username='test',
+            first_name='Firstname',
+            last_name='Lastname',
+            email="test@example.com",
+            date_joined=now,
+        )
+        rendered_tag = IntercomNode().render(Context({'user': user}))
         # Because the json isn't predictably ordered, we can't just test the whole thing verbatim.
         self.assertEqual("""
 <script id="IntercomSettingsScriptTag">
-  window.intercomSettings = {"app_id": "abc123xyz", "created_at": 1397074500, "email": "test@example.com", "name": "Firstname Lastname"};
+  window.intercomSettings = {"app_id": "abc123xyz", "created_at": 1397074500, "email": "test@example.com", "name": "Firstname Lastname", "user_id": %(user_id)s};
 </script>
 <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://static.intercomcdn.com/intercom.v1.js';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
-""", rendered_tag)  # noqa
+""" % {'user_id': user.pk}, rendered_tag)  # noqa
 
     @override_settings(INTERCOM_APP_ID=None)
     def test_no_account_number(self):
@@ -52,18 +52,21 @@ class IntercomTagTestCase(TagTestCase):
 
     def test_identify_name_email_and_created_at(self):
         now = datetime.datetime(2014, 4, 9, 15, 15, 0)
+        user = User.objects.create(
+            username='test',
+            first_name='Firstname',
+            last_name='Lastname',
+            email="test@example.com",
+            date_joined=now,
+        )
         r = IntercomNode().render(Context({
-            'user': User(
-                username='test',
-                first_name='Firstname',
-                last_name='Lastname',
-                email="test@example.com",
-                date_joined=now),
+            'user': user,
         }))
         self.assertTrue('window.intercomSettings = {'
                         '"app_id": "abc123xyz", "created_at": 1397074500, '
-                        '"email": "test@example.com", "name": "Firstname Lastname"'
-                        '};' in r)
+                        '"email": "test@example.com", "name": "Firstname Lastname", '
+                        '"user_id": %(user_id)s'
+                        '};' % {'user_id': user.pk} in r, msg=r)
 
     def test_custom(self):
         r = IntercomNode().render(Context({

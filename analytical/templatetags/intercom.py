@@ -66,6 +66,8 @@ class IntercomNode(Node):
             if 'email' not in params and user.email:
                 params['email'] = user.email
 
+            params.setdefault('user_id', user.pk)
+
             params['created_at'] = int(time.mktime(
                     user.date_joined.timetuple()))
         else:
