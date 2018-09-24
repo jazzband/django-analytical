@@ -24,10 +24,10 @@ TRACK_MULTIPLE_DOMAINS = 3
 PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$')
 SETUP_CODE = """
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+(function(i,s,o,g,r,a,m){{i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){{
+(i[r].q=i[r].q||[]).push(arguments)}},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+}})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', '{property_id}', 'auto', {create_fields});
 {display_features}
@@ -115,7 +115,7 @@ class GoogleAnalyticsJsNode(Node):
 
         cookie_expires = getattr(settings, 'GOOGLE_ANALYTICS_COOKIE_EXPIRATION', False)
         if cookie_expires is not False:
-            value = int(decimal.Decimal(sessionCookieTimeout))
+            value = int(decimal.Decimal(cookie_expires))
             if value < 0:
                 raise AnalyticalException("'GOOGLE_ANALYTICS_COOKIE_EXPIRATION' must be >= 0")
             other_fields['cookieExpires'] = value
