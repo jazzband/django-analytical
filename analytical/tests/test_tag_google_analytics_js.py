@@ -41,7 +41,8 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
                        GOOGLE_ANALYTICS_DOMAIN='example.com')
     def test_track_multiple_subdomains(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"legacyCookieDomain": "example.com"}""" in r, r)
+        self.assertTrue(
+            """ga('create', 'UA-123456-7', 'auto', {"legacyCookieDomain": "example.com"}""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
                        GOOGLE_ANALYTICS_DOMAIN='example.com')
@@ -114,12 +115,14 @@ ga('send', 'pageview');""" in r, r)
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=0.0)
     def test_set_site_speed_sample_rate_min(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"siteSpeedSampleRate": 0});""" in r, r)
+        self.assertTrue(
+            """ga('create', 'UA-123456-7', 'auto', {"siteSpeedSampleRate": 0});""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE='100.00')
     def test_set_site_speed_sample_rate_max(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"siteSpeedSampleRate": 100});""" in r, r)
+        self.assertTrue(
+            """ga('create', 'UA-123456-7', 'auto', {"siteSpeedSampleRate": 100});""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=-1)
     def test_exception_whenset_site_speed_sample_rate_too_small(self):
@@ -139,7 +142,8 @@ ga('send', 'pageview');""" in r, r)
     @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRATION='10000')
     def test_set_cookie_expiration_as_string(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"cookieExpires": 10000});""" in r, r)
+        self.assertTrue(
+            """ga('create', 'UA-123456-7', 'auto', {"cookieExpires": 10000});""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRATION=-1)
     def test_exception_when_set_cookie_expiration_too_small(self):
