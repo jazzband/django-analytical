@@ -12,7 +12,7 @@ from analytical.tests.utils import TestCase, TagTestCase
 from analytical.utils import AnalyticalException
 
 
-@override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
+@override_settings(GOOGLE_ANALYTICS_JS_PROPERTY_ID='UA-123456-7',
                    GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_SINGLE_DOMAIN)
 class GoogleAnalyticsTagTestCase(TagTestCase):
     """
@@ -29,11 +29,11 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         self.assertTrue("ga('create', 'UA-123456-7', 'auto', {});" in r, r)
         self.assertTrue("ga('send', 'pageview');" in r, r)
 
-    @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID=None)
+    @override_settings(GOOGLE_ANALYTICS_JS_PROPERTY_ID=None)
     def test_no_property_id(self):
         self.assertRaises(AnalyticalException, GoogleAnalyticsJsNode)
 
-    @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='wrong')
+    @override_settings(GOOGLE_ANALYTICS_JS_PROPERTY_ID='wrong')
     def test_wrong_property_id(self):
         self.assertRaises(AnalyticalException, GoogleAnalyticsJsNode)
 
@@ -147,7 +147,7 @@ ga('send', 'pageview');""" in r, r)
         self.assertRaises(AnalyticalException, GoogleAnalyticsJsNode().render, context)
 
 
-@override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
+@override_settings(GOOGLE_ANALYTICS_JS_PROPERTY_ID='UA-123456-7',
                    GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
                    GOOGLE_ANALYTICS_DOMAIN=None,
                    ANALYTICAL_DOMAIN=None)

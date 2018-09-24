@@ -49,7 +49,7 @@ def google_analytics_js(parser, token):
 
     Renders Javascript code to track page visits.  You must supply
     your website property ID (as a string) in the
-    ``GOOGLE_ANALYTICS_PROPERTY_ID`` setting.
+    ``GOOGLE_ANALYTICS_JS_PROPERTY_ID`` setting.
     """
     bits = token.split_contents()
     if len(bits) > 1:
@@ -60,7 +60,7 @@ def google_analytics_js(parser, token):
 class GoogleAnalyticsJsNode(Node):
     def __init__(self):
         self.property_id = get_required_setting(
-            'GOOGLE_ANALYTICS_PROPERTY_ID', PROPERTY_ID_RE,
+            'GOOGLE_ANALYTICS_JS_PROPERTY_ID', PROPERTY_ID_RE,
             "must be a string looking like 'UA-XXXXXX-Y'")
 
     def render(self, context):
