@@ -113,11 +113,11 @@ class GoogleAnalyticsJsNode(Node):
                 raise AnalyticalException("'GOOGLE_ANALYTICS_SAMPLE_RATE' must be >= 0 and <= 100")
             other_fields['sampleRate'] = value
 
-        cookie_expires = getattr(settings, 'GOOGLE_ANALYTICS_COOKIE_EXPIRES', False)
+        cookie_expires = getattr(settings, 'GOOGLE_ANALYTICS_COOKIE_EXPIRATION', False)
         if cookie_expires is not False:
             value = int(decimal.Decimal(sessionCookieTimeout))
             if value < 0:
-                raise AnalyticalException("'GOOGLE_ANALYTICS_COOKIE_EXPIRES' must be >= 0")
+                raise AnalyticalException("'GOOGLE_ANALYTICS_COOKIE_EXPIRATION' must be >= 0")
             other_fields['cookieExpires'] = value
 
         return other_fields

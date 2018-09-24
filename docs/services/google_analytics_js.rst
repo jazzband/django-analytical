@@ -1,5 +1,5 @@
 ======================================
- Google Analytics (legacy) -- traffic analysis
+ Google Analytics -- traffic analysis
 ======================================
 
 `Google Analytics`_ is the well-known web analytics service from
@@ -15,7 +15,7 @@ features.
 Installation
 ============
 
-To start using the Google Analytics (legacy) integration, you must have installed
+To start using the Google Analytics integration, you must have installed
 the django-analytical package and have added the ``analytical``
 application to :const:`INSTALLED_APPS` in your project
 :file:`settings.py` file. See :doc:`../install` for details.
@@ -26,16 +26,16 @@ templates. This step is only needed if you are not using the generic
 :ref:`google-analytics-configuration`.
 
 The Google Analytics tracking code is inserted into templates using a
-template tag.  Load the :mod:`google_analytics` template tag library and
-insert the :ttag:`google_analytics` tag.  Because every page that you
+template tag.  Load the :mod:`google_analytics_js` template tag library and
+insert the :ttag:`google_analytics_js` tag.  Because every page that you
 want to track must have the tag, it is useful to add it to your base
 template.  Insert the tag at the bottom of the HTML head::
 
-    {% load google_analytics %}
+    {% load google_analytics_js %}
     <html>
     <head>
     ...
-    {% google_analytics %}
+    {% google_analytics_js %}
     </head>
     ...
 
@@ -57,7 +57,7 @@ Setting the property ID
 -----------------------
 
 Every website you track with Google Analytics gets its own property ID,
-and the :ttag:`google_analytics` tag will include it in the rendered
+and the :ttag:`google_analytics_js` tag will include it in the rendered
 Javascript code.  You can find the web property ID on the overview page
 of your account.  Set :const:`GOOGLE_ANALYTICS_PROPERTY_ID` in the
 project :file:`settings.py` file::
@@ -72,7 +72,7 @@ Tracking multiple domains
 
 The default code is suitable for tracking a single domain.  If you track
 multiple domains, set the :const:`GOOGLE_ANALYTICS_TRACKING_STYLE`
-setting to one of the :const:`analytical.templatetags.google_analytics.TRACK_*`
+setting to one of the :const:`analytical.templatetags.google_analytics_js.TRACK_*`
 constants:
 
 =============================  =====  =============================================
@@ -87,7 +87,7 @@ Constant                       Value  Description
 =============================  =====  =============================================
 
 As noted, the default tracking style is
-:const:`~analytical.templatetags.google_analytics.TRACK_SINGLE_DOMAIN`.
+:const:`~analytical.templatetags.google_analytics_js.TRACK_SINGLE_DOMAIN`.
 
 When you track multiple (sub)domains, django-analytical needs to know
 what domain name to pass to Google Analytics.  If you use the contrib
@@ -114,19 +114,6 @@ By default, display advertising features are disabled.
 .. _`Display Advertising features`: https://support.google.com/analytics/answer/3450482
 
 
-Tracking site speed
--------------------
-
-You can view page load times in the `Site Speed report`_ by setting the
-:const:`GOOGLE_ANALYTICS_SITE_SPEED` configuration setting::
-
-    GOOGLE_ANALYTICS_SITE_SPEED = True
-
-By default, page load times are not tracked.
-
-.. _`Site Speed report`: https://support.google.com/analytics/answer/1205784
-
-
 .. _google-analytics-internal-ips:
 
 Internal IP addresses
@@ -149,29 +136,15 @@ Custom variables
 As described in the Google Analytics `custom variables`_ documentation
 page, you can define custom segments.  Using template context variables
 ``google_analytics_var1`` through ``google_analytics_var5``, you can let
-the :ttag:`google_analytics` tag pass custom variables to Google
+the :ttag:`google_analytics_js` tag pass custom variables to Google
 Analytics automatically.  You can set the context variables in your view
 when your render a template containing the tracking code::
 
     context = RequestContext({'google_analytics_var1': ('gender', 'female'),
-                              'google_analytics_var2': ('visit', '1', SCOPE_SESSION)})
+                              'google_analytics_var2': ('visit', 1)})
     return some_template.render(context)
 
-The value of the context variable is a tuple *(name, value, [scope])*.
-The scope parameter is one of the
-:const:`analytical.templatetags.google_analytics.SCOPE_*` constants:
-
-=================  ======  =============================================
-Constant           Value   Description
-=================  ======  =============================================
-``SCOPE_VISITOR``    1     Distinguishes categories of visitors across
-                           multiple sessions.
-``SCOPE_SESSION``    2     Distinguishes different visitor experiences
-                           across sessions.
-``SCOPE_PAGE``       3     Defines page-level activity.
-=================  ======  =============================================
-
-The default scope is :const:`~analytical.templatetags.google_analytics.SCOPE_PAGE`.
+The value of the context variable is a tuple *(name, value)*.
 
 You may want to set custom variables in a context processor that you add
 to the :data:`TEMPLATE_CONTEXT_PROCESSORS` list in :file:`settings.py`::
@@ -186,7 +159,7 @@ Just remember that if you set the same context variable in the
 :class:`~django.template.context.RequestContext` constructor and in a
 context processor, the latter clobbers the former.
 
-.. _`custom variables`: http://code.google.com/apis/analytics/docs/tracking/gaTrackingCustomVariables.html
+.. _`custom variables`: https://developers.google.com/analytics/devguides/collection/upgrade/reference/gajs-analyticsjs#custom-vars
 
 
 .. _google-analytics-anonimyze-ips:
@@ -218,9 +191,9 @@ You can configure the `Sample Rate`_ feature by setting the
     GOOGLE_ANALYTICS_SAMPLE_RATE = 10
 
 The value is a percentage and can be between 0 and 100 and can be a string or
-decimal value of with up to two decimal places.
+integer value.
 
-.. _`Sample Rate`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsamplerate
+.. _`Sample Rate`: https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#sampleRate
 
 
 .. _google-analytics-site-speed-sample-rate:
@@ -234,36 +207,21 @@ You can configure the `Site Speed Sample Rate`_ feature by setting the
     GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE = 10
 
 The value is a percentage and can be between 0 and 100 and can be a string or
-decimal value of with up to two decimal places.
+integer value.
 
-.. _`Site Speed Sample Rate`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsitespeedsamplerate
+.. _`Site Speed Sample Rate`: https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#siteSpeedSampleRate
 
 
-.. _google-analytics-session-cookie-timeout:
+.. _google-analytics-cookie-expiration:
 
-Session Cookie Timeout
+Cookie Expiration
 ----------------------
 
-You can configure the `Session Cookie Timeout`_ feature by setting the
-:const:`GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT` configuration setting::
+You can configure the `Cookie Expiration`_ feature by setting the
+:const:`GOOGLE_ANALYTICS_COOKIE_EXPIRATION` configuration setting::
 
-    GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT = 3600000
+    GOOGLE_ANALYTICS_COOKIE_EXPIRATION = 3600000
 
-The value is the session cookie timeout in milliseconds or 0 to delete the cookie when the browser is closed.
+The value is the cookie expiration in seconds or 0 to delete the cookie when the browser is closed.
 
-.. _`Session Cookie Timeout`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsessioncookietimeout
-
-
-.. _google-analytics-visitor-cookie-timeout:
-
-Visitor Cookie Timeout
-----------------------
-
-You can configure the `Visitor Cookie Timeout`_ feature by setting the
-:const:`GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT` configuration setting::
-
-    GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT = 3600000
-
-The value is the visitor cookie timeout in milliseconds or 0 to delete the cookie when the browser is closed.
-
-.. _`Visitor Cookie Timeout`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setvisitorcookietimeout
+.. _`Cookie Expiration`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsessioncookietimeout

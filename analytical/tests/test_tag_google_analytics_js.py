@@ -130,17 +130,17 @@ ga('send', 'pageview');""" in r, r)
         context = Context()
         self.assertRaises(AnalyticalException, GoogleAnalyticsJsNode().render, context)
 
-    @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRES=0)
+    @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRATION=0)
     def test_set_session_cookie_timeout_min(self):
         r = GoogleAnalyticsJsNode().render(Context())
         self.assertTrue("ga('create', 'UA-123456-7', 'auto', {'cookieExpires'; 0});" in r, r)
 
-    @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRES='10000')
+    @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRATION='10000')
     def test_set_session_cookie_timeout_as_string(self):
         r = GoogleAnalyticsJsNode().render(Context())
         self.assertTrue("ga('create', 'UA-123456-7', 'auto', {'cookieExpires': 10000});" in r, r)
 
-    @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRES=-1)
+    @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRATION=-1)
     def test_exception_when_set_session_cookie_timeout_too_small(self):
         context = Context()
         self.assertRaises(AnalyticalException, GoogleAnalyticsJsNode().render, context)
