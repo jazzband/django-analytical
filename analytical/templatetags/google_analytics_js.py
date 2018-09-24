@@ -67,7 +67,7 @@ class GoogleAnalyticsJsNode(Node):
         import json
         create_fields = self._get_domain_fields(context)
         create_fields.update(self._get_other_create_fields(context))
-        commands.extend(self._get_custom_var_commands(context))
+        commands = self._get_custom_var_commands(context)
         commands.extend(self._get_other_commands(context))
         display_features = getattr(settings, 'GOOGLE_ANALYTICS_DISPLAY_ADVERTISING', False)
         html = SETUP_CODE.format(
