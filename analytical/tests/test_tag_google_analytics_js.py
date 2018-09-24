@@ -41,27 +41,28 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
                        GOOGLE_ANALYTICS_DOMAIN='example.com')
     def test_track_multiple_subdomains(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("ga('create', 'UA-123456-7', 'auto', {'legacyCookieDomain': 'example.com'}" in r, r)
+        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"legacyCookieDomain": "example.com"}""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
                        GOOGLE_ANALYTICS_DOMAIN='example.com')
     def test_track_multiple_domains(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("ga('create', 'UA-123456-7', 'auto', {'legacyCookieDomain': 'example.com'," in r, r)
-        self.assertTrue("'allowLinker': true});" in r, r)
+        self.assertTrue("ga('create', 'UA-123456-7', 'auto', {" in r, r)
+        self.assertTrue('"legacyCookieDomain": "example.com"' in r, r)
+        self.assertTrue('"allowLinker\": true' in r, r)
 
     def test_custom_vars(self):
         context = Context({
             'google_analytics_var1': ('test1', 'foo'),
             'google_analytics_var2': ('test2', 'bar'),
-            'google_analytics_var4': ('test4', 'baz'),
-            'google_analytics_var5': ('test5', 'qux'),
+            'google_analytics_var4': ('test4', 1),
+            'google_analytics_var5': ('test5', 2.2),
         })
         r = GoogleAnalyticsJsNode().render(context)
         self.assertTrue("ga('set', 'test1', 'foo');" in r, r)
         self.assertTrue("ga('set', 'test2', 'bar');" in r, r)
-        self.assertTrue("ga('set', 'test4', 'baz');" in r, r)
-        self.assertTrue("ga('set', 'test5', 'qux');" in r, r)
+        self.assertTrue("ga('set', 'test4', 1);" in r, r)
+        self.assertTrue("ga('set', 'test5', 2.2);" in r, r)
 
     def test_display_advertising(self):
         with override_settings(GOOGLE_ANALYTICS_DISPLAY_ADVERTISING=True):
@@ -93,12 +94,12 @@ ga('send', 'pageview');""" in r, r)
     @override_settings(GOOGLE_ANALYTICS_SAMPLE_RATE=0.0)
     def test_set_sample_rate_min(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("ga('create', 'UA-123456-7', 'auto', {'sampleRate', 0});" in r, r)
+        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"sampleRate": 0});""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SAMPLE_RATE='100.00')
     def test_set_sample_rate_max(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("ga('create', 'UA-123456-7', 'auto', {'sampleRate', 100});" in r, r)
+        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"sampleRate": 100});""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SAMPLE_RATE=-1)
     def test_exception_whenset_sample_rate_too_small(self):
@@ -113,12 +114,12 @@ ga('send', 'pageview');""" in r, r)
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=0.0)
     def test_set_site_speed_sample_rate_min(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("ga('create', 'UA-123456-7', 'auto', {'siteSpeedSampleRate': 0});" in r, r)
+        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"siteSpeedSampleRate": 0});""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE='100.00')
     def test_set_site_speed_sample_rate_max(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("ga('create', 'UA-123456-7', 'auto', {'siteSpeedSampleRate': 100});" in r, r)
+        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"siteSpeedSampleRate": 100});""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=-1)
     def test_exception_whenset_site_speed_sample_rate_too_small(self):
@@ -131,17 +132,17 @@ ga('send', 'pageview');""" in r, r)
         self.assertRaises(AnalyticalException, GoogleAnalyticsJsNode().render, context)
 
     @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRATION=0)
-    def test_set_session_cookie_timeout_min(self):
+    def test_set_cookie_expiration_min(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("ga('create', 'UA-123456-7', 'auto', {'cookieExpires'; 0});" in r, r)
+        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"cookieExpires": 0});""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRATION='10000')
-    def test_set_session_cookie_timeout_as_string(self):
+    def test_set_cookie_expiration_as_string(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        self.assertTrue("ga('create', 'UA-123456-7', 'auto', {'cookieExpires': 10000});" in r, r)
+        self.assertTrue("""ga('create', 'UA-123456-7', 'auto', {"cookieExpires": 10000});""" in r, r)
 
     @override_settings(GOOGLE_ANALYTICS_COOKIE_EXPIRATION=-1)
-    def test_exception_when_set_session_cookie_timeout_too_small(self):
+    def test_exception_when_set_cookie_expiration_too_small(self):
         context = Context()
         self.assertRaises(AnalyticalException, GoogleAnalyticsJsNode().render, context)
 
