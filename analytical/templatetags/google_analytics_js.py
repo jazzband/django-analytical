@@ -131,6 +131,10 @@ class GoogleAnalyticsJsNode(Node):
         for _, var in params:
             name = var[0]
             value = var[1]
+            try:
+                float(value)
+            except ValueError:
+                value = "'{}'".format(value)
             commands.append(CUSTOM_VAR_CODE.format(
                 name=name,
                 value=value,
