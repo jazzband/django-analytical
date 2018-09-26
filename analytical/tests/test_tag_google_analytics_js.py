@@ -21,11 +21,19 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('google_analytics_js', 'google_analytics_js')
+        self.assertTrue("""(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');""" in r, r)
         self.assertTrue("ga('create', 'UA-123456-7', 'auto', {});" in r, r)
         self.assertTrue("ga('send', 'pageview');" in r, r)
 
     def test_node(self):
         r = GoogleAnalyticsJsNode().render(Context())
+        self.assertTrue("""(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');""" in r, r)
         self.assertTrue("ga('create', 'UA-123456-7', 'auto', {});" in r, r)
         self.assertTrue("ga('send', 'pageview');" in r, r)
 
