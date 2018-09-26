@@ -59,10 +59,10 @@ Setting the property ID
 Every website you track with Google Analytics gets its own property ID,
 and the :ttag:`google_analytics_js` tag will include it in the rendered
 Javascript code.  You can find the web property ID on the overview page
-of your account.  Set :const:`GOOGLE_ANALYTICS_PROPERTY_ID` in the
+of your account.  Set :const:`GOOGLE_ANALYTICS_JS_PROPERTY_ID` in the
 project :file:`settings.py` file::
 
-    GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-XXXXXX-X'
+    GOOGLE_ANALYTICS_JS_PROPERTY_ID = 'UA-XXXXXX-X'
 
 If you do not set a property ID, the tracking code will not be rendered.
 
