@@ -24,6 +24,7 @@ TAG_MODULES = [
     'analytical.gauges',
     'analytical.google_analytics',
     'analytical.google_analytics_js',
+    'analytical.google_analytics_gtag',
     'analytical.gosquared',
     'analytical.hotjar',
     'analytical.hubspot',
