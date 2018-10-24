@@ -16,11 +16,10 @@ from analytical.utils import (
 
 PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$')
 SETUP_CODE = """
-<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id={property_id}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag(){{dataLayer.push(arguments);}}
   gtag('js', new Date());
 
   gtag('config', '{property_id}');
@@ -37,7 +36,7 @@ def google_analytics_gtag(parser, token):
 
     Renders Javascript code to track page visits.  You must supply
     your website property ID (as a string) in the
-    ``GOOGLE_ANALYTICS_JS_PROPERTY_ID`` setting.
+    ``GOOGLE_ANALYTICS_GTAG_PROPERTY_ID`` setting.
     """
     bits = token.split_contents()
     if len(bits) > 1:
