@@ -24,6 +24,7 @@ TAG_MODULES = [
     'analytical.gauges',
     'analytical.google_analytics',
     'analytical.gosquared',
+    'analytical.hotjar',
     'analytical.hubspot',
     'analytical.intercom',
     'analytical.kiss_insights',

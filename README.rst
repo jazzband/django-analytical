@@ -57,6 +57,7 @@ Currently Supported Services
 * `Gaug.es`_ real time web analytics
 * `Google Analytics`_ traffic analysis
 * `GoSquared`_ traffic monitoring
+* `Hotjar`_ analytics and user feedback
 * `HubSpot`_ inbound marketing
 * `Intercom`_ live chat and support
 * `KISSinsights`_ feedback surveys
@@ -81,6 +82,7 @@ Currently Supported Services
 .. _`Gaug.es`: http://get.gaug.es/
 .. _`Google Analytics`: http://www.google.com/analytics/
 .. _`GoSquared`: http://www.gosquared.com/
+.. _`Hotjar`: https://www.hotjar.com/
 .. _`HubSpot`: http://www.hubspot.com/
 .. _`Intercom`: http://www.intercom.io/
 .. _`KISSinsights`: http://www.kissinsights.com/
