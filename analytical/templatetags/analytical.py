@@ -23,6 +23,7 @@ TAG_MODULES = [
     'analytical.facebook_pixel',
     'analytical.gauges',
     'analytical.google_analytics',
+    'analytical.google_analytics_js',
     'analytical.gosquared',
     'analytical.hotjar',
     'analytical.hubspot',
