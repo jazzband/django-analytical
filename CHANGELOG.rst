@@ -1,3 +1,11 @@
+Development
+-----------
+* Add support for Google analytics.js (Marc Bourqui)
+* Add support for Intercom HMAC identity verification (Pi Delport)
+* Add support for HotJar (Pi Delport)
+* Make sure _trackPageview happens before other settings in Google Analytics
+  (Diederik van der Boor)
+
 Version 2.4.0
 -------------
 * Support Django 2.0 (Matthäus G. Chajdas)
