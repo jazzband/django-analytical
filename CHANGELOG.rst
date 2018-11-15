@@ -1,5 +1,5 @@
-Development
------------
+Version 2.5.0
+-------------
 * Add support for Google analytics.js (Marc Bourqui)
 * Add support for Intercom HMAC identity verification (Pi Delport)
 * Add support for HotJar (Pi Delport)
