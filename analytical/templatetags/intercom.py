@@ -3,10 +3,15 @@ intercom.io template tags and filters.
 """
 
 from __future__ import absolute_import
+
+import hashlib
+import hmac
 import json
+import sys
 import time
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import disable_html, get_required_setting, \
@@ -22,6 +27,42 @@ TRACKING_CODE = """
 """  # noqa
 
 register = Library()
+
+
+def _timestamp(when):  # type: (datetime) -> float
+    """
+    Python 2 compatibility for `datetime.timestamp()`.
+    """
+    return (time.mktime(when.timetuple()) if sys.version_info < (3,) else
+            when.timestamp())
+
+
+def _hashable_bytes(data):  # type: (AnyStr) -> bytes
+    """
+    Coerce strings to hashable bytes.
+    """
+    if isinstance(data, bytes):
+        return data
+    elif isinstance(data, str):
+        return data.encode('ascii')  # Fail on anything non-ASCII.
+    else:
+        raise TypeError(data)
+
+
+def intercom_user_hash(data):  # type: (AnyStr) -> Optional[str]
+    """
+    Return a SHA-256 HMAC `user_hash` as expected by Intercom, if configured.
+
+    Return None if the `INTERCOM_HMAC_SECRET_KEY` setting is not configured.
+    """
+    if getattr(settings, 'INTERCOM_HMAC_SECRET_KEY', None):
+        return hmac.new(
+            key=_hashable_bytes(settings.INTERCOM_HMAC_SECRET_KEY),
+            msg=_hashable_bytes(data),
+            digestmod=hashlib.sha256,
+        ).hexdigest()
+    else:
+        return None
 
 
 @register.tag
@@ -66,10 +107,21 @@ class IntercomNode(Node):
             if 'email' not in params and user.email:
                 params['email'] = user.email
 
-            params['created_at'] = int(time.mktime(
-                    user.date_joined.timetuple()))
+            params.setdefault('user_id', user.pk)
+
+            params['created_at'] = int(_timestamp(user.date_joined))
         else:
             params['created_at'] = None
+
+        # Generate a user_hash HMAC to verify the user's identity, if configured.
+        # (If both user_id and email are present, the user_id field takes precedence.)
+        # See:
+        # https://www.intercom.com/help/configure-intercom-for-your-product-or-site/staying-secure/enable-identity-verification-on-your-web-product
+        user_hash_data = params.get('user_id', params.get('email'))  # type: Optional[str]
+        if user_hash_data:
+            user_hash = intercom_user_hash(str(user_hash_data))  # type: Optional[str]
+            if user_hash is not None:
+                params.setdefault('user_hash', user_hash)
 
         return params
 
