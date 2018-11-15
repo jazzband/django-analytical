@@ -8,6 +8,7 @@ from collections import namedtuple
 from itertools import chain
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import (is_internal_ip, disable_html,
@@ -24,6 +25,7 @@ TRACKING_CODE = """
 <script type="text/javascript">
   var _paq = _paq || [];
   %(variables)s
+  %(commands)s
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
@@ -39,6 +41,7 @@ TRACKING_CODE = """
 
 VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
+DISABLE_COOKIES_CODE = '_paq.push([\'disableCookies\']);'
 
 DEFAULT_SCOPE = 'page'
 
@@ -89,6 +92,10 @@ class PiwikNode(Node):
         variables_code = (VARIABLE_CODE % PiwikVar(*var)._asdict()
                           for var in complete_variables)
 
+        commands = []
+        if getattr(settings, 'PIWIK_DISABLE_COOKIES', False):
+            commands.append(DISABLE_COOKIES_CODE)
+
         userid = get_identity(context, 'piwik')
         if userid is not None:
             variables_code = chain(variables_code, (
@@ -98,7 +105,8 @@ class PiwikNode(Node):
         html = TRACKING_CODE % {
             'url': self.domain_path,
             'siteid': self.site_id,
-            'variables': '\n  '.join(variables_code)
+            'variables': '\n  '.join(variables_code),
+            'commands' : '\n  '.join(commands)
         }
         if is_internal_ip(context, 'PIWIK'):
             html = disable_html(html, 'Piwik')

@@ -145,3 +145,8 @@ class PiwikTagTestCase(TagTestCase):
         msg = 'Incorrect Piwik user tracking rendering.\nFound:\n%s\nIn:\n%s'
         var_code = '_paq.push(["setUserId", "BDFL"]);'
         self.assertNotIn(var_code, r, msg % (var_code, r))
+
+    @override_settings(PIWIK_DISABLE_COOKIES=True)
+    def test_disable_coolies(self):
+        r = PiwikNode().render(Context({}))
+        self.assertTrue("_paq.push(['disableCookies']);" in r, r)
