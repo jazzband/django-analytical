@@ -106,7 +106,7 @@ class PiwikNode(Node):
             'url': self.domain_path,
             'siteid': self.site_id,
             'variables': '\n  '.join(variables_code),
-            'commands' : '\n  '.join(commands)
+            'commands': '\n  '.join(commands)
         }
         if is_internal_ip(context, 'PIWIK'):
             html = disable_html(html, 'Piwik')
