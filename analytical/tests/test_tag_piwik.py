@@ -147,6 +147,6 @@ class PiwikTagTestCase(TagTestCase):
         self.assertNotIn(var_code, r, msg % (var_code, r))
 
     @override_settings(PIWIK_DISABLE_COOKIES=True)
-    def test_disable_coolies(self):
+    def test_disable_cookies(self):
         r = PiwikNode().render(Context({}))
         self.assertTrue("_paq.push(['disableCookies']);" in r, r)

@@ -5,7 +5,7 @@ contributions from `Eric Davis`_, `Paul Oswald`_, `Uros Trebec`_,
 Gaitán`_, `Craig Bruce`_, `Peter Bittner`_, `Scott Adams`_, `Eric Amador`_,
 `Alexandre Pocquet`_, `Brad Pitcher`_, `Hugo Osvaldo Barrera`_,
 `Nikolay Korotkiy`_, `Steve Schwarz`_, `Aleck Landgraf`_,
-`Marc Bourqui`_, `Diederik van der Boor`_ and others.
+`Marc Bourqui`_, `Diederik van der Boor`_, `Matthäus G. Chajdas`_ and others.
 
 Included Javascript code snippets for integration of the analytics
 services were written by the respective service providers.
@@ -40,6 +40,7 @@ The work on Intercom was made possible by `GreenKahuna`_.
 .. _`Aleck Landgraf`: https://github.com/alecklandgraf
 .. _`Marc Bourqui`: https://github.com/mbourqui
 .. _`Diederik van der Boor`: https://github.com/vdboor
+.. _`Matthäus G. Chajdas`: https://github.com/Anteru
 .. _`Analytical`: https://github.com/jkrall/analytical
 .. _`Bateau Knowledge`: http://www.bateauknowledge.nl/
 .. _`GreenKahuna`: http://www.greenkahuna.com/
