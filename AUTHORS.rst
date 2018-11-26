@@ -16,7 +16,7 @@ Krall's all-purpose analytics front-end for Rails.
 The work on Crazy Egg was made possible by `Bateau Knowledge`_.
 The work on Intercom was made possible by `GreenKahuna`_.
 
-.. _`Joost Cassee`: mailto:joost@cassee.net
+.. _`Joost Cassee`: https://github.com/jcassee
 .. _`Eric Davis`: https://github.com/edavis
 .. _`Paul Oswald`: https://github.com/poswald
 .. _`Uros Trebec`: https://github.com/failedguidedog
