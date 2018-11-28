@@ -127,7 +127,13 @@ services to support, or suggesting documentation improvements, use the
 the repository, make changes and place a `pull request`_.  Creating an
 issue to discuss your plans is useful.
 
+This is a `Jazzband`_ project.  By contributing you agree to abide by the
+`Contributor Code of Conduct`_ and follow the `guidelines`_.
+
 .. _`issue tracker`: https://github.com/jazzband/django-analytical/issues
 .. _`pull request`: https://github.com/jazzband/django-analytical/pulls
+.. _`Jazzband`: https://jazzband.co
+.. _`Contributor Code of Conduct`: https://jazzband.co/about/conduct
+.. _`guidelines`: https://jazzband.co/about/guidelines
 
 .. end contribute include
