@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|travis-ci| |coveralls| |health| |python-support| |license| |gitter|
+|travis-ci| |coveralls| |health| |python-support| |license| |gitter| |jazzband|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -44,6 +44,9 @@ an asynchronous version of the Javascript code if possible.
 .. |gitter| image:: https://badges.gitter.im/Join%20Chat.svg
    :alt: Gitter chat room
    :target: https://gitter.im/jazzband/django-analytical
+.. |jazzband| image:: https://jazzband.co/static/img/badge.svg
+   :alt: Jazzband
+   :target: https://jazzband.co/
 .. _`Django`: http://www.djangoproject.com/
 
 Currently Supported Services
