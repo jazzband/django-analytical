@@ -8,7 +8,7 @@ Django_ project.
 .. _Django: https://www.djangoproject.com/
 
 :Package: https://pypi.python.org/pypi/django-analytical/
-:Source:  https://github.com/jcassee/django-analytical
+:Source:  https://github.com/jazzband/django-analytical
 
 
 Overview

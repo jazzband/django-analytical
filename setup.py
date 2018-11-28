@@ -96,8 +96,8 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     platforms=['any'],
-    url='https://github.com/jcassee/django-analytical',
-    download_url='https://github.com/jcassee/django-analytical/archive/master.zip',
+    url='https://github.com/jazzband/django-analytical',
+    download_url='https://github.com/jazzband/django-analytical/archive/master.zip',
     cmdclass=cmdclass,
     install_requires=[
         'Django>=1.7.0',
