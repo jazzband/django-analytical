@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|travis-ci| |coveralls| |health| |python-support| |license| |gitter|
+|travis-ci| |coveralls| |health| |python-support| |license| |gitter| |jazzband|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -26,24 +26,27 @@ an asynchronous version of the Javascript code if possible.
 .. |latest-version| image:: https://img.shields.io/pypi/v/django-analytical.svg
    :alt: Latest version on PyPI
    :target: https://pypi.python.org/pypi/django-analytical
-.. |travis-ci| image:: https://img.shields.io/travis/jcassee/django-analytical/master.svg
+.. |travis-ci| image:: https://img.shields.io/travis/jazzband/django-analytical/master.svg
    :alt: Build status
-   :target: https://travis-ci.org/jcassee/django-analytical
-.. |coveralls| image:: https://coveralls.io/repos/jcassee/django-analytical/badge.svg
+   :target: https://travis-ci.org/jazzband/django-analytical
+.. |coveralls| image:: https://coveralls.io/repos/jazzband/django-analytical/badge.svg
    :alt: Test coverage
-   :target: https://coveralls.io/r/jcassee/django-analytical
-.. |health| image:: https://landscape.io/github/jcassee/django-analytical/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/jcassee/django-analytical/master
+   :target: https://coveralls.io/r/jazzband/django-analytical
+.. |health| image:: https://landscape.io/github/jazzband/django-analytical/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/jazzband/django-analytical/master
    :alt: Code health
 .. |python-support| image:: https://img.shields.io/pypi/pyversions/django-analytical.svg
    :target: https://pypi.python.org/pypi/django-analytical
    :alt: Python versions
 .. |license| image:: https://img.shields.io/pypi/l/django-analytical.svg
    :alt: Software license
-   :target: https://github.com/jcassee/django-analytical/blob/master/LICENSE.txt
+   :target: https://github.com/jazzband/django-analytical/blob/master/LICENSE.txt
 .. |gitter| image:: https://badges.gitter.im/Join%20Chat.svg
    :alt: Gitter chat room
-   :target: https://gitter.im/jcassee/django-analytical
+   :target: https://gitter.im/jazzband/django-analytical
+.. |jazzband| image:: https://jazzband.co/static/img/badge.svg
+   :alt: Jazzband
+   :target: https://jazzband.co/
 .. _`Django`: http://www.djangoproject.com/
 
 Currently Supported Services
@@ -109,8 +112,8 @@ and coding support when implementing new service integrations you're
 welcome to use our `Gitter chat room`_.
 
 .. _`read online`: https://django-analytical.readthedocs.io/
-.. _`hosted by GitHub`: https://github.com/jcassee/django-analytical
-.. _`Gitter chat room`: https://gitter.im/jcassee/django-analytical
+.. _`hosted by GitHub`: https://github.com/jazzband/django-analytical
+.. _`Gitter chat room`: https://gitter.im/jazzband/django-analytical
 
 How To Contribute
 -----------------
@@ -124,7 +127,13 @@ services to support, or suggesting documentation improvements, use the
 the repository, make changes and place a `pull request`_.  Creating an
 issue to discuss your plans is useful.
 
-.. _`issue tracker`: https://github.com/jcassee/django-analytical/issues
-.. _`pull request`: https://github.com/jcassee/django-analytical/pulls
+This is a `Jazzband`_ project.  By contributing you agree to abide by the
+`Contributor Code of Conduct`_ and follow the `guidelines`_.
+
+.. _`issue tracker`: https://github.com/jazzband/django-analytical/issues
+.. _`pull request`: https://github.com/jazzband/django-analytical/pulls
+.. _`Jazzband`: https://jazzband.co
+.. _`Contributor Code of Conduct`: https://jazzband.co/about/conduct
+.. _`guidelines`: https://jazzband.co/about/guidelines
 
 .. end contribute include

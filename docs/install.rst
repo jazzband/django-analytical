@@ -32,10 +32,10 @@ get the development code:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/jcassee/django-analytical.git
+    $ git clone https://github.com/jazzband/django-analytical.git
 
 .. _PyPI: http://pypi.python.org/pypi/django-analytical/
-.. _GitHub: http://github.com/jcassee/django-analytical
+.. _GitHub: http://github.com/jazzband/django-analytical
 
 Then install the package by running the setup script:
 
