@@ -152,6 +152,6 @@ class PiwikTagTestCase(TagTestCase):
         self.assertTrue("_paq.push(['disableCookies']);" in r, r)
 
     @override_settings(PIWIK_ASK_FOR_CONSENT=True)
-    def test_disable_cookies(self):
+    def test_ask_for_consent(self):
         r = PiwikNode().render(Context({}))
         self.assertTrue("_paq.push([\'requireConsent\']);" in r, r)
