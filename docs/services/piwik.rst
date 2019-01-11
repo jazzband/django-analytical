@@ -145,10 +145,23 @@ set the context variable ``analytical_identity`` (for global configuration) or
 Disabling cookies
 -----------------
 
-If you want to `disable cookies`_, set :data:`PIWIKI_DISABLE_COOKIES` to
+If you want to `disable cookies`_, set :data:`PIWIK_DISABLE_COOKIES` to
 :const:`True`. This is disabled by default.
 
 .. _`disable cookies`: https://matomo.org/faq/general/faq_157/
+
+Ask for consent
+-----------------
+
+If you want to ask for consent set :data:`PIWIK_ASK_FOR_CONSENT` to
+:const:`True`. This is disabled by default.
+
+To ask the visitor for consent just create DOM elements with the following id's:
+
+`piwik_deny_consent` - id for DOM element to click, if the user denies consent
+`piwik_give_consent` - id for DOM element to click, if the user gives consent
+
+.. _`asking for consent`: https://developer.matomo.org/guides/tracking-javascript-guide#asking-for-consent
 
 Internal IP addresses
 ---------------------

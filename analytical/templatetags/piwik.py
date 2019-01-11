@@ -42,6 +42,9 @@ TRACKING_CODE = """
 VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
 DISABLE_COOKIES_CODE = '_paq.push([\'disableCookies\']);'
+ASK_FOR_CONSENT_CODE = '_paq.push([\'requireConsent\']);'
+FORGET_CONSENT_CODE = 'document.getElementById("piwik_deny_consent").addEventListener("click", () => { _paq.push(["forgetConsentGiven"]); });'
+REMEMBER_CONSENT_CODE = 'document.getElementById("piwik_give_consent").addEventListener("click", () => { _paq.push(["setConsentGiven"]); _paq.push(["rememberConsentGiven"]); });'
 
 DEFAULT_SCOPE = 'page'
 
@@ -95,6 +98,11 @@ class PiwikNode(Node):
         commands = []
         if getattr(settings, 'PIWIK_DISABLE_COOKIES', False):
             commands.append(DISABLE_COOKIES_CODE)
+
+        if getattr(settings, 'PIWIK_ASK_FOR_CONSENT', False):
+            commands.append(ASK_FOR_CONSENT_CODE)
+            commands.append(FORGET_CONSENT_CODE)
+            commands.append(REMEMBER_CONSENT_CODE)
 
         userid = get_identity(context, 'piwik')
         if userid is not None:
