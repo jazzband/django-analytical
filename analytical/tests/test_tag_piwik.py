@@ -154,4 +154,4 @@ class PiwikTagTestCase(TagTestCase):
     @override_settings(PIWIK_ASK_FOR_CONSENT=True)
     def test_ask_for_consent(self):
         r = PiwikNode().render(Context({}))
-        self.assertTrue("_paq.push([\'requireConsent\']);" in r, r)
+        self.assertTrue("_paq.push(['requireConsent']);" in r, r)

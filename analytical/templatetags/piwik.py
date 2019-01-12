@@ -41,8 +41,8 @@ TRACKING_CODE = """
 
 VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
-DISABLE_COOKIES_CODE = '_paq.push([\'disableCookies\']);'
-ASK_FOR_CONSENT_CODE = '_paq.push([\'requireConsent\']);'
+DISABLE_COOKIES_CODE = "_paq.push(['disableCookies']);"
+ASK_FOR_CONSENT_CODE = "_paq.push(['requireConsent']);"
 FORGET_CONSENT_CODE = 'document.getElementById("piwik_deny_consent").addEventListener("click", () => { _paq.push(["forgetConsentGiven"]); });'
 REMEMBER_CONSENT_CODE = 'document.getElementById("piwik_give_consent").addEventListener("click", () => { _paq.push(["setConsentGiven"]); _paq.push(["rememberConsentGiven"]); });'
 
