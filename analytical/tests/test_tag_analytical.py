@@ -27,8 +27,7 @@ class AnalyticsTagTestCase(TagTestCase):
     def render_location_tag(self, location, vars=None):
         if vars is None:
             vars = {}
-        t = Template("{%% load analytical %%}{%% analytical_%s %%}"
-                % location)
+        t = Template("{%% load analytical %%}{%% analytical_%s %%}" % location)
         return t.render(Context(vars))
 
     def test_location_tags(self):

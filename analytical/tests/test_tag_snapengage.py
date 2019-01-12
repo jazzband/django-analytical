@@ -50,16 +50,19 @@ class SnapEngageTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, SnapEngageNode)
 
     def test_no_button(self):
-        r = SnapEngageNode().render(Context({'snapengage_button': BUTTON_STYLE_NONE}))
-        self.assertTrue('SnapABug.init("ec329c69-0bf0-4db8-9b77-3f8150fb977e")'
-                in r, r)
+        r = SnapEngageNode().render(Context({
+            'snapengage_button': BUTTON_STYLE_NONE,
+        }))
+        self.assertTrue('SnapABug.init("ec329c69-0bf0-4db8-9b77-3f8150fb977e")' in r, r)
         with override_settings(SNAPENGAGE_BUTTON=BUTTON_STYLE_NONE):
             r = SnapEngageNode().render(Context())
             self.assertTrue(
                 'SnapABug.init("ec329c69-0bf0-4db8-9b77-3f8150fb977e")' in r, r)
 
     def test_live_button(self):
-        r = SnapEngageNode().render(Context({'snapengage_button': BUTTON_STYLE_LIVE}))
+        r = SnapEngageNode().render(Context({
+            'snapengage_button': BUTTON_STYLE_LIVE,
+        }))
         self.assertTrue(
             'SnapABug.addButton("ec329c69-0bf0-4db8-9b77-3f8150fb977e","0",'
             '"55%",true);' in r, r)
@@ -71,7 +74,8 @@ class SnapEngageTestCase(TagTestCase):
 
     def test_custom_button(self):
         r = SnapEngageNode().render(Context({
-            'snapengage_button': "http://www.example.com/button.png"}))
+            'snapengage_button': "http://www.example.com/button.png",
+        }))
         self.assertTrue(
             'SnapABug.addButton("ec329c69-0bf0-4db8-9b77-3f8150fb977e","0",'
             '"55%");' in r, r)
@@ -89,12 +93,12 @@ class SnapEngageTestCase(TagTestCase):
 
     def test_button_location_right(self):
         r = SnapEngageNode().render(Context({
-            'snapengage_button_location': BUTTON_LOCATION_RIGHT}))
+            'snapengage_button_location': BUTTON_LOCATION_RIGHT,
+        }))
         self.assertTrue(
             'SnapABug.addButton("ec329c69-0bf0-4db8-9b77-3f8150fb977e","1",'
             '"55%");' in r, r)
-        with override_settings(
-            SNAPENGAGE_BUTTON_LOCATION=BUTTON_LOCATION_RIGHT):
+        with override_settings(SNAPENGAGE_BUTTON_LOCATION=BUTTON_LOCATION_RIGHT):
             r = SnapEngageNode().render(Context())
             self.assertTrue(
                 'SnapABug.addButton("ec329c69-0bf0-4db8-9b77-3f8150fb977e","1",'
@@ -102,7 +106,8 @@ class SnapEngageTestCase(TagTestCase):
 
     def test_button_location_top(self):
         r = SnapEngageNode().render(Context({
-            'snapengage_button_location': BUTTON_LOCATION_TOP}))
+            'snapengage_button_location': BUTTON_LOCATION_TOP,
+        }))
         self.assertTrue(
             'SnapABug.addButton("ec329c69-0bf0-4db8-9b77-3f8150fb977e","2",'
             '"55%");' in r, r)
@@ -114,7 +119,8 @@ class SnapEngageTestCase(TagTestCase):
 
     def test_button_location_bottom(self):
         r = SnapEngageNode().render(Context({
-            'snapengage_button_location': BUTTON_LOCATION_BOTTOM}))
+            'snapengage_button_location': BUTTON_LOCATION_BOTTOM,
+        }))
         self.assertTrue(
             'SnapABug.addButton("ec329c69-0bf0-4db8-9b77-3f8150fb977e","3",'
             '"55%");' in r, r)
@@ -127,7 +133,8 @@ class SnapEngageTestCase(TagTestCase):
 
     def test_button_offset(self):
         r = SnapEngageNode().render(Context({
-            'snapengage_button_location_offset': "30%"}))
+            'snapengage_button_location_offset': "30%",
+        }))
         self.assertTrue(
             'SnapABug.addButton("ec329c69-0bf0-4db8-9b77-3f8150fb977e","0",'
             '"30%");' in r, r)
@@ -139,7 +146,8 @@ class SnapEngageTestCase(TagTestCase):
 
     def test_button_effect(self):
         r = SnapEngageNode().render(Context({
-            'snapengage_button_effect': "-4px"}))
+            'snapengage_button_effect': "-4px",
+        }))
         self.assertTrue('SnapABug.setButtonEffect("-4px");' in r, r)
         with override_settings(SNAPENGAGE_BUTTON_EFFECT="-4px"):
             r = SnapEngageNode().render(Context())
@@ -147,7 +155,8 @@ class SnapEngageTestCase(TagTestCase):
 
     def test_form_position(self):
         r = SnapEngageNode().render(Context({
-            'snapengage_form_position': FORM_POSITION_TOP_LEFT}))
+            'snapengage_form_position': FORM_POSITION_TOP_LEFT,
+        }))
         self.assertTrue('SnapABug.setChatFormPosition("tl");' in r, r)
         with override_settings(SNAPENGAGE_FORM_POSITION=FORM_POSITION_TOP_LEFT):
             r = SnapEngageNode().render(Context())
@@ -155,7 +164,8 @@ class SnapEngageTestCase(TagTestCase):
 
     def test_form_top_position(self):
         r = SnapEngageNode().render(Context({
-            'snapengage_form_top_position': 40}))
+            'snapengage_form_top_position': 40,
+        }))
         self.assertTrue('SnapABug.setFormTopPosition(40);' in r, r)
         with override_settings(SNAPENGAGE_FORM_TOP_POSITION=40):
             r = SnapEngageNode().render(Context())
@@ -178,7 +188,9 @@ class SnapEngageTestCase(TagTestCase):
             self.assertTrue('SnapABug.setSecureConnexion();' in r, r)
 
     def test_show_offline(self):
-        r = SnapEngageNode().render(Context({'snapengage_show_offline': False}))
+        r = SnapEngageNode().render(Context({
+            'snapengage_show_offline': False,
+        }))
         self.assertTrue('SnapABug.allowOffline(false);' in r, r)
         with override_settings(SNAPENGAGE_SHOW_OFFLINE=False):
             r = SnapEngageNode().render(Context())
@@ -190,15 +202,18 @@ class SnapEngageTestCase(TagTestCase):
         self.assertTrue('SnapABug.allowProactiveChat(false);' in r, r)
 
     def test_screenshot(self):
-        r = SnapEngageNode().render(Context({'snapengage_screenshots': False}))
+        r = SnapEngageNode().render(Context({
+            'snapengage_screenshots': False,
+        }))
         self.assertTrue('SnapABug.allowScreenshot(false);' in r, r)
         with override_settings(SNAPENGAGE_SCREENSHOTS=False):
             r = SnapEngageNode().render(Context())
             self.assertTrue('SnapABug.allowScreenshot(false);' in r, r)
 
     def test_offline_screenshots(self):
-        r = SnapEngageNode().render(Context(
-                {'snapengage_offline_screenshots': False}))
+        r = SnapEngageNode().render(Context({
+            'snapengage_offline_screenshots': False,
+        }))
         self.assertTrue('SnapABug.showScreenshotOption(false);' in r, r)
         with override_settings(SNAPENGAGE_OFFLINE_SCREENSHOTS=False):
             r = SnapEngageNode().render(Context())
@@ -213,30 +228,35 @@ class SnapEngageTestCase(TagTestCase):
 
     @override_settings(SNAPENGAGE_READONLY_EMAIL=False)
     def test_email(self):
-        r = SnapEngageNode().render(Context({'snapengage_email':
-                'test@example.com'}))
+        r = SnapEngageNode().render(Context({
+            'snapengage_email': 'test@example.com',
+        }))
         self.assertTrue('SnapABug.setUserEmail("test@example.com");' in r, r)
 
     def test_email_readonly(self):
-        r = SnapEngageNode().render(Context({'snapengage_email':
-                'test@example.com', 'snapengage_readonly_email': True}))
-        self.assertTrue('SnapABug.setUserEmail("test@example.com",true);' in r,
-                r)
+        r = SnapEngageNode().render(Context({
+            'snapengage_email': 'test@example.com',
+            'snapengage_readonly_email': True,
+        }))
+        self.assertTrue('SnapABug.setUserEmail("test@example.com",true);' in r, r)
         with override_settings(SNAPENGAGE_READONLY_EMAIL=True):
-            r = SnapEngageNode().render(Context({'snapengage_email':
-                    'test@example.com'}))
-            self.assertTrue('SnapABug.setUserEmail("test@example.com",true);'
-                    in r, r)
+            r = SnapEngageNode().render(Context({
+                'snapengage_email': 'test@example.com',
+            }))
+            self.assertTrue('SnapABug.setUserEmail("test@example.com",true);' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
-        r = SnapEngageNode().render(Context({'user':
-                User(username='test', email='test@example.com')}))
+        r = SnapEngageNode().render(Context({
+            'user': User(username='test', email='test@example.com'),
+        }))
         self.assertTrue('SnapABug.setUserEmail("test@example.com");' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_anonymous_user(self):
-        r = SnapEngageNode().render(Context({'user': AnonymousUser()}))
+        r = SnapEngageNode().render(Context({
+            'user': AnonymousUser(),
+        }))
         self.assertFalse('SnapABug.setUserEmail(' in r, r)
 
     def test_language(self):

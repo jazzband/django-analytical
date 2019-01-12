@@ -49,8 +49,8 @@ def uservoice(parser, token):
 
 class UserVoiceNode(Node):
     def __init__(self):
-        self.default_widget_key = get_required_setting('USERVOICE_WIDGET_KEY',
-                WIDGET_KEY_RE, "must be an alphanumeric string")
+        self.default_widget_key = get_required_setting(
+            'USERVOICE_WIDGET_KEY', WIDGET_KEY_RE, "must be an alphanumeric string")
 
     def render(self, context):
         widget_key = context.get('uservoice_widget_key')

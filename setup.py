@@ -16,13 +16,6 @@ try:
 except ImportError:
     pass
 
-try:
-    from sphinx_pypi_upload import UploadDoc
-
-    cmdclass['upload_sphinx'] = UploadDoc
-except ImportError:
-    pass
-
 
 class TestCommand(Command):
     description = "run package tests"
@@ -43,7 +36,7 @@ class TestCommand(Command):
 cmdclass['test'] = TestCommand
 
 
-def read(fname):
+def read_file(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
@@ -60,16 +53,16 @@ except ImportError:
         "This is fine, unless you intend to run unit tests."
     )
 
-import analytical
+import analytical as package  # noqa
 
 setup(
     name='django-analytical',
-    version=analytical.__version__,
-    license=analytical.__license__,
-    description='Analytics service integration for Django projects',
-    long_description=read('README.rst'),
-    author=analytical.__author__,
-    author_email=analytical.__email__,
+    version=package.__version__,
+    license=package.__license__,
+    description=package.__doc__.strip(),
+    long_description=read_file('README.rst'),
+    author=package.__author__,
+    author_email=package.__email__,
     packages=[
         'analytical',
         'analytical.templatetags',
@@ -84,6 +77,10 @@ setup(
         'Framework :: Django :: 1.7',
         'Framework :: Django :: 1.8',
         'Framework :: Django :: 1.9',
+        'Framework :: Django :: 1.10',
+        'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.1',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
@@ -93,14 +90,14 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     platforms=['any'],
-    url='https://github.com/jcassee/django-analytical',
-    download_url='https://github.com/jcassee/django-analytical/archive/master.zip',
+    url='https://github.com/jazzband/django-analytical',
+    download_url='https://github.com/jazzband/django-analytical/archive/master.zip',
     cmdclass=cmdclass,
     install_requires=[
         'Django>=1.7.0',

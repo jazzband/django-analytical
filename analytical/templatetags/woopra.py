@@ -15,6 +15,7 @@ from analytical.utils import (
     get_identity,
     get_required_setting,
     get_user_from_context,
+    get_user_is_authenticated,
     is_internal_ip,
 )
 
@@ -28,7 +29,7 @@ TRACKING_CODE = """
       woopra.identify(woo_visitor);
       woopra.track();
     </script>
-"""
+"""  # noqa
 
 register = Library()
 
@@ -138,7 +139,7 @@ class WoopraNode(Node):
                     params[var[7:]] = val
         if 'name' not in params and 'email' not in params:
             user = get_user_from_context(context)
-            if user is not None and user.is_authenticated():
+            if user is not None and get_user_is_authenticated(user):
                 params['name'] = get_identity(
                     context, 'woopra', self._identify, user)
                 if user.email:

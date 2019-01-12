@@ -1,5 +1,7 @@
 """
 Google Analytics template tags and filters.
+
+DEPRECATED
 """
 
 from __future__ import absolute_import
@@ -32,7 +34,6 @@ SETUP_CODE = """
 
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', '%(property_id)s']);
-      _gaq.push(['_trackPageview']);
       %(commands)s
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -44,15 +45,16 @@ SETUP_CODE = """
 """
 DOMAIN_CODE = "_gaq.push(['_setDomainName', '%s']);"
 NO_ALLOW_HASH_CODE = "_gaq.push(['_setAllowHash', false]);"
+TRACK_PAGE_VIEW = "_gaq.push(['_trackPageview']);"
 ALLOW_LINKER_CODE = "_gaq.push(['_setAllowLinker', true]);"
 CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
                   "'%(value)s', %(scope)s]);"
 SITE_SPEED_CODE = "_gaq.push(['_trackPageLoadTime']);"
-ANONYMIZE_IP_CODE = "_gaq.push (['_gat._anonymizeIp']);"
-SAMPLE_RATE_CODE = "_gaq.push (['_setSampleRate', '%s']);"
-SITE_SPEED_SAMPLE_RATE_CODE = "_gaq.push (['_setSiteSpeedSampleRate', '%s']);"
-SESSION_COOKIE_TIMEOUT_CODE = "_gaq.push (['_setSessionCookieTimeout', '%s']);"
-VISITOR_COOKIE_TIMEOUT_CODE = "_gaq.push (['_setVisitorCookieTimeout', '%s']);"
+ANONYMIZE_IP_CODE = "_gaq.push(['_gat._anonymizeIp']);"
+SAMPLE_RATE_CODE = "_gaq.push(['_setSampleRate', '%s']);"
+SITE_SPEED_SAMPLE_RATE_CODE = "_gaq.push(['_setSiteSpeedSampleRate', '%s']);"
+SESSION_COOKIE_TIMEOUT_CODE = "_gaq.push(['_setSessionCookieTimeout', '%s']);"
+VISITOR_COOKIE_TIMEOUT_CODE = "_gaq.push(['_setVisitorCookieTimeout', '%s']);"
 DEFAULT_SOURCE = ("'https://ssl' : 'http://www'", "'.google-analytics.com/ga.js'")
 DISPLAY_ADVERTISING_SOURCE = ("'https://' : 'http://'", "'stats.g.doubleclick.net/dc.js'")
 
@@ -87,14 +89,17 @@ class GoogleAnalyticsNode(Node):
         commands = self._get_domain_commands(context)
         commands.extend(self._get_custom_var_commands(context))
         commands.extend(self._get_other_commands(context))
+        commands.append(TRACK_PAGE_VIEW)
         if getattr(settings, 'GOOGLE_ANALYTICS_DISPLAY_ADVERTISING', False):
             source = DISPLAY_ADVERTISING_SOURCE
         else:
             source = DEFAULT_SOURCE
-        html = SETUP_CODE % {'property_id': self.property_id,
-                             'commands': " ".join(commands),
-                             'source_scheme': source[0],
-                             'source_url': source[1]}
+        html = SETUP_CODE % {
+            'property_id': self.property_id,
+            'commands': " ".join(commands),
+            'source_scheme': source[0],
+            'source_url': source[1],
+        }
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
             html = disable_html(html, 'Google Analytics')
         return html
@@ -109,8 +114,7 @@ class GoogleAnalyticsNode(Node):
             domain = get_domain(context, 'google_analytics')
             if domain is None:
                 raise AnalyticalException(
-                    "tracking multiple domains with Google Analytics"
-                    " requires a domain name")
+                    "tracking multiple domains with Google Analytics requires a domain name")
             commands.append(DOMAIN_CODE % domain)
             commands.append(NO_ALLOW_HASH_CODE)
             if tracking_type == TRACK_MULTIPLE_DOMAINS:
@@ -157,7 +161,8 @@ class GoogleAnalyticsNode(Node):
         if siteSpeedSampleRate is not False:
             value = decimal.Decimal(siteSpeedSampleRate)
             if not 0 <= value <= 100:
-                raise AnalyticalException("'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE' must be >= 0 and <= 100")
+                raise AnalyticalException(
+                    "'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE' must be >= 0 and <= 100")
             commands.append(SITE_SPEED_SAMPLE_RATE_CODE % value.quantize(TWOPLACES))
 
         sessionCookieTimeout = getattr(settings, 'GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT', False)

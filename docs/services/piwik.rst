@@ -1,5 +1,5 @@
 ==================================
-Piwik -- open source web analytics
+Matomo (formerly Piwik) -- open source web analytics
 ==================================
 
 Piwik_ is an open analytics platform currently used by individuals,
@@ -142,6 +142,13 @@ set the context variable ``analytical_identity`` (for global configuration) or
 
 .. _`track individual users`: http://developer.piwik.org/guides/tracking-javascript-guide#user-id
 
+Disabling cookies
+-----------------
+
+If you want to `disable cookies`_, set :data:`PIWIKI_DISABLE_COOKIES` to
+:const:`True`. This is disabled by default.
+
+.. _`disable cookies`: https://matomo.org/faq/general/faq_157/
 
 Internal IP addresses
 ---------------------

@@ -26,7 +26,7 @@ TRACKING_CODE = """
         w.addEventListener?w.addEventListener("load",gs,false):w.attachEvent("onload",gs);
       })(window);
     </script>
-"""
+"""  # noqa
 TOKEN_CODE = 'GoSquared.acct = "%s";'
 IDENTIFY_CODE = 'GoSquared.UserName = "%s";'
 

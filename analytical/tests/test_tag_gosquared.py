@@ -36,8 +36,9 @@ class GoSquaredTagTestCase(TagTestCase):
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_auto_identify(self):
-        r = GoSquaredNode().render(Context({'user': User(username='test',
-                first_name='Test', last_name='User')}))
+        r = GoSquaredNode().render(Context({
+            'user': User(username='test', first_name='Test', last_name='User'),
+        }))
         self.assertTrue('GoSquared.UserName = "Test User";' in r, r)
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)

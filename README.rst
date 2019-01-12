@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|travis-ci| |coveralls| |health| |python-support| |downloads| |license| |gitter|
+|travis-ci| |coveralls| |health| |python-support| |license| |gitter| |jazzband|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -26,27 +26,27 @@ an asynchronous version of the Javascript code if possible.
 .. |latest-version| image:: https://img.shields.io/pypi/v/django-analytical.svg
    :alt: Latest version on PyPI
    :target: https://pypi.python.org/pypi/django-analytical
-.. |travis-ci| image:: https://travis-ci.org/jcassee/django-analytical.svg
+.. |travis-ci| image:: https://img.shields.io/travis/jazzband/django-analytical/master.svg
    :alt: Build status
-   :target: https://travis-ci.org/jcassee/django-analytical
-.. |coveralls| image:: https://coveralls.io/repos/jcassee/django-analytical/badge.svg
+   :target: https://travis-ci.org/jazzband/django-analytical
+.. |coveralls| image:: https://coveralls.io/repos/jazzband/django-analytical/badge.svg
    :alt: Test coverage
-   :target: https://coveralls.io/r/jcassee/django-analytical
-.. |health| image:: https://landscape.io/github/jcassee/django-analytical/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/jcassee/django-analytical/master
+   :target: https://coveralls.io/r/jazzband/django-analytical
+.. |health| image:: https://landscape.io/github/jazzband/django-analytical/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/jazzband/django-analytical/master
    :alt: Code health
 .. |python-support| image:: https://img.shields.io/pypi/pyversions/django-analytical.svg
    :target: https://pypi.python.org/pypi/django-analytical
    :alt: Python versions
-.. |downloads| image:: https://img.shields.io/pypi/dm/django-analytical.svg
-   :alt: Monthly downloads from PyPI
-   :target: https://pypi.python.org/pypi/django-analytical
 .. |license| image:: https://img.shields.io/pypi/l/django-analytical.svg
    :alt: Software license
-   :target: https://github.com/jcassee/django-analytical/blob/master/LICENSE.txt
+   :target: https://github.com/jazzband/django-analytical/blob/master/LICENSE.txt
 .. |gitter| image:: https://badges.gitter.im/Join%20Chat.svg
    :alt: Gitter chat room
-   :target: https://gitter.im/jcassee/django-analytical
+   :target: https://gitter.im/jazzband/django-analytical
+.. |jazzband| image:: https://jazzband.co/static/img/badge.svg
+   :alt: Jazzband
+   :target: https://jazzband.co/
 .. _`Django`: http://www.djangoproject.com/
 
 Currently Supported Services
@@ -56,9 +56,11 @@ Currently Supported Services
 * `Clickmap`_ visual click tracking
 * `Clicky`_ traffic analysis
 * `Crazy Egg`_ visual click tracking
+* `Facebook Pixel`_ advertising analytics
 * `Gaug.es`_ real time web analytics
 * `Google Analytics`_ traffic analysis
 * `GoSquared`_ traffic monitoring
+* `Hotjar`_ analytics and user feedback
 * `HubSpot`_ inbound marketing
 * `Intercom`_ live chat and support
 * `KISSinsights`_ feedback surveys
@@ -67,7 +69,7 @@ Currently Supported Services
 * `Olark`_ visitor chat
 * `Optimizely`_ A/B testing
 * `Performable`_ web analytics and landing pages
-* `Piwik`_ open source web analytics
+* `Matomo (formerly Piwik)`_ open source web analytics
 * `Rating\@Mail.ru`_ web analytics
 * `SnapEngage`_ live chat
 * `Spring Metrics`_ conversion tracking
@@ -79,9 +81,11 @@ Currently Supported Services
 .. _`Clickmap`: http://getclickmap.com/
 .. _`Clicky`: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
+.. _`Facebook Pixel`: https://developers.facebook.com/docs/facebook-pixel/
 .. _`Gaug.es`: http://get.gaug.es/
 .. _`Google Analytics`: http://www.google.com/analytics/
 .. _`GoSquared`: http://www.gosquared.com/
+.. _`Hotjar`: https://www.hotjar.com/
 .. _`HubSpot`: http://www.hubspot.com/
 .. _`Intercom`: http://www.intercom.io/
 .. _`KISSinsights`: http://www.kissinsights.com/
@@ -90,7 +94,7 @@ Currently Supported Services
 .. _`Olark`: http://www.olark.com/
 .. _`Optimizely`: http://www.optimizely.com/
 .. _`Performable`: http://www.performable.com/
-.. _`Piwik`: http://www.piwik.org/
+.. _`Matomo (formerly Piwik)`: https://matomo.org
 .. _`Rating\@Mail.ru`: http://top.mail.ru/
 .. _`SnapEngage`: http://www.snapengage.com/
 .. _`Spring Metrics`: http://www.springmetrics.com/
@@ -107,9 +111,9 @@ GitHub`_.  Bugs should be reported there, whereas for lengthy chats
 and coding support when implementing new service integrations you're
 welcome to use our `Gitter chat room`_.
 
-.. _`read online`: https://packages.python.org/django-analytical/
-.. _`hosted by GitHub`: https://github.com/jcassee/django-analytical
-.. _`Gitter chat room`: https://gitter.im/jcassee/django-analytical
+.. _`read online`: https://django-analytical.readthedocs.io/
+.. _`hosted by GitHub`: https://github.com/jazzband/django-analytical
+.. _`Gitter chat room`: https://gitter.im/jazzband/django-analytical
 
 How To Contribute
 -----------------
@@ -123,7 +127,13 @@ services to support, or suggesting documentation improvements, use the
 the repository, make changes and place a `pull request`_.  Creating an
 issue to discuss your plans is useful.
 
-.. _`issue tracker`: https://github.com/jcassee/django-analytical/issues
-.. _`pull request`: https://github.com/jcassee/django-analytical/pulls
+This is a `Jazzband`_ project.  By contributing you agree to abide by the
+`Contributor Code of Conduct`_ and follow the `guidelines`_.
+
+.. _`issue tracker`: https://github.com/jazzband/django-analytical/issues
+.. _`pull request`: https://github.com/jazzband/django-analytical/pulls
+.. _`Jazzband`: https://jazzband.co
+.. _`Contributor Code of Conduct`: https://jazzband.co/about/conduct
+.. _`guidelines`: https://jazzband.co/about/guidelines
 
 .. end contribute include

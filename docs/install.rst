@@ -32,10 +32,10 @@ get the development code:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/jcassee/django-analytical.git
+    $ git clone https://github.com/jazzband/django-analytical.git
 
 .. _PyPI: http://pypi.python.org/pypi/django-analytical/
-.. _GitHub: http://github.com/jcassee/django-analytical
+.. _GitHub: http://github.com/jazzband/django-analytical
 
 Then install the package by running the setup script:
 
@@ -74,26 +74,26 @@ HTML page, django-analytical provides four general-purpose template tags
 that will render the code needed for the services you are using.  Your
 base template should look like this:
 
-.. code-block:: html
+.. code-block:: django
 
-	{% load analytical %}
-	<!DOCTYPE ... >
-	<html>
-		<head>
-			{% analytical_head_top %}
+    {% load analytical %}
+    <!DOCTYPE ... >
+    <html>
+        <head>
+            {% analytical_head_top %}
 
-			...
+            ...
 
-			{% analytical_head_bottom %}
-		</head>
-		<body>
-			{% analytical_body_top %}
+            {% analytical_head_bottom %}
+        </head>
+        <body>
+            {% analytical_body_top %}
 
-			...
+            ...
 
-			{% analytical_body_bottom %}
-		</body>
-	</html>
+            {% analytical_body_bottom %}
+        </body>
+    </html>
 
 Instead of using the generic tags, you can also just use tags specific
 for the analytics service(s) you are using.  See :ref:`services` for
@@ -124,6 +124,10 @@ settings required to enable each service are listed here:
 * :doc:`Crazy Egg <services/crazy_egg>`::
 
     CRAZY_EGG_ACCOUNT_NUMBER = '12345678'
+
+* :doc:`Facebook Pixel <services/facebook_pixel>`::
+
+    FACEBOOK_PIXEL_ID = '1234567890'
 
 * :doc:`Gaug.es <services/gauges>`::
 
@@ -167,7 +171,7 @@ settings required to enable each service are listed here:
 
     PERFORMABLE_API_KEY = '123abc'
 
-* :doc:`Piwik <services/piwik>`::
+* :doc:`Matomo (formerly Piwik) <services/piwik>`::
 
     PIWIK_DOMAIN_PATH = 'your.piwik.server/optional/path'
     PIWIK_SITE_ID = '123'

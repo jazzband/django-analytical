@@ -40,14 +40,7 @@ class UserVoiceTagTestCase(TagTestCase):
 
     @override_settings(USERVOICE_WIDGET_KEY='')
     def test_empty_key(self):
-        r = UserVoiceNode().render(Context())
-        self.assertEqual(r, "")
-
-    @override_settings(USERVOICE_WIDGET_KEY='')
-    def test_overridden_empty_key(self):
-        vars = {'uservoice_widget_key': 'bcdefghijklmnopqrstu'}
-        r = UserVoiceNode().render(Context(vars))
-        self.assertIn("widget.uservoice.com/bcdefghijklmnopqrstu.js", r)
+        self.assertRaises(AnalyticalException, UserVoiceNode)
 
     def test_overridden_key(self):
         vars = {'uservoice_widget_key': 'defghijklmnopqrstuvw'}
@@ -65,7 +58,7 @@ class UserVoiceTagTestCase(TagTestCase):
         r = UserVoiceNode().render(Context(data))
         self.assertIn("""UserVoice.push(['set', {"key1": "val2"}]);""", r)
 
-    def test_auto_trigger(self):
+    def test_auto_trigger_default(self):
         r = UserVoiceNode().render(Context())
         self.assertTrue("UserVoice.push(['addTrigger', {}]);" in r, r)
 

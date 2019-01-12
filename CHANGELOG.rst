@@ -1,5 +1,23 @@
-Version 2.2.2
+Version 2.5.0
+-------------
+* Add support for Google analytics.js (Marc Bourqui)
+* Add support for Intercom HMAC identity verification (Pi Delport)
+* Add support for HotJar (Pi Delport)
+* Make sure _trackPageview happens before other settings in Google Analytics
+  (Diederik van der Boor)
 
+Version 2.4.0
+-------------
+* Support Django 2.0 (Matthäus G. Chajdas)
+
+Version 2.3.0
+-------------
+* Add Facebook Pixel support (Pi Delport)
+* Add Python 3.6 and Django 1.10 & 1.11 tests (Pi Delport)
+* Drop Python 3.2 support
+
+Version 2.2.2
+-------------
 * Allow port in Piwik domain path. (Alex Ramsay)
 
 Version 2.2.1
@@ -78,7 +96,7 @@ Version 0.14.0
 Version 0.13.0
 --------------
 * Add support for the KISSmetrics alias feature (Sandra Mau)
-* Update testing code for Django 1.4 (Piet Delport)
+* Update testing code for Django 1.4 (Pi Delport)
 
 Version 0.12.0
 --------------
@@ -101,7 +119,7 @@ Version 0.11.0
 --------------
 * Added support for the Spring Metrics service.
 * Allow sending events and properties to KISSmetrics (Paul Oswald).
-* Add support for the Site Speed report in Google Analytics (Uros 
+* Add support for the Site Speed report in Google Analytics (Uros
   Trebec).
 
 Version 0.10.0
@@ -121,7 +139,7 @@ Version 0.9.1
 Version 0.9.0
 -------------
 * Updated Clicky tracking code to support multiple site ids.
-* Fixed Chartbeat auto-domain bug when the Sites framework is not used 
+* Fixed Chartbeat auto-domain bug when the Sites framework is not used
   (Eric Davis).
 * Improved testing code (Eric Davis).
 

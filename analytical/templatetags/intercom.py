@@ -3,24 +3,66 @@ intercom.io template tags and filters.
 """
 
 from __future__ import absolute_import
+
+import hashlib
+import hmac
 import json
+import sys
 import time
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import disable_html, get_required_setting, \
-        is_internal_ip, get_user_from_context, get_identity
+        is_internal_ip, get_user_from_context, get_identity, \
+        get_user_is_authenticated
 
-APP_ID_RE = re.compile(r'[\da-f]+$')
+APP_ID_RE = re.compile(r'[\da-z]+$')
 TRACKING_CODE = """
 <script id="IntercomSettingsScriptTag">
   window.intercomSettings = %(settings_json)s;
 </script>
 <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://static.intercomcdn.com/intercom.v1.js';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
-"""
+"""  # noqa
 
 register = Library()
+
+
+def _timestamp(when):  # type: (datetime) -> float
+    """
+    Python 2 compatibility for `datetime.timestamp()`.
+    """
+    return (time.mktime(when.timetuple()) if sys.version_info < (3,) else
+            when.timestamp())
+
+
+def _hashable_bytes(data):  # type: (AnyStr) -> bytes
+    """
+    Coerce strings to hashable bytes.
+    """
+    if isinstance(data, bytes):
+        return data
+    elif isinstance(data, str):
+        return data.encode('ascii')  # Fail on anything non-ASCII.
+    else:
+        raise TypeError(data)
+
+
+def intercom_user_hash(data):  # type: (AnyStr) -> Optional[str]
+    """
+    Return a SHA-256 HMAC `user_hash` as expected by Intercom, if configured.
+
+    Return None if the `INTERCOM_HMAC_SECRET_KEY` setting is not configured.
+    """
+    if getattr(settings, 'INTERCOM_HMAC_SECRET_KEY', None):
+        return hmac.new(
+            key=_hashable_bytes(settings.INTERCOM_HMAC_SECRET_KEY),
+            msg=_hashable_bytes(data),
+            digestmod=hashlib.sha256,
+        ).hexdigest()
+    else:
+        return None
 
 
 @register.tag
@@ -58,31 +100,39 @@ class IntercomNode(Node):
                     params[var[9:]] = val
 
         user = get_user_from_context(context)
-        if user is not None and user.is_authenticated():
+        if user is not None and get_user_is_authenticated(user):
             if 'name' not in params:
                 params['name'] = get_identity(
                         context, 'intercom', self._identify, user)
             if 'email' not in params and user.email:
                 params['email'] = user.email
 
-            params['created_at'] = int(time.mktime(
-                    user.date_joined.timetuple()))
+            params.setdefault('user_id', user.pk)
+
+            params['created_at'] = int(_timestamp(user.date_joined))
         else:
             params['created_at'] = None
+
+        # Generate a user_hash HMAC to verify the user's identity, if configured.
+        # (If both user_id and email are present, the user_id field takes precedence.)
+        # See:
+        # https://www.intercom.com/help/configure-intercom-for-your-product-or-site/staying-secure/enable-identity-verification-on-your-web-product
+        user_hash_data = params.get('user_id', params.get('email'))  # type: Optional[str]
+        if user_hash_data:
+            user_hash = intercom_user_hash(str(user_hash_data))  # type: Optional[str]
+            if user_hash is not None:
+                params.setdefault('user_hash', user_hash)
 
         return params
 
     def render(self, context):
-        user = get_user_from_context(context)
         params = self._get_custom_attrs(context)
         params["app_id"] = self.app_id
         html = TRACKING_CODE % {
             "settings_json": json.dumps(params, sort_keys=True)
         }
 
-        if is_internal_ip(context, 'INTERCOM') \
-                or not user or not user.is_authenticated():
-            # Intercom is disabled for non-logged in users.
+        if is_internal_ip(context, 'INTERCOM'):
             html = disable_html(html, 'Intercom')
         return html
 
