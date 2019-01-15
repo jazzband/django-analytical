@@ -42,18 +42,30 @@ TRACKING_CODE = """
 VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
 DISABLE_COOKIES_CODE = "_paq.push(['disableCookies']);"
-ASK_FOR_CONSENT_CODE = "_paq.push(['requireConsent']);"
-FORGET_CONSENT_CODE = """
-document.getElementById("piwik_deny_consent").addEventListener("click",
-() => {
-  paq.push(["forgetConsentGiven"]);
-});
-"""
-REMEMBER_CONSENT_CODE = """ document.getElementById("piwik_give_consent").addEventListener("click",
-() => {
-  _paq.push(["setConsentGiven"]); _paq.push(["rememberConsentGiven"]);
-});
-"""
+
+GIVE_CONSENT_CLASS = "piwik_give_consent"
+REMOVE_CONSENT_CLASS = "piwik_remove_consent"
+ASK_FOR_CONSENT_CODE = """
+_paq.push(['requireConsent']);
+
+var elements = document.getElementsByClassName("{}");
+for (var i = 0; i < elements.length; i++) {{
+    elements[i].addEventListener("click",
+      function () {{
+        _paq.push(["forgetConsentGiven"]);
+      }}
+    );
+}}
+
+var elements = document.getElementsByClassName("{}");
+for (var i = 0; i < elements.length; i++) {{
+    elements[i].addEventListener("click",
+      function () {{
+        _paq.push(["rememberConsentGiven"]);
+      }}
+    );
+}}
+""".format(REMOVE_CONSENT_CLASS, GIVE_CONSENT_CLASS)
 
 DEFAULT_SCOPE = 'page'
 
@@ -110,8 +122,6 @@ class PiwikNode(Node):
 
         if getattr(settings, 'PIWIK_ASK_FOR_CONSENT', False):
             commands.append(ASK_FOR_CONSENT_CODE)
-            commands.append(FORGET_CONSENT_CODE)
-            commands.append(REMEMBER_CONSENT_CODE)
 
         userid = get_identity(context, 'piwik')
         if userid is not None:
