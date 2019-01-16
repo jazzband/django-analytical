@@ -19,13 +19,17 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('google_analytics_gtag', 'google_analytics_gtag')
-        self.assertTrue("""<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123456-7"></script>""" in r, r)
+        self.assertTrue(
+            '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123456-7"></script>'
+            in r, r)
         self.assertTrue("gtag('js', new Date());" in r, r)
         self.assertTrue("gtag('config', 'UA-123456-7');" in r, r)
 
     def test_node(self):
         r = GoogleAnalyticsGTagNode().render(Context())
-        self.assertTrue("""<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123456-7"></script>""" in r, r)
+        self.assertTrue(
+            '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123456-7"></script>'
+            in r, r)
         self.assertTrue("gtag('js', new Date());" in r, r)
         self.assertTrue("gtag('config', 'UA-123456-7');" in r, r)
 
