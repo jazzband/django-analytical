@@ -155,6 +155,11 @@ settings required to enable each service are listed here:
 
     KISS_METRICS_API_KEY = '0123456789abcdef0123456789abcdef01234567'
 
+* :doc:`Matomo (formerly Piwik) <services/matomo>`::
+
+    MATOMO_DOMAIN_PATH = 'your.matomo.server/optional/path'
+    MATOMO_SITE_ID = '123'
+
 * :doc:`Mixpanel <services/mixpanel>`::
 
     MIXPANEL_API_TOKEN = '0123456789abcdef0123456789abcdef'
@@ -171,7 +176,7 @@ settings required to enable each service are listed here:
 
     PERFORMABLE_API_KEY = '123abc'
 
-* :doc:`Matomo (formerly Piwik) <services/piwik>`::
+* :doc:`Piwik (deprecated, see Matomo) <services/piwik>`::
 
     PIWIK_DOMAIN_PATH = 'your.piwik.server/optional/path'
     PIWIK_SITE_ID = '123'
