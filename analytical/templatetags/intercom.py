@@ -8,8 +8,8 @@ import hashlib
 import hmac
 import json
 import sys
-import time
 import re
+import time
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
@@ -29,7 +29,7 @@ TRACKING_CODE = """
 register = Library()
 
 
-def _timestamp(when):  # type: (datetime) -> float
+def _timestamp(when):
     """
     Python 2 compatibility for `datetime.timestamp()`.
     """
@@ -37,7 +37,7 @@ def _timestamp(when):  # type: (datetime) -> float
             when.timestamp())
 
 
-def _hashable_bytes(data):  # type: (AnyStr) -> bytes
+def _hashable_bytes(data):
     """
     Coerce strings to hashable bytes.
     """
@@ -49,7 +49,7 @@ def _hashable_bytes(data):  # type: (AnyStr) -> bytes
         raise TypeError(data)
 
 
-def intercom_user_hash(data):  # type: (AnyStr) -> Optional[str]
+def intercom_user_hash(data):
     """
     Return a SHA-256 HMAC `user_hash` as expected by Intercom, if configured.
 
@@ -117,9 +117,9 @@ class IntercomNode(Node):
         # (If both user_id and email are present, the user_id field takes precedence.)
         # See:
         # https://www.intercom.com/help/configure-intercom-for-your-product-or-site/staying-secure/enable-identity-verification-on-your-web-product
-        user_hash_data = params.get('user_id', params.get('email'))  # type: Optional[str]
+        user_hash_data = params.get('user_id', params.get('email'))
         if user_hash_data:
-            user_hash = intercom_user_hash(str(user_hash_data))  # type: Optional[str]
+            user_hash = intercom_user_hash(str(user_hash_data))
             if user_hash is not None:
                 params.setdefault('user_hash', user_hash)
 
