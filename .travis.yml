@@ -15,6 +15,8 @@ env:
 - DJANGO=2.2
 
 matrix:
+  allow_failures:
+  - env: TOXENV=bandit
   exclude:
   # Python/Django combinations that aren't officially supported
   - { env: DJANGO=1.11, python: 3.7 }
