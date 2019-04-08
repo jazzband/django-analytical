@@ -1,5 +1,5 @@
 ==================================
-Piwik (Deprecation Path) -- open source web analytics
+Piwik (deprecated) -- open source web analytics
 ==================================
 
 Piwik_ is an open analytics platform currently used by individuals,
@@ -9,12 +9,13 @@ will always be yours, because you run your own analytics server.
 .. _Piwik: http://www.piwik.org/
 
 
-Deprecation Path
-================
+Deprecated
+==========
 
 Note that Piwik is now known as Matomo.  New projects should use the
-Matomo integration.  The Piwik integration in django-analytical will
-eventually be deprecated.
+Matomo integration.  The Piwik integration in django-analytical is
+deprecated and eventually will be removed.
+
 
 Installation
 ============
