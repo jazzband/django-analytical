@@ -1,39 +1,50 @@
 language: python
-cache: pip
-
 python:
-  - 2.7
-  - 3.4
-  - 3.5
-  - 3.6
+- 2.7
+- 3.4
+- 3.5
+- 3.6
+- 3.7
+
 env:
-  - DJANGO=1.7
-  - DJANGO=1.8
-  - DJANGO=1.9
-  - DJANGO=1.10
-  - DJANGO=1.11
-  - DJANGO=2.0
-  - DJANGO=2.1
+- DJANGO=1.11
+- DJANGO=2.1
+- DJANGO=2.2
+
 matrix:
   exclude:
-    # Python/Django combinations that aren't officially supported
-    - { python: 3.5, env: DJANGO=1.7 }
-    - { python: 3.6, env: DJANGO=1.7 }
-    - { python: 3.6, env: DJANGO=1.8 }
-    - { python: 3.6, env: DJANGO=1.9 }
-    - { python: 3.6, env: DJANGO=1.10 }
-    - { python: 2.7, env: DJANGO=2.0 }
-    - { python: 2.7, env: DJANGO=2.1 }
-    - { python: 3.4, env: DJANGO=2.1 }
-  include:
-    - { python: 3.6, env: TOXENV=flake8 }
-    - { python: 3.6, env: TOXENV=readme, dist: xenial }  # requires sqlite3>=3.8.3 which is not in trusty
-    # Work around Travis Python 3.7 issue: https://github.com/travis-ci/travis-ci/issues/9815
-    - { python: 3.7, env: DJANGO=1.11, dist: xenial, sudo: true }
-    - { python: 3.7, env: DJANGO=2.0, dist: xenial, sudo: true }
-    - { python: 3.7, env: DJANGO=2.1, dist: xenial, sudo: true }
+  # Python/Django combinations that aren't officially supported
+  - { env: DJANGO=1.11, python: 3.7 }
+  - { env: DJANGO=2.1, python: 2.7 }
+  - { env: DJANGO=2.1, python: 3.4 }
+  - { env: DJANGO=2.2, python: 2.7 }
+  - { env: DJANGO=2.2, python: 3.4 }
 
 install:
-  - pip install tox-travis
+- pip install tox-travis
 script:
-  - tox
+- tox
+
+stages:
+- lint
+- test
+- deploy
+
+jobs:
+  include:
+  - { stage: lint, env: TOXENV=flake8, python: 3.7 }
+  - { stage: lint, env: TOXENV=bandit, python: 3.7 }
+  - { stage: lint, env: TOXENV=readme, python: 3.7 }
+  - stage: deploy
+    env:
+    python: 3.7
+    install: skip
+    script: skip
+    deploy:
+      provider: pypi
+      distributions: sdist bdist_wheel
+      user: bittner
+      password:
+        secure: JrgKNLiONVUmfg+Vt9NxDccXl9DbPqbXq8xfMY4tFb6CfRWCESgt26wPORyFJvP3FB9yvKXRL5Lb5AFWroTM+h1zlsdHmvEnSP4ldSVU8a2U35lqjZgN9lhViYtn2rt+wcvdWToBAAZolHKRzUoElVCHMt5kBQBSI1oSmNfCn6k=
+      on:
+        tags: true

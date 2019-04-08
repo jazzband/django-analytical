@@ -32,8 +32,8 @@ an asynchronous version of the Javascript code if possible.
 .. |coveralls| image:: https://coveralls.io/repos/jazzband/django-analytical/badge.svg
    :alt: Test coverage
    :target: https://coveralls.io/r/jazzband/django-analytical
-.. |health| image:: https://landscape.io/github/jazzband/django-analytical/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/jazzband/django-analytical/master
+.. |health| image:: https://img.shields.io/codacy/grade/********************/master.svg
+   :target: https://www.codacy.com/app/jazzband/django-analytical
    :alt: Code health
 .. |python-support| image:: https://img.shields.io/pypi/pyversions/django-analytical.svg
    :target: https://pypi.python.org/pypi/django-analytical
