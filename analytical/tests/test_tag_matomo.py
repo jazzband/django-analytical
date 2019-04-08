@@ -22,14 +22,14 @@ class MatomoTagTestCase(TagTestCase):
         r = self.render_tag('matomo', 'matomo')
         self.assertTrue('"//example.com/"' in r, r)
         self.assertTrue("_paq.push(['setSiteId', 345]);" in r, r)
-        self.assertTrue('img src="//example.com/matomo.php?idsite=345"'
+        self.assertTrue('img src="//example.com/piwik.php?idsite=345"'
                         in r, r)
 
     def test_node(self):
         r = MatomoNode().render(Context({}))
         self.assertTrue('"//example.com/";' in r, r)
         self.assertTrue("_paq.push(['setSiteId', 345]);" in r, r)
-        self.assertTrue('img src="//example.com/matomo.php?idsite=345"'
+        self.assertTrue('img src="//example.com/piwik.php?idsite=345"'
                         in r, r)
 
     @override_settings(MATOMO_DOMAIN_PATH='example.com/matomo',
