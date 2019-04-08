@@ -27,7 +27,7 @@ matrix:
     - { python: 3.4, env: DJANGO=2.1 }
   include:
     - { python: 3.6, env: TOXENV=flake8 }
-    - { python: 3.6, env: TOXENV=readme }
+    - { python: 3.6, env: TOXENV=readme, dist: xenial }  # requires sqlite3>=3.8.3 which is not in trusty
     # Work around Travis Python 3.7 issue: https://github.com/travis-ci/travis-ci/issues/9815
     - { python: 3.7, env: DJANGO=1.11, dist: xenial, sudo: true }
     - { python: 3.7, env: DJANGO=2.0, dist: xenial, sudo: true }
