@@ -98,8 +98,8 @@ class MatomoTagTestCase(TagTestCase):
 
     def test_uservars(self):
         context = Context({'matomo_vars': [(1, 'foo', 'foo_val'),
-                                          (2, 'bar', 'bar_val', 'page'),
-                                          (3, 'spam', 'spam_val', 'visit')]})
+                                           (2, 'bar', 'bar_val', 'page'),
+                                           (3, 'spam', 'spam_val', 'visit')]})
         r = MatomoNode().render(context)
         msg = 'Incorrect Matomo custom variable rendering. Expected:\n%s\nIn:\n%s'
         for var_code in ['_paq.push(["setCustomVariable", 1, "foo", "foo_val", "page"]);',
