@@ -5,8 +5,9 @@ from `Eric Davis`_, `Paul Oswald`_, `Uros Trebec`_, `Steven Skoczen`_,
 `Philippe O. Wagner`_, `Max Arnold`_ , `Martín Gaitán`_, `Craig Bruce`_,
 `Peter Bittner`_, `Scott Adams`_, `Eric Amador`_, `Alexandre Pocquet`_,
 `Brad Pitcher`_, `Hugo Osvaldo Barrera`_, `Nikolay Korotkiy`_,
- `Steve Schwarz`_, `Aleck Landgraf`_, `Marc Bourqui`_,
- `Diederik van der Boor`_, `Matthäus G. Chajdas`_ and others.
+`Steve Schwarz`_, `Aleck Landgraf`_, `Marc Bourqui`_,
+`Diederik van der Boor`_, `Matthäus G. Chajdas`_, `Scott Karlin`_
+and others.
 
 Included Javascript code snippets for integration of the analytics
 services were written by the respective service providers.
@@ -46,3 +47,4 @@ The work on Intercom was made possible by `GreenKahuna`_.
 .. _`Analytical`: https://github.com/jkrall/analytical
 .. _`Bateau Knowledge`: http://www.bateauknowledge.nl/
 .. _`GreenKahuna`: http://www.greenkahuna.com/
+.. _`Scott Karlin`: https://github.com/sckarlin
