@@ -61,6 +61,7 @@ setup(
     license=package.__license__,
     description=package.__doc__.strip(),
     long_description=read_file('README.rst'),
+    long_description_content_type='text/x-rst',
     author=package.__author__,
     author_email=package.__email__,
     packages=[
@@ -74,13 +75,9 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Framework :: Django :: 1.7',
-        'Framework :: Django :: 1.8',
-        'Framework :: Django :: 1.9',
-        'Framework :: Django :: 1.10',
         'Framework :: Django :: 1.11',
-        'Framework :: Django :: 2.0',
         'Framework :: Django :: 2.1',
+        'Framework :: Django :: 2.2',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
@@ -99,7 +96,4 @@ setup(
     url='https://github.com/jazzband/django-analytical',
     download_url='https://github.com/jazzband/django-analytical/archive/master.zip',
     cmdclass=cmdclass,
-    install_requires=[
-        'Django>=1.7.0',
-    ],
 )
