@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|travis-ci| |coveralls| |health| |python-support| |license| |gitter| |jazzband|
+|build-status| |coverage| |health| |python-support| |license| |gitter| |jazzband|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -25,23 +25,23 @@ an asynchronous version of the Javascript code if possible.
 
 .. |latest-version| image:: https://img.shields.io/pypi/v/django-analytical.svg
    :alt: Latest version on PyPI
-   :target: https://pypi.python.org/pypi/django-analytical
-.. |travis-ci| image:: https://img.shields.io/travis/jazzband/django-analytical/master.svg
+   :target: https://pypi.org/project/django-analytical/
+.. |build-status| image:: https://img.shields.io/travis/jazzband/django-analytical/master.svg
    :alt: Build status
    :target: https://travis-ci.org/jazzband/django-analytical
-.. |coveralls| image:: https://coveralls.io/repos/jazzband/django-analytical/badge.svg
+.. |coverage| image:: https://img.shields.io/coveralls/github/jazzband/django-analytical/master.svg
    :alt: Test coverage
    :target: https://coveralls.io/r/jazzband/django-analytical
 .. |health| image:: https://img.shields.io/codacy/grade/********************/master.svg
    :target: https://www.codacy.com/app/jazzband/django-analytical
    :alt: Code health
 .. |python-support| image:: https://img.shields.io/pypi/pyversions/django-analytical.svg
-   :target: https://pypi.python.org/pypi/django-analytical
+   :target: https://pypi.org/project/django-analytical/
    :alt: Python versions
 .. |license| image:: https://img.shields.io/pypi/l/django-analytical.svg
    :alt: Software license
    :target: https://github.com/jazzband/django-analytical/blob/master/LICENSE.txt
-.. |gitter| image:: https://badges.gitter.im/Join%20Chat.svg
+.. |gitter| image:: https://img.shields.io/gitter/room/jazzband/django-analytical.svg
    :alt: Gitter chat room
    :target: https://gitter.im/jazzband/django-analytical
 .. |jazzband| image:: https://jazzband.co/static/img/badge.svg
