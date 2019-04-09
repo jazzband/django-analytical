@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|build-status| |coverage| |health| |python-support| |license| |gitter| |jazzband|
+|build-status| |coverage| |python-support| |license| |gitter| |jazzband|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -32,9 +32,6 @@ an asynchronous version of the Javascript code if possible.
 .. |coverage| image:: https://img.shields.io/coveralls/github/jazzband/django-analytical/master.svg
    :alt: Test coverage
    :target: https://coveralls.io/r/jazzband/django-analytical
-.. |health| image:: https://img.shields.io/codacy/grade/********************/master.svg
-   :target: https://www.codacy.com/app/jazzband/django-analytical
-   :alt: Code health
 .. |python-support| image:: https://img.shields.io/pypi/pyversions/django-analytical.svg
    :target: https://pypi.org/project/django-analytical/
    :alt: Python versions
