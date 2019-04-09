@@ -19,8 +19,3 @@ def setup(app):
         rolename="lookup",
         indextemplate="pair: %s; field lookup type",
     )
-    app.add_description_unit(
-        directivename="decorator",
-        rolename="dec",
-        indextemplate="pair: %s; function decorator",
-    )
