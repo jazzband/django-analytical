@@ -7,7 +7,7 @@ from django.test import override_settings
 
 from analytical.templatetags.analytical import _load_template_nodes
 from analytical.templatetags.facebook_pixel import FacebookPixelHeadNode, FacebookPixelBodyNode
-from analytical.tests.utils import TagTestCase
+from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 

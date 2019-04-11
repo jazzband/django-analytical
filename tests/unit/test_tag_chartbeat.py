@@ -11,7 +11,7 @@ from django.test.utils import override_settings
 
 from analytical.templatetags.chartbeat import ChartbeatTopNode, \
         ChartbeatBottomNode
-from analytical.tests.utils import TagTestCase
+from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 

@@ -9,7 +9,7 @@ from django.test.utils import override_settings
 from analytical.templatetags.google_analytics import GoogleAnalyticsNode, \
         TRACK_SINGLE_DOMAIN, TRACK_MULTIPLE_DOMAINS, TRACK_MULTIPLE_SUBDOMAINS,\
         SCOPE_VISITOR, SCOPE_SESSION, SCOPE_PAGE
-from analytical.tests.utils import TestCase, TagTestCase
+from utils import TestCase, TagTestCase
 from analytical.utils import AnalyticalException
 
 

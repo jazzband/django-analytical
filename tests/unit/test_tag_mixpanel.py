@@ -8,7 +8,7 @@ from django.template import Context
 from django.test.utils import override_settings
 
 from analytical.templatetags.mixpanel import MixpanelNode
-from analytical.tests.utils import TagTestCase
+from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 

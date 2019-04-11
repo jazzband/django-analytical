@@ -7,7 +7,7 @@ from django.template import Context
 from django.test.utils import override_settings
 
 from analytical.templatetags.clickmap import ClickmapNode
-from analytical.tests.utils import TagTestCase
+from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 

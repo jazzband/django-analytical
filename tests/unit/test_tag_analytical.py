@@ -5,7 +5,7 @@ Tests for the generic template tags and filters.
 from django.template import Context, Template
 
 from analytical.templatetags import analytical
-from analytical.tests.utils import TagTestCase
+from utils import TagTestCase
 
 
 class AnalyticsTagTestCase(TagTestCase):
@@ -16,7 +16,7 @@ class AnalyticsTagTestCase(TagTestCase):
     def setUp(self):
         super().setUp()
         self._tag_modules = analytical.TAG_MODULES
-        analytical.TAG_MODULES = ['analytical.tests.dummy']
+        analytical.TAG_MODULES = ['tests.testproject.dummy']
         analytical.template_nodes = analytical._load_template_nodes()
 
     def tearDown(self):
