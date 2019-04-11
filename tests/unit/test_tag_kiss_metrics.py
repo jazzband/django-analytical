@@ -8,7 +8,7 @@ from django.template import Context
 from django.test.utils import override_settings
 
 from analytical.templatetags.kiss_metrics import KissMetricsNode
-from analytical.tests.utils import TagTestCase
+from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 

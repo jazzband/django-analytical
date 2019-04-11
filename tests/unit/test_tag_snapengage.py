@@ -11,7 +11,7 @@ from analytical.templatetags.snapengage import SnapEngageNode, \
         BUTTON_STYLE_LIVE, BUTTON_STYLE_DEFAULT, BUTTON_STYLE_NONE, \
         BUTTON_LOCATION_LEFT, BUTTON_LOCATION_RIGHT, BUTTON_LOCATION_TOP, \
         BUTTON_LOCATION_BOTTOM, FORM_POSITION_TOP_LEFT
-from analytical.tests.utils import TagTestCase
+from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 

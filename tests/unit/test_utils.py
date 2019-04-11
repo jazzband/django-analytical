@@ -16,7 +16,7 @@ from analytical.utils import (
     get_required_setting,
     is_internal_ip,
 )
-from analytical.tests.utils import TestCase
+from utils import TestCase
 
 
 class SettingDeletedTestCase(TestCase):
@@ -34,6 +34,10 @@ class SettingDeletedTestCase(TestCase):
 class MyUser(AbstractBaseUser):
     identity = models.CharField(max_length=50)
     USERNAME_FIELD = 'identity'
+
+    class Meta:
+        abstract = True
+        app_label = 'testapp'
 
 
 class GetIdentityTestCase(TestCase):
