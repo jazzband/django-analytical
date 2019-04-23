@@ -47,9 +47,11 @@ jobs:
     script: skip
     deploy:
       provider: pypi
+      server: https://jazzband.co/projects/django-analytical/upload
       distributions: sdist bdist_wheel
-      user: bittner
+      user: jazzband
       password:
-        secure: JrgKNLiONVUmfg+Vt9NxDccXl9DbPqbXq8xfMY4tFb6CfRWCESgt26wPORyFJvP3FB9yvKXRL5Lb5AFWroTM+h1zlsdHmvEnSP4ldSVU8a2U35lqjZgN9lhViYtn2rt+wcvdWToBAAZolHKRzUoElVCHMt5kBQBSI1oSmNfCn6k=
+        secure: JCr5hRjAeXuiISodCJf8HWd4BTJMpl2eiHI8NciPaSM9WwOOeUXxmlcP8+lWlXxgM4BYUC/O7Q90fkwj5x06n+z4oyJSEVerTvCDcpeZ68KMMG1tR1jTbHcxfEKoEvcs2J0fThJ9dIMtfbtUbIpzusJHkZPjsIy8HAJDw8knnJs=
       on:
         tags: true
+        repo: jazzband/django-analytical
