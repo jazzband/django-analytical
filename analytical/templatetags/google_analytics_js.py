@@ -30,14 +30,12 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 }})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
 ga('create', '{property_id}', 'auto', {create_fields});
-{display_features}
-ga('send', 'pageview');
-{commands}
+{commands}ga('send', 'pageview');
 </script>
 """
-REQUIRE_DISPLAY_FEATURES = "ga('require', 'displayfeatures');"
-CUSTOM_VAR_CODE = "ga('set', '{name}', {value});"
-ANONYMIZE_IP_CODE = "ga('set', 'anonymizeIp', true);"
+REQUIRE_DISPLAY_FEATURES = "ga('require', 'displayfeatures');\n"
+CUSTOM_VAR_CODE = "ga('set', '{name}', {value});\n"
+ANONYMIZE_IP_CODE = "ga('set', 'anonymizeIp', true);\n"
 
 register = Library()
 
@@ -70,11 +68,13 @@ class GoogleAnalyticsJsNode(Node):
         commands = self._get_custom_var_commands(context)
         commands.extend(self._get_other_commands(context))
         display_features = getattr(settings, 'GOOGLE_ANALYTICS_DISPLAY_ADVERTISING', False)
+        if display_features:
+            commands.insert(0, REQUIRE_DISPLAY_FEATURES)
+
         html = SETUP_CODE.format(
             property_id=self.property_id,
             create_fields=json.dumps(create_fields),
-            display_features=REQUIRE_DISPLAY_FEATURES if display_features else '',
-            commands=" ".join(commands),
+            commands="".join(commands),
         )
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
             html = disable_html(html, 'Google Analytics')

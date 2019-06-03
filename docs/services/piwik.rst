@@ -1,5 +1,5 @@
 ==================================
-Matomo (formerly Piwik) -- open source web analytics
+Piwik (deprecated) -- open source web analytics
 ==================================
 
 Piwik_ is an open analytics platform currently used by individuals,
@@ -7,6 +7,14 @@ companies and governments all over the world.  With Piwik, your data
 will always be yours, because you run your own analytics server.
 
 .. _Piwik: http://www.piwik.org/
+
+
+Deprecated
+==========
+
+Note that Piwik is now known as Matomo.  New projects should use the
+Matomo integration.  The Piwik integration in django-analytical is
+deprecated and eventually will be removed.
 
 
 Installation
