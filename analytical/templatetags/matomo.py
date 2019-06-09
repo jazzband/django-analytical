@@ -43,8 +43,8 @@ VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
 DISABLE_COOKIES_CODE = "_paq.push(['disableCookies']);"
 
-GIVE_CONSENT_CLASS = "piwik_give_consent"
-REMOVE_CONSENT_CLASS = "piwik_remove_consent"
+GIVE_CONSENT_CLASS = "matomo_give_consent"
+REMOVE_CONSENT_CLASS = "matomo_remove_consent"
 ASK_FOR_CONSENT_CODE = """
 _paq.push(['requireConsent']);
 

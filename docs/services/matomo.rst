@@ -157,15 +157,15 @@ To enable this, set :data:`MATOMO_ASK_FOR_CONSENT` to :const:`True`. By default,
 
 To give and remove consent in your page, create DOM elements with the following classes:
 
-`piwik_give_consent` - class name for element to click when visitors want to **give** consent
-`piwik_remove_consent` - class name for element to click when visitors want to **remove** consent
+`matomo_give_consent` - class name for element to click when visitors want to **give** consent
+`matomo_remove_consent` - class name for element to click when visitors want to **remove** consent
 
 Examples:
     # button to allow tracking
-    <button class="piwik_give_consent">Track me!</button>
+    <button class="matomo_give_consent">Track me!</button>
 
     # button to remove tracking consent
-    <button class="piwik_remove_consent">Don't track me anymore!</button>
+    <button class="matomo_remove_consent">Don't track me anymore!</button>
 
 .. _`asking for consent`: https://developer.matomo.org/guides/tracking-javascript-guide#asking-for-consent
 
