@@ -13,6 +13,7 @@ from analytical.utils import (
     AnalyticalException,
     disable_html,
     get_domain,
+    get_identity,
     get_required_setting,
     is_internal_ip,
 )
@@ -98,6 +99,13 @@ class GoogleAnalyticsJsNode(Node):
     def _get_other_create_fields(self, context):
         other_fields = {}
 
+        user_identity = get_identity(context, 'google_analytics', self._identify)
+        if user_identity is not None:
+            print('setting userId field on create')
+            other_fields['userId'] = str(user_identity)
+        else:
+            print('no userId at this time')
+            
         site_speed_sample_rate = getattr(settings, 'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE', False)
         if site_speed_sample_rate is not False:
             value = int(decimal.Decimal(site_speed_sample_rate))
@@ -121,6 +129,10 @@ class GoogleAnalyticsJsNode(Node):
             other_fields['cookieExpires'] = value
 
         return other_fields
+
+    def _identify(self, user):
+        print('UserID = [' + str(getattr(user, 'id', None)) + ']')
+        return getattr(user, 'id', None)
 
     def _get_custom_var_commands(self, context):
         values = (
