@@ -1,13 +1,16 @@
-======================================
- Google Analytics -- traffic analysis
-======================================
+===============================================
+ Google Analytics (gtag.js) -- traffic analysis
+===============================================
 
 `Google Analytics`_ is the well-known web analytics service from
 Google.  The product is aimed more at marketers than webmasters or
 technologists, supporting integration with AdWords and other e-commence
-features.
+features.  The global site tag (`gtag.js`_) is a JavaScript tagging
+framework and API that allows you to send event data to Google Analytics,
+Google Ads, and Google Marketing Platform.
 
 .. _`Google Analytics`: http://www.google.com/analytics/
+.. _`gtag.js`: https://developers.google.com/analytics/devguides/collection/gtagjs/
 
 
 .. google-analytics-installation:

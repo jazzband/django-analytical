@@ -1,13 +1,16 @@
-======================================
- Google Analytics -- traffic analysis
-======================================
+====================================================
+ Google Analytics (analytics.js) -- traffic analysis
+====================================================
 
 `Google Analytics`_ is the well-known web analytics service from
 Google.  The product is aimed more at marketers than webmasters or
 technologists, supporting integration with AdWords and other e-commence
-features.
+features.  The `analytics.js`_ library (also known as "the Google
+Analytics tag") is a JavaScript library for measuring how users interact
+with your website.
 
 .. _`Google Analytics`: http://www.google.com/analytics/
+.. _`analytics.js`: https://developers.google.com/analytics/devguides/collection/analyticsjs/
 
 
 .. google-analytics-installation:

@@ -1,6 +1,6 @@
-======================================
+==============================================
  Google Analytics (legacy) -- traffic analysis
-======================================
+==============================================
 
 `Google Analytics`_ is the well-known web analytics service from
 Google.  The product is aimed more at marketers than webmasters or
