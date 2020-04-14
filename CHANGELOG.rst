@@ -1,3 +1,10 @@
+Version 2.6.0
+-------------
+* Support Django 3.0 and Python 3.8, drop Django 2.1
+* Add support for Google Analytics Tag Manager (Marc Bourqui)
+* Add Matomo, the renamed version of Piwik (Scott Karlin)
+* Move Joost's project over to the Jazzband
+
 Version 2.5.0
 -------------
 * Add support for Google analytics.js (Marc Bourqui)
