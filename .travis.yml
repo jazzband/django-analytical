@@ -1,29 +1,17 @@
+os: linux
 dist: xenial
-sudo: true
-
 language: python
 python:
-- 2.7
 - 3.4
 - 3.5
 - 3.6
 - 3.7
+- 3.8
 
 env:
 - DJANGO=1.11
-- DJANGO=2.1
 - DJANGO=2.2
-
-matrix:
-  allow_failures:
-  - env: TOXENV=bandit
-  exclude:
-  # Python/Django combinations that aren't officially supported
-  - { env: DJANGO=1.11, python: 3.7 }
-  - { env: DJANGO=2.1, python: 2.7 }
-  - { env: DJANGO=2.1, python: 3.4 }
-  - { env: DJANGO=2.2, python: 2.7 }
-  - { env: DJANGO=2.2, python: 3.4 }
+- DJANGO=3.0
 
 install:
 - pip install tox-travis
@@ -36,22 +24,32 @@ stages:
 - deploy
 
 jobs:
+  allow_failures:
+  - env: TOXENV=bandit
   include:
-  - { stage: lint, env: TOXENV=flake8, python: 3.7 }
-  - { stage: lint, env: TOXENV=bandit, python: 3.7 }
-  - { stage: lint, env: TOXENV=readme, python: 3.7 }
+  - { stage: lint, python: 3.7, env: TOXENV=flake8 }
+  - { stage: lint, python: 3.7, env: TOXENV=bandit }
+  - { stage: lint, python: 3.7, env: TOXENV=readme }
+  - { stage: test, python: 2.7, env: DJANGO=1.11 }
+  exclude:
+  # Python/Django combinations that aren't officially supported
+  - { stage: test, python: 3.4, env: DJANGO=2.2 }
+  - { stage: test, python: 3.4, env: DJANGO=3.0 }
+  - { stage: test, python: 3.5, env: DJANGO=3.0 }
+  - { stage: test, python: 3.8, env: DJANGO=1.11 }
   - stage: deploy
-    env:
-    python: 3.7
-    install: skip
-    script: skip
+    if: tag is present
     deploy:
       provider: pypi
       server: https://jazzband.co/projects/django-analytical/upload
       distributions: sdist bdist_wheel
-      user: jazzband
+      username: jazzband
       password:
         secure: JCr5hRjAeXuiISodCJf8HWd4BTJMpl2eiHI8NciPaSM9WwOOeUXxmlcP8+lWlXxgM4BYUC/O7Q90fkwj5x06n+z4oyJSEVerTvCDcpeZ68KMMG1tR1jTbHcxfEKoEvcs2J0fThJ9dIMtfbtUbIpzusJHkZPjsIy8HAJDw8knnJs=
       on:
         tags: true
         repo: jazzband/django-analytical
+    env:
+    install: skip
+    script: skip
+    python: 3.7
