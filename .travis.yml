@@ -26,17 +26,17 @@ stages:
 jobs:
   allow_failures:
   - env: TOXENV=bandit
-  include:
-  - { stage: lint, python: 3.7, env: TOXENV=flake8 }
-  - { stage: lint, python: 3.7, env: TOXENV=bandit }
-  - { stage: lint, python: 3.7, env: TOXENV=readme }
-  - { stage: test, python: 2.7, env: DJANGO=1.11 }
   exclude:
   # Python/Django combinations that aren't officially supported
   - { stage: test, python: 3.4, env: DJANGO=2.2 }
   - { stage: test, python: 3.4, env: DJANGO=3.0 }
   - { stage: test, python: 3.5, env: DJANGO=3.0 }
   - { stage: test, python: 3.8, env: DJANGO=1.11 }
+  include:
+  - { stage: lint, python: 3.7, env: TOXENV=flake8 }
+  - { stage: lint, python: 3.7, env: TOXENV=bandit }
+  - { stage: lint, python: 3.7, env: TOXENV=readme }
+  - { stage: test, python: 2.7, env: DJANGO=1.11 }
   - stage: deploy
     if: tag is present
     deploy:
