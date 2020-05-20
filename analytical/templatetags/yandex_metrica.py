@@ -11,8 +11,7 @@ from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import is_internal_ip, disable_html, \
-        get_required_setting
-
+    get_required_setting
 
 COUNTER_ID_RE = re.compile(r'^\d{8}$')
 COUNTER_CODE = """
@@ -65,6 +64,8 @@ class YandexMetricaNode(Node):
                 "must be (a string containing) a number'")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         options = {
             'id': int(self.counter_id),
             'clickmap': True,

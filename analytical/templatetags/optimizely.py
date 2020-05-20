@@ -6,10 +6,10 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import is_internal_ip, disable_html, get_required_setting
-
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
 SETUP_CODE = """<script src="//cdn.optimizely.com/js/%(account_number)s.js"></script>"""
@@ -40,6 +40,8 @@ class OptimizelyNode(Node):
                 "must be a string looking like 'XXXXXXX'")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         html = SETUP_CODE % {'account_number': self.account_number}
         if is_internal_ip(context, 'OPTIMIZELY'):
             html = disable_html(html, 'Optimizely')

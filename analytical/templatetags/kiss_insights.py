@@ -6,10 +6,10 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import get_identity, get_required_setting
-
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
 SITE_CODE_RE = re.compile(r'^[\w]+$')
@@ -51,6 +51,8 @@ class KissInsightsNode(Node):
             "must be a string containing three characters")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         commands = []
         identity = get_identity(context, 'kiss_insights')
         if identity is not None:

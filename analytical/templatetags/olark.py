@@ -7,10 +7,10 @@ from __future__ import absolute_import
 import json
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import get_identity, get_required_setting
-
 
 SITE_ID_RE = re.compile(r'^\d+-\d+-\d+-\d+$')
 SETUP_CODE = """
@@ -63,6 +63,8 @@ class OlarkNode(Node):
             "must be a string looking like 'XXXX-XXX-XX-XXXX'")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         extra_code = []
         try:
             extra_code.append(NICKNAME_CODE % context[NICKNAME_CONTEXT_KEY])

@@ -7,11 +7,11 @@ from __future__ import absolute_import
 import json
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import get_identity, is_internal_ip, disable_html, \
-        get_required_setting
-
+    get_required_setting
 
 SITE_ID_RE = re.compile(r'^\d+$')
 TRACKING_CODE = """
@@ -56,6 +56,8 @@ class ClickyNode(Node):
             "must be a (string containing) a number")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         custom = {}
         for dict_ in context:
             for var, val in dict_.items():

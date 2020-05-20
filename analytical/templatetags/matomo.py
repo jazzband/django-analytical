@@ -4,16 +4,15 @@ Matomo template tags and filters.
 
 from __future__ import absolute_import
 
+import re
 from collections import namedtuple
 from itertools import chain
-import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import (is_internal_ip, disable_html,
                               get_required_setting, get_identity)
-
 
 # domain name (characters separated by a dot), optional port, optional URI path, no slash
 DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)*$')
@@ -84,6 +83,8 @@ class MatomoNode(Node):
                                  "must be a (string containing a) number")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         custom_variables = context.get('matomo_vars', ())
 
         complete_variables = (var if len(var) >= 4 else var + (DEFAULT_SCOPE,)

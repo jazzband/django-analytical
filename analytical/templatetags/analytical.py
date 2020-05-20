@@ -5,13 +5,12 @@ Analytical template tags and filters.
 from __future__ import absolute_import
 
 import logging
+from importlib import import_module
 
 from django import template
 from django.template import Node, TemplateSyntaxError
-from importlib import import_module
 
 from analytical.utils import AnalyticalException
-
 
 TAG_LOCATIONS = ['head_top', 'head_bottom', 'body_top', 'body_bottom']
 TAG_POSITIONS = ['first', None, 'last']
@@ -83,7 +82,7 @@ def _load_template_nodes():
         try:
             module.contribute_to_analytical(add_node_cls)
         except AnalyticalException as e:
-            logger.debug("not loading tags from '%s': %s", path, e)
+            logger.trace("django-analytical settings not (or not properly) configured for '%s': %s", path, e)
     for location in TAG_LOCATIONS:
         template_nodes[location] = sum((template_nodes[location][p]
                                         for p in TAG_POSITIONS), [])

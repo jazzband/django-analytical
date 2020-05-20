@@ -6,6 +6,7 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import is_internal_ip, disable_html, get_required_setting
@@ -52,6 +53,8 @@ class GaugesNode(Node):
                 "must be a string looking like 'XXXXXXX'")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         html = TRACKING_CODE % {'site_id': self.site_id}
         if is_internal_ip(context, 'GAUGES'):
             html = disable_html(html, 'Gauges')

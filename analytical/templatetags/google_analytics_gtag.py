@@ -6,6 +6,7 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import (
@@ -51,6 +52,8 @@ class GoogleAnalyticsGTagNode(Node):
             "must be a string looking like 'UA-XXXXXX-Y'")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         html = SETUP_CODE.format(
             property_id=self.property_id,
         )

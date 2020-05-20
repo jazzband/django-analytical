@@ -195,6 +195,8 @@ settings required to enable each service are listed here:
 
 ----
 
+To disable the tracking code set DISABLE_TRACKING_CODE=True in settings (default=False).
+
 The django-analytical application is now set-up to track visitors.  For
 information about identifying users, further configuration and
 customization, see :doc:`features`.

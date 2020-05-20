@@ -5,10 +5,10 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import get_required_setting, is_internal_ip, disable_html
-
 
 HOTJAR_TRACKING_CODE = """\
 <script>
@@ -52,6 +52,8 @@ class HotjarNode(Node):
         )
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         html = HOTJAR_TRACKING_CODE % {'HOTJAR_SITE_ID': self.site_id}
         if is_internal_ip(context, 'HOTJAR'):
             return disable_html(html, 'Hotjar')

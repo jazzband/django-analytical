@@ -6,11 +6,11 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import get_identity, is_internal_ip, disable_html, \
-        get_required_setting
-
+    get_required_setting
 
 TRACKING_ID_RE = re.compile(r'^[0-9a-f]+$')
 TRACKING_CODE = """
@@ -56,6 +56,8 @@ class SpringMetricsNode(Node):
                 TRACKING_ID_RE, "must be a hexadecimal string")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         custom = {}
         for dict_ in context:
             for var, val in dict_.items():

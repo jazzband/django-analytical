@@ -7,11 +7,11 @@ from __future__ import absolute_import
 import json
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import is_internal_ip, disable_html, get_identity, \
-        get_required_setting
-
+    get_required_setting
 
 API_KEY_RE = re.compile(r'^[0-9a-f]{40}$')
 TRACKING_CODE = """
@@ -66,6 +66,8 @@ class KissMetricsNode(Node):
             "must be a string containing a 40-digit hexadecimal number")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         commands = []
         identity = get_identity(context, 'kiss_metrics')
         if identity is not None:

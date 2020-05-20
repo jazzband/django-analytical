@@ -5,10 +5,10 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import get_required_setting, is_internal_ip, disable_html
-
 
 FACEBOOK_PIXEL_HEAD_CODE = """\
 <script>
@@ -70,6 +70,8 @@ class _FacebookPixelNode(Node):
         )
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         html = self.code_template % {'FACEBOOK_PIXEL_ID': self.pixel_id}
         if is_internal_ip(context, 'FACEBOOK_PIXEL'):
             return disable_html(html, 'Facebook Pixel')
