@@ -6,10 +6,10 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import is_internal_ip, disable_html, get_required_setting
-
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
 SETUP_CODE = '<script type="text/javascript" src="{placeholder_url}">' \
@@ -45,6 +45,8 @@ class CrazyEggNode(Node):
         )
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         html = SETUP_CODE % {
             'account_nr_1': self.account_nr[:4],
             'account_nr_2': self.account_nr[4:],

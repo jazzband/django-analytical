@@ -6,11 +6,11 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import get_identity, \
-        is_internal_ip, disable_html, get_required_setting
-
+    is_internal_ip, disable_html, get_required_setting
 
 TOKEN_RE = re.compile(r'^\S+-\S+-\S+$')
 TRACKING_CODE = """
@@ -55,6 +55,8 @@ class GoSquaredNode(Node):
                 "must be a string looking like XXX-XXXXXX-X")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         configs = [TOKEN_CODE % self.site_token]
         identity = get_identity(context, 'gosquared', self._identify)
         if identity:

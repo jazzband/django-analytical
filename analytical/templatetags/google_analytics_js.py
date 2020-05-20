@@ -6,6 +6,7 @@ from __future__ import absolute_import
 
 import decimal
 import re
+
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
@@ -62,6 +63,8 @@ class GoogleAnalyticsJsNode(Node):
             "must be a string looking like 'UA-XXXXXX-Y'")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         import json
         create_fields = self._get_domain_fields(context)
         create_fields.update(self._get_other_create_fields(context))

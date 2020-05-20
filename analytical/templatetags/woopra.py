@@ -55,11 +55,13 @@ class WoopraNode(Node):
             "must be a domain name")
 
     def render(self, context):
-        settings = self._get_settings(context)
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
+        cfg = self._get_settings(context)
         visitor = self._get_visitor(context)
 
         html = TRACKING_CODE % {
-            'settings': json.dumps(settings, sort_keys=True),
+            'settings': json.dumps(cfg, sort_keys=True),
             'visitor': json.dumps(visitor, sort_keys=True),
         }
         if is_internal_ip(context, 'WOOPRA'):

@@ -25,12 +25,15 @@ The Matomo tracking code is inserted into templates using a template
 tag.  Load the :mod:`matomo` template tag library and insert the
 :ttag:`matomo` tag.  Because every page that you want to track must
 have the tag, it is useful to add it to your base template.  Insert
-the tag at the bottom of the HTML body as recommended by the
+the tag at the bottom of the HEAD tag as recommended by the
 `Matomo best practice for Integration Plugins`_::
 
     {% load matomo %}
+    <html>
+    <head>
     ...
     {% matomo %}
+    </head>
     </body>
     </html>
 

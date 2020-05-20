@@ -86,6 +86,8 @@ class GoogleAnalyticsNode(Node):
             "must be a string looking like 'UA-XXXXXX-Y'")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         commands = self._get_domain_commands(context)
         commands.extend(self._get_custom_var_commands(context))
         commands.extend(self._get_other_commands(context))

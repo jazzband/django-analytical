@@ -13,7 +13,6 @@ from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import is_internal_ip, disable_html, get_required_setting
 
-
 USER_ID_RE = re.compile(r'^\d+$')
 INIT_CODE = """<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>"""
 SETUP_CODE = """
@@ -57,6 +56,8 @@ def chartbeat_top(parser, token):
 
 class ChartbeatTopNode(Node):
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         if is_internal_ip(context):
             return disable_html(INIT_CODE, "Chartbeat")
         return INIT_CODE
@@ -83,6 +84,8 @@ class ChartbeatBottomNode(Node):
                                             "must be (a string containing) a number")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         config = {'uid': self.user_id}
         domain = _get_domain(context)
         if domain is not None:

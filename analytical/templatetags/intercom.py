@@ -7,16 +7,16 @@ from __future__ import absolute_import
 import hashlib
 import hmac
 import json
-import sys
 import re
+import sys
 import time
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import disable_html, get_required_setting, \
-        is_internal_ip, get_user_from_context, get_identity, \
-        get_user_is_authenticated
+    is_internal_ip, get_user_from_context, get_identity, \
+    get_user_is_authenticated
 
 APP_ID_RE = re.compile(r'[\da-z]+$')
 TRACKING_CODE = """
@@ -126,6 +126,8 @@ class IntercomNode(Node):
         return params
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         params = self._get_custom_attrs(context)
         params["app_id"] = self.app_id
         html = TRACKING_CODE % {

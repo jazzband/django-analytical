@@ -6,10 +6,10 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import is_internal_ip, disable_html, get_required_setting
-
 
 CLICKMAP_TRACKER_ID_RE = re.compile(r'^\w+$')
 TRACKING_CODE = """
@@ -50,6 +50,8 @@ class ClickmapNode(Node):
                                                "must be an alphanumeric string")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         html = TRACKING_CODE % {'tracker_id': self.tracker_id}
         if is_internal_ip(context, 'CLICKMAP'):
             html = disable_html(html, 'Clickmap')

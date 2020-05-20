@@ -6,12 +6,12 @@ from __future__ import absolute_import
 
 import re
 
+from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe
 
 from analytical.utils import is_internal_ip, disable_html, get_identity, \
-        get_required_setting
-
+    get_required_setting
 
 API_KEY_RE = re.compile(r'^\w+$')
 SETUP_CODE = """
@@ -59,6 +59,8 @@ class PerformableNode(Node):
             "must be a string looking like 'XXXXX'")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         html = SETUP_CODE % {'api_key': self.api_key}
         identity = get_identity(context, 'performable')
         if identity is not None:

@@ -73,6 +73,8 @@ class SnapEngageNode(Node):
             "must be a string looking like this: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         settings_code = []
 
         domain = self._get_setting(context, 'snapengage_domain',

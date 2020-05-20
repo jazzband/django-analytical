@@ -4,9 +4,10 @@ Piwik template tags and filters.
 
 from __future__ import absolute_import
 
+import re
+import warnings
 from collections import namedtuple
 from itertools import chain
-import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
@@ -14,7 +15,6 @@ from django.template import Library, Node, TemplateSyntaxError
 from analytical.utils import (is_internal_ip, disable_html,
                               get_required_setting, get_identity)
 
-import warnings
 warnings.warn('The Piwik module is deprecated; use the Matomo module.', DeprecationWarning)
 
 # domain name (characters separated by a dot), optional port, optional URI path, no slash
@@ -33,7 +33,7 @@ TRACKING_CODE = """
   (function() {
     var u="//%(url)s/";
     _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', %(siteid)s]);
+    _paq.push(['setSiteId', '%(siteid)s']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
@@ -86,6 +86,8 @@ class PiwikNode(Node):
                                  "must be a (string containing a) number")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         custom_variables = context.get('piwik_vars', ())
 
         complete_variables = (var if len(var) >= 4 else var + (DEFAULT_SCOPE,)

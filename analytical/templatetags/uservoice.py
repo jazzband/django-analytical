@@ -9,8 +9,8 @@ import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
-from analytical.utils import get_required_setting, get_identity
 
+from analytical.utils import get_required_setting, get_identity
 
 WIDGET_KEY_RE = re.compile(r'^[a-zA-Z0-9]*$')
 TRACKING_CODE = """
@@ -53,6 +53,8 @@ class UserVoiceNode(Node):
             'USERVOICE_WIDGET_KEY', WIDGET_KEY_RE, "must be an alphanumeric string")
 
     def render(self, context):
+        if settings.get("DISABLE_TRACKING_CODE", False):
+            return ""
         widget_key = context.get('uservoice_widget_key')
         if not widget_key:
             widget_key = self.default_widget_key
