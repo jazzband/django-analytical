@@ -19,7 +19,7 @@ def _location_node(location):
     return DummyNode
 
 
-_location_nodes = dict((l, _location_node(l)) for l in TAG_LOCATIONS)
+_location_nodes = dict((loc, _location_node(loc)) for loc in TAG_LOCATIONS)
 
 
 def _location_tag(location):
