@@ -10,6 +10,7 @@ from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import (
     disable_html,
+    get_identity,
     get_required_setting,
     is_internal_ip,
 )
@@ -22,9 +23,12 @@ SETUP_CODE = """
   function gtag(){{dataLayer.push(arguments);}}
   gtag('js', new Date());
 
+  {extra}
   gtag('config', '{property_id}');
 </script>
 """
+
+GTAG_SET_CODE = """gtag('set', {{'{key}': '{value}'}});"""
 
 register = Library()
 
@@ -51,8 +55,18 @@ class GoogleAnalyticsGTagNode(Node):
             "must be a string looking like 'UA-XXXXXX-Y'")
 
     def render(self, context):
+        other_fields = {}
+
+        identity = get_identity(context)
+        if identity is not None:
+            other_fields['user_id'] = identity
+
+        extra = '\n'.join([
+            GTAG_SET_CODE.format(key=key, value=value) for key, value in other_fields.items()
+        ])
         html = SETUP_CODE.format(
             property_id=self.property_id,
+            extra=extra,
         )
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
             html = disable_html(html, 'Google Analytics')

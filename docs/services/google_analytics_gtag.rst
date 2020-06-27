@@ -81,3 +81,11 @@ setting, the tracking code is commented out.  It takes the value of
 :const:`ANALYTICAL_INTERNAL_IPS` by default (which in turn is
 :const:`INTERNAL_IPS` by default).  See :ref:`identifying-visitors` for
 important information about detecting the visitor IP address.
+
+.. _google-analytics-identify-user:
+
+Identifying authenticated users
+-------------------------------
+
+The username of an authenticated user is passed to Google Analytics
+automatically as the `user_id`.  See :ref:`identifying-visitors`.

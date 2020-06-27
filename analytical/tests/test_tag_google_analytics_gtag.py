@@ -2,6 +2,7 @@
 Tests for the Google Analytics template tags and filters, using the new gtag.js library.
 """
 
+from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
@@ -50,3 +51,8 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         self.assertTrue(r.startswith(
             '<!-- Google Analytics disabled on internal IP address'), r)
         self.assertTrue(r.endswith('-->'), r)
+
+    @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
+    def test_identify(self):
+        r = GoogleAnalyticsGTagNode().render(Context({'user': User(username='test')}))
+        self.assertTrue("gtag('set', {'user_id': 'test'});" in r, r)
