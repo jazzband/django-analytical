@@ -31,6 +31,6 @@ class AnalyticsTagTestCase(TagTestCase):
         return t.render(Context(vars))
 
     def test_location_tags(self):
-        for l in ['head_top', 'head_bottom', 'body_top', 'body_bottom']:
-            r = self.render_location_tag(l)
-            self.assertTrue('dummy_%s' % l in r, r)
+        for loc in ['head_top', 'head_bottom', 'body_top', 'body_bottom']:
+            r = self.render_location_tag(loc)
+            self.assertTrue('dummy_%s' % loc in r, r)
