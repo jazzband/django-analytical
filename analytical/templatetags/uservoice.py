@@ -57,6 +57,7 @@ class UserVoiceNode(Node):
         if not widget_key:
             widget_key = self.default_widget_key
             return ''
+
         # default
         options = {}
         options.update(getattr(settings, 'USERVOICE_WIDGET_OPTIONS', {}))
