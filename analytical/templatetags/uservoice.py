@@ -56,7 +56,6 @@ class UserVoiceNode(Node):
         widget_key = context.get('uservoice_widget_key')
         if not widget_key:
             widget_key = self.default_widget_key
-        if not widget_key:
             return ''
         # default
         options = {}
