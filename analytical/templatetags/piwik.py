@@ -15,7 +15,6 @@ from analytical.utils import (is_internal_ip, disable_html,
                               get_required_setting, get_identity)
 
 import warnings
-warnings.warn('The Piwik module is deprecated; use the Matomo module.', DeprecationWarning)
 
 # domain name (characters separated by a dot), optional port, optional URI path, no slash
 DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)*$')
@@ -68,6 +67,7 @@ def piwik(parser, token):
     (default) or ``'visit'``.  Index should be an integer and the
     other parameters should be strings.
     """
+    warnings.warn('The Piwik module is deprecated; use the Matomo module.', DeprecationWarning)
     bits = token.split_contents()
     if len(bits) > 1:
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
