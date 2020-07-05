@@ -15,7 +15,7 @@ from analytical.utils import (
     is_internal_ip,
 )
 
-PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$')
+PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$|^G-[a-zA-Z0-9]+$')
 SETUP_CODE = """
 <script async src="https://www.googletagmanager.com/gtag/js?id={property_id}"></script>
 <script>
