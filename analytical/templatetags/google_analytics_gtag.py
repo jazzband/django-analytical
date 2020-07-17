@@ -15,7 +15,7 @@ from analytical.utils import (
     is_internal_ip,
 )
 
-PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$|^G-[a-zA-Z0-9]+$')
+PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$|^G-[a-zA-Z0-9]+$|^AW-[a-zA-Z0-9]+$|^DC-[a-zA-Z0-9]+$')
 SETUP_CODE = """
 <script async src="https://www.googletagmanager.com/gtag/js?id={property_id}"></script>
 <script>
@@ -52,7 +52,7 @@ class GoogleAnalyticsGTagNode(Node):
     def __init__(self):
         self.property_id = get_required_setting(
             'GOOGLE_ANALYTICS_GTAG_PROPERTY_ID', PROPERTY_ID_RE,
-            "must be a string looking like 'UA-XXXXXX-Y'")
+            "must be a string looking like one of these patterns ('UA-XXXXXX-Y' , 'AW-XXXXXXXXXX', 'G-XXXXXXXX', 'DC-XXXXXXXX')")
 
     def render(self, context):
         other_fields = {}
