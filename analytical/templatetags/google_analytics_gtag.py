@@ -52,7 +52,9 @@ class GoogleAnalyticsGTagNode(Node):
     def __init__(self):
         self.property_id = get_required_setting(
             'GOOGLE_ANALYTICS_GTAG_PROPERTY_ID', PROPERTY_ID_RE,
-            "must be a string looking like one of these patterns ('UA-XXXXXX-Y' , 'AW-XXXXXXXXXX', 'G-XXXXXXXX', 'DC-XXXXXXXX')")
+            '''must be a string looking like one of these patterns 
+            ('UA-XXXXXX-Y' , 'AW-XXXXXXXXXX', 
+            'G-XXXXXXXX', 'DC-XXXXXXXX')''')
 
     def render(self, context):
         other_fields = {}
