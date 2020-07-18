@@ -62,7 +62,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         r = self.render_tag('google_analytics_gtag', 'google_analytics_gtag')
         self.assertTrue(
             ('<script async src="https://www.googletagmanager.com/gtag/' +
-                 'js?id=G-12345678"></script>')
+             'js?id=G-12345678"></script>')
             in r, r)
         self.assertTrue("gtag('js', new Date());" in r, r)
         self.assertTrue("gtag('config', 'G-12345678');" in r, r)
@@ -72,7 +72,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         r = self.render_tag('google_analytics_gtag', 'google_analytics_gtag')
         self.assertTrue(
             ('<script async src="https://www.googletagmanager.com/gtag/' +
-                 'js?id=AW-1234567890"></script>')
+             'js?id=AW-1234567890"></script>')
             in r, r)
         self.assertTrue("gtag('js', new Date());" in r, r)
         self.assertTrue("gtag('config', 'AW-1234567890');" in r, r)
@@ -82,8 +82,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         r = self.render_tag('google_analytics_gtag', 'google_analytics_gtag')
         self.assertTrue(
             ('<script async src="https://www.googletagmanager.com/gtag/' +
-                 'js?id=DC-12345678"></script>')
+             'js?id=DC-12345678"></script>')
             in r, r)
         self.assertTrue("gtag('js', new Date());" in r, r)
         self.assertTrue("gtag('config', 'DC-12345678');" in r, r)
-
