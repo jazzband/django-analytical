@@ -69,6 +69,12 @@ project :file:`settings.py` file::
 
 If you do not set a property ID, the tracking code will not be rendered.
 
+Please node that the accepted Property IDs should be one of the following formats:
+
+- 'UA-XXXXXX-Y'
+- 'AW-XXXXXXXXXX'
+- 'G-XXXXXXXX'
+- 'DC-XXXXXXXX'
 
 
 Internal IP addresses
