@@ -26,12 +26,12 @@ an asynchronous version of the Javascript code if possible.
 .. |latest-version| image:: https://img.shields.io/pypi/v/django-analytical.svg
    :alt: Latest version on PyPI
    :target: https://pypi.org/project/django-analytical/
-.. |build-status| image:: https://img.shields.io/travis/jazzband/django-analytical/master.svg
-   :alt: Build status
-   :target: https://travis-ci.org/jazzband/django-analytical
-.. |coverage| image:: https://img.shields.io/coveralls/github/jazzband/django-analytical/master.svg
+.. |build-status| image:: https://github.com/jazzband/django-analytical/workflows/Test/badge.svg
+   :target: https://github.com/jazzband/django-analytical/actions
+   :alt: GitHub Actions
+.. |coverage| image:: https://codecov.io/gh/jazzband/django-analytical/branch/master/graph/badge.svg
    :alt: Test coverage
-   :target: https://coveralls.io/r/jazzband/django-analytical
+   :target: https://codecov.io/gh/jazzband/django-analytical
 .. |python-support| image:: https://img.shields.io/pypi/pyversions/django-analytical.svg
    :target: https://pypi.org/project/django-analytical/
    :alt: Python versions
