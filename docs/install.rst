@@ -185,6 +185,10 @@ settings required to enable each service are listed here:
 
     RATING_MAILRU_COUNTER_ID = '1234567'
 
+* :doc:`SnapEngage <services/snapengage>`::
+
+    SNAPENGAGE_WIDGET_ID = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
+
 * :doc:`Woopra <services/woopra>`::
 
     WOOPRA_DOMAIN = 'abcde.com'
