@@ -4,8 +4,6 @@ Google Analytics template tags and filters.
 DEPRECATED
 """
 
-from __future__ import absolute_import
-
 import decimal
 import re
 

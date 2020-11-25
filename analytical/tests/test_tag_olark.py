@@ -87,7 +87,7 @@ class OlarkTestCase(TagTestCase):
             "introduction_messages",
             "introduction_submit_button_text",
         ]
-        vars = dict(('olark_%s' % m, m) for m in messages)
+        vars = {'olark_%s' % m: m for m in messages}
         r = OlarkNode().render(Context(vars))
         for m in messages:
             self.assertTrue("olark.configure('locale.%s', \"%s\");" % (m, m) in r, r)

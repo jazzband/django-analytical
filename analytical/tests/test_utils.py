@@ -27,17 +27,8 @@ class SettingDeletedTestCase(TestCase):
         Make sure using get_required_setting fails in the right place.
         """
 
-        # available in python >= 3.2
-        if hasattr(self, 'assertRaisesRegex'):
-            with self.assertRaisesRegex(AnalyticalException, "^USER_ID setting is not set$"):
-                get_required_setting("USER_ID", r"\d+", "invalid USER_ID")
-        # available in python >= 2.7, deprecated in 3.2
-        elif hasattr(self, 'assertRaisesRegexp'):
-            with self.assertRaisesRegexp(AnalyticalException, "^USER_ID setting is not set$"):
-                get_required_setting("USER_ID", r"\d+", "invalid USER_ID")
-        else:
-            self.assertRaises(AnalyticalException,
-                              get_required_setting, "USER_ID", r"\d+", "invalid USER_ID")
+        with self.assertRaisesRegex(AnalyticalException, "^USER_ID setting is not set$"):
+            get_required_setting("USER_ID", r"\d+", "invalid USER_ID")
 
 
 class MyUser(AbstractBaseUser):

@@ -2,8 +2,6 @@
 Dummy testing template tags and filters.
 """
 
-from __future__ import absolute_import
-
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.templatetags.analytical import TAG_LOCATIONS
@@ -19,7 +17,7 @@ def _location_node(location):
     return DummyNode
 
 
-_location_nodes = dict((loc, _location_node(loc)) for loc in TAG_LOCATIONS)
+_location_nodes = {loc: _location_node(loc) for loc in TAG_LOCATIONS}
 
 
 def _location_tag(location):

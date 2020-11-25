@@ -39,7 +39,7 @@ class HotjarTagTestCase(TagTestCase):
         self.assertEqual(expected_html, html)
 
     def test_tags_take_no_args(self):
-        self.assertRaisesRegexp(
+        self.assertRaisesRegex(
             TemplateSyntaxError,
             r"^'hotjar' takes no arguments$",
             lambda: (Template('{% load hotjar %}{% hotjar "arg" %}')
@@ -49,13 +49,13 @@ class HotjarTagTestCase(TagTestCase):
     @override_settings(HOTJAR_SITE_ID=None)
     def test_no_id(self):
         expected_pattern = r'^HOTJAR_SITE_ID setting is not set$'
-        self.assertRaisesRegexp(AnalyticalException, expected_pattern, HotjarNode)
+        self.assertRaisesRegex(AnalyticalException, expected_pattern, HotjarNode)
 
     @override_settings(HOTJAR_SITE_ID='invalid')
     def test_invalid_id(self):
         expected_pattern = (
             r"^HOTJAR_SITE_ID setting: must be \(a string containing\) a number: 'invalid'$")
-        self.assertRaisesRegexp(AnalyticalException, expected_pattern, HotjarNode)
+        self.assertRaisesRegex(AnalyticalException, expected_pattern, HotjarNode)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):

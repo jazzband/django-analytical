@@ -14,7 +14,7 @@ class AnalyticsTagTestCase(TagTestCase):
     """
 
     def setUp(self):
-        super(AnalyticsTagTestCase, self).setUp()
+        super().setUp()
         self._tag_modules = analytical.TAG_MODULES
         analytical.TAG_MODULES = ['analytical.tests.dummy']
         analytical.template_nodes = analytical._load_template_nodes()
@@ -22,7 +22,7 @@ class AnalyticsTagTestCase(TagTestCase):
     def tearDown(self):
         analytical.TAG_MODULES = self._tag_modules
         analytical.template_nodes = analytical._load_template_nodes()
-        super(AnalyticsTagTestCase, self).tearDown()
+        super().tearDown()
 
     def render_location_tag(self, location, vars=None):
         if vars is None:

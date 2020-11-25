@@ -2,8 +2,6 @@
 Google Analytics template tags and filters, using the new analytics.js library.
 """
 
-from __future__ import absolute_import
-
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
