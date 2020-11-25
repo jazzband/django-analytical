@@ -2,8 +2,6 @@
 Google Analytics template tags and filters, using the new analytics.js library.
 """
 
-from __future__ import absolute_import
-
 import decimal
 import re
 from django.conf import settings
@@ -134,7 +132,7 @@ class GoogleAnalyticsJsNode(Node):
             try:
                 float(value)
             except ValueError:
-                value = "'{}'".format(value)
+                value = f"'{value}'"
             commands.append(CUSTOM_VAR_CODE.format(
                 name=name,
                 value=value,

@@ -2,8 +2,6 @@
 Analytical template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import logging
 
 from django import template
@@ -72,8 +70,7 @@ class AnalyticalNode(Node):
 
 
 def _load_template_nodes():
-    template_nodes = dict((loc, dict((pos, []) for pos in TAG_POSITIONS))
-                          for loc in TAG_LOCATIONS)
+    template_nodes = {loc: {pos: [] for pos in TAG_POSITIONS} for loc in TAG_LOCATIONS}
 
     def add_node_cls(location, node, position=None):
         template_nodes[location][position].append(node)

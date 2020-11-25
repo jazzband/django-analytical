@@ -2,14 +2,10 @@
 intercom.io template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import hashlib
 import hmac
 import json
-import sys
 import re
-import time
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
@@ -27,14 +23,6 @@ TRACKING_CODE = """
 """  # noqa
 
 register = Library()
-
-
-def _timestamp(when):
-    """
-    Python 2 compatibility for `datetime.timestamp()`.
-    """
-    return (time.mktime(when.timetuple()) if sys.version_info < (3,) else
-            when.timestamp())
 
 
 def _hashable_bytes(data):
@@ -109,7 +97,7 @@ class IntercomNode(Node):
 
             params.setdefault('user_id', user.pk)
 
-            params['created_at'] = int(_timestamp(user.date_joined))
+            params['created_at'] = int(user.date_joined.timestamp())
         else:
             params['created_at'] = None
 

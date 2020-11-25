@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # This file is execfile()d with the current directory set to its containing
 # directory.
@@ -14,8 +13,8 @@ import analytical  # noqa
 
 # -- General configuration --------------------------------------------------
 
-project = u'django-analytical'
-copyright = u'2011-2016, Joost Cassee <joost@cassee.net>'
+project = 'django-analytical'
+copyright = '2011-2020, Joost Cassee <joost@cassee.net>'
 
 release = analytical.__version__
 # The short X.Y version.
@@ -45,6 +44,6 @@ htmlhelp_basename = 'analyticaldoc'
 # -- Options for LaTeX output -----------------------------------------------
 
 latex_documents = [
-    ('index', 'django-analytical.tex', u'Documentation for django-analytical',
-     u'Joost Cassee', 'manual'),
+    ('index', 'django-analytical.tex', 'Documentation for django-analytical',
+     'Joost Cassee', 'manual'),
 ]

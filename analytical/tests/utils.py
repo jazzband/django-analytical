@@ -2,8 +2,6 @@
 Testing utilities.
 """
 
-from __future__ import with_statement
-
 from django.template import Template, Context, RequestContext
 from django.test.testcases import TestCase
 
