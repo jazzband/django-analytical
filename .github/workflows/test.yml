@@ -8,7 +8,7 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
+        python-version: ['2.7', '3.5', '3.6', '3.7', '3.8']
 
     steps:
     - uses: actions/checkout@v2
@@ -28,9 +28,9 @@ jobs:
       with:
         path: ${{ steps.pip-cache.outputs.dir }}
         key:
-          -${{ matrix.python-version }}-v1-${{ hashFiles('**/setup.py') }}
+          ${{ matrix.python-version }}-v1-${{ hashFiles('**/setup.py') }}
         restore-keys: |
-          -${{ matrix.python-version }}-v1-
+          ${{ matrix.python-version }}-v1-
 
     - name: Install dependencies
       run: |
