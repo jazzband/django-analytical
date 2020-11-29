@@ -17,41 +17,8 @@ except ImportError:
     pass
 
 
-class TestCommand(Command):
-    description = "run package tests"
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        from analytical.tests.utils import run_tests
-
-        run_tests()
-
-
-cmdclass['test'] = TestCommand
-
-
 def read_file(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
-
-
-try:
-    import django
-    os.environ.setdefault(
-        "DJANGO_SETTINGS_MODULE",
-        "analytical.tests.settings"
-    )
-    django.setup()
-except ImportError:
-    print(
-        "Could not import django. "
-        "This is fine, unless you intend to run unit tests."
-    )
 
 import analytical as package  # noqa
 
