@@ -1,11 +1,9 @@
 import os
 
 try:
-    from setuptools import setup, Command
+    from setuptools import setup
 except ImportError:
-    from distutils.core import setup, Command
-
-os.environ['DJANGO_SETTINGS_MODULE'] = 'analytical.tests.settings'
+    from distutils.core import setup
 
 cmdclass = {}
 
