@@ -1,24 +1,13 @@
 import os
 
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup
 
-cmdclass = {}
-
-try:
-    from sphinx.setup_command import BuildDoc
-
-    cmdclass['build_sphinx'] = BuildDoc
-except ImportError:
-    pass
+import analytical as package
 
 
 def read_file(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-import analytical as package  # noqa
 
 setup(
     name='django-analytical',
@@ -32,8 +21,6 @@ setup(
     packages=[
         'analytical',
         'analytical.templatetags',
-        'analytical.tests',
-        'analytical.tests.templatetags',
     ],
     keywords=['django', 'analytics'],
     classifiers=[
@@ -61,5 +48,4 @@ setup(
     platforms=['any'],
     url='https://github.com/jazzband/django-analytical',
     download_url='https://github.com/jazzband/django-analytical/archive/master.zip',
-    cmdclass=cmdclass,
 )
