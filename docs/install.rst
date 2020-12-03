@@ -163,6 +163,10 @@ settings required to enable each service are listed here:
 
     KISS_METRICS_API_KEY = '0123456789abcdef0123456789abcdef01234567'
 
+* :doc:`Lucky Orange <services/luckyorange>`::
+
+    LUCKYORANGE_SITE_ID = '123456'
+
 * :doc:`Matomo (formerly Piwik) <services/matomo>`::
 
     MATOMO_DOMAIN_PATH = 'your.matomo.server/optional/path'
