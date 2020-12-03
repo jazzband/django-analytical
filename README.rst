@@ -62,6 +62,7 @@ Currently Supported Services
 * `Intercom`_ live chat and support
 * `KISSinsights`_ feedback surveys
 * `KISSmetrics`_ funnel analysis
+* `Lucky Orange`_ analytics and user feedback
 * `Mixpanel`_ event tracking
 * `Olark`_ visitor chat
 * `Optimizely`_ A/B testing
@@ -87,6 +88,7 @@ Currently Supported Services
 .. _`Intercom`: http://www.intercom.io/
 .. _`KISSinsights`: http://www.kissinsights.com/
 .. _`KISSmetrics`: http://www.kissmetrics.com/
+.. _`Lucky Orange`: http://www.luckyorange.com/
 .. _`Mixpanel`: http://www.mixpanel.com/
 .. _`Olark`: http://www.olark.com/
 .. _`Optimizely`: http://www.optimizely.com/
