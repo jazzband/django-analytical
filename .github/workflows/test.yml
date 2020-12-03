@@ -1,6 +1,8 @@
 name: Test
 
-on: [push, pull_request]
+on:
+- push
+- pull_request
 
 jobs:
   build:
@@ -8,7 +10,16 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10']
+        python-version:
+        - '3.6'
+        - '3.7'
+        - '3.8'
+        - '3.9'
+        - '3.10'
+        django-version:
+        - '2.2'
+        - '3.2'
+        - '4.0'
 
     steps:
     - uses: actions/checkout@v2
@@ -37,9 +48,10 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install --upgrade tox tox-gh-actions
 
-    - name: Tox tests
-      run: |
-        tox -v
+    - name: "Unit tests for py${{ matrix.python-version }}-django${{ matrix.django-version }}"
+      run: tox
+      env:
+        DJANGO: ${{ matrix.django-version }}
 
     - name: Upload coverage
       uses: codecov/codecov-action@v1
