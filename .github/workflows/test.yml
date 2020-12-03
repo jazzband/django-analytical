@@ -1,8 +1,12 @@
 name: Test
 
 on:
-- push
-- pull_request
+  pull_request:
+    branches:
+    - master
+  push:
+    branches:
+    - master
 
 jobs:
   build:
@@ -48,7 +52,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install --upgrade tox tox-gh-actions
 
-    - name: "Unit tests for py${{ matrix.python-version }}-django${{ matrix.django-version }}"
+    - name: Unit tests for py${{ matrix.python-version }}-django${{ matrix.django-version }}
       run: tox
       env:
         DJANGO: ${{ matrix.django-version }}
