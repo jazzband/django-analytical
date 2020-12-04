@@ -52,7 +52,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install --upgrade tox tox-gh-actions
 
-    - name: Unit tests for py${{ matrix.python-version }}-django${{ matrix.django-version }}
+    - name: Tox tests (Python ${{ matrix.python-version }}, Django ${{ matrix.django-version }})
       run: tox
       env:
         DJANGO: ${{ matrix.django-version }}
