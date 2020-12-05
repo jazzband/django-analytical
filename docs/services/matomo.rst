@@ -149,6 +149,26 @@ If you want to `disable cookies`_, set :data:`MATOMO_DISABLE_COOKIES` to
 
 .. _`disable cookies`: https://matomo.org/faq/general/faq_157/
 
+Ask for consent
+-----------------
+
+If you do not want to track visitors without permission, you can `ask for consent`_ first.
+To enable this, set :data:`MATOMO_ASK_FOR_CONSENT` to :const:`True`. By default, no consent for tracking is needed (i.e. :const:`False`).
+
+To give and remove consent in your page, create DOM elements with the following classes:
+
+`matomo_give_consent` - class name for element to click when visitors want to **give** consent
+`matomo_remove_consent` - class name for element to click when visitors want to **remove** consent
+
+Examples:
+    # button to allow tracking
+    <button class="matomo_give_consent">Track me!</button>
+
+    # button to remove tracking consent
+    <button class="matomo_remove_consent">Don't track me anymore!</button>
+
+.. _`asking for consent`: https://developer.matomo.org/guides/tracking-javascript-guide#asking-for-consent
+
 Internal IP addresses
 ---------------------
 

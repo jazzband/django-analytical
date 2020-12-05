@@ -39,7 +39,31 @@ TRACKING_CODE = """
 
 VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
-DISABLE_COOKIES_CODE = '_paq.push([\'disableCookies\']);'
+DISABLE_COOKIES_CODE = "_paq.push(['disableCookies']);"
+
+GIVE_CONSENT_CLASS = "matomo_give_consent"
+REMOVE_CONSENT_CLASS = "matomo_remove_consent"
+ASK_FOR_CONSENT_CODE = """
+_paq.push(['requireConsent']);
+
+var elements = document.getElementsByClassName("{}");
+for (var i = 0; i < elements.length; i++) {{
+    elements[i].addEventListener("click",
+      function () {{
+        _paq.push(["forgetConsentGiven"]);
+      }}
+    );
+}}
+
+var elements = document.getElementsByClassName("{}");
+for (var i = 0; i < elements.length; i++) {{
+    elements[i].addEventListener("click",
+      function () {{
+        _paq.push(["rememberConsentGiven"]);
+      }}
+    );
+}}
+""".format(REMOVE_CONSENT_CLASS, GIVE_CONSENT_CLASS)
 
 DEFAULT_SCOPE = 'page'
 
@@ -93,6 +117,9 @@ class MatomoNode(Node):
         commands = []
         if getattr(settings, 'MATOMO_DISABLE_COOKIES', False):
             commands.append(DISABLE_COOKIES_CODE)
+
+        if getattr(settings, 'MATOMO_ASK_FOR_CONSENT', False):
+            commands.append(ASK_FOR_CONSENT_CODE)
 
         userid = get_identity(context, 'matomo')
         if userid is not None:
