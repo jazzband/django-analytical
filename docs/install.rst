@@ -133,9 +133,17 @@ settings required to enable each service are listed here:
 
     GAUGES_SITE_ID = '0123456789abcdef0123456789abcdef'
 
-* :doc:`Google Analytics <services/google_analytics>`::
+* :doc:`Google Analytics (legacy) <services/google_analytics>`::
 
     GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-1234567-8'
+
+* :doc:`Google Analytics (gtag.js) <services/google_analytics_gtag>`::
+
+    GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = 'UA-1234567-8'
+
+* :doc:`Google Analytics (analytics.js) <services/google_analytics_js>`::
+
+    GOOGLE_ANALYTICS_JS_PROPERTY_ID = 'UA-12345678-9'
 
 * :doc:`HubSpot <services/hubspot>`::
 

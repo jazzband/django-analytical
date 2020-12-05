@@ -65,7 +65,7 @@ Javascript code.  You can find the web property ID on the overview page
 of your account.  Set :const:`GOOGLE_ANALYTICS_JS_PROPERTY_ID` in the
 project :file:`settings.py` file::
 
-    GOOGLE_ANALYTICS_JS_PROPERTY_ID = 'UA-XXXXXX-X'
+    GOOGLE_ANALYTICS_JS_PROPERTY_ID = 'UA-XXXXXXXX-X'
 
 If you do not set a property ID, the tracking code will not be rendered.
 
