@@ -6,8 +6,7 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_required_setting, is_internal_ip, disable_html
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 HOTJAR_TRACKING_CODE = """\
 <script>
@@ -42,18 +41,17 @@ def hotjar(parser, token):
 
 
 class HotjarNode(Node):
-
     def __init__(self):
         self.site_id = get_required_setting(
-            'HOTJAR_SITE_ID',
-            re.compile(r'^\d+$'),
+            "HOTJAR_SITE_ID",
+            re.compile(r"^\d+$"),
             "must be (a string containing) a number",
         )
 
     def render(self, context):
-        html = HOTJAR_TRACKING_CODE % {'HOTJAR_SITE_ID': self.site_id}
-        if is_internal_ip(context, 'HOTJAR'):
-            return disable_html(html, 'Hotjar')
+        html = HOTJAR_TRACKING_CODE % {"HOTJAR_SITE_ID": self.site_id}
+        if is_internal_ip(context, "HOTJAR"):
+            return disable_html(html, "Hotjar")
         else:
             return html
 
@@ -61,4 +59,4 @@ class HotjarNode(Node):
 def contribute_to_analytical(add_node):
     # ensure properly configured
     HotjarNode()
-    add_node('head_bottom', HotjarNode)
+    add_node("head_bottom", HotjarNode)

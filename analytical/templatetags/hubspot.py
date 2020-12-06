@@ -6,10 +6,9 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
-
-PORTAL_ID_RE = re.compile(r'^\d+$')
+PORTAL_ID_RE = re.compile(r"^\d+$")
 TRACKING_CODE = """
     <!-- Start of Async HubSpot Analytics Code -->
       <script type="text/javascript">
@@ -42,16 +41,17 @@ def hubspot(parser, token):
 
 class HubSpotNode(Node):
     def __init__(self):
-        self.portal_id = get_required_setting('HUBSPOT_PORTAL_ID', PORTAL_ID_RE,
-                                              "must be a (string containing a) number")
+        self.portal_id = get_required_setting(
+            "HUBSPOT_PORTAL_ID", PORTAL_ID_RE, "must be a (string containing a) number"
+        )
 
     def render(self, context):
-        html = TRACKING_CODE % {'portal_id': self.portal_id}
-        if is_internal_ip(context, 'HUBSPOT'):
-            html = disable_html(html, 'HubSpot')
+        html = TRACKING_CODE % {"portal_id": self.portal_id}
+        if is_internal_ip(context, "HUBSPOT"):
+            html = disable_html(html, "HubSpot")
         return html
 
 
 def contribute_to_analytical(add_node):
     HubSpotNode()  # ensure properly configured
-    add_node('body_bottom', HubSpotNode)
+    add_node("body_bottom", HubSpotNode)

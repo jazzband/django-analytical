@@ -7,11 +7,14 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_identity, is_internal_ip, disable_html, \
-        get_required_setting
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
-
-SITE_ID_RE = re.compile(r'^\d+$')
+SITE_ID_RE = re.compile(r"^\d+$")
 TRACKING_CODE = """
     <script type="text/javascript">
     var clicky = { log: function(){ return; }, goal: function(){ return; }};
@@ -50,29 +53,29 @@ def clicky(parser, token):
 class ClickyNode(Node):
     def __init__(self):
         self.site_id = get_required_setting(
-            'CLICKY_SITE_ID', SITE_ID_RE,
-            "must be a (string containing) a number")
+            "CLICKY_SITE_ID", SITE_ID_RE, "must be a (string containing) a number"
+        )
 
     def render(self, context):
         custom = {}
         for dict_ in context:
             for var, val in dict_.items():
-                if var.startswith('clicky_'):
+                if var.startswith("clicky_"):
                     custom[var[7:]] = val
-        if 'username' not in custom.get('session', {}):
-            identity = get_identity(context, 'clicky')
+        if "username" not in custom.get("session", {}):
+            identity = get_identity(context, "clicky")
             if identity is not None:
-                custom.setdefault('session', {})['username'] = identity
+                custom.setdefault("session", {})["username"] = identity
 
         html = TRACKING_CODE % {
-            'site_id': self.site_id,
-            'custom': json.dumps(custom, sort_keys=True),
+            "site_id": self.site_id,
+            "custom": json.dumps(custom, sort_keys=True),
         }
-        if is_internal_ip(context, 'CLICKY'):
-            html = disable_html(html, 'Clicky')
+        if is_internal_ip(context, "CLICKY"):
+            html = disable_html(html, "Clicky")
         return html
 
 
 def contribute_to_analytical(add_node):
     ClickyNode()  # ensure properly configured
-    add_node('body_bottom', ClickyNode)
+    add_node("body_bottom", ClickyNode)

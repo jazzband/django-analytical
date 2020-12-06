@@ -6,7 +6,6 @@ from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.templatetags.analytical import TAG_LOCATIONS
 
-
 register = Library()
 
 
@@ -14,6 +13,7 @@ def _location_node(location):
     class DummyNode(Node):
         def render(self, context):
             return "<!-- dummy_%s -->" % location
+
     return DummyNode
 
 
@@ -26,11 +26,12 @@ def _location_tag(location):
         if len(bits) > 1:
             raise TemplateSyntaxError("'%s' tag takes no arguments" % bits[0])
         return _location_nodes[location]
+
     return dummy_tag
 
 
 for loc in TAG_LOCATIONS:
-    register.tag('dummy_%s' % loc, _location_tag(loc))
+    register.tag("dummy_%s" % loc, _location_tag(loc))
 
 
 def contribute_to_analytical(add_node_cls):

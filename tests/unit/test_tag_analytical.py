@@ -3,9 +3,9 @@ Tests for the generic template tags and filters.
 """
 
 from django.template import Context, Template
+from utils import TagTestCase
 
 from analytical.templatetags import analytical
-from utils import TagTestCase
 
 
 class AnalyticsTagTestCase(TagTestCase):
@@ -16,7 +16,7 @@ class AnalyticsTagTestCase(TagTestCase):
     def setUp(self):
         super().setUp()
         self._tag_modules = analytical.TAG_MODULES
-        analytical.TAG_MODULES = ['tests.testproject.dummy']
+        analytical.TAG_MODULES = ["tests.testproject.dummy"]
         analytical.template_nodes = analytical._load_template_nodes()
 
     def tearDown(self):
@@ -31,6 +31,6 @@ class AnalyticsTagTestCase(TagTestCase):
         return t.render(Context(vars))
 
     def test_location_tags(self):
-        for loc in ['head_top', 'head_bottom', 'body_top', 'body_bottom']:
+        for loc in ["head_top", "head_bottom", "body_top", "body_bottom"]:
             r = self.render_location_tag(loc)
-            self.assertTrue('dummy_%s' % loc in r, r)
+            self.assertTrue("dummy_%s" % loc in r, r)

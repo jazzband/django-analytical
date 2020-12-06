@@ -6,8 +6,7 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_required_setting, is_internal_ip, disable_html
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 LUCKYORANGE_TRACKING_CODE = """\
 <script type='text/javascript'>
@@ -40,18 +39,17 @@ def luckyorange(parser, token):
 
 
 class LuckyOrangeNode(Node):
-
     def __init__(self):
         self.site_id = get_required_setting(
-            'LUCKYORANGE_SITE_ID',
-            re.compile(r'^\d+$'),
+            "LUCKYORANGE_SITE_ID",
+            re.compile(r"^\d+$"),
             "must be (a string containing) a number",
         )
 
     def render(self, context):
-        html = LUCKYORANGE_TRACKING_CODE % {'LUCKYORANGE_SITE_ID': self.site_id}
-        if is_internal_ip(context, 'LUCKYORANGE'):
-            return disable_html(html, 'Lucky Orange')
+        html = LUCKYORANGE_TRACKING_CODE % {"LUCKYORANGE_SITE_ID": self.site_id}
+        if is_internal_ip(context, "LUCKYORANGE"):
+            return disable_html(html, "Lucky Orange")
         else:
             return html
 
@@ -59,4 +57,4 @@ class LuckyOrangeNode(Node):
 def contribute_to_analytical(add_node):
     # ensure properly configured
     LuckyOrangeNode()
-    add_node('head_bottom', LuckyOrangeNode)
+    add_node("head_bottom", LuckyOrangeNode)

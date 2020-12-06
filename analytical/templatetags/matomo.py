@@ -2,22 +2,25 @@
 Matomo template tags and filters.
 """
 
+import re
 from collections import namedtuple
 from itertools import chain
-import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import (is_internal_ip, disable_html,
-                              get_required_setting, get_identity)
-
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
 # domain name (characters separated by a dot), optional port, optional URI path, no slash
-DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)*$')
+DOMAINPATH_RE = re.compile(r"^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)*$")
 
 # numeric ID
-SITEID_RE = re.compile(r'^\d+$')
+SITEID_RE = re.compile(r"^\d+$")
 
 TRACKING_CODE = """
 <script type="text/javascript">
@@ -39,11 +42,11 @@ TRACKING_CODE = """
 
 VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
-DISABLE_COOKIES_CODE = '_paq.push([\'disableCookies\']);'
+DISABLE_COOKIES_CODE = "_paq.push(['disableCookies']);"
 
-DEFAULT_SCOPE = 'page'
+DEFAULT_SCOPE = "page"
 
-MatomoVar = namedtuple('MatomoVar', ('index', 'name', 'value', 'scope'))
+MatomoVar = namedtuple("MatomoVar", ("index", "name", "value", "scope"))
 
 
 register = Library()
@@ -72,45 +75,49 @@ def matomo(parser, token):
 
 class MatomoNode(Node):
     def __init__(self):
-        self.domain_path = \
-            get_required_setting('MATOMO_DOMAIN_PATH', DOMAINPATH_RE,
-                                 "must be a domain name, optionally followed "
-                                 "by an URI path, no trailing slash (e.g. "
-                                 "matomo.example.com or my.matomo.server/path)")
-        self.site_id = \
-            get_required_setting('MATOMO_SITE_ID', SITEID_RE,
-                                 "must be a (string containing a) number")
+        self.domain_path = get_required_setting(
+            "MATOMO_DOMAIN_PATH",
+            DOMAINPATH_RE,
+            "must be a domain name, optionally followed "
+            "by an URI path, no trailing slash (e.g. "
+            "matomo.example.com or my.matomo.server/path)",
+        )
+        self.site_id = get_required_setting(
+            "MATOMO_SITE_ID", SITEID_RE, "must be a (string containing a) number"
+        )
 
     def render(self, context):
-        custom_variables = context.get('matomo_vars', ())
+        custom_variables = context.get("matomo_vars", ())
 
-        complete_variables = (var if len(var) >= 4 else var + (DEFAULT_SCOPE,)
-                              for var in custom_variables)
+        complete_variables = (
+            var if len(var) >= 4 else var + (DEFAULT_SCOPE,) for var in custom_variables
+        )
 
-        variables_code = (VARIABLE_CODE % MatomoVar(*var)._asdict()
-                          for var in complete_variables)
+        variables_code = (
+            VARIABLE_CODE % MatomoVar(*var)._asdict() for var in complete_variables
+        )
 
         commands = []
-        if getattr(settings, 'MATOMO_DISABLE_COOKIES', False):
+        if getattr(settings, "MATOMO_DISABLE_COOKIES", False):
             commands.append(DISABLE_COOKIES_CODE)
 
-        userid = get_identity(context, 'matomo')
+        userid = get_identity(context, "matomo")
         if userid is not None:
-            variables_code = chain(variables_code, (
-                IDENTITY_CODE % {'userid': userid},
-            ))
+            variables_code = chain(
+                variables_code, (IDENTITY_CODE % {"userid": userid},)
+            )
 
         html = TRACKING_CODE % {
-            'url': self.domain_path,
-            'siteid': self.site_id,
-            'variables': '\n  '.join(variables_code),
-            'commands': '\n  '.join(commands)
+            "url": self.domain_path,
+            "siteid": self.site_id,
+            "variables": "\n  ".join(variables_code),
+            "commands": "\n  ".join(commands),
         }
-        if is_internal_ip(context, 'MATOMO'):
-            html = disable_html(html, 'Matomo')
+        if is_internal_ip(context, "MATOMO"):
+            html = disable_html(html, "Matomo")
         return html
 
 
 def contribute_to_analytical(add_node):
     MatomoNode()  # ensure properly configured
-    add_node('body_bottom', MatomoNode)
+    add_node("body_bottom", MatomoNode)

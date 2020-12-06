@@ -2,23 +2,26 @@
 Piwik template tags and filters.
 """
 
+import re
+import warnings
 from collections import namedtuple
 from itertools import chain
-import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import (is_internal_ip, disable_html,
-                              get_required_setting, get_identity)
-
-import warnings
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
 # domain name (characters separated by a dot), optional port, optional URI path, no slash
-DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)*$')
+DOMAINPATH_RE = re.compile(r"^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)*$")
 
 # numeric ID
-SITEID_RE = re.compile(r'^\d+$')
+SITEID_RE = re.compile(r"^\d+$")
 
 TRACKING_CODE = """
 <script type="text/javascript">
@@ -40,11 +43,11 @@ TRACKING_CODE = """
 
 VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
-DISABLE_COOKIES_CODE = '_paq.push([\'disableCookies\']);'
+DISABLE_COOKIES_CODE = "_paq.push(['disableCookies']);"
 
-DEFAULT_SCOPE = 'page'
+DEFAULT_SCOPE = "page"
 
-PiwikVar = namedtuple('PiwikVar', ('index', 'name', 'value', 'scope'))
+PiwikVar = namedtuple("PiwikVar", ("index", "name", "value", "scope"))
 
 
 register = Library()
@@ -65,7 +68,9 @@ def piwik(parser, token):
     (default) or ``'visit'``.  Index should be an integer and the
     other parameters should be strings.
     """
-    warnings.warn('The Piwik module is deprecated; use the Matomo module.', DeprecationWarning)
+    warnings.warn(
+        "The Piwik module is deprecated; use the Matomo module.", DeprecationWarning
+    )
     bits = token.split_contents()
     if len(bits) > 1:
         raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
@@ -74,45 +79,49 @@ def piwik(parser, token):
 
 class PiwikNode(Node):
     def __init__(self):
-        self.domain_path = \
-            get_required_setting('PIWIK_DOMAIN_PATH', DOMAINPATH_RE,
-                                 "must be a domain name, optionally followed "
-                                 "by an URI path, no trailing slash (e.g. "
-                                 "piwik.example.com or my.piwik.server/path)")
-        self.site_id = \
-            get_required_setting('PIWIK_SITE_ID', SITEID_RE,
-                                 "must be a (string containing a) number")
+        self.domain_path = get_required_setting(
+            "PIWIK_DOMAIN_PATH",
+            DOMAINPATH_RE,
+            "must be a domain name, optionally followed "
+            "by an URI path, no trailing slash (e.g. "
+            "piwik.example.com or my.piwik.server/path)",
+        )
+        self.site_id = get_required_setting(
+            "PIWIK_SITE_ID", SITEID_RE, "must be a (string containing a) number"
+        )
 
     def render(self, context):
-        custom_variables = context.get('piwik_vars', ())
+        custom_variables = context.get("piwik_vars", ())
 
-        complete_variables = (var if len(var) >= 4 else var + (DEFAULT_SCOPE,)
-                              for var in custom_variables)
+        complete_variables = (
+            var if len(var) >= 4 else var + (DEFAULT_SCOPE,) for var in custom_variables
+        )
 
-        variables_code = (VARIABLE_CODE % PiwikVar(*var)._asdict()
-                          for var in complete_variables)
+        variables_code = (
+            VARIABLE_CODE % PiwikVar(*var)._asdict() for var in complete_variables
+        )
 
         commands = []
-        if getattr(settings, 'PIWIK_DISABLE_COOKIES', False):
+        if getattr(settings, "PIWIK_DISABLE_COOKIES", False):
             commands.append(DISABLE_COOKIES_CODE)
 
-        userid = get_identity(context, 'piwik')
+        userid = get_identity(context, "piwik")
         if userid is not None:
-            variables_code = chain(variables_code, (
-                IDENTITY_CODE % {'userid': userid},
-            ))
+            variables_code = chain(
+                variables_code, (IDENTITY_CODE % {"userid": userid},)
+            )
 
         html = TRACKING_CODE % {
-            'url': self.domain_path,
-            'siteid': self.site_id,
-            'variables': '\n  '.join(variables_code),
-            'commands': '\n  '.join(commands)
+            "url": self.domain_path,
+            "siteid": self.site_id,
+            "variables": "\n  ".join(variables_code),
+            "commands": "\n  ".join(commands),
         }
-        if is_internal_ip(context, 'PIWIK'):
-            html = disable_html(html, 'Piwik')
+        if is_internal_ip(context, "PIWIK"):
+            html = disable_html(html, "Piwik")
         return html
 
 
 def contribute_to_analytical(add_node):
     PiwikNode()  # ensure properly configured
-    add_node('body_bottom', PiwikNode)
+    add_node("body_bottom", PiwikNode)

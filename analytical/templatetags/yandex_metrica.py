@@ -8,11 +8,9 @@ import re
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, \
-        get_required_setting
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
-
-COUNTER_ID_RE = re.compile(r'^\d{8}$')
+COUNTER_ID_RE = re.compile(r"^\d{8}$")
 COUNTER_CODE = """
     <script type="text/javascript">
         (function (d, w, c) {
@@ -59,33 +57,35 @@ def yandex_metrica(parser, token):
 class YandexMetricaNode(Node):
     def __init__(self):
         self.counter_id = get_required_setting(
-                'YANDEX_METRICA_COUNTER_ID', COUNTER_ID_RE,
-                "must be (a string containing) a number'")
+            "YANDEX_METRICA_COUNTER_ID",
+            COUNTER_ID_RE,
+            "must be (a string containing) a number'",
+        )
 
     def render(self, context):
         options = {
-            'id': int(self.counter_id),
-            'clickmap': True,
-            'trackLinks': True,
-            'accurateTrackBounce': True
+            "id": int(self.counter_id),
+            "clickmap": True,
+            "trackLinks": True,
+            "accurateTrackBounce": True,
         }
-        if getattr(settings, 'YANDEX_METRICA_WEBVISOR', False):
-            options['webvisor'] = True
-        if getattr(settings, 'YANDEX_METRICA_TRACKHASH', False):
-            options['trackHash'] = True
-        if getattr(settings, 'YANDEX_METRICA_NOINDEX', False):
-            options['ut'] = 'noindex'
-        if getattr(settings, 'YANDEX_METRICA_ECOMMERCE', False):
-            options['ecommerce'] = 'dataLayer'
+        if getattr(settings, "YANDEX_METRICA_WEBVISOR", False):
+            options["webvisor"] = True
+        if getattr(settings, "YANDEX_METRICA_TRACKHASH", False):
+            options["trackHash"] = True
+        if getattr(settings, "YANDEX_METRICA_NOINDEX", False):
+            options["ut"] = "noindex"
+        if getattr(settings, "YANDEX_METRICA_ECOMMERCE", False):
+            options["ecommerce"] = "dataLayer"
         html = COUNTER_CODE % {
-            'counter_id': self.counter_id,
-            'options': json.dumps(options),
+            "counter_id": self.counter_id,
+            "options": json.dumps(options),
         }
-        if is_internal_ip(context, 'YANDEX_METRICA'):
-            html = disable_html(html, 'Yandex.Metrica')
+        if is_internal_ip(context, "YANDEX_METRICA"):
+            html = disable_html(html, "Yandex.Metrica")
         return html
 
 
 def contribute_to_analytical(add_node):
     YandexMetricaNode()  # ensure properly configured
-    add_node('head_bottom', YandexMetricaNode)
+    add_node("head_bottom", YandexMetricaNode)

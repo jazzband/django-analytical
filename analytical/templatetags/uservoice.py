@@ -7,10 +7,10 @@ import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
-from analytical.utils import get_required_setting, get_identity
 
+from analytical.utils import get_identity, get_required_setting
 
-WIDGET_KEY_RE = re.compile(r'^[a-zA-Z0-9]*$')
+WIDGET_KEY_RE = re.compile(r"^[a-zA-Z0-9]*$")
 TRACKING_CODE = """
     <script type="text/javascript">
 
@@ -48,39 +48,43 @@ def uservoice(parser, token):
 class UserVoiceNode(Node):
     def __init__(self):
         self.default_widget_key = get_required_setting(
-            'USERVOICE_WIDGET_KEY', WIDGET_KEY_RE, "must be an alphanumeric string")
+            "USERVOICE_WIDGET_KEY", WIDGET_KEY_RE, "must be an alphanumeric string"
+        )
 
     def render(self, context):
-        widget_key = context.get('uservoice_widget_key')
+        widget_key = context.get("uservoice_widget_key")
         if not widget_key:
             widget_key = self.default_widget_key
         if not widget_key:
-            return ''
+            return ""
         # default
         options = {}
-        options.update(getattr(settings, 'USERVOICE_WIDGET_OPTIONS', {}))
-        options.update(context.get('uservoice_widget_options', {}))
+        options.update(getattr(settings, "USERVOICE_WIDGET_OPTIONS", {}))
+        options.update(context.get("uservoice_widget_options", {}))
 
-        identity = get_identity(context, 'uservoice', self._identify)
+        identity = get_identity(context, "uservoice", self._identify)
         if identity:
-            identity = IDENTITY % {'options': json.dumps(identity, sort_keys=True)}
+            identity = IDENTITY % {"options": json.dumps(identity, sort_keys=True)}
 
-        trigger = context.get('uservoice_add_trigger',
-                              getattr(settings, 'USERVOICE_ADD_TRIGGER', True))
+        trigger = context.get(
+            "uservoice_add_trigger", getattr(settings, "USERVOICE_ADD_TRIGGER", True)
+        )
 
-        html = TRACKING_CODE % {'widget_key': widget_key,
-                                'options':  json.dumps(options, sort_keys=True),
-                                'trigger': TRIGGER if trigger else '',
-                                'identity': identity if identity else ''}
+        html = TRACKING_CODE % {
+            "widget_key": widget_key,
+            "options": json.dumps(options, sort_keys=True),
+            "trigger": TRIGGER if trigger else "",
+            "identity": identity if identity else "",
+        }
         return html
 
     def _identify(self, user):
         name = user.get_full_name()
         if not name:
             name = user.username
-        return {'name': name, 'email': user.email}
+        return {"name": name, "email": user.email}
 
 
 def contribute_to_analytical(add_node):
     UserVoiceNode()  # ensure properly configured
-    add_node('body_bottom', UserVoiceNode)
+    add_node("body_bottom", UserVoiceNode)

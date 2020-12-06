@@ -5,23 +5,31 @@ Tests for the Google Analytics template tags and filters.
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase, TestCase
 
-from analytical.templatetags.google_analytics import GoogleAnalyticsNode, \
-        TRACK_SINGLE_DOMAIN, TRACK_MULTIPLE_DOMAINS, TRACK_MULTIPLE_SUBDOMAINS,\
-        SCOPE_VISITOR, SCOPE_SESSION, SCOPE_PAGE
-from utils import TestCase, TagTestCase
+from analytical.templatetags.google_analytics import (
+    SCOPE_PAGE,
+    SCOPE_SESSION,
+    SCOPE_VISITOR,
+    TRACK_MULTIPLE_DOMAINS,
+    TRACK_MULTIPLE_SUBDOMAINS,
+    TRACK_SINGLE_DOMAIN,
+    GoogleAnalyticsNode,
+)
 from analytical.utils import AnalyticalException
 
 
-@override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
-                   GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_SINGLE_DOMAIN)
+@override_settings(
+    GOOGLE_ANALYTICS_PROPERTY_ID="UA-123456-7",
+    GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_SINGLE_DOMAIN,
+)
 class GoogleAnalyticsTagTestCase(TagTestCase):
     """
     Tests for the ``google_analytics`` template tag.
     """
 
     def test_tag(self):
-        r = self.render_tag('google_analytics', 'google_analytics')
+        r = self.render_tag("google_analytics", "google_analytics")
         self.assertTrue("_gaq.push(['_setAccount', 'UA-123456-7']);" in r, r)
         self.assertTrue("_gaq.push(['_trackPageview']);" in r, r)
 
@@ -34,19 +42,23 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     def test_no_property_id(self):
         self.assertRaises(AnalyticalException, GoogleAnalyticsNode)
 
-    @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='wrong')
+    @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID="wrong")
     def test_wrong_property_id(self):
         self.assertRaises(AnalyticalException, GoogleAnalyticsNode)
 
-    @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_SUBDOMAINS,
-                       GOOGLE_ANALYTICS_DOMAIN='example.com')
+    @override_settings(
+        GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_SUBDOMAINS,
+        GOOGLE_ANALYTICS_DOMAIN="example.com",
+    )
     def test_track_multiple_subdomains(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setDomainName', 'example.com']);" in r, r)
         self.assertTrue("_gaq.push(['_setAllowHash', false]);" in r, r)
 
-    @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
-                       GOOGLE_ANALYTICS_DOMAIN='example.com')
+    @override_settings(
+        GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
+        GOOGLE_ANALYTICS_DOMAIN="example.com",
+    )
     def test_track_multiple_domains(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setDomainName', 'example.com']);" in r, r)
@@ -54,12 +66,14 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         self.assertTrue("_gaq.push(['_setAllowLinker', true]);" in r, r)
 
     def test_custom_vars(self):
-        context = Context({
-            'google_analytics_var1': ('test1', 'foo'),
-            'google_analytics_var2': ('test2', 'bar', SCOPE_VISITOR),
-            'google_analytics_var4': ('test4', 'baz', SCOPE_SESSION),
-            'google_analytics_var5': ('test5', 'qux', SCOPE_PAGE),
-        })
+        context = Context(
+            {
+                "google_analytics_var1": ("test1", "foo"),
+                "google_analytics_var2": ("test2", "bar", SCOPE_VISITOR),
+                "google_analytics_var4": ("test4", "baz", SCOPE_SESSION),
+                "google_analytics_var5": ("test5", "qux", SCOPE_PAGE),
+            }
+        )
         r = GoogleAnalyticsNode().render(context)
         self.assertTrue("_gaq.push(['_setCustomVar', 1, 'test1', 'foo', 3]);" in r, r)
         self.assertTrue("_gaq.push(['_setCustomVar', 2, 'test2', 'bar', 1]);" in r, r)
@@ -79,21 +93,22 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
             r = GoogleAnalyticsNode().render(Context())
             self.assertTrue("stats.g.doubleclick.net/dc.js" in r, r)
 
-    @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
+    @override_settings(ANALYTICAL_INTERNAL_IPS=["1.1.1.1"])
     def test_render_internal_ip(self):
         req = HttpRequest()
-        req.META['REMOTE_ADDR'] = '1.1.1.1'
-        context = Context({'request': req})
+        req.META["REMOTE_ADDR"] = "1.1.1.1"
+        context = Context({"request": req})
         r = GoogleAnalyticsNode().render(context)
-        self.assertTrue(r.startswith(
-                '<!-- Google Analytics disabled on internal IP address'), r)
-        self.assertTrue(r.endswith('-->'), r)
+        self.assertTrue(
+            r.startswith("<!-- Google Analytics disabled on internal IP address"), r
+        )
+        self.assertTrue(r.endswith("-->"), r)
 
     @override_settings(GOOGLE_ANALYTICS_ANONYMIZE_IP=True)
     def test_anonymize_ip(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_gat._anonymizeIp']);" in r, r)
-        self.assertTrue(r.index('_gat._anonymizeIp') < r.index('_trackPageview'), r)
+        self.assertTrue(r.index("_gat._anonymizeIp") < r.index("_trackPageview"), r)
 
     @override_settings(GOOGLE_ANALYTICS_ANONYMIZE_IP=False)
     def test_anonymize_ip_not_present(self):
@@ -105,7 +120,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setSampleRate', '0.00']);" in r, r)
 
-    @override_settings(GOOGLE_ANALYTICS_SAMPLE_RATE='100.00')
+    @override_settings(GOOGLE_ANALYTICS_SAMPLE_RATE="100.00")
     def test_set_sample_rate_max(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setSampleRate', '100.00']);" in r, r)
@@ -125,7 +140,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setSiteSpeedSampleRate', '0.00']);" in r, r)
 
-    @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE='100.00')
+    @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE="100.00")
     def test_set_site_speed_sample_rate_max(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setSiteSpeedSampleRate', '100.00']);" in r, r)
@@ -145,7 +160,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setSessionCookieTimeout', '0']);" in r, r)
 
-    @override_settings(GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT='10000')
+    @override_settings(GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT="10000")
     def test_set_session_cookie_timeout_as_string(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setSessionCookieTimeout', '10000']);" in r, r)
@@ -160,7 +175,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setVisitorCookieTimeout', '0']);" in r, r)
 
-    @override_settings(GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT='10000')
+    @override_settings(GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT="10000")
     def test_set_visitor_cookie_timeout_as_string(self):
         r = GoogleAnalyticsNode().render(Context())
         self.assertTrue("_gaq.push(['_setVisitorCookieTimeout', '10000']);" in r, r)
@@ -171,10 +186,12 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         self.assertRaises(AnalyticalException, GoogleAnalyticsNode().render, context)
 
 
-@override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
-                   GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
-                   GOOGLE_ANALYTICS_DOMAIN=None,
-                   ANALYTICAL_DOMAIN=None)
+@override_settings(
+    GOOGLE_ANALYTICS_PROPERTY_ID="UA-123456-7",
+    GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
+    GOOGLE_ANALYTICS_DOMAIN=None,
+    ANALYTICAL_DOMAIN=None,
+)
 class NoDomainTestCase(TestCase):
     def test_exception_without_domain(self):
         context = Context()

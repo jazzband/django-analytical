@@ -6,11 +6,14 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_identity, \
-        is_internal_ip, disable_html, get_required_setting
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
-
-TOKEN_RE = re.compile(r'^\S+-\S+-\S+$')
+TOKEN_RE = re.compile(r"^\S+-\S+-\S+$")
 TRACKING_CODE = """
     <script type="text/javascript">
       var GoSquared={};
@@ -49,20 +52,22 @@ def gosquared(parser, token):
 class GoSquaredNode(Node):
     def __init__(self):
         self.site_token = get_required_setting(
-                'GOSQUARED_SITE_TOKEN', TOKEN_RE,
-                "must be a string looking like XXX-XXXXXX-X")
+            "GOSQUARED_SITE_TOKEN",
+            TOKEN_RE,
+            "must be a string looking like XXX-XXXXXX-X",
+        )
 
     def render(self, context):
         configs = [TOKEN_CODE % self.site_token]
-        identity = get_identity(context, 'gosquared', self._identify)
+        identity = get_identity(context, "gosquared", self._identify)
         if identity:
             configs.append(IDENTIFY_CODE % identity)
         html = TRACKING_CODE % {
-            'token': self.site_token,
-            'config': ' '.join(configs),
+            "token": self.site_token,
+            "config": " ".join(configs),
         }
-        if is_internal_ip(context, 'GOSQUARED'):
-            html = disable_html(html, 'GoSquared')
+        if is_internal_ip(context, "GOSQUARED"):
+            html = disable_html(html, "GoSquared")
         return html
 
     def _identify(self, user):
@@ -74,4 +79,4 @@ class GoSquaredNode(Node):
 
 def contribute_to_analytical(add_node):
     GoSquaredNode()  # ensure properly configured
-    add_node('body_bottom', GoSquaredNode)
+    add_node("body_bottom", GoSquaredNode)

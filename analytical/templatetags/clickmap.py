@@ -6,10 +6,9 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
-
-CLICKMAP_TRACKER_ID_RE = re.compile(r'^\w+$')
+CLICKMAP_TRACKER_ID_RE = re.compile(r"^\w+$")
 TRACKING_CODE = """
     <script type="text/javascript">
     var clickmapConfig = {tracker: '%(tracker_id)s', version:'2'};
@@ -43,17 +42,19 @@ def clickmap(parser, token):
 
 class ClickmapNode(Node):
     def __init__(self):
-        self.tracker_id = get_required_setting('CLICKMAP_TRACKER_ID',
-                                               CLICKMAP_TRACKER_ID_RE,
-                                               "must be an alphanumeric string")
+        self.tracker_id = get_required_setting(
+            "CLICKMAP_TRACKER_ID",
+            CLICKMAP_TRACKER_ID_RE,
+            "must be an alphanumeric string",
+        )
 
     def render(self, context):
-        html = TRACKING_CODE % {'tracker_id': self.tracker_id}
-        if is_internal_ip(context, 'CLICKMAP'):
-            html = disable_html(html, 'Clickmap')
+        html = TRACKING_CODE % {"tracker_id": self.tracker_id}
+        if is_internal_ip(context, "CLICKMAP"):
+            html = disable_html(html, "Clickmap")
         return html
 
 
 def contribute_to_analytical(add_node):
     ClickmapNode()  # ensure properly configured
-    add_node('body_bottom', ClickmapNode)
+    add_node("body_bottom", ClickmapNode)

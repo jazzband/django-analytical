@@ -4,12 +4,11 @@ Tests for the Hotjar template tags.
 from django.http import HttpRequest
 from django.template import Context, Template, TemplateSyntaxError
 from django.test import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.analytical import _load_template_nodes
 from analytical.templatetags.hotjar import HotjarNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
 
 expected_html = """\
 <script>
@@ -25,13 +24,13 @@ expected_html = """\
 """
 
 
-@override_settings(HOTJAR_SITE_ID='123456789')
+@override_settings(HOTJAR_SITE_ID="123456789")
 class HotjarTagTestCase(TagTestCase):
 
     maxDiff = None
 
     def test_tag(self):
-        html = self.render_tag('hotjar', 'hotjar')
+        html = self.render_tag("hotjar", "hotjar")
         self.assertEqual(expected_html, html)
 
     def test_node(self):
@@ -42,33 +41,38 @@ class HotjarTagTestCase(TagTestCase):
         self.assertRaisesRegex(
             TemplateSyntaxError,
             r"^'hotjar' takes no arguments$",
-            lambda: (Template('{% load hotjar %}{% hotjar "arg" %}')
-                     .render(Context({}))),
+            lambda: (
+                Template('{% load hotjar %}{% hotjar "arg" %}').render(Context({}))
+            ),
         )
 
     @override_settings(HOTJAR_SITE_ID=None)
     def test_no_id(self):
-        expected_pattern = r'^HOTJAR_SITE_ID setting is not set$'
+        expected_pattern = r"^HOTJAR_SITE_ID setting is not set$"
         self.assertRaisesRegex(AnalyticalException, expected_pattern, HotjarNode)
 
-    @override_settings(HOTJAR_SITE_ID='invalid')
+    @override_settings(HOTJAR_SITE_ID="invalid")
     def test_invalid_id(self):
         expected_pattern = (
-            r"^HOTJAR_SITE_ID setting: must be \(a string containing\) a number: 'invalid'$")
+            r"^HOTJAR_SITE_ID setting: must be "
+            r"\(a string containing\) a number: 'invalid'$"
+        )
         self.assertRaisesRegex(AnalyticalException, expected_pattern, HotjarNode)
 
-    @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
+    @override_settings(ANALYTICAL_INTERNAL_IPS=["1.1.1.1"])
     def test_render_internal_ip(self):
         request = HttpRequest()
-        request.META['REMOTE_ADDR'] = '1.1.1.1'
-        context = Context({'request': request})
+        request.META["REMOTE_ADDR"] = "1.1.1.1"
+        context = Context({"request": request})
 
         actual_html = HotjarNode().render(context)
-        disabled_html = '\n'.join([
-                '<!-- Hotjar disabled on internal IP address',
+        disabled_html = "\n".join(
+            [
+                "<!-- Hotjar disabled on internal IP address",
                 expected_html,
-                '-->',
-            ])
+                "-->",
+            ]
+        )
         self.assertEqual(disabled_html, actual_html)
 
     def test_contribute_to_analytical(self):
@@ -76,9 +80,12 @@ class HotjarTagTestCase(TagTestCase):
         `hotjar.contribute_to_analytical` registers the head and body nodes.
         """
         template_nodes = _load_template_nodes()
-        self.assertEqual({
-            'head_top': [],
-            'head_bottom': [HotjarNode],
-            'body_top': [],
-            'body_bottom': [],
-        }, template_nodes)
+        self.assertEqual(
+            {
+                "head_top": [],
+                "head_bottom": [HotjarNode],
+                "body_top": [],
+                "body_bottom": [],
+            },
+            template_nodes,
+        )

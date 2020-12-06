@@ -6,8 +6,7 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_required_setting, is_internal_ip, disable_html
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 FACEBOOK_PIXEL_HEAD_CODE = """\
 <script>
@@ -61,17 +60,18 @@ class _FacebookPixelNode(Node):
     """
     Base class: override and provide code_template.
     """
+
     def __init__(self):
         self.pixel_id = get_required_setting(
-            'FACEBOOK_PIXEL_ID',
-            re.compile(r'^\d+$'),
+            "FACEBOOK_PIXEL_ID",
+            re.compile(r"^\d+$"),
             "must be (a string containing) a number",
         )
 
     def render(self, context):
-        html = self.code_template % {'FACEBOOK_PIXEL_ID': self.pixel_id}
-        if is_internal_ip(context, 'FACEBOOK_PIXEL'):
-            return disable_html(html, 'Facebook Pixel')
+        html = self.code_template % {"FACEBOOK_PIXEL_ID": self.pixel_id}
+        if is_internal_ip(context, "FACEBOOK_PIXEL"):
+            return disable_html(html, "Facebook Pixel")
         else:
             return html
 
@@ -92,5 +92,5 @@ def contribute_to_analytical(add_node):
     # ensure properly configured
     FacebookPixelHeadNode()
     FacebookPixelBodyNode()
-    add_node('head_bottom', FacebookPixelHeadNode)
-    add_node('body_bottom', FacebookPixelBodyNode)
+    add_node("head_bottom", FacebookPixelHeadNode)
+    add_node("body_bottom", FacebookPixelBodyNode)

@@ -9,11 +9,12 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
-
-USER_ID_RE = re.compile(r'^\d+$')
-INIT_CODE = """<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>"""
+USER_ID_RE = re.compile(r"^\d+$")
+INIT_CODE = (
+    """<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>"""
+)
 SETUP_CODE = """
     <script type="text/javascript">
       var _sf_async_config=%(config)s;
@@ -34,7 +35,7 @@ SETUP_CODE = """
       })();
     </script>
 """  # noqa
-DOMAIN_CONTEXT_KEY = 'chartbeat_domain'
+DOMAIN_CONTEXT_KEY = "chartbeat_domain"
 
 
 register = Library()
@@ -77,24 +78,25 @@ def chartbeat_bottom(parser, token):
 
 class ChartbeatBottomNode(Node):
     def __init__(self):
-        self.user_id = get_required_setting('CHARTBEAT_USER_ID', USER_ID_RE,
-                                            "must be (a string containing) a number")
+        self.user_id = get_required_setting(
+            "CHARTBEAT_USER_ID", USER_ID_RE, "must be (a string containing) a number"
+        )
 
     def render(self, context):
-        config = {'uid': self.user_id}
+        config = {"uid": self.user_id}
         domain = _get_domain(context)
         if domain is not None:
-            config['domain'] = domain
-        html = SETUP_CODE % {'config': json.dumps(config, sort_keys=True)}
-        if is_internal_ip(context, 'CHARTBEAT'):
-            html = disable_html(html, 'Chartbeat')
+            config["domain"] = domain
+        html = SETUP_CODE % {"config": json.dumps(config, sort_keys=True)}
+        if is_internal_ip(context, "CHARTBEAT"):
+            html = disable_html(html, "Chartbeat")
         return html
 
 
 def contribute_to_analytical(add_node):
     ChartbeatBottomNode()  # ensure properly configured
-    add_node('head_top', ChartbeatTopNode, 'first')
-    add_node('body_bottom', ChartbeatBottomNode, 'last')
+    add_node("head_top", ChartbeatTopNode, "first")
+    add_node("body_bottom", ChartbeatBottomNode, "last")
 
 
 def _get_domain(context):
@@ -103,10 +105,11 @@ def _get_domain(context):
     if domain is not None:
         return domain
     else:
-        if 'django.contrib.sites' not in settings.INSTALLED_APPS:
+        if "django.contrib.sites" not in settings.INSTALLED_APPS:
             return
-        elif getattr(settings, 'CHARTBEAT_AUTO_DOMAIN', True):
+        elif getattr(settings, "CHARTBEAT_AUTO_DOMAIN", True):
             from django.contrib.sites.models import Site
+
             try:
                 return Site.objects.get_current().domain
             except (ImproperlyConfigured, Site.DoesNotExist):  # pylint: disable=E1101

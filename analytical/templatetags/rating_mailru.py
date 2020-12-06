@@ -6,11 +6,9 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, \
-        get_required_setting
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
-
-COUNTER_ID_RE = re.compile(r'^\d{7}$')
+COUNTER_ID_RE = re.compile(r"^\d{7}$")
 COUNTER_CODE = """
     <script type="text/javascript">
     var _tmr = window._tmr || (window._tmr = []);
@@ -50,18 +48,20 @@ def rating_mailru(parser, token):
 class RatingMailruNode(Node):
     def __init__(self):
         self.counter_id = get_required_setting(
-            'RATING_MAILRU_COUNTER_ID', COUNTER_ID_RE,
-            "must be (a string containing) a number'")
+            "RATING_MAILRU_COUNTER_ID",
+            COUNTER_ID_RE,
+            "must be (a string containing) a number'",
+        )
 
     def render(self, context):
         html = COUNTER_CODE % {
-            'counter_id': self.counter_id,
+            "counter_id": self.counter_id,
         }
-        if is_internal_ip(context, 'RATING_MAILRU_METRICA'):
-            html = disable_html(html, 'Rating@Mail.ru')
+        if is_internal_ip(context, "RATING_MAILRU_METRICA"):
+            html = disable_html(html, "Rating@Mail.ru")
         return html
 
 
 def contribute_to_analytical(add_node):
     RatingMailruNode()  # ensure properly configured
-    add_node('head_bottom', RatingMailruNode)
+    add_node("head_bottom", RatingMailruNode)

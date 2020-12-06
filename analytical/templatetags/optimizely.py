@@ -6,10 +6,9 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
-
-ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
+ACCOUNT_NUMBER_RE = re.compile(r"^\d+$")
 SETUP_CODE = """<script src="//cdn.optimizely.com/js/%(account_number)s.js"></script>"""
 
 
@@ -34,16 +33,18 @@ def optimizely(parser, token):
 class OptimizelyNode(Node):
     def __init__(self):
         self.account_number = get_required_setting(
-                'OPTIMIZELY_ACCOUNT_NUMBER', ACCOUNT_NUMBER_RE,
-                "must be a string looking like 'XXXXXXX'")
+            "OPTIMIZELY_ACCOUNT_NUMBER",
+            ACCOUNT_NUMBER_RE,
+            "must be a string looking like 'XXXXXXX'",
+        )
 
     def render(self, context):
-        html = SETUP_CODE % {'account_number': self.account_number}
-        if is_internal_ip(context, 'OPTIMIZELY'):
-            html = disable_html(html, 'Optimizely')
+        html = SETUP_CODE % {"account_number": self.account_number}
+        if is_internal_ip(context, "OPTIMIZELY"):
+            html = disable_html(html, "Optimizely")
         return html
 
 
 def contribute_to_analytical(add_node):
     OptimizelyNode()  # ensure properly configured
-    add_node('head_top', OptimizelyNode)
+    add_node("head_top", OptimizelyNode)

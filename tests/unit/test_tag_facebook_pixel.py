@@ -4,12 +4,14 @@ Tests for the Facebook Pixel template tags.
 from django.http import HttpRequest
 from django.template import Context, Template, TemplateSyntaxError
 from django.test import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.analytical import _load_template_nodes
-from analytical.templatetags.facebook_pixel import FacebookPixelHeadNode, FacebookPixelBodyNode
-from utils import TagTestCase
+from analytical.templatetags.facebook_pixel import (
+    FacebookPixelBodyNode,
+    FacebookPixelHeadNode,
+)
 from analytical.utils import AnalyticalException
-
 
 expected_head_html = """\
 <script>
@@ -34,13 +36,13 @@ expected_body_html = """\
 """
 
 
-@override_settings(FACEBOOK_PIXEL_ID='1234567890')
+@override_settings(FACEBOOK_PIXEL_ID="1234567890")
 class FacebookPixelTagTestCase(TagTestCase):
 
     maxDiff = None
 
     def test_head_tag(self):
-        html = self.render_tag('facebook_pixel', 'facebook_pixel_head')
+        html = self.render_tag("facebook_pixel", "facebook_pixel_head")
         self.assertEqual(expected_head_html, html)
 
     def test_head_node(self):
@@ -48,7 +50,7 @@ class FacebookPixelTagTestCase(TagTestCase):
         self.assertEqual(expected_head_html, html)
 
     def test_body_tag(self):
-        html = self.render_tag('facebook_pixel', 'facebook_pixel_body')
+        html = self.render_tag("facebook_pixel", "facebook_pixel_body")
         self.assertEqual(expected_body_html, html)
 
     def test_body_node(self):
@@ -59,41 +61,59 @@ class FacebookPixelTagTestCase(TagTestCase):
         self.assertRaisesRegex(
             TemplateSyntaxError,
             r"^'facebook_pixel_head' takes no arguments$",
-            lambda: (Template('{% load facebook_pixel %}{% facebook_pixel_head "arg" %}')
-                     .render(Context({}))),
+            lambda: (
+                Template(
+                    '{% load facebook_pixel %}{% facebook_pixel_head "arg" %}'
+                ).render(Context({}))
+            ),
         )
         self.assertRaisesRegex(
             TemplateSyntaxError,
             r"^'facebook_pixel_body' takes no arguments$",
-            lambda: (Template('{% load facebook_pixel %}{% facebook_pixel_body "arg" %}')
-                     .render(Context({}))),
+            lambda: (
+                Template(
+                    '{% load facebook_pixel %}{% facebook_pixel_body "arg" %}'
+                ).render(Context({}))
+            ),
         )
 
     @override_settings(FACEBOOK_PIXEL_ID=None)
     def test_no_id(self):
-        expected_pattern = r'^FACEBOOK_PIXEL_ID setting is not set$'
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, FacebookPixelHeadNode)
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, FacebookPixelBodyNode)
+        expected_pattern = r"^FACEBOOK_PIXEL_ID setting is not set$"
+        self.assertRaisesRegex(
+            AnalyticalException, expected_pattern, FacebookPixelHeadNode
+        )
+        self.assertRaisesRegex(
+            AnalyticalException, expected_pattern, FacebookPixelBodyNode
+        )
 
-    @override_settings(FACEBOOK_PIXEL_ID='invalid')
+    @override_settings(FACEBOOK_PIXEL_ID="invalid")
     def test_invalid_id(self):
         expected_pattern = (
-            r"^FACEBOOK_PIXEL_ID setting: must be \(a string containing\) a number: 'invalid'$")
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, FacebookPixelHeadNode)
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, FacebookPixelBodyNode)
+            r"^FACEBOOK_PIXEL_ID setting: must be"
+            r" \(a string containing\) a number: 'invalid'$"
+        )
+        self.assertRaisesRegex(
+            AnalyticalException, expected_pattern, FacebookPixelHeadNode
+        )
+        self.assertRaisesRegex(
+            AnalyticalException, expected_pattern, FacebookPixelBodyNode
+        )
 
-    @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
+    @override_settings(ANALYTICAL_INTERNAL_IPS=["1.1.1.1"])
     def test_render_internal_ip(self):
         request = HttpRequest()
-        request.META['REMOTE_ADDR'] = '1.1.1.1'
-        context = Context({'request': request})
+        request.META["REMOTE_ADDR"] = "1.1.1.1"
+        context = Context({"request": request})
 
         def _disabled(html):
-            return '\n'.join([
-                '<!-- Facebook Pixel disabled on internal IP address',
-                html,
-                '-->',
-            ])
+            return "\n".join(
+                [
+                    "<!-- Facebook Pixel disabled on internal IP address",
+                    html,
+                    "-->",
+                ]
+            )
 
         head_html = FacebookPixelHeadNode().render(context)
         self.assertEqual(_disabled(expected_head_html), head_html)
@@ -106,9 +126,12 @@ class FacebookPixelTagTestCase(TagTestCase):
         `facebook_pixel.contribute_to_analytical` registers the head and body nodes.
         """
         template_nodes = _load_template_nodes()
-        self.assertEqual({
-            'head_top': [],
-            'head_bottom': [FacebookPixelHeadNode],
-            'body_top': [],
-            'body_bottom': [FacebookPixelBodyNode],
-        }, template_nodes)
+        self.assertEqual(
+            {
+                "head_top": [],
+                "head_bottom": [FacebookPixelHeadNode],
+                "body_top": [],
+                "body_bottom": [FacebookPixelBodyNode],
+            },
+            template_nodes,
+        )

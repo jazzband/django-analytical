@@ -7,11 +7,14 @@ import re
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe
 
-from analytical.utils import is_internal_ip, disable_html, get_identity, \
-        get_required_setting
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
-
-API_KEY_RE = re.compile(r'^\w+$')
+API_KEY_RE = re.compile(r"^\w+$")
 SETUP_CODE = """
     <script src="//d1nu2rn22elx8m.cloudfront.net/performable/pax/%(api_key)s.js" type="text/javascript"></script>
 """  # noqa
@@ -53,16 +56,16 @@ def performable(parser, token):
 class PerformableNode(Node):
     def __init__(self):
         self.api_key = get_required_setting(
-            'PERFORMABLE_API_KEY', API_KEY_RE,
-            "must be a string looking like 'XXXXX'")
+            "PERFORMABLE_API_KEY", API_KEY_RE, "must be a string looking like 'XXXXX'"
+        )
 
     def render(self, context):
-        html = SETUP_CODE % {'api_key': self.api_key}
-        identity = get_identity(context, 'performable')
+        html = SETUP_CODE % {"api_key": self.api_key}
+        identity = get_identity(context, "performable")
         if identity is not None:
             html = "%s%s" % (IDENTIFY_CODE % identity, html)
-        if is_internal_ip(context, 'PERFORMABLE'):
-            html = disable_html(html, 'Performable')
+        if is_internal_ip(context, "PERFORMABLE"):
+            html = disable_html(html, "Performable")
         return html
 
 
@@ -71,12 +74,15 @@ def performable_embed(hostname, page_id):
     """
     Include a Performable landing page.
     """
-    return mark_safe(EMBED_CODE % {
-        'hostname': hostname,
-        'page_id': page_id,
-    })
+    return mark_safe(
+        EMBED_CODE
+        % {
+            "hostname": hostname,
+            "page_id": page_id,
+        }
+    )
 
 
 def contribute_to_analytical(add_node):
     PerformableNode()  # ensure properly configured
-    add_node('body_bottom', PerformableNode)
+    add_node("body_bottom", PerformableNode)
