@@ -1,3 +1,14 @@
+Version 3.0.0
+-------------
+* Add support for Lucky Orange (Peter Bittner)
+* Add missing instructions in Installation chapter of the docs (Peter Bittner)
+* Migrate test setup to Pytest (David Smith, Peter Bittner, Pi Delport)
+* Support Django 3.1 and Python 3.9, drop Django 1.11 and Python 2.7/3.5 (David Smith)
+* Migrate from Travis CI to GitHub Actions (Jannis Leidel)
+* Update accepted patterns (regex) for Google Analytics GTag (Taha Rushain)
+* Scope Piwik warning to use of Piwik (Hugo Barrera)
+* Add ``user_id`` to Google Analytics GTag (Sean Wallace)
+
 Version 2.6.0
 -------------
 * Support Django 3.0 and Python 3.8, drop Django 2.1
@@ -9,7 +20,7 @@ Version 2.5.0
 -------------
 * Add support for Google analytics.js (Marc Bourqui)
 * Add support for Intercom HMAC identity verification (Pi Delport)
-* Add support for HotJar (Pi Delport)
+* Add support for Hotjar (Pi Delport)
 * Make sure _trackPageview happens before other settings in Google Analytics
   (Diederik van der Boor)
 
