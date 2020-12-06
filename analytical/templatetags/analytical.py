@@ -29,6 +29,7 @@ TAG_MODULES = [
     'analytical.intercom',
     'analytical.kiss_insights',
     'analytical.kiss_metrics',
+    'analytical.luckyorange',
     'analytical.matomo',
     'analytical.mixpanel',
     'analytical.olark',
