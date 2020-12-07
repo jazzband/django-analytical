@@ -22,12 +22,12 @@ class ChartbeatTagTestCaseNoSites(TestCase):
 
 
 @override_settings(
-    INSTALLED_APPS=(
+    INSTALLED_APPS=[
         "analytical",
         "django.contrib.sites",
         "django.contrib.auth",
         "django.contrib.contenttypes",
-    )
+    ]
 )
 @override_settings(CHARTBEAT_USER_ID="12345")
 class ChartbeatTagTestCaseWithSites(TestCase):

@@ -46,7 +46,7 @@ NO_ALLOW_HASH_CODE = "_gaq.push(['_setAllowHash', false]);"
 TRACK_PAGE_VIEW = "_gaq.push(['_trackPageview']);"
 ALLOW_LINKER_CODE = "_gaq.push(['_setAllowLinker', true]);"
 CUSTOM_VAR_CODE = (
-    "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " "'%(value)s', %(scope)s]);"
+    "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', '%(value)s', %(scope)s]);"
 )
 SITE_SPEED_CODE = "_gaq.push(['_trackPageLoadTime']);"
 ANONYMIZE_IP_CODE = "_gaq.push(['_gat._anonymizeIp']);"

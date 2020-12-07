@@ -13,7 +13,7 @@ from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 USER_ID_RE = re.compile(r"^\d+$")
 INIT_CODE = (
-    """<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>"""
+    '<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>'
 )
 SETUP_CODE = """
     <script type="text/javascript">
