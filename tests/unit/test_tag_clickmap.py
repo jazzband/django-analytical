@@ -19,11 +19,11 @@ class ClickmapTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('clickmap', 'clickmap')
-        self.assertTrue("tracker: '12345ABC', version:'2'};" in r, r)
+        assert "tracker: '12345ABC', version:'2'};" in r
 
     def test_node(self):
         r = ClickmapNode().render(Context({}))
-        self.assertTrue("tracker: '12345ABC', version:'2'};" in r, r)
+        assert "tracker: '12345ABC', version:'2'};" in r
 
     @override_settings(CLICKMAP_TRACKER_ID=None)
     def test_no_site_id(self):
@@ -39,6 +39,5 @@ class ClickmapTagTestCase(TagTestCase):
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
         r = ClickmapNode().render(context)
-        self.assertTrue(r.startswith(
-                '<!-- Clickmap disabled on internal IP address'), r)
-        self.assertTrue(r.endswith('-->'), r)
+        assert r.startswith('<!-- Clickmap disabled on internal IP address')
+        assert r.endswith('-->')
