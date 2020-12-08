@@ -19,11 +19,11 @@ class CrazyEggTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('crazy_egg', 'crazy_egg')
-        self.assertTrue('/1234/5678.js' in r, r)
+        assert '/1234/5678.js' in r
 
     def test_node(self):
         r = CrazyEggNode().render(Context())
-        self.assertTrue('/1234/5678.js' in r, r)
+        assert '/1234/5678.js' in r
 
     @override_settings(CRAZY_EGG_ACCOUNT_NUMBER=None)
     def test_no_account_number(self):
@@ -36,8 +36,8 @@ class CrazyEggTagTestCase(TagTestCase):
     def test_uservars(self):
         context = Context({'crazy_egg_var1': 'foo', 'crazy_egg_var2': 'bar'})
         r = CrazyEggNode().render(context)
-        self.assertTrue("CE2.set(1, 'foo');" in r, r)
-        self.assertTrue("CE2.set(2, 'bar');" in r, r)
+        assert "CE2.set(1, 'foo');" in r
+        assert "CE2.set(2, 'bar');" in r
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
@@ -45,6 +45,5 @@ class CrazyEggTagTestCase(TagTestCase):
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
         r = CrazyEggNode().render(context)
-        self.assertTrue(r.startswith(
-                '<!-- Crazy Egg disabled on internal IP address'), r)
-        self.assertTrue(r.endswith('-->'), r)
+        assert r.startswith('<!-- Crazy Egg disabled on internal IP address')
+        assert r.endswith('-->')

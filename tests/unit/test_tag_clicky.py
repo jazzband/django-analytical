@@ -22,13 +22,13 @@ class ClickyTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('clicky', 'clicky')
-        self.assertTrue('clicky_site_ids.push(12345678);' in r, r)
-        self.assertTrue('src="//in.getclicky.com/12345678ns.gif"' in r, r)
+        assert 'clicky_site_ids.push(12345678);' in r
+        assert 'src="//in.getclicky.com/12345678ns.gif"' in r
 
     def test_node(self):
         r = ClickyNode().render(Context({}))
-        self.assertTrue('clicky_site_ids.push(12345678);' in r, r)
-        self.assertTrue('src="//in.getclicky.com/12345678ns.gif"' in r, r)
+        assert 'clicky_site_ids.push(12345678);' in r
+        assert 'src="//in.getclicky.com/12345678ns.gif"' in r
 
     @override_settings(CLICKY_SITE_ID=None)
     def test_no_site_id(self):
@@ -41,21 +41,19 @@ class ClickyTagTestCase(TagTestCase):
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
         r = ClickyNode().render(Context({'user': User(username='test')}))
-        self.assertTrue('var clicky_custom = {"session": {"username": "test"}};' in r, r)
+        assert 'var clicky_custom = {"session": {"username": "test"}};' in r
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_anonymous_user(self):
         r = ClickyNode().render(Context({'user': AnonymousUser()}))
-        self.assertFalse('var clicky_custom = {"session": {"username":' in r, r)
+        assert 'var clicky_custom = {"session": {"username":' not in r
 
     def test_custom(self):
         r = ClickyNode().render(Context({
             'clicky_var1': 'val1',
             'clicky_var2': 'val2',
         }))
-        self.assertTrue(
-            re.search(r'var clicky_custom = {.*"var1": "val1", "var2": "val2".*};', r),
-            r)
+        assert re.search(r'var clicky_custom = {.*"var1": "val1", "var2": "val2".*};', r)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
@@ -63,6 +61,5 @@ class ClickyTagTestCase(TagTestCase):
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
         r = ClickyNode().render(context)
-        self.assertTrue(r.startswith(
-                '<!-- Clicky disabled on internal IP address'), r)
-        self.assertTrue(r.endswith('-->'), r)
+        assert r.startswith('<!-- Clicky disabled on internal IP address')
+        assert r.endswith('-->')
