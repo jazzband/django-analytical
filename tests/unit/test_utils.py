@@ -18,6 +18,8 @@ from analytical.utils import (
 )
 from utils import TestCase
 
+import pytest
+
 
 class SettingDeletedTestCase(TestCase):
 
@@ -27,7 +29,7 @@ class SettingDeletedTestCase(TestCase):
         Make sure using get_required_setting fails in the right place.
         """
 
-        with self.assertRaisesRegex(AnalyticalException, "^USER_ID setting is not set$"):
+        with pytest.raises(AnalyticalException, match="USER_ID setting is not set"):
             get_required_setting("USER_ID", r"\d+", "invalid USER_ID")
 
 
@@ -43,27 +45,27 @@ class MyUser(AbstractBaseUser):
 class GetIdentityTestCase(TestCase):
     def test_custom_username_field(self):
         get_id = get_identity(Context({}), user=MyUser(identity='fake_id'))
-        self.assertEqual(get_id, 'fake_id')
+        assert get_id == 'fake_id'
 
 
 @override_settings(ANALYTICAL_DOMAIN="example.org")
 class GetDomainTestCase(TestCase):
     def test_get_service_domain_from_context(self):
         context = Context({'test_domain': 'example.com'})
-        self.assertEqual(get_domain(context, 'test'), 'example.com')
+        assert get_domain(context, 'test') == 'example.com'
 
     def test_get_analytical_domain_from_context(self):
         context = Context({'analytical_domain': 'example.com'})
-        self.assertEqual(get_domain(context, 'test'), 'example.com')
+        assert get_domain(context, 'test') == 'example.com'
 
     @override_settings(TEST_DOMAIN="example.net")
     def test_get_service_domain_from_settings(self):
         context = Context()
-        self.assertEqual(get_domain(context, 'test'), 'example.net')
+        assert get_domain(context, 'test') == 'example.net'
 
     def test_get_analytical_domain_from_settings(self):
         context = Context()
-        self.assertEqual(get_domain(context, 'test'), 'example.org')
+        assert get_domain(context, 'test') == 'example.org'
 
 
 # FIXME: enable Django apps dynamically and enable test again
@@ -82,7 +84,7 @@ class InternalIpTestCase(TestCase):
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_no_internal_ip(self):
         context = Context()
-        self.assertFalse(is_internal_ip(context))
+        assert not is_internal_ip(context)
 
     @override_settings(INTERNAL_IPS=['1.1.1.1'])
     @override_settings(ANALYTICAL_INTERNAL_IPS=[])
@@ -90,39 +92,39 @@ class InternalIpTestCase(TestCase):
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
-        self.assertFalse(is_internal_ip(context))
+        assert not is_internal_ip(context)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
-        self.assertTrue(is_internal_ip(context))
+        assert is_internal_ip(context)
 
     @override_settings(TEST_INTERNAL_IPS=['1.1.1.1'])
     def test_render_prefix_internal_ip(self):
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
-        self.assertTrue(is_internal_ip(context, 'TEST'))
+        assert is_internal_ip(context, 'TEST')
 
     @override_settings(INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip_fallback(self):
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
-        self.assertTrue(is_internal_ip(context))
+        assert is_internal_ip(context)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip_forwarded_for(self):
         req = HttpRequest()
         req.META['HTTP_X_FORWARDED_FOR'] = '1.1.1.1'
         context = Context({'request': req})
-        self.assertTrue(is_internal_ip(context))
+        assert is_internal_ip(context)
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_different_internal_ip(self):
         req = HttpRequest()
         req.META['REMOTE_ADDR'] = '2.2.2.2'
         context = Context({'request': req})
-        self.assertFalse(is_internal_ip(context))
+        assert not is_internal_ip(context)

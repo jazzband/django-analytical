@@ -10,6 +10,7 @@ from analytical.templatetags.hotjar import HotjarNode
 from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
+import pytest
 
 expected_html = """\
 <script>
@@ -32,30 +33,27 @@ class HotjarTagTestCase(TagTestCase):
 
     def test_tag(self):
         html = self.render_tag('hotjar', 'hotjar')
-        self.assertEqual(expected_html, html)
+        assert expected_html == html
 
     def test_node(self):
         html = HotjarNode().render(Context({}))
-        self.assertEqual(expected_html, html)
+        assert expected_html == html
 
     def test_tags_take_no_args(self):
-        self.assertRaisesRegex(
-            TemplateSyntaxError,
-            r"^'hotjar' takes no arguments$",
-            lambda: (Template('{% load hotjar %}{% hotjar "arg" %}')
-                     .render(Context({}))),
-        )
+        with pytest.raises(TemplateSyntaxError, match="'hotjar' takes no arguments"):
+            Template('{% load hotjar %}{% hotjar "arg" %}').render(Context({}))
 
     @override_settings(HOTJAR_SITE_ID=None)
     def test_no_id(self):
-        expected_pattern = r'^HOTJAR_SITE_ID setting is not set$'
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, HotjarNode)
+        with pytest.raises(AnalyticalException, match="HOTJAR_SITE_ID setting is not set"):
+            HotjarNode()
 
     @override_settings(HOTJAR_SITE_ID='invalid')
     def test_invalid_id(self):
         expected_pattern = (
             r"^HOTJAR_SITE_ID setting: must be \(a string containing\) a number: 'invalid'$")
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, HotjarNode)
+        with pytest.raises(AnalyticalException, match=expected_pattern):
+            HotjarNode()
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
@@ -69,16 +67,16 @@ class HotjarTagTestCase(TagTestCase):
                 expected_html,
                 '-->',
             ])
-        self.assertEqual(disabled_html, actual_html)
+        assert disabled_html == actual_html
 
     def test_contribute_to_analytical(self):
         """
         `hotjar.contribute_to_analytical` registers the head and body nodes.
         """
         template_nodes = _load_template_nodes()
-        self.assertEqual({
+        assert template_nodes == {
             'head_top': [],
             'head_bottom': [HotjarNode],
             'body_top': [],
             'body_bottom': [],
-        }, template_nodes)
+        }

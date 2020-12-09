@@ -10,6 +10,8 @@ from analytical.templatetags.optimizely import OptimizelyNode
 from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
+import pytest
+
 
 @override_settings(OPTIMIZELY_ACCOUNT_NUMBER='1234567')
 class OptimizelyTagTestCase(TagTestCase):
@@ -18,22 +20,22 @@ class OptimizelyTagTestCase(TagTestCase):
     """
 
     def test_tag(self):
-        self.assertEqual(
-                '<script src="//cdn.optimizely.com/js/1234567.js"></script>',
-                self.render_tag('optimizely', 'optimizely'))
+        expected = '<script src="//cdn.optimizely.com/js/1234567.js"></script>'
+        assert self.render_tag('optimizely', 'optimizely') == expected
 
     def test_node(self):
-        self.assertEqual(
-                '<script src="//cdn.optimizely.com/js/1234567.js"></script>',
-                OptimizelyNode().render(Context()))
+        expected = '<script src="//cdn.optimizely.com/js/1234567.js"></script>'
+        assert OptimizelyNode().render(Context()) == expected
 
     @override_settings(OPTIMIZELY_ACCOUNT_NUMBER=None)
     def test_no_account_number(self):
-        self.assertRaises(AnalyticalException, OptimizelyNode)
+        with pytest.raises(AnalyticalException):
+            OptimizelyNode()
 
     @override_settings(OPTIMIZELY_ACCOUNT_NUMBER='123abc')
     def test_wrong_account_number(self):
-        self.assertRaises(AnalyticalException, OptimizelyNode)
+        with pytest.raises(AnalyticalException):
+            OptimizelyNode()
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
@@ -41,6 +43,5 @@ class OptimizelyTagTestCase(TagTestCase):
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
         r = OptimizelyNode().render(context)
-        self.assertTrue(r.startswith(
-                '<!-- Optimizely disabled on internal IP address'), r)
-        self.assertTrue(r.endswith('-->'), r)
+        assert r.startswith('<!-- Optimizely disabled on internal IP address')
+        assert r.endswith('-->')

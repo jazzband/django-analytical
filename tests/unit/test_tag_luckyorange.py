@@ -10,6 +10,7 @@ from analytical.templatetags.luckyorange import LuckyOrangeNode
 from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
+import pytest
 
 expected_html = """\
 <script type='text/javascript'>
@@ -30,30 +31,27 @@ class LuckyOrangeTagTestCase(TagTestCase):
 
     def test_tag(self):
         html = self.render_tag('luckyorange', 'luckyorange')
-        self.assertEqual(expected_html, html)
+        assert expected_html == html
 
     def test_node(self):
         html = LuckyOrangeNode().render(Context({}))
-        self.assertEqual(expected_html, html)
+        assert expected_html == html
 
     def test_tags_take_no_args(self):
-        self.assertRaisesRegex(
-            TemplateSyntaxError,
-            r"^'luckyorange' takes no arguments$",
-            lambda: (Template('{% load luckyorange %}{% luckyorange "arg" %}')
-                     .render(Context({}))),
-        )
+        with pytest.raises(TemplateSyntaxError, match="'luckyorange' takes no arguments"):
+            Template('{% load luckyorange %}{% luckyorange "arg" %}').render(Context({}))
 
     @override_settings(LUCKYORANGE_SITE_ID=None)
     def test_no_id(self):
-        expected_pattern = r'^LUCKYORANGE_SITE_ID setting is not set$'
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, LuckyOrangeNode)
+        with pytest.raises(AnalyticalException, match="LUCKYORANGE_SITE_ID setting is not set"):
+            LuckyOrangeNode()
 
     @override_settings(LUCKYORANGE_SITE_ID='invalid')
     def test_invalid_id(self):
         expected_pattern = (
             r"^LUCKYORANGE_SITE_ID setting: must be \(a string containing\) a number: 'invalid'$")
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, LuckyOrangeNode)
+        with pytest.raises(AnalyticalException, match=expected_pattern):
+            LuckyOrangeNode()
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
@@ -67,16 +65,16 @@ class LuckyOrangeTagTestCase(TagTestCase):
                 expected_html,
                 '-->',
             ])
-        self.assertEqual(disabled_html, actual_html)
+        assert disabled_html == actual_html
 
     def test_contribute_to_analytical(self):
         """
         `luckyorange.contribute_to_analytical` registers the head and body nodes.
         """
         template_nodes = _load_template_nodes()
-        self.assertEqual({
+        assert template_nodes == {
             'head_top': [],
             'head_bottom': [LuckyOrangeNode],
             'body_top': [],
             'body_bottom': [],
-        }, template_nodes)
+        }

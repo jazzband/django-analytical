@@ -10,6 +10,8 @@ from analytical.templatetags.olark import OlarkNode
 from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
+import pytest
+
 
 @override_settings(OLARK_SITE_ID='1234-567-89-0123')
 class OlarkTestCase(TagTestCase):
@@ -19,49 +21,49 @@ class OlarkTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('olark', 'olark')
-        self.assertTrue("olark.identify('1234-567-89-0123');" in r, r)
+        assert "olark.identify('1234-567-89-0123');" in r
 
     def test_node(self):
         r = OlarkNode().render(Context())
-        self.assertTrue("olark.identify('1234-567-89-0123');" in r, r)
+        assert "olark.identify('1234-567-89-0123');" in r
 
     @override_settings(OLARK_SITE_ID=None)
     def test_no_site_id(self):
-        self.assertRaises(AnalyticalException, OlarkNode)
+        with pytest.raises(AnalyticalException):
+            OlarkNode()
 
     @override_settings(OLARK_SITE_ID='1234-567-8901234')
     def test_wrong_site_id(self):
-        self.assertRaises(AnalyticalException, OlarkNode)
+        with pytest.raises(AnalyticalException):
+            OlarkNode()
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
         r = OlarkNode().render(Context({
             'user': User(username='test', first_name='Test', last_name='User'),
         }))
-        self.assertTrue("olark('api.chat.updateVisitorNickname', "
-                        "{snippet: 'Test User (test)'});" in r, r)
+        assert "olark('api.chat.updateVisitorNickname', {snippet: 'Test User (test)'});" in r
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_anonymous_user(self):
         r = OlarkNode().render(Context({'user': AnonymousUser()}))
-        self.assertFalse("olark('api.chat.updateVisitorNickname', " in r, r)
+        assert "olark('api.chat.updateVisitorNickname', " not in r
 
     def test_nickname(self):
         r = OlarkNode().render(Context({'olark_nickname': 'testnick'}))
-        self.assertTrue("olark('api.chat.updateVisitorNickname', "
-                        "{snippet: 'testnick'});" in r, r)
+        assert "olark('api.chat.updateVisitorNickname', {snippet: 'testnick'});" in r
 
     def test_status_string(self):
         r = OlarkNode().render(Context({'olark_status': 'teststatus'}))
-        self.assertTrue("olark('api.chat.updateVisitorStatus', "
-                        '{snippet: "teststatus"});' in r, r)
+        assert "olark('api.chat.updateVisitorStatus', "
+        '{snippet: "teststatus"});' in r
 
     def test_status_string_list(self):
         r = OlarkNode().render(Context({
             'olark_status': ['teststatus1', 'teststatus2'],
         }))
-        self.assertTrue("olark('api.chat.updateVisitorStatus', "
-                        '{snippet: ["teststatus1", "teststatus2"]});' in r, r)
+        assert "olark('api.chat.updateVisitorStatus', "
+        '{snippet: ["teststatus1", "teststatus2"]});' in r
 
     def test_messages(self):
         messages = [
@@ -87,7 +89,7 @@ class OlarkTestCase(TagTestCase):
             "introduction_messages",
             "introduction_submit_button_text",
         ]
-        vars = {'olark_%s' % m: m for m in messages}
+        vars = {f'olark_{m}': m for m in messages}
         r = OlarkNode().render(Context(vars))
         for m in messages:
-            self.assertTrue("olark.configure('locale.%s', \"%s\");" % (m, m) in r, r)
+            assert f"olark.configure('locale.{m}', \"{m}\");" in r
