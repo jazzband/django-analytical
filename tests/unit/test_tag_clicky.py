@@ -13,6 +13,8 @@ from analytical.templatetags.clicky import ClickyNode
 from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
+import pytest
+
 
 @override_settings(CLICKY_SITE_ID='12345678')
 class ClickyTagTestCase(TagTestCase):
@@ -32,11 +34,13 @@ class ClickyTagTestCase(TagTestCase):
 
     @override_settings(CLICKY_SITE_ID=None)
     def test_no_site_id(self):
-        self.assertRaises(AnalyticalException, ClickyNode)
+        with pytest.raises(AnalyticalException):
+            ClickyNode()
 
     @override_settings(CLICKY_SITE_ID='123abc')
     def test_wrong_site_id(self):
-        self.assertRaises(AnalyticalException, ClickyNode)
+        with pytest.raises(AnalyticalException):
+            ClickyNode()
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):

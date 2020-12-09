@@ -14,6 +14,8 @@ from analytical.templatetags.chartbeat import ChartbeatTopNode, \
 from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
+import pytest
+
 
 @override_settings(CHARTBEAT_USER_ID='12345')
 class ChartbeatTagTestCaseNoSites(TestCase):
@@ -83,11 +85,13 @@ class ChartbeatTagTestCase(TagTestCase):
 
     @override_settings(CHARTBEAT_USER_ID=None)
     def test_no_user_id(self):
-        self.assertRaises(AnalyticalException, ChartbeatBottomNode)
+        with pytest.raises(AnalyticalException):
+            ChartbeatBottomNode()
 
     @override_settings(CHARTBEAT_USER_ID='123abc')
     def test_wrong_user_id(self):
-        self.assertRaises(AnalyticalException, ChartbeatBottomNode)
+        with pytest.raises(AnalyticalException):
+            ChartbeatBottomNode()
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):

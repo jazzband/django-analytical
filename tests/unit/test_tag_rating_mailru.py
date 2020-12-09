@@ -10,6 +10,8 @@ from analytical.templatetags.rating_mailru import RatingMailruNode
 from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
+import pytest
+
 
 @override_settings(RATING_MAILRU_COUNTER_ID='1234567')
 class RatingMailruTagTestCase(TagTestCase):
@@ -19,19 +21,21 @@ class RatingMailruTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('rating_mailru', 'rating_mailru')
-        self.assertTrue("counter?id=1234567;js=na" in r, r)
+        assert "counter?id=1234567;js=na" in r
 
     def test_node(self):
         r = RatingMailruNode().render(Context({}))
-        self.assertTrue("counter?id=1234567;js=na" in r, r)
+        assert "counter?id=1234567;js=na" in r
 
     @override_settings(RATING_MAILRU_COUNTER_ID=None)
     def test_no_site_id(self):
-        self.assertRaises(AnalyticalException, RatingMailruNode)
+        with pytest.raises(AnalyticalException):
+            RatingMailruNode()
 
     @override_settings(RATING_MAILRU_COUNTER_ID='1234abc')
     def test_wrong_site_id(self):
-        self.assertRaises(AnalyticalException, RatingMailruNode)
+        with pytest.raises(AnalyticalException):
+            RatingMailruNode()
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
@@ -39,6 +43,5 @@ class RatingMailruTagTestCase(TagTestCase):
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
         r = RatingMailruNode().render(context)
-        self.assertTrue(r.startswith(
-                '<!-- Rating@Mail.ru disabled on internal IP address'), r)
-        self.assertTrue(r.endswith('-->'), r)
+        assert r.startswith('<!-- Rating@Mail.ru disabled on internal IP address')
+        assert r.endswith('-->')

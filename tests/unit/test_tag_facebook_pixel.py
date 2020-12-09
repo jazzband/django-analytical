@@ -10,6 +10,7 @@ from analytical.templatetags.facebook_pixel import FacebookPixelHeadNode, Facebo
 from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
+import pytest
 
 expected_head_html = """\
 <script>
@@ -41,46 +42,45 @@ class FacebookPixelTagTestCase(TagTestCase):
 
     def test_head_tag(self):
         html = self.render_tag('facebook_pixel', 'facebook_pixel_head')
-        self.assertEqual(expected_head_html, html)
+        assert expected_head_html == html
 
     def test_head_node(self):
         html = FacebookPixelHeadNode().render(Context({}))
-        self.assertEqual(expected_head_html, html)
+        assert expected_head_html == html
 
     def test_body_tag(self):
         html = self.render_tag('facebook_pixel', 'facebook_pixel_body')
-        self.assertEqual(expected_body_html, html)
+        assert expected_body_html == html
 
     def test_body_node(self):
         html = FacebookPixelBodyNode().render(Context({}))
-        self.assertEqual(expected_body_html, html)
+        assert expected_body_html == html
 
     def test_tags_take_no_args(self):
-        self.assertRaisesRegex(
-            TemplateSyntaxError,
-            r"^'facebook_pixel_head' takes no arguments$",
-            lambda: (Template('{% load facebook_pixel %}{% facebook_pixel_head "arg" %}')
-                     .render(Context({}))),
-        )
-        self.assertRaisesRegex(
-            TemplateSyntaxError,
-            r"^'facebook_pixel_body' takes no arguments$",
-            lambda: (Template('{% load facebook_pixel %}{% facebook_pixel_body "arg" %}')
-                     .render(Context({}))),
-        )
+        template = '{%% load facebook_pixel %%}{%% facebook_pixel_%s "arg" %%}'
+        with pytest.raises(TemplateSyntaxError, match="'facebook_pixel_head' takes no arguments"):
+            Template(template % "head").render(Context({}))
+
+        with pytest.raises(TemplateSyntaxError, match="'facebook_pixel_body' takes no arguments"):
+            Template(template % "body").render(Context({}))
 
     @override_settings(FACEBOOK_PIXEL_ID=None)
     def test_no_id(self):
-        expected_pattern = r'^FACEBOOK_PIXEL_ID setting is not set$'
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, FacebookPixelHeadNode)
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, FacebookPixelBodyNode)
+        expected_pattern = 'FACEBOOK_PIXEL_ID setting is not set'
+        with pytest.raises(AnalyticalException, match=expected_pattern):
+            FacebookPixelHeadNode()
+        with pytest.raises(AnalyticalException, match=expected_pattern):
+            FacebookPixelBodyNode()
 
     @override_settings(FACEBOOK_PIXEL_ID='invalid')
     def test_invalid_id(self):
         expected_pattern = (
-            r"^FACEBOOK_PIXEL_ID setting: must be \(a string containing\) a number: 'invalid'$")
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, FacebookPixelHeadNode)
-        self.assertRaisesRegex(AnalyticalException, expected_pattern, FacebookPixelBodyNode)
+            r"FACEBOOK_PIXEL_ID setting: must be \(a string containing\) a number: 'invalid'$"
+        )
+        with pytest.raises(AnalyticalException, match=expected_pattern):
+            FacebookPixelHeadNode()
+        with pytest.raises(AnalyticalException, match=expected_pattern):
+            FacebookPixelBodyNode()
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
@@ -96,19 +96,19 @@ class FacebookPixelTagTestCase(TagTestCase):
             ])
 
         head_html = FacebookPixelHeadNode().render(context)
-        self.assertEqual(_disabled(expected_head_html), head_html)
+        assert _disabled(expected_head_html) == head_html
 
         body_html = FacebookPixelBodyNode().render(context)
-        self.assertEqual(_disabled(expected_body_html), body_html)
+        assert _disabled(expected_body_html) == body_html
 
     def test_contribute_to_analytical(self):
         """
         `facebook_pixel.contribute_to_analytical` registers the head and body nodes.
         """
         template_nodes = _load_template_nodes()
-        self.assertEqual({
+        assert template_nodes == {
             'head_top': [],
             'head_bottom': [FacebookPixelHeadNode],
             'body_top': [],
             'body_bottom': [FacebookPixelBodyNode],
-        }, template_nodes)
+        }

@@ -10,6 +10,8 @@ from analytical.templatetags.gauges import GaugesNode
 from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
+import pytest
+
 
 @override_settings(GAUGES_SITE_ID='1234567890abcdef0123456789')
 class GaugesTagTestCase(TagTestCase):
@@ -18,7 +20,7 @@ class GaugesTagTestCase(TagTestCase):
     """
 
     def test_tag(self):
-        self.assertEqual("""
+        assert self.render_tag('gauges', 'gauges') == """
     <script type="text/javascript">
       var _gauges = _gauges || [];
       (function() {
@@ -32,11 +34,10 @@ class GaugesTagTestCase(TagTestCase):
         s.parentNode.insertBefore(t, s);
       })();
     </script>
-""", self.render_tag('gauges', 'gauges'))
+"""
 
     def test_node(self):
-        self.assertEqual(
-                """
+        assert GaugesNode().render(Context()) == """
     <script type="text/javascript">
       var _gauges = _gauges || [];
       (function() {
@@ -50,11 +51,12 @@ class GaugesTagTestCase(TagTestCase):
         s.parentNode.insertBefore(t, s);
       })();
     </script>
-""", GaugesNode().render(Context()))
+"""
 
     @override_settings(GAUGES_SITE_ID=None)
     def test_no_account_number(self):
-        self.assertRaises(AnalyticalException, GaugesNode)
+        with pytest.raises(AnalyticalException):
+            GaugesNode()
 
     @override_settings(GAUGES_SITE_ID='123abQ')
     def test_wrong_account_number(self):
@@ -66,6 +68,5 @@ class GaugesTagTestCase(TagTestCase):
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
         r = GaugesNode().render(context)
-        self.assertTrue(r.startswith(
-                '<!-- Gauges disabled on internal IP address'), r)
-        self.assertTrue(r.endswith('-->'), r)
+        assert r.startswith('<!-- Gauges disabled on internal IP address')
+        assert r.endswith('-->')

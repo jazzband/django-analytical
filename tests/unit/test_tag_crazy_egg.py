@@ -5,6 +5,7 @@ Tests for the Crazy Egg template tags and filters.
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+import pytest
 
 from analytical.templatetags.crazy_egg import CrazyEggNode
 from utils import TagTestCase
@@ -27,11 +28,13 @@ class CrazyEggTagTestCase(TagTestCase):
 
     @override_settings(CRAZY_EGG_ACCOUNT_NUMBER=None)
     def test_no_account_number(self):
-        self.assertRaises(AnalyticalException, CrazyEggNode)
+        with pytest.raises(AnalyticalException):
+            CrazyEggNode()
 
     @override_settings(CRAZY_EGG_ACCOUNT_NUMBER='123abc')
     def test_wrong_account_number(self):
-        self.assertRaises(AnalyticalException, CrazyEggNode)
+        with pytest.raises(AnalyticalException):
+            CrazyEggNode()
 
     def test_uservars(self):
         context = Context({'crazy_egg_var1': 'foo', 'crazy_egg_var2': 'bar'})
