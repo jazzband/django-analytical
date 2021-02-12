@@ -27,7 +27,7 @@ SETUP_CODE = """
 """
 
 GTAG_SET_CODE = """gtag('set', {{'{key}': '{value}'}});"""
-
+GTAG_EVENT_CODE = """gtag('event', {key}, {value});"""
 register = Library()
 
 
@@ -61,9 +61,12 @@ class GoogleAnalyticsGTagNode(Node):
         if identity is not None:
             other_fields['user_id'] = identity
 
-        extra = '\n'.join([
+        commands = [
             GTAG_SET_CODE.format(key=key, value=value) for key, value in other_fields.items()
-        ])
+        ]
+        commands+=self._get_event_commands(context)
+
+        extra = '\n'.join(commands)
         html = SETUP_CODE.format(
             property_id=self.property_id,
             extra=extra,
@@ -71,6 +74,25 @@ class GoogleAnalyticsGTagNode(Node):
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
             html = disable_html(html, 'Google Analytics')
         return html
+
+    def _get_event_commands(self, context):
+        values = (
+            context.get('google_analytics_event%s' % i) for i in range(1, 6)
+        )
+        params = [(i, v) for i, v in enumerate(values, 1) if v is not None]
+        commands = []
+        for _, var in params:
+            key = var[0]
+            value = var[1]
+            try:
+                dict(value)
+            except ValueError:
+                value = f"'{value}'"
+            commands.append(GTAG_EVENT_CODE.format(
+                key=key,
+                value=value,
+            ))
+        return commands
 
 
 def contribute_to_analytical(add_node):
