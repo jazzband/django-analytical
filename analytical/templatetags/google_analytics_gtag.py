@@ -64,7 +64,7 @@ class GoogleAnalyticsGTagNode(Node):
         commands = [
             GTAG_SET_CODE.format(key=key, value=value) for key, value in other_fields.items()
         ]
-        commands+=self._get_event_commands(context)
+        commands += self._get_event_commands(context)
 
         extra = '\n'.join(commands)
         html = SETUP_CODE.format(
