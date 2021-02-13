@@ -82,8 +82,7 @@ class GoogleAnalyticsGTagNode(Node):
         params = [(i, v) for i, v in enumerate(values, 1) if v is not None]
         commands = []
         for _, var in params:
-            key = var[0]
-            value = var[1]
+            key, value = var
             try:
                 dict(value)
             except ValueError:
