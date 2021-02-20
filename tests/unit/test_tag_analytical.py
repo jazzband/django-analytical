@@ -3,9 +3,9 @@ Tests for the generic template tags and filters.
 """
 
 from django.template import Context, Template
+from utils import TagTestCase
 
 from analytical.templatetags import analytical
-from utils import TagTestCase
 
 
 class AnalyticsTagTestCase(TagTestCase):

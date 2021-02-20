@@ -2,12 +2,12 @@
 Tests for the UserVoice tags and filters.
 """
 
+import pytest
 from django.template import Context
 from django.test.utils import override_settings
-import pytest
+from utils import TagTestCase
 
 from analytical.templatetags.uservoice import UserVoiceNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 

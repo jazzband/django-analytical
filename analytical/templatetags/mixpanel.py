@@ -8,9 +8,12 @@ import re
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe
 
-from analytical.utils import is_internal_ip, disable_html, get_identity, \
-        get_required_setting
-
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
 MIXPANEL_API_TOKEN_RE = re.compile(r'^[0-9a-f]{32}$')
 TRACKING_CODE = """

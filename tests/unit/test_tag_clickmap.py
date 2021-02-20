@@ -2,15 +2,14 @@
 Tests for the Clickmap template tags and filters.
 """
 
+import pytest
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.clickmap import ClickmapNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(CLICKMAP_TRACKER_ID='12345ABC')

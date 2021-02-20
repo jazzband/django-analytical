@@ -7,9 +7,12 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_identity, is_internal_ip, disable_html, \
-        get_required_setting
-
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
 SITE_ID_RE = re.compile(r'^\d+$')
 TRACKING_CODE = """

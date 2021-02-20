@@ -2,15 +2,14 @@
 Tests for the Optimizely template tags and filters.
 """
 
+import pytest
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.optimizely import OptimizelyNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(OPTIMIZELY_ACCOUNT_NUMBER='1234567')

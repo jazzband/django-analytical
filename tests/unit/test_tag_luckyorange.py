@@ -1,16 +1,15 @@
 """
 Tests for the Lucky Orange template tags.
 """
+import pytest
 from django.http import HttpRequest
 from django.template import Context, Template, TemplateSyntaxError
 from django.test import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.analytical import _load_template_nodes
 from analytical.templatetags.luckyorange import LuckyOrangeNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 expected_html = """\
 <script type='text/javascript'>

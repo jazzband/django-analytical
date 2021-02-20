@@ -2,15 +2,14 @@
 Tests for the Olark template tags and filters.
 """
 
-from django.contrib.auth.models import User, AnonymousUser
+import pytest
+from django.contrib.auth.models import AnonymousUser, User
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.olark import OlarkNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(OLARK_SITE_ID='1234-567-89-0123')

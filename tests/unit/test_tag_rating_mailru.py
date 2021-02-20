@@ -2,15 +2,14 @@
 Tests for the Rating@Mail.ru template tags and filters.
 """
 
+import pytest
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.rating_mailru import RatingMailruNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(RATING_MAILRU_COUNTER_ID='1234567')

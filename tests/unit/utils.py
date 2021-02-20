@@ -2,7 +2,7 @@
 Testing utilities.
 """
 
-from django.template import Template, Context, RequestContext
+from django.template import Context, RequestContext, Template
 from django.test.testcases import TestCase
 
 

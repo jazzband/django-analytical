@@ -10,9 +10,14 @@ import re
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import disable_html, get_required_setting, \
-        is_internal_ip, get_user_from_context, get_identity, \
-        get_user_is_authenticated
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    get_user_from_context,
+    get_user_is_authenticated,
+    is_internal_ip,
+)
 
 APP_ID_RE = re.compile(r'[\da-z]+$')
 TRACKING_CODE = """

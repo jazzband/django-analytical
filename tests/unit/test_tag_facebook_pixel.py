@@ -1,16 +1,18 @@
 """
 Tests for the Facebook Pixel template tags.
 """
+import pytest
 from django.http import HttpRequest
 from django.template import Context, Template, TemplateSyntaxError
 from django.test import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.analytical import _load_template_nodes
-from analytical.templatetags.facebook_pixel import FacebookPixelHeadNode, FacebookPixelBodyNode
-from utils import TagTestCase
+from analytical.templatetags.facebook_pixel import (
+    FacebookPixelBodyNode,
+    FacebookPixelHeadNode,
+)
 from analytical.utils import AnalyticalException
-
-import pytest
 
 expected_head_html = """\
 <script>

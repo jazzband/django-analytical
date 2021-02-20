@@ -5,7 +5,6 @@ Utility function for django-analytical.
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-
 HTML_COMMENT = "<!-- %(service)s disabled on internal IP " \
                "address\n%(html)s\n-->"
 

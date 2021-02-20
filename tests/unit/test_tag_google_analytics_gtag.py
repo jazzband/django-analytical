@@ -2,16 +2,15 @@
 Tests for the Google Analytics template tags and filters, using the new gtag.js library.
 """
 
+import pytest
 from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.google_analytics_gtag import GoogleAnalyticsGTagNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(GOOGLE_ANALYTICS_GTAG_PROPERTY_ID='UA-123456-7')

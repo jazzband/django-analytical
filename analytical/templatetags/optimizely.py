@@ -6,8 +6,7 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
 SETUP_CODE = """<script src="//cdn.optimizely.com/js/%(account_number)s.js"></script>"""

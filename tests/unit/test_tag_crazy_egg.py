@@ -2,13 +2,13 @@
 Tests for the Crazy Egg template tags and filters.
 """
 
+import pytest
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
-import pytest
+from utils import TagTestCase
 
 from analytical.templatetags.crazy_egg import CrazyEggNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 

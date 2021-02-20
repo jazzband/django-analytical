@@ -2,17 +2,22 @@
 Tests for the Google Analytics template tags and filters.
 """
 
+import pytest
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase, TestCase
 
-from analytical.templatetags.google_analytics import GoogleAnalyticsNode, \
-        TRACK_SINGLE_DOMAIN, TRACK_MULTIPLE_DOMAINS, TRACK_MULTIPLE_SUBDOMAINS,\
-        SCOPE_VISITOR, SCOPE_SESSION, SCOPE_PAGE
-from utils import TestCase, TagTestCase
+from analytical.templatetags.google_analytics import (
+    SCOPE_PAGE,
+    SCOPE_SESSION,
+    SCOPE_VISITOR,
+    TRACK_MULTIPLE_DOMAINS,
+    TRACK_MULTIPLE_SUBDOMAINS,
+    TRACK_SINGLE_DOMAIN,
+    GoogleAnalyticsNode,
+)
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',

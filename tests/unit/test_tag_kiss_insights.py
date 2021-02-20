@@ -2,15 +2,14 @@
 Tests for the KISSinsights template tags and filters.
 """
 
-from django.contrib.auth.models import User, AnonymousUser
+import pytest
+from django.contrib.auth.models import AnonymousUser, User
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.kiss_insights import KissInsightsNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(KISS_INSIGHTS_ACCOUNT_NUMBER='12345', KISS_INSIGHTS_SITE_CODE='abc')

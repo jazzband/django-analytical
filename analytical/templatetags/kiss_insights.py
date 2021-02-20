@@ -8,7 +8,6 @@ from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import get_identity, get_required_setting
 
-
 ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
 SITE_CODE_RE = re.compile(r'^[\w]+$')
 SETUP_CODE = """
