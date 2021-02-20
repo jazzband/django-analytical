@@ -2,16 +2,15 @@
 Tests for the Mixpanel tags and filters.
 """
 
-from django.contrib.auth.models import User, AnonymousUser
+import pytest
+from django.contrib.auth.models import AnonymousUser, User
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.mixpanel import MixpanelNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(MIXPANEL_API_TOKEN='0123456789abcdef0123456789abcdef')

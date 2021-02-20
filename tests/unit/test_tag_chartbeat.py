@@ -4,17 +4,15 @@ Tests for the Chartbeat template tags and filters.
 
 import re
 
+import pytest
 from django.http import HttpRequest
 from django.template import Context
 from django.test import TestCase
 from django.test.utils import override_settings
-
-from analytical.templatetags.chartbeat import ChartbeatTopNode, \
-        ChartbeatBottomNode
 from utils import TagTestCase
-from analytical.utils import AnalyticalException
 
-import pytest
+from analytical.templatetags.chartbeat import ChartbeatBottomNode, ChartbeatTopNode
+from analytical.utils import AnalyticalException
 
 
 @override_settings(CHARTBEAT_USER_ID='12345')

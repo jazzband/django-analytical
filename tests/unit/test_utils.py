@@ -3,11 +3,13 @@ Tests for the analytical.utils module.
 """
 # import django
 
+import pytest
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TestCase
 
 from analytical.utils import (
     AnalyticalException,
@@ -16,9 +18,6 @@ from analytical.utils import (
     get_required_setting,
     is_internal_ip,
 )
-from utils import TestCase
-
-import pytest
 
 
 class SettingDeletedTestCase(TestCase):

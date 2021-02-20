@@ -2,19 +2,25 @@
 Tests for the SnapEngage template tags and filters.
 """
 
-from django.contrib.auth.models import User, AnonymousUser
+import pytest
+from django.contrib.auth.models import AnonymousUser, User
 from django.template import Context
 from django.test.utils import override_settings
 from django.utils import translation
-
-from analytical.templatetags.snapengage import SnapEngageNode, \
-        BUTTON_STYLE_LIVE, BUTTON_STYLE_DEFAULT, BUTTON_STYLE_NONE, \
-        BUTTON_LOCATION_LEFT, BUTTON_LOCATION_RIGHT, BUTTON_LOCATION_TOP, \
-        BUTTON_LOCATION_BOTTOM, FORM_POSITION_TOP_LEFT
 from utils import TagTestCase
-from analytical.utils import AnalyticalException
 
-import pytest
+from analytical.templatetags.snapengage import (
+    BUTTON_LOCATION_BOTTOM,
+    BUTTON_LOCATION_LEFT,
+    BUTTON_LOCATION_RIGHT,
+    BUTTON_LOCATION_TOP,
+    BUTTON_STYLE_DEFAULT,
+    BUTTON_STYLE_LIVE,
+    BUTTON_STYLE_NONE,
+    FORM_POSITION_TOP_LEFT,
+    SnapEngageNode,
+)
+from analytical.utils import AnalyticalException
 
 WIDGET_ID = 'ec329c69-0bf0-4db8-9b77-3f8150fb977e'
 

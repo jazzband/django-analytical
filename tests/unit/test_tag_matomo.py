@@ -2,14 +2,14 @@
 Tests for the Matomo template tags and filters.
 """
 
+import pytest
 from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
-import pytest
+from utils import TagTestCase
 
 from analytical.templatetags.matomo import MatomoNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
 
 

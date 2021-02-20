@@ -9,7 +9,6 @@ from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import get_identity, get_required_setting
 
-
 SITE_ID_RE = re.compile(r'^\d+-\d+-\d+-\d+$')
 SETUP_CODE = """
     <script type='text/javascript'>

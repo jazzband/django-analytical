@@ -4,6 +4,7 @@ Google Analytics template tags and filters, using the new analytics.js library.
 
 import decimal
 import re
+
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 

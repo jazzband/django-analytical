@@ -6,8 +6,7 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_required_setting, is_internal_ip, disable_html
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 LUCKYORANGE_TRACKING_CODE = """\
 <script type='text/javascript'>

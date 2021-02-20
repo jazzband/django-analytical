@@ -7,8 +7,8 @@ import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
-from analytical.utils import get_required_setting, get_identity
 
+from analytical.utils import get_identity, get_required_setting
 
 WIDGET_KEY_RE = re.compile(r'^[a-zA-Z0-9]*$')
 TRACKING_CODE = """

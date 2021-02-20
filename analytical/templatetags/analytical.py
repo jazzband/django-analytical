@@ -3,13 +3,12 @@ Analytical template tags and filters.
 """
 
 import logging
+from importlib import import_module
 
 from django import template
 from django.template import Node, TemplateSyntaxError
-from importlib import import_module
 
 from analytical.utils import AnalyticalException
-
 
 TAG_LOCATIONS = ['head_top', 'head_bottom', 'body_top', 'body_bottom']
 TAG_POSITIONS = ['first', None, 'last']

@@ -6,7 +6,6 @@ from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.templatetags.analytical import TAG_LOCATIONS
 
-
 register = Library()
 
 

@@ -4,16 +4,15 @@ Tests for the Clicky template tags and filters.
 
 import re
 
-from django.contrib.auth.models import User, AnonymousUser
+import pytest
+from django.contrib.auth.models import AnonymousUser, User
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.clicky import ClickyNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(CLICKY_SITE_ID='12345678')

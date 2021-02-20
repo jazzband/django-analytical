@@ -2,15 +2,14 @@
 Tests for the Gauges template tags and filters.
 """
 
+import pytest
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.gauges import GaugesNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(GAUGES_SITE_ID='1234567890abcdef0123456789')

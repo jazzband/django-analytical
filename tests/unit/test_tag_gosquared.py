@@ -2,16 +2,15 @@
 Tests for the GoSquared template tags and filters.
 """
 
-from django.contrib.auth.models import User, AnonymousUser
+import pytest
+from django.contrib.auth.models import AnonymousUser, User
 from django.http import HttpRequest
 from django.template import Context
 from django.test.utils import override_settings
+from utils import TagTestCase
 
 from analytical.templatetags.gosquared import GoSquaredNode
-from utils import TagTestCase
 from analytical.utils import AnalyticalException
-
-import pytest
 
 
 @override_settings(GOSQUARED_SITE_TOKEN='ABC-123456-D')
