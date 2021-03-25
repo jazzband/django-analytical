@@ -84,10 +84,12 @@ def get_identity(context, prefix=None, identity_func=None, user=None):
             if user is None:
                 user = get_user_from_context(context)
             if get_user_is_authenticated(user):
-                if identity_func is not None:
-                    return identity_func(user)
-                else:
+                identity_func = getattr(settings, 'ANALYTICAL_IDENTITY_FUNC',
+                                        identity_func)
+                if identity_func is None:
                     return user.get_username()
+                else:
+                    return identity_func(user)
         except (KeyError, AttributeError):
             pass
     return None
