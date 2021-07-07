@@ -113,6 +113,16 @@ class MatomoTagTestCase(TagTestCase):
                          '_paq.push(["setCustomVariable", 3, "spam", "spam_val", "visit"]);']:
             assert var_code in r
 
+    def test_user_commands(self):
+        context = Context({'matomo_commands': [['setIgnoreClasses', 'no-tracking'],
+                                               ['setDocumentTitle', 'foobar'],
+                                               ['tackGoal', 1, 1000.01]]})
+        r = MatomoNode().render(context)
+        for var_code in ['_paq.push(["setIgnoreClasses", "no-tracking"]);',
+                         '_paq.push(["setDocumentTitle", "foobar"]);',
+                         '_paq.push(["tackGoal", 1, 1000.01]);']:
+            assert var_code in r
+
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_default_usertrack(self):
         context = Context({

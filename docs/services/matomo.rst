@@ -109,6 +109,25 @@ in :file:`settings.py`.
 .. _`custom variables`: http://developer.matomo.org/guides/tracking-javascript-guide#custom-variables
 
 
+User commands
+-------------
+
+Matomo commands that uses ``_paq.push()`` can be passed using context variable
+``matomo_commands`` similar user variables using a list. ::
+
+    context = Context({
+        'matomo_commands': [['setIgnoreClasses', 'no-tracking'],
+                            ['setDocumentTitle', 'foobar'],
+                            ['tackGoal', 1, 1000.01]]
+    })
+    return some_template.render(context)
+
+This generates following JavaScript code. ::
+
+    _paq.push(["setIgnoreClasses", "no-tracking"]);
+    _paq.push(["setDocumentTitle", "foobar"]);
+    _paq.push(["tackGoal", 1, 1000.01]);
+
 .. _matomo-user-tracking:
 
 User tracking

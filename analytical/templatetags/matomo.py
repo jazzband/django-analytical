@@ -43,6 +43,7 @@ TRACKING_CODE = """
 VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
 DISABLE_COOKIES_CODE = '_paq.push([\'disableCookies\']);'
+CUSTOM_COMMAND_CODE = '_paq.push([%(args)s]);'
 
 DEFAULT_SCOPE = 'page'
 
@@ -86,6 +87,7 @@ class MatomoNode(Node):
 
     def render(self, context):
         custom_variables = context.get('matomo_vars', ())
+        custom_commands = context.get('matomo_commands', [])
 
         complete_variables = (var if len(var) >= 4 else var + (DEFAULT_SCOPE,)
                               for var in custom_variables)
@@ -94,6 +96,12 @@ class MatomoNode(Node):
                           for var in complete_variables)
 
         commands = []
+
+        for custom_command in custom_commands:
+            args = ', '.join('"%s"' % arg if isinstance(arg, str) else str(arg)
+                            for arg in custom_command)
+            commands.append(CUSTOM_COMMAND_CODE % {'args': args})
+
         if getattr(settings, 'MATOMO_DISABLE_COOKIES', False):
             commands.append(DISABLE_COOKIES_CODE)
 
