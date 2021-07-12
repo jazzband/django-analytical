@@ -176,9 +176,10 @@ def build_paq_cmd(cmd, args=[]):
     """
     def __to_js_arg(arg):
         """
-        Turn the argument into a js variable.
-        True -> true
-        False -> false
+        :Args:
+            - arg: The variable (Matomo argument) to be converted to JS.
+        :Return:
+            Javascript version of the passed arg parameter
         """
         # Recursively handle dictionaries
         if isinstance(arg, dict):
@@ -187,18 +188,14 @@ def build_paq_cmd(cmd, args=[]):
                 arg.pop(k)
                 arg[__to_js_arg(k)] = __to_js_arg(v)
             return arg
-        # Handle bools
-        
         elif isinstance(arg, bool):
             if arg:
                 arg = "true"
             else:
                 arg = "false"
-        # Handle lists
         elif isinstance(arg, list):
             for elem_idx in range(len(arg)):
                 arg[elem_idx] = __to_js_arg(arg[elem_idx])
-
         return arg
 
     paq = "_paq.push(['%s', " % (cmd)
