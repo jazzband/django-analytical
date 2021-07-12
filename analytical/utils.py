@@ -163,3 +163,55 @@ class AnalyticalException(Exception):
     be silenced in templates.
     """
     silent_variable_failure = True
+
+def build_paq_cmd(cmd, args=[]):
+    """
+    :Args:
+        - cmd -> The command to be pushed to paq (i.e enableHeartbeatTimer or contentInteraction)
+        - args -> Arguments to be added to the paq command. This is mainly
+            used when building commands to be used on manual event trigger.
+        
+    :Returns:
+        A complete '_paq.push([])' command in string form
+    """
+    paq = "_paq.push(['%s', " % (cmd)
+    if len(args) > 0:
+        for arg_idx in range(len(args)):
+            if arg_idx == len(args)-1:
+                paq += "'%s'])" % (args[arg_idx])
+            else:
+                paq += "'%s', " % (args[arg_idx])
+    else:
+        paq += "])"
+    return paq
+
+def get_event_bind_js(
+    class_name, matomo_event,
+    matomo_args=[], js_event="onclick",
+    ):
+    """
+    Build a javascript command to bind an onClick event to some
+    element whose handler pushes something to _paq
+    :Args:
+        - class_name: Value of the 'class' attribute of the tag
+            the event is to be bound to.
+        - matomo_event: The matomo event to be pushed to _paq
+            such as enableHeartbeatTimer or contentInteraction
+        - matomo_args: The arguments to be passed with the matomo event
+            meaning
+    :Return:
+        A string of javascript that loops the elements found by 
+            document.getElementByClassName and binds the motomo event
+            to each element that was found
+    """
+    script = f"""
+    var elems = document.getElementByClassName('%s');
+    for (var i=0; i++; i < elems.length){{
+        elems[i].addEventListener('%s',
+            function(){{
+                %s;
+            }}
+        );
+    }}
+    """ % (class_name, js_event, build_paq_cmd(matomo_event, matomo_args))
+    return script
