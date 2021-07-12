@@ -1,7 +1,7 @@
 """
 Utility function for django-analytical.
 """
-
+from copy import deepcopy
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
@@ -174,13 +174,49 @@ def build_paq_cmd(cmd, args=[]):
     :Returns:
         A complete '_paq.push([])' command in string form
     """
+    def __to_js_arg(arg):
+        """
+        Turn the argument into a js variable.
+        True -> true
+        False -> false
+        """
+        # Recursively handle dictionaries
+        if isinstance(arg, dict):
+            arg_cpy = deepcopy(arg)
+            for k, v in arg_cpy.items():
+                arg.pop(k)
+                arg[__to_js_arg(k)] = __to_js_arg(v)
+            return arg
+        # Handle bools
+        
+        elif isinstance(arg, bool):
+            if arg:
+                arg = "true"
+            else:
+                arg = "false"
+        # Handle lists
+        elif isinstance(arg, list):
+            for elem_idx in range(len(arg)):
+                arg[elem_idx] = __to_js_arg(arg[elem_idx])
+
+        return arg
+
     paq = "_paq.push(['%s', " % (cmd)
     if len(args) > 0:
         for arg_idx in range(len(args)):
+            current_arg = __to_js_arg(args[arg_idx])
+            no_quotes = type(current_arg) in [bool, dict, list]
             if arg_idx == len(args)-1:
-                paq += "'%s'])" % (args[arg_idx])
+                if no_quotes:
+                    segment = "%s])" % (current_arg)
+                else:
+                    segment = "'%s'])" % (current_arg)
             else:
-                paq += "'%s', " % (args[arg_idx])
+                if no_quotes:
+                    segment = "%s, "% (current_arg)
+                else:
+                    segment = "'%s', " % (current_arg)
+            paq += segment
     else:
         paq += "])"
     return paq
