@@ -215,3 +215,4 @@ def get_event_bind_js(
     }}
     """ % (class_name, js_event, build_paq_cmd(matomo_event, matomo_args))
     return script
+
