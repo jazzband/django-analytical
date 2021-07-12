@@ -14,6 +14,8 @@ from analytical.utils import (
     get_identity,
     get_required_setting,
     is_internal_ip,
+    build_paq_cmd,
+    get_event_bind_js
 )
 
 # domain name (characters separated by a dot), optional port, optional URI path, no slash
@@ -48,9 +50,7 @@ DEFAULT_SCOPE = 'page'
 
 MatomoVar = namedtuple('MatomoVar', ('index', 'name', 'value', 'scope'))
 
-
 register = Library()
-
 
 @register.tag
 def matomo(parser, token):
@@ -96,6 +96,19 @@ class MatomoNode(Node):
         commands = []
         if getattr(settings, 'MATOMO_DISABLE_COOKIES', False):
             commands.append(DISABLE_COOKIES_CODE)
+
+        if getattr(settings, "MATOMO_REQUIRE_CONSENT", False):
+            grant_class_name = settings.GRANT_CONSENT_TAG_CLASSNAME
+            revoke_class_name = settings.REVOKE_CONSENT_CLASSNAME
+            commands.append(build_paq_cmd('requireConsent'))
+            commands.append(get_event_bind_js(
+                class_name=grant_class_name,
+                matomo_event="rememberConsentGiven",
+            ))
+            commands.append(get_event_bind_js(
+                class_name=revoke_class_name,
+                matomo_event="forgetConsentGiven",
+            ))
 
         userid = get_identity(context, 'matomo')
         if userid is not None:
