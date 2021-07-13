@@ -7,15 +7,12 @@ from collections import namedtuple
 from itertools import chain
 
 from django.conf import settings
-from django.template import Library, Node, TemplateSyntaxError
-
+from django.template import Library, Node, TemplateSyntaxError, Template
 from analytical.utils import (
     disable_html,
     get_identity,
     get_required_setting,
-    is_internal_ip,
-    build_paq_cmd,
-    get_event_bind_js
+    is_internal_ip
 )
 
 # domain name (characters separated by a dot), optional port, optional URI path, no slash
@@ -97,19 +94,6 @@ class MatomoNode(Node):
         if getattr(settings, 'MATOMO_DISABLE_COOKIES', False):
             commands.append(DISABLE_COOKIES_CODE)
 
-        if getattr(settings, "MATOMO_REQUIRE_CONSENT", False):
-            grant_class_name = settings.GRANT_CONSENT_TAG_CLASSNAME
-            revoke_class_name = settings.REVOKE_CONSENT_CLASSNAME
-            commands.append(build_paq_cmd('requireConsent'))
-            commands.append(get_event_bind_js(
-                class_name=grant_class_name,
-                matomo_event="rememberConsentGiven",
-            ))
-            commands.append(get_event_bind_js(
-                class_name=revoke_class_name,
-                matomo_event="forgetConsentGiven",
-            ))
-
         userid = get_identity(context, 'matomo')
         if userid is not None:
             variables_code = chain(variables_code, (
@@ -122,8 +106,14 @@ class MatomoNode(Node):
             'variables': '\n  '.join(variables_code),
             'commands': '\n  '.join(commands)
         }
+        # Force the consent script to render so we can inject it into the template
+        consent_script = Template("{{consent_script}}").render(context)
+        if len(consent_script) > 1:
+            html += consent_script
+
         if is_internal_ip(context, 'MATOMO'):
             html = disable_html(html, 'Matomo')
+
         return html
 
 

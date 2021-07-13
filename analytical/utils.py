@@ -167,8 +167,8 @@ class AnalyticalException(Exception):
 def build_paq_cmd(cmd, args=[]):
     """
     :Args:
-        - cmd -> The command to be pushed to paq (i.e enableHeartbeatTimer or contentInteraction)
-        - args -> Arguments to be added to the paq command. This is mainly
+        - cmd: The command to be pushed to paq (i.e enableHeartbeatTimer or contentInteraction)
+        - args: Arguments to be added to the paq command. This is mainly
             used when building commands to be used on manual event trigger.
         
     :Returns:
@@ -176,12 +176,12 @@ def build_paq_cmd(cmd, args=[]):
     """
     def __to_js_arg(arg):
         """
+        Turn 'arg' into its javascript counter-part
         :Args:
-            - arg: The variable (Matomo argument) to be converted to JS.
+            - arg: the argument that's to be passed to the array in _paq.push()
         :Return:
-            Javascript version of the passed arg parameter
+            The javascript counter-part to the argument that was passed
         """
-        # Recursively handle dictionaries
         if isinstance(arg, dict):
             arg_cpy = deepcopy(arg)
             for k, v in arg_cpy.items():
@@ -196,18 +196,20 @@ def build_paq_cmd(cmd, args=[]):
         elif isinstance(arg, list):
             for elem_idx in range(len(arg)):
                 arg[elem_idx] = __to_js_arg(arg[elem_idx])
+
         return arg
 
-    paq = "_paq.push(['%s', " % (cmd)
+    paq = "_paq.push(['%s'" % (cmd)
     if len(args) > 0:
+        paq += ", "
         for arg_idx in range(len(args)):
             current_arg = __to_js_arg(args[arg_idx])
-            no_quotes = type(current_arg) in [bool, dict, list]
+            no_quotes = type(current_arg) in [bool, int, dict, list]
             if arg_idx == len(args)-1:
                 if no_quotes:
-                    segment = "%s])" % (current_arg)
+                    segment = "%s]);" % (current_arg)
                 else:
-                    segment = "'%s'])" % (current_arg)
+                    segment = "'%s']);" % (current_arg)
             else:
                 if no_quotes:
                     segment = "%s, "% (current_arg)
@@ -215,7 +217,7 @@ def build_paq_cmd(cmd, args=[]):
                     segment = "'%s', " % (current_arg)
             paq += segment
     else:
-        paq += "])"
+        paq += "]);"        
     return paq
 
 def get_event_bind_js(
@@ -248,4 +250,3 @@ def get_event_bind_js(
     }}
     """ % (class_name, js_event, build_paq_cmd(matomo_event, matomo_args))
     return script
-
