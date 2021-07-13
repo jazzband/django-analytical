@@ -1,7 +1,7 @@
 import utils
 from django.conf import settings
 
-def matomo_consent_provider(request):
+def consent_provider(request):
     """
     Add Mamoto consent script to the requests context.
     :Cases:
