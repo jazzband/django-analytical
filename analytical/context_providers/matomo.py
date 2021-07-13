@@ -4,9 +4,6 @@ from django.conf import settings
 def consent_provider(request):
     """
     Add Mamoto consent script to the requests context.
-    :Cases:
-        - If MATOMO_REQURE_CONSENT is True OR If ALWAYS_TRACK_REGISTERED True == continue on
-        - If ALWAYS_TRACK_REGISTERED is True AND the user is authenticated
     """
     # Do we require consent?
     if getattr(settings, 'MATOMO_REQUIRE_CONSENT', False):
