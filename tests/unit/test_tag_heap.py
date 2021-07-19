@@ -12,7 +12,7 @@ from analytical.templatetags.heap import HeapNode
 from analytical.utils import AnalyticalException
 
 
-@override_settings(HEAP_TRACKER_ID='12345ABC')
+@override_settings(HEAP_TRACKER_ID='123456789')
 class HeapTagTestCase(TagTestCase):
     """
     Tests for the ``heap`` template tag.
@@ -20,18 +20,18 @@ class HeapTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('heap', 'heap')
-        assert "tracker: '12345ABC', version:'2'};" in r
+        assert "123456789" in r
 
     def test_node(self):
         r = HeapNode().render(Context({}))
-        assert "tracker: '12345ABC', version:'2'};" in r
+        assert "123456789" in r
 
-    @override_settings(CLICKMAP_TRACKER_ID=None)
+    @override_settings(HEAP_TRACKER_ID=None)
     def test_no_site_id(self):
         with pytest.raises(AnalyticalException):
             HeapNode()
 
-    @override_settings(CLICKMAP_TRACKER_ID='ab#c')
+    @override_settings(HEAP_TRACKER_ID='abcdefg')
     def test_wrong_site_id(self):
         with pytest.raises(AnalyticalException):
             HeapNode()
