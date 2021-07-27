@@ -1,6 +1,6 @@
-==================================
+=====================================
 Heap -- analytics and events tracking
-==================================
+=====================================
 
 `Heap`_ automatically captures all user interactions on your site, from the moment of installation forward. 
 
