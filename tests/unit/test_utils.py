@@ -37,7 +37,7 @@ class MyUser(AbstractBaseUser):
     USERNAME_FIELD = 'identity'
 
     class Meta:
-        abstract = True
+        abstract = False
         app_label = 'testapp'
 
 
