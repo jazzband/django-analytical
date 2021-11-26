@@ -19,6 +19,7 @@ TRACKING_CODE = """
 
 register = Library()
 
+
 def _validate_no_args(token):
     bits = token.split_contents()
     if len(bits) > 1:

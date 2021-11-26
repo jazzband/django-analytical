@@ -25,7 +25,7 @@ class HeapTagTestCase(TagTestCase):
     def test_node(self):
         r = HeapNode().render(Context({}))
         assert "123456789" in r
-        
+
     def test_tags_take_no_args(self):
         with pytest.raises(TemplateSyntaxError, match="'heap' takes no arguments"):
             Template('{% load heap %}{% heap "arg" %}').render(Context({}))
