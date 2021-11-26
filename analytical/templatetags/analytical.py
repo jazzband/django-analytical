@@ -23,6 +23,7 @@ TAG_MODULES = [
     'analytical.google_analytics_js',
     'analytical.google_analytics_gtag',
     'analytical.gosquared',
+    'analytical.heap',
     'analytical.hotjar',
     'analytical.hubspot',
     'analytical.intercom',

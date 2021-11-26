@@ -10,7 +10,6 @@ sys.path.append(os.path.dirname(os.path.abspath('.')))
 
 import analytical  # noqa
 
-
 # -- General configuration --------------------------------------------------
 
 project = 'django-analytical'
