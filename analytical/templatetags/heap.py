@@ -6,19 +6,23 @@ import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 HEAP_TRACKER_ID_RE = re.compile(r'^\d+$')
 TRACKING_CODE = """
-    <script type="text/javascript">
-  window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};
+<script type="text/javascript">
+  window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])}; 
   heap.load("%(tracker_id)s");
 </script>
 
-"""
+""" # noqa
 
 register = Library()
+
+def _validate_no_args(token):
+    bits = token.split_contents()
+    if len(bits) > 1:
+        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
 
 
 @register.tag
@@ -30,9 +34,7 @@ def heap(parser, token):
     your heap tracker ID (as a string) in the ``HEAP_TRACKER_ID``
     setting.
     """
-    bits = token.split_contents()
-    if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+    _validate_no_args(token)
     return HeapNode()
 
 

@@ -4,7 +4,7 @@ Tests for the Heap template tags and filters.
 
 import pytest
 from django.http import HttpRequest
-from django.template import Context
+from django.template import Context, Template, TemplateSyntaxError
 from django.test.utils import override_settings
 from utils import TagTestCase
 
@@ -25,6 +25,10 @@ class HeapTagTestCase(TagTestCase):
     def test_node(self):
         r = HeapNode().render(Context({}))
         assert "123456789" in r
+        
+    def test_tags_take_no_args(self):
+        with pytest.raises(TemplateSyntaxError, match="'heap' takes no arguments"):
+            Template('{% load heap %}{% heap "arg" %}').render(Context({}))
 
     @override_settings(HEAP_TRACKER_ID=None)
     def test_no_site_id(self):
