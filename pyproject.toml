@@ -1,0 +1,26 @@
+[tool.bandit]
+exclude = [
+    ".git",
+    ".idea",
+    ".tox",
+    "build",
+    "dist",
+    "docs",
+    "tests",
+]
+
+[tool.black]
+color = true
+
+[tool.coverage.xml]
+output = "tests/reports/coverage.xml"
+
+[tool.isort]
+color_output = true
+profile = "black"
+
+[tool.pylint.master]
+output-format = "colorized"
+
+[tool.pytest.ini_options]
+addopts = "--junitxml=tests/reports/unittests.xml --color=yes --verbose"

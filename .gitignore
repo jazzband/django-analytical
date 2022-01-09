@@ -4,6 +4,7 @@
 /.tox
 /.coverage
 /coverage.xml
+/tests/reports
 
 /build
 /dist
