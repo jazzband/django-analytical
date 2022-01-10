@@ -16,3 +16,4 @@ output-format = "colorized"
 
 [tool.pytest.ini_options]
 addopts = "--junitxml=tests/reports/unittests.xml --color=yes --verbose"
+DJANGO_SETTINGS_MODULE = "tests.testproject.settings"
