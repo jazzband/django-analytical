@@ -1,13 +1,5 @@
 [tool.bandit]
-exclude = [
-    ".git",
-    ".idea",
-    ".tox",
-    "build",
-    "dist",
-    "docs",
-    "tests",
-]
+# Exclude/ignore of files is currently broken in Bandit.
 
 [tool.black]
 color = true
