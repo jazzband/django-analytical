@@ -1,0 +1,19 @@
+[tool.bandit]
+# Exclude/ignore of files is currently broken in Bandit.
+
+[tool.black]
+color = true
+
+[tool.coverage.xml]
+output = "tests/reports/coverage.xml"
+
+[tool.isort]
+color_output = true
+profile = "black"
+
+[tool.pylint.master]
+output-format = "colorized"
+
+[tool.pytest.ini_options]
+addopts = "--junitxml=tests/reports/unittests.xml --color=yes --verbose"
+DJANGO_SETTINGS_MODULE = "tests.testproject.settings"
