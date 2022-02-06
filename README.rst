@@ -29,7 +29,7 @@ an asynchronous version of the Javascript code if possible.
 .. |build-status| image:: https://github.com/jazzband/django-analytical/workflows/Test/badge.svg
    :target: https://github.com/jazzband/django-analytical/actions
    :alt: GitHub Actions
-.. |coverage| image:: https://codecov.io/gh/jazzband/django-analytical/branch/master/graph/badge.svg
+.. |coverage| image:: https://codecov.io/gh/jazzband/django-analytical/branch/main/graph/badge.svg
    :alt: Test coverage
    :target: https://codecov.io/gh/jazzband/django-analytical
 .. |python-support| image:: https://img.shields.io/pypi/pyversions/django-analytical.svg
@@ -37,7 +37,7 @@ an asynchronous version of the Javascript code if possible.
    :alt: Python versions
 .. |license| image:: https://img.shields.io/pypi/l/django-analytical.svg
    :alt: Software license
-   :target: https://github.com/jazzband/django-analytical/blob/master/LICENSE.txt
+   :target: https://github.com/jazzband/django-analytical/blob/main/LICENSE.txt
 .. |gitter| image:: https://img.shields.io/gitter/room/jazzband/django-analytical.svg
    :alt: Gitter chat room
    :target: https://gitter.im/jazzband/django-analytical

@@ -49,7 +49,7 @@ setup(
     python_requires='>=3.6',
     platforms=['any'],
     url='https://github.com/jazzband/django-analytical',
-    download_url='https://github.com/jazzband/django-analytical/archive/master.zip',
+    download_url='https://github.com/jazzband/django-analytical/archive/main.zip',
     project_urls={
         'Documentation': 'https://django-analytical.readthedocs.io/',
     },
