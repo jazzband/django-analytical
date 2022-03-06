@@ -1,11 +1,12 @@
 [tool.bandit]
-# Exclude/ignore of files is currently broken in Bandit.
+# Exclude/ignore of files and TOML reading is currently broken in Bandit
+exclude = [".cache",".git",".github",".tox","build","dist","docs","tests"]
 
 [tool.black]
 color = true
 
 [tool.coverage.xml]
-output = "tests/reports/coverage.xml"
+output = "tests/coverage-report.xml"
 
 [tool.isort]
 color_output = true
@@ -15,5 +16,5 @@ profile = "black"
 output-format = "colorized"
 
 [tool.pytest.ini_options]
-addopts = "--junitxml=tests/reports/unittests.xml --color=yes --verbose"
+addopts = "--junitxml=tests/unittests-report.xml --color=yes --verbose"
 DJANGO_SETTINGS_MODULE = "tests.testproject.settings"
