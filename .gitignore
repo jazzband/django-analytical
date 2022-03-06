@@ -2,18 +2,19 @@
 /*.geany
 /.idea
 /.tox
-/.coverage
-/coverage.xml
-/tests/reports
-
-/build
-/dist
-/docs/_build
-/MANIFEST
-
-/docs/_templates/layout.html
+/.vscode
 
 *.pyc
 *.pyo
 
+/.coverage
+/coverage.xml
+/tests/*-report.json
+/tests/*-report.xml
+
+/build
+/dist
+/docs/_build
+/docs/_templates/layout.html
+/MANIFEST
 *.egg-info
