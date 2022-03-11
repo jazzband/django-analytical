@@ -1,4 +1,8 @@
-import os
+"""
+Packaging setup for django-analytical.
+"""
+
+from pathlib import Path
 
 from setuptools import setup
 
@@ -6,7 +10,7 @@ import analytical as package
 
 
 def read_file(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+    return (Path(__file__).resolve().parent / fname).open().read()
 
 
 setup(
