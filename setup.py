@@ -10,7 +10,9 @@ import analytical as package
 
 
 def read_file(fname):
-    return (Path(__file__).resolve().parent / fname).open().read()
+    """Read content of a file in project folder."""
+    with (Path(__file__).resolve().parent / fname).open() as file:
+        return file.read()
 
 
 setup(
