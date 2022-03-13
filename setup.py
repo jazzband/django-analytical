@@ -9,10 +9,11 @@ from setuptools import setup
 import analytical as package
 
 
-def read_file(fname):
-    """Read content of a file in project folder."""
-    with (Path(__file__).resolve().parent / fname).open() as file:
-        return file.read()
+def read_file(filename):
+    """Read a text file and return its contents."""
+    project_home = Path(__file__).parent.resolve()
+    file_path = project_home / filename
+    return file_path.read_text(encoding="utf-8")
 
 
 setup(
