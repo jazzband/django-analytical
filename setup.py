@@ -19,7 +19,6 @@ def read_file(filename):
 setup(
     name='django-analytical',
     version=package.__version__,
-    license=package.__license__,
     description=package.__doc__.strip(),
     long_description=read_file('README.rst'),
     long_description_content_type='text/x-rst',
