@@ -1,3 +1,12 @@
+Version 3.1.0
+-------------
+* Rename default branch from master to main (Peter Bittner, Jannis Leidel)
+* Modernize packaging setup, add pyproject.toml (Peter Bittner)
+* Integrate isort, reorganize imports (David Smith)
+* Refactor test suite from Python unit tests to Pytest (David Smith)
+* Add Heap integration (Garrett Coakley)
+* Drop Django 3.1, cover Django 4.0 and Python 3.10 in test suite (David Smith)
+
 Version 3.0.0
 -------------
 * Add support for Lucky Orange (Peter Bittner)
