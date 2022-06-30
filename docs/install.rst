@@ -188,11 +188,6 @@ settings required to enable each service are listed here:
 
     PERFORMABLE_API_KEY = '123abc'
 
-* :doc:`Piwik (deprecated, see Matomo) <services/piwik>`::
-
-    PIWIK_DOMAIN_PATH = 'your.piwik.server/optional/path'
-    PIWIK_SITE_ID = '123'
-
 * :doc:`Rating\@Mail.ru <services/rating_mailru>`::
 
     RATING_MAILRU_COUNTER_ID = '1234567'

@@ -1,3 +1,7 @@
+Unreleased
+----------
+* Remove deprecated Piwik integration. Use Matomo instead! (Peter Bittner)
+
 Version 3.1.0
 -------------
 * Rename default branch from master to main (Peter Bittner, Jannis Leidel)
