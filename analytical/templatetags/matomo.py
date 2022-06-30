@@ -37,7 +37,7 @@ TRACKING_CODE = """
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<noscript><p><img src="//%(url)s/piwik.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
+<noscript><p><img src="//%(url)s/matomo.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
 """  # noqa
 
 VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
