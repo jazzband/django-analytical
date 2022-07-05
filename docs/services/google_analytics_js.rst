@@ -228,3 +228,11 @@ You can configure the `Cookie Expiration`_ feature by setting the
 The value is the cookie expiration in seconds or 0 to delete the cookie when the browser is closed.
 
 .. _`Cookie Expiration`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsessioncookietimeout
+
+Custom Javascript Source
+----------------------
+
+You can configure a custom URL for the javascript file by setting the
+:const:`GOOGLE_ANALYTICS_JS_SOURCE` configuration setting::
+
+    GOOGLE_ANALYTICS_JS_SOURCE = 'https://www.example.com/analytics.js'
