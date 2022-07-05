@@ -26,7 +26,7 @@ SETUP_CODE = """
 (function(i,s,o,g,r,a,m){{i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){{
 (i[r].q=i[r].q||[]).push(arguments)}},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-}})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+}})(window,document,'script','{js_source}','ga');
 
 ga('create', '{property_id}', 'auto', {create_fields});
 {commands}ga('send', 'pageview');
@@ -70,10 +70,17 @@ class GoogleAnalyticsJsNode(Node):
         if display_features:
             commands.insert(0, REQUIRE_DISPLAY_FEATURES)
 
+        js_source = getattr(
+            settings,
+            'GOOGLE_ANALYTICS_JS_SOURCE',
+            'https://www.google-analytics.com/analytics.js'
+        )
+
         html = SETUP_CODE.format(
             property_id=self.property_id,
             create_fields=json.dumps(create_fields),
             commands="".join(commands),
+            js_source=js_source,
         )
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
             html = disable_html(html, 'Google Analytics')
