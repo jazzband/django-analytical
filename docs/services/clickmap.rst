@@ -2,9 +2,10 @@
 Clickmap -- visual click tracking
 ==================================
 
-`Clickmap`_ is a real-time heatmap tool to track mouse clicks and scroll paths of your website visitors. Gain intelligence about what's hot and what's not, and optimize your conversion with Clickmap.
+`Clickmap`_ is a real-time heatmap tool to track mouse clicks and scroll paths of your website visitors.
+Gain intelligence about what's hot and what's not, and optimize your conversion with Clickmap.
 
-.. _`Clickmap`: http://www.getclickmap.com/
+.. _`Clickmap`: http://www.clickmap.ch/
 
 
 .. clickmap-installation:
@@ -44,7 +45,7 @@ Before you can use the Clickmap integration, you must first set your
 Clickmap Tracker ID. If you don't have a Clickmap account yet,
 `sign up`_ to get your Tracker ID.
 
-.. _`sign up`: http://www.getclickmap.com/
+.. _`sign up`: http://www.clickmap.ch/
 
 
 .. _clickmap-tracker-id:
@@ -72,6 +73,6 @@ Internal IP addresses
 Usually you do not want to track clicks from your development or
 internal IP addresses.  By default, if the tags detect that the client
 comes from any address in the :const:`ANALYTICAL_INTERNAL_IPS` setting
-(which is :const:`INTERNAL_IPS` by default,) the tracking code is 
+(which is :const:`INTERNAL_IPS` by default,) the tracking code is
 commented out. See :ref:`identifying-visitors` for important information
 about detecting the visitor IP address.
