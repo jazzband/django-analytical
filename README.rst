@@ -77,7 +77,7 @@ Currently Supported Services
 * `Yandex.Metrica`_ web analytics
 
 .. _`Chartbeat`: http://www.chartbeat.com/
-.. _`Clickmap`: http://getclickmap.com/
+.. _`Clickmap`: http://clickmap.ch/
 .. _`Clicky`: http://getclicky.com/
 .. _`Crazy Egg`: http://www.crazyegg.com/
 .. _`Facebook Pixel`: https://developers.facebook.com/docs/facebook-pixel/
