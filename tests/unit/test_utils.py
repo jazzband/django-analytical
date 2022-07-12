@@ -34,6 +34,7 @@ class SettingDeletedTestCase(TestCase):
 
 class MyUser(AbstractBaseUser):
     identity = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     USERNAME_FIELD = 'identity'
 
     class Meta:
@@ -45,6 +46,11 @@ class GetIdentityTestCase(TestCase):
     def test_custom_username_field(self):
         get_id = get_identity(Context({}), user=MyUser(identity='fake_id'))
         assert get_id == 'fake_id'
+
+    @override_settings(ANALYTICAL_IDENTITY_FUNC=lambda user: f"{user.name} ({user.identity})")
+    def test_custom_username_field_identity_func(self):
+        get_id = get_identity(Context({}), user=MyUser(identity='fake_id', name='fake_name'))
+        assert get_id == 'fake_name (fake_id)'
 
 
 @override_settings(ANALYTICAL_DOMAIN="example.org")

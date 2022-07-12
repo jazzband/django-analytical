@@ -25,3 +25,17 @@ their default values.
     ``GOOGLE_ANALYTICS_INTERNAL_IPS`` to configure for Google Analytics.
 
     See :ref:`internal-ips`.
+
+.. data:: ANALYTICAL_IDENTITY_FUNC
+
+    Default: Identity function dependent on provider
+
+    A function that returns the identity of the given user. This overrides the
+    default settings of different providers.
+
+    E.g. Google has in its conditions for enabling UserID the requirement, that prohibits
+    sending personal data (such as an e-mail address) to analytics.
+    If e-mail address is used as username, using GTag would break the requirements.
+
+    In such case add uuid field to the user and set ```ANALYTICAL_IDENTITY_FUNC``` to
+    ```lambda user: user.uuid```
