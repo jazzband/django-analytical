@@ -46,6 +46,19 @@ class GetIdentityTestCase(TestCase):
         get_id = get_identity(Context({}), user=MyUser(identity='fake_id'))
         assert get_id == 'fake_id'
 
+    def test_custom_identity_specific_provider(self):
+        get_id = get_identity(Context({
+            'foo_provider_identity': 'bar',
+            'analytical_identity': 'baz',
+        }), prefix='foo_provider')
+        assert get_id == 'bar'
+
+    def test_custom_identity_general(self):
+        get_id = get_identity(Context({
+            'analytical_identity': 'baz',
+        }), prefix='foo_provider')
+        assert get_id == 'baz'
+
 
 @override_settings(ANALYTICAL_DOMAIN="example.org")
 class GetDomainTestCase(TestCase):
