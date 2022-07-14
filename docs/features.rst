@@ -68,3 +68,23 @@ and is enabled by default.  To disable:
     Alternatively, add one of the variables to the context yourself
     when you render the template.
 
+
+
+Changing the identity
+*********************
+
+If you want to change identity of the user, that different providers are
+sending, you can do it by setting the `analyitcal_identity` context variable::
+
+    context = RequestContext({'analytical_identity': user.uuid})
+    return some_template.render(context)
+
+or in the template::
+
+    {% with analytical_identity=request.user.uuid|default:None %}
+        {% analytical_head_top %}
+    {% endwith %}
+
+If you want to change the identity only for specific provider, use the
+`*_identity` context variable, where `*` is prefix specified on the provider
+page.
