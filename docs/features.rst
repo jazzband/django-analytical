@@ -78,6 +78,7 @@ providers send you can do it by setting the ``analytical_identity`` context
 variable in your view code:
 
 .. code-block:: python
+
     context = RequestContext({'analytical_identity': user.uuid})
     return some_template.render(context)
 
@@ -88,6 +89,32 @@ or in the template:
     {% with analytical_identity=request.user.uuid|default:None %}
         {% analytical_head_top %}
     {% endwith %}
+
+or in context proessor:
+
+.. code-block:: python
+
+    # FILE: myproject/context_processors.py
+    from django.conf import settings
+
+    def get_identity(request):
+        return {
+            'analytical_identity': 'some-value-here',
+        }
+
+    # FILE: myproject/settings.py
+    TEMPLATES = [
+        {
+            'OPTIONS': {
+                'context_processors': [
+                    'myproject.context_processors.get_identity',
+                ],
+            },
+        },
+    ]
+
+That allows you as a developer to leave your view code untouched and
+make sure that the variable is injected for all templates.
 
 If you want to change the identity only for specific provider use the
 ``*_identity`` context variable, where ``*``-prefix is the module name
