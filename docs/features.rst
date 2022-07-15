@@ -73,9 +73,11 @@ and is enabled by default.  To disable:
 Changing the identity
 *********************
 
-If you want to change identity of the user, that different providers are
-sending, you can do it by setting the `analyitcal_identity` context variable::
+If you want to override the identity of the logged-in user that the various
+providers send you can do it by setting the ``analytical_identity`` context
+variable in your view code:
 
+.. code-block:: python
     context = RequestContext({'analytical_identity': user.uuid})
     return some_template.render(context)
 
