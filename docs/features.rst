@@ -89,6 +89,6 @@ or in the template:
         {% analytical_head_top %}
     {% endwith %}
 
-If you want to change the identity only for specific provider, use the
-`*_identity` context variable, where `*` is prefix specified on the provider
-page.
+If you want to change the identity only for specific provider use the
+``*_identity`` context variable, where ``*``-prefix is the module name
+of the specific provider.
