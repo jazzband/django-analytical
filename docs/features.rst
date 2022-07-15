@@ -79,7 +79,9 @@ sending, you can do it by setting the `analyitcal_identity` context variable::
     context = RequestContext({'analytical_identity': user.uuid})
     return some_template.render(context)
 
-or in the template::
+or in the template:
+
+.. code-block:: django
 
     {% with analytical_identity=request.user.uuid|default:None %}
         {% analytical_head_top %}
