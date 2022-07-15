@@ -94,22 +94,26 @@ Identifying authenticated users
 -------------------------------
 
 The username of an authenticated user is passed to Google Analytics
-automatically as the `user_id`.  See :ref:`identifying-visitors`.
+automatically as the ``user_id``.  See :ref:`identifying-visitors`.
 
-According to `Google Analytics conditions`_ you should avoid ...
-
-.. _`Google Analytics conditions`: https://developers.google.com/analytics/solutions/crm-integration#user_id
-you should avoid sending Personally Identifiable Information.
-Using `username` as `user_id` might not be the best option.
+According to `Google Analytics conditions`_ you should avoid
+sending Personally Identifiable Information.
+Using ``username`` as ``user_id`` might not be the best option.
 To avoid that, you can change the identity
-by setting `google_analytics_gtag_identity` (or `analytical_identity` to
-affect all providers) context variable::
+by setting ``google_analytics_gtag_identity`` (or ``analytical_identity`` to
+affect all providers) context variable:
+
+.. code-block:: python
 
     context = RequestContext({'google_analytics_gtag_identity': user.uuid})
     return some_template.render(context)
 
-or in the template::
+or in the template:
+
+.. code-block:: django
 
     {% with google_analytics_gtag_identity=request.user.uuid|default:None %}
         {% analytical_head_top %}
     {% endwith %}
+
+.. _`Google Analytics conditions`: https://developers.google.com/analytics/solutions/crm-integration#user_id
