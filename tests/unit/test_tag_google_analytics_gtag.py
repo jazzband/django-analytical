@@ -73,7 +73,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
 
     def test_identity_context_general(self):
         """
-        The user_id variable must be set according to analyitical_identity variable in the context.
+        The user_id variable must be set according to analytical_identity variable in the context.
         """
         r = GoogleAnalyticsGTagNode().render(Context({
             'analytical_identity': 'bar_analytical_identity',
