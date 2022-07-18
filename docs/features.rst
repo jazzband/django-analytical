@@ -68,8 +68,6 @@ and is enabled by default.  To disable:
     Alternatively, add one of the variables to the context yourself
     when you render the template.
 
-
-
 Changing the identity
 *********************
 
