@@ -115,5 +115,5 @@ That allows you as a developer to leave your view code untouched and
 make sure that the variable is injected for all templates.
 
 If you want to change the identity only for specific provider use the
-``*_identity`` context variable, where ``*``-prefix is the module name
+``*_identity`` context variable, where the ``*`` prefix is the module name
 of the specific provider.
