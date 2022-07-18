@@ -88,7 +88,7 @@ or in the template:
         {% analytical_head_top %}
     {% endwith %}
 
-or in context proessor:
+or by implementing a context processor, e.g.
 
 .. code-block:: python
 
