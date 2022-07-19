@@ -57,7 +57,7 @@ class GoogleAnalyticsGTagNode(Node):
     def render(self, context):
         other_fields = {}
 
-        identity = get_identity(context)
+        identity = get_identity(context, 'google_analytics_gtag')
         if identity is not None:
             other_fields['user_id'] = identity
 
