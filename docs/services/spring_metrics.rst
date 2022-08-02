@@ -2,7 +2,7 @@
 Spring Metrics -- conversion tracking
 =====================================
 
-`Spring Metrics`_ is a convesions analysis tool.  It shows you the top
+`Spring Metrics`_ is a conversions analysis tool.  It shows you the top
 converting sources, search keywords and landing pages.  The real-time
 dashboard shows you how customers interact with your website and how
 to increase conversion.
