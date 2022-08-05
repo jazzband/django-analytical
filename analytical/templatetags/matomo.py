@@ -7,13 +7,12 @@ from collections import namedtuple
 from itertools import chain
 
 from django.conf import settings
-from django.template import Library, Node, TemplateSyntaxError
-
+from django.template import Library, Node, TemplateSyntaxError, Template
 from analytical.utils import (
     disable_html,
     get_identity,
     get_required_setting,
-    is_internal_ip,
+    is_internal_ip
 )
 
 # domain name (characters separated by a dot), optional port, optional URI path, no slash
@@ -48,9 +47,7 @@ DEFAULT_SCOPE = 'page'
 
 MatomoVar = namedtuple('MatomoVar', ('index', 'name', 'value', 'scope'))
 
-
 register = Library()
-
 
 @register.tag
 def matomo(parser, token):
@@ -109,8 +106,14 @@ class MatomoNode(Node):
             'variables': '\n  '.join(variables_code),
             'commands': '\n  '.join(commands)
         }
+        # Force the consent script to render so we can inject it into the template
+        consent_script = Template("{{consent_script}}").render(context)
+        if len(consent_script) > 1:
+            html += consent_script
+
         if is_internal_ip(context, 'MATOMO'):
             html = disable_html(html, 'Matomo')
+
         return html
 
 
