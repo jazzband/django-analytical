@@ -32,6 +32,7 @@ and the LiveInternet logo::
     {% liveinternet %}
     </head>
     ...
+
 In the form of two images, one of which is a counter (transparent GIF size 1x1),
 and the other is the LiveInternet logo. This placement method will allow you to
 insert the code of the invisible counter at the beginning of the page, and the
