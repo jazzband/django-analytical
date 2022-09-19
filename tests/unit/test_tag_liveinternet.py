@@ -1,5 +1,5 @@
 """
-Tests for the Yandex.Metrica template tags and filters.
+Tests for the LiveInternet template tags and filters.
 """
 
 from django.http import HttpRequest
