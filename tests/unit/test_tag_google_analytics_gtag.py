@@ -16,7 +16,7 @@ from analytical.utils import AnalyticalException
 @override_settings(GOOGLE_ANALYTICS_GTAG_PROPERTY_ID='UA-123456-7')
 class GoogleAnalyticsTagTestCase(TagTestCase):
     """
-    Tests for the ``google_analytics_js`` template tag.
+    Tests for the ``google_analytics_gtag`` template tag.
     """
 
     def test_tag(self):
@@ -25,7 +25,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
             '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123456-7"></script>'
         ) in r
         assert "gtag('js', new Date());" in r
-        assert "gtag('config', 'UA-123456-7');" in r
+        assert "gtag('config', 'UA-123456-7', {});" in r
 
     def test_node(self):
         r = GoogleAnalyticsGTagNode().render(Context())
@@ -33,7 +33,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
             '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123456-7"></script>'
         ) in r
         assert "gtag('js', new Date());" in r
-        assert "gtag('config', 'UA-123456-7');" in r
+        assert "gtag('config', 'UA-123456-7', {});" in r
 
     @override_settings(GOOGLE_ANALYTICS_GTAG_PROPERTY_ID=None)
     def test_no_property_id(self):
@@ -57,7 +57,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
         r = GoogleAnalyticsGTagNode().render(Context({'user': User(username='test')}))
-        assert "gtag('set', {'user_id': 'test'});" in r
+        assert 'gtag(\'config\', \'UA-123456-7\', {"user_id": "test"});' in r
 
     def test_identity_context_specific_provider(self):
         """
@@ -68,12 +68,13 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
             Context(
                 {
                     'google_analytics_gtag_identity': 'foo_gtag_identity',
-                    'analytical_identity': 'bar_analytical_identity',
                     'user': User(username='test'),
                 }
             )
         )
-        assert "gtag('set', {'user_id': 'foo_gtag_identity'});" in r
+        assert (
+            'gtag(\'config\', \'UA-123456-7\', {"user_id": "foo_gtag_identity"});' in r
+        )
 
     def test_identity_context_general(self):
         """
@@ -87,7 +88,10 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
                 }
             )
         )
-        assert "gtag('set', {'user_id': 'bar_analytical_identity'});" in r
+        assert (
+            'gtag(\'config\', \'UA-123456-7\', {"user_id": "bar_analytical_identity"});'
+            in r
+        )
 
     @override_settings(GOOGLE_ANALYTICS_GTAG_PROPERTY_ID='G-12345678')
     def test_tag_with_measurement_id(self):
@@ -96,7 +100,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
             '<script async src="https://www.googletagmanager.com/gtag/js?id=G-12345678"></script>'
         ) in r
         assert "gtag('js', new Date());" in r
-        assert "gtag('config', 'G-12345678');" in r
+        assert "gtag('config', 'G-12345678', {});" in r
 
     @override_settings(GOOGLE_ANALYTICS_GTAG_PROPERTY_ID='AW-1234567890')
     def test_tag_with_conversion_id(self):
@@ -105,7 +109,7 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
             '<script async src="https://www.googletagmanager.com/gtag/js?id=AW-1234567890"></script'
         ) in r
         assert "gtag('js', new Date());" in r
-        assert "gtag('config', 'AW-1234567890');" in r
+        assert "gtag('config', 'AW-1234567890', {});" in r
 
     @override_settings(GOOGLE_ANALYTICS_GTAG_PROPERTY_ID='DC-12345678')
     def test_tag_with_advertiser_id(self):
@@ -114,4 +118,4 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
             '<script async src="https://www.googletagmanager.com/gtag/js?id=DC-12345678"></script>'
         ) in r
         assert "gtag('js', new Date());" in r
-        assert "gtag('config', 'DC-12345678');" in r
+        assert "gtag('config', 'DC-12345678', {});" in r
