@@ -117,3 +117,48 @@ or in the template:
     {% endwith %}
 
 .. _`Google Analytics conditions`: https://developers.google.com/analytics/solutions/crm-integration#user_id
+
+.. _google-analytics-custom-dimensions:
+
+Custom dimensions
+----------------
+
+As described in the Google Analytics `custom dimensions`_ documentation
+page, you can define custom dimensions which are variables specific to your
+business needs. These variables can include both custom event parameters as
+well as customer user properties. Using the template context variable
+``google_analytics_custom_dimensions``, you can let the :ttag:`google_analytics_gtag`
+pass custom dimensions to Google Analytics automatically. The ``google_analytics_custom_dimensions``
+variable must be set to a dictionary where the keys are the dimension names
+and the values are the dimension values. You can set the context variable in your
+view when you render a template containing the tracking code::
+
+    context = RequestContext({
+        'google_analytics_custom_dimensions': {
+                'gender': 'female',
+                'country': 'US',
+                'user_properties': {
+                    'age': 25
+                }
+            }
+        })
+    return some_template.render(context)
+
+Note that the ``user_properties`` key is used to pass user properties to Google
+Analytics. It's not necessary to always use this key, but that'd be the way of
+sending user properties to Google Analytics automatically.
+
+You may want to set custom dimensions in a context processor that you add
+to the :data:`TEMPLATE_CONTEXT_PROCESSORS` list in :file:`settings.py`::
+
+    def google_analytics_segment_language(request):
+        try:
+            return {'google_analytics_custom_dimensions': {'language': request.LANGUAGE_CODE}}
+        except AttributeError:
+            return {}
+
+Just remember that if you set the same context variable in the
+:class:`~django.template.context.RequestContext` constructor and in a
+context processor, the latter clobbers the former.
+
+.. _`custom dimensions`: https://support.google.com/analytics/answer/10075209
