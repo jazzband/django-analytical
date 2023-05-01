@@ -58,7 +58,7 @@ class GoogleAnalyticsGTagNode(Node):
         )
 
     def render(self, context):
-        custom_dimensions = {}
+        custom_dimensions = context.get('google_analytics_custom_dimensions', {})
 
         identity = get_identity(context, prefix='google_analytics_gtag')
         if identity is not None:

@@ -119,3 +119,34 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         ) in r
         assert "gtag('js', new Date());" in r
         assert "gtag('config', 'DC-12345678', {});" in r
+
+    def test_tag_with_custom_dimensions(self):
+        r = GoogleAnalyticsGTagNode().render(Context({
+            'google_analytics_custom_dimensions': {
+                "dimension_1": "foo",
+                "dimension_2": "bar",
+                "user_properties": {
+                    "user_property_1": True,
+                    "user_property_2": "xyz",
+                }
+            },
+        }))
+        assert "gtag('config', 'UA-123456-7', {" \
+               "\"dimension_1\": \"foo\", " \
+               "\"dimension_2\": \"bar\", " \
+               "\"user_properties\": {" \
+               "\"user_property_1\": true, " \
+               "\"user_property_2\": \"xyz\"}});" in r
+
+    def test_tag_with_identity_and_custom_dimensions(self):
+        r = GoogleAnalyticsGTagNode().render(Context({
+            'google_analytics_gtag_identity': 'foo_gtag_identity',
+            'google_analytics_custom_dimensions': {
+                "dimension_1": "foo",
+                "dimension_2": "bar",
+            },
+        }))
+        assert "gtag('config', 'UA-123456-7', {" \
+               "\"dimension_1\": \"foo\", " \
+               "\"dimension_2\": \"bar\", " \
+               "\"user_id\": \"foo_gtag_identity\"});" in r
