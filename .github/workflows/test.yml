@@ -9,10 +9,26 @@ on:
     - main
 
 jobs:
-  python-django:
+  test:
     runs-on: ubuntu-20.04
     strategy:
       max-parallel: 5
+      fail-fast: false
+      matrix:
+        python-version:
+        - '3.6'
+        - '3.7'
+        - '3.8'
+        - '3.9'
+        - '3.10'
+        - '3.11'
+        django-version:
+        - '3.2'
+        - '4.0'
+        exclude:
+        - { django-version: '4.1', python-version: '3.7' }
+        - { django-version: '4.2', python-version: '3.7' }
+        - { django-version: '3.2', python-version: '3.11' }
 
     steps:
     - uses: actions/checkout@v2
@@ -26,10 +42,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install --upgrade tox tox-gh-actions
+        python -m pip install --upgrade tox tox-gh
+
+    - name: Setup test suite
+      run: tox4 r -vv --notest
 
     - name: Tox tests (Python ${{ matrix.python-version }}, Django ${{ matrix.django-version }})
-      run: tox
+      run: tox4 r --skip-pkg-install
       env:
         DJANGO: ${{ matrix.django-version }}
 
