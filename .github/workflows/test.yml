@@ -11,6 +11,8 @@ on:
 jobs:
   python-django:
     runs-on: ubuntu-20.04
+    strategy:
+      max-parallel: 5
 
     steps:
     - uses: actions/checkout@v2
