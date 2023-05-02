@@ -133,6 +133,8 @@ variable must be set to a dictionary where the keys are the dimension names
 and the values are the dimension values. You can set the context variable in your
 view when you render a template containing the tracking code::
 
+.. code-block:: python
+
     context = RequestContext({
         'google_analytics_custom_dimensions': {
                 'gender': 'female',
@@ -150,6 +152,8 @@ sending user properties to Google Analytics automatically.
 
 You may want to set custom dimensions in a context processor that you add
 to the :data:`TEMPLATE_CONTEXT_PROCESSORS` list in :file:`settings.py`::
+
+.. code-block:: python
 
     def google_analytics_segment_language(request):
         try:
