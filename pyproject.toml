@@ -5,9 +5,6 @@ exclude = [".cache",".git",".github",".tox","build","dist","docs","tests"]
 [tool.black]
 color = true
 
-[tool.coverage.xml]
-output = "tests/coverage-report.xml"
-
 [tool.isort]
 color_output = true
 profile = "black"
