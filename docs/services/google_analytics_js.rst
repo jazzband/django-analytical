@@ -26,7 +26,7 @@ application to :const:`INSTALLED_APPS` in your project
 Next you need to add the Google Analytics template tag to your
 templates. This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
-:ref:`google-analytics-configuration`.
+:ref:`google-analytics-configuration-js`.
 
 The Google Analytics tracking code is inserted into templates using a
 template tag.  Load the :mod:`google_analytics_js` template tag library and
@@ -43,7 +43,7 @@ template.  Insert the tag at the bottom of the HTML head::
     ...
 
 
-.. _google-analytics-configuration:
+.. _google-analytics-configuration-js:
 
 Configuration
 =============
@@ -54,7 +54,7 @@ code, you also need to set-up the domain.  Finally, you can add custom
 segments for Google Analytics to track.
 
 
-.. _google-analytics-property-id:
+.. _google-analytics-js-property-id:
 
 Setting the property ID
 -----------------------
@@ -117,7 +117,7 @@ By default, display advertising features are disabled.
 .. _`Display Advertising features`: https://support.google.com/analytics/answer/3450482
 
 
-.. _google-analytics-internal-ips:
+.. _google-analytics-js-internal-ips:
 
 Internal IP addresses
 ---------------------
@@ -131,7 +131,7 @@ setting, the tracking code is commented out.  It takes the value of
 important information about detecting the visitor IP address.
 
 
-.. _google-analytics-custom-variables:
+.. _google-analytics-js-custom-variables:
 
 Custom variables
 ----------------
@@ -165,7 +165,7 @@ context processor, the latter clobbers the former.
 .. _`custom variables`: https://developers.google.com/analytics/devguides/collection/upgrade/reference/gajs-analyticsjs#custom-vars
 
 
-.. _google-analytics-anonimyze-ips:
+.. _google-analytics-js-anonimyze-ips:
 
 Anonymize IPs
 -------------
@@ -183,7 +183,7 @@ By default, IPs are not anonymized.
 .. _`IP anonymization`: https://support.google.com/analytics/bin/answer.py?hl=en&answer=2763052
 
 
-.. _google-analytics-sample-rate:
+.. _google-analytics-js-sample-rate:
 
 Sample Rate
 -----------
@@ -199,7 +199,7 @@ integer value.
 .. _`Sample Rate`: https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#sampleRate
 
 
-.. _google-analytics-site-speed-sample-rate:
+.. _google-analytics-js-site-speed-sample-rate:
 
 Site Speed Sample Rate
 ----------------------
@@ -218,7 +218,7 @@ integer value.
 .. _google-analytics-cookie-expiration:
 
 Cookie Expiration
-----------------------
+-----------------
 
 You can configure the `Cookie Expiration`_ feature by setting the
 :const:`GOOGLE_ANALYTICS_COOKIE_EXPIRATION` configuration setting::
@@ -230,7 +230,7 @@ The value is the cookie expiration in seconds or 0 to delete the cookie when the
 .. _`Cookie Expiration`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsessioncookietimeout
 
 Custom Javascript Source
-----------------------
+------------------------
 
 You can configure a custom URL for the javascript file by setting the
 :const:`GOOGLE_ANALYTICS_JS_SOURCE` configuration setting::

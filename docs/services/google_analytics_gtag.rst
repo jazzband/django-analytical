@@ -26,7 +26,7 @@ application to :const:`INSTALLED_APPS` in your project
 Next you need to add the Google Analytics template tag to your
 templates. This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
-:ref:`google-analytics-configuration`.
+:ref:`google-analytics-configuration-gtag`.
 
 The Google Analytics tracking code is inserted into templates using a
 template tag.  Load the :mod:`google_analytics_gtag` template tag library and
@@ -43,7 +43,7 @@ template.  Insert the tag at the bottom of the HTML head::
     ...
 
 
-.. _google-analytics-configuration:
+.. _google-analytics-configuration-gtag:
 
 Configuration
 =============
@@ -54,7 +54,7 @@ code, you also need to set-up the domain.  Finally, you can add custom
 segments for Google Analytics to track.
 
 
-.. _google-analytics-property-id:
+.. _google-analytics-gtag-property-id:
 
 Setting the property ID
 -----------------------
