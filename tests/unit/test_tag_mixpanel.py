@@ -50,12 +50,19 @@ class MixpanelTagTestCase(TagTestCase):
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_anonymous_user(self):
         r = MixpanelNode().render(Context({'user': AnonymousUser()}))
-        assert "mixpanel.register_once({distinct_id:" not in r
+        assert 'mixpanel.register_once({distinct_id:' not in r
 
     def test_event(self):
-        r = MixpanelNode().render(Context({
-            'mixpanel_event': ('test_event', {'prop1': 'val1', 'prop2': 'val2'}),
-        }))
+        r = MixpanelNode().render(
+            Context(
+                {
+                    'mixpanel_event': (
+                        'test_event',
+                        {'prop1': 'val1', 'prop2': 'val2'},
+                    ),
+                }
+            )
+        )
         assert "mixpanel.track('test_event', "
         '{"prop1": "val1", "prop2": "val2"});' in r
 

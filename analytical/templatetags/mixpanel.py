@@ -25,7 +25,7 @@ e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
     </script>
 """  # noqa
 IDENTIFY_CODE = "mixpanel.identify('%s');"
-IDENTIFY_PROPERTIES = "mixpanel.people.set(%s);"
+IDENTIFY_PROPERTIES = 'mixpanel.people.set(%s);'
 EVENT_CODE = "mixpanel.track('%(name)s', %(properties)s);"
 EVENT_CONTEXT_KEY = 'mixpanel_event'
 
@@ -49,29 +49,38 @@ def mixpanel(parser, token):
 class MixpanelNode(Node):
     def __init__(self):
         self._token = get_required_setting(
-                'MIXPANEL_API_TOKEN', MIXPANEL_API_TOKEN_RE,
-                "must be a string containing a 32-digit hexadecimal number")
+            'MIXPANEL_API_TOKEN',
+            MIXPANEL_API_TOKEN_RE,
+            'must be a string containing a 32-digit hexadecimal number',
+        )
 
     def render(self, context):
         commands = []
         identity = get_identity(context, 'mixpanel')
         if identity is not None:
             if isinstance(identity, dict):
-                commands.append(IDENTIFY_CODE % identity.get('id', identity.get('username')))
-                commands.append(IDENTIFY_PROPERTIES % json.dumps(identity, sort_keys=True))
+                commands.append(
+                    IDENTIFY_CODE % identity.get('id', identity.get('username'))
+                )
+                commands.append(
+                    IDENTIFY_PROPERTIES % json.dumps(identity, sort_keys=True)
+                )
             else:
                 commands.append(IDENTIFY_CODE % identity)
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
-            commands.append(EVENT_CODE % {
-                'name': name,
-                'properties': json.dumps(properties, sort_keys=True),
-            })
+            commands.append(
+                EVENT_CODE
+                % {
+                    'name': name,
+                    'properties': json.dumps(properties, sort_keys=True),
+                }
+            )
         except KeyError:
             pass
         html = TRACKING_CODE % {
             'token': self._token,
-            'commands': " ".join(commands),
+            'commands': ' '.join(commands),
         }
         if is_internal_ip(context, 'MIXPANEL'):
             html = disable_html(html, 'Mixpanel')

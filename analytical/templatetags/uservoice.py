@@ -48,7 +48,8 @@ def uservoice(parser, token):
 class UserVoiceNode(Node):
     def __init__(self):
         self.default_widget_key = get_required_setting(
-            'USERVOICE_WIDGET_KEY', WIDGET_KEY_RE, "must be an alphanumeric string")
+            'USERVOICE_WIDGET_KEY', WIDGET_KEY_RE, 'must be an alphanumeric string'
+        )
 
     def render(self, context):
         widget_key = context.get('uservoice_widget_key')
@@ -65,13 +66,16 @@ class UserVoiceNode(Node):
         if identity:
             identity = IDENTITY % {'options': json.dumps(identity, sort_keys=True)}
 
-        trigger = context.get('uservoice_add_trigger',
-                              getattr(settings, 'USERVOICE_ADD_TRIGGER', True))
+        trigger = context.get(
+            'uservoice_add_trigger', getattr(settings, 'USERVOICE_ADD_TRIGGER', True)
+        )
 
-        html = TRACKING_CODE % {'widget_key': widget_key,
-                                'options':  json.dumps(options, sort_keys=True),
-                                'trigger': TRIGGER if trigger else '',
-                                'identity': identity if identity else ''}
+        html = TRACKING_CODE % {
+            'widget_key': widget_key,
+            'options': json.dumps(options, sort_keys=True),
+            'trigger': TRIGGER if trigger else '',
+            'identity': identity if identity else '',
+        }
         return html
 
     def _identify(self, user):

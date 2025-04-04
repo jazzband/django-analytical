@@ -52,11 +52,17 @@ class ClickyTagTestCase(TagTestCase):
         assert 'var clicky_custom = {"session": {"username":' not in r
 
     def test_custom(self):
-        r = ClickyNode().render(Context({
-            'clicky_var1': 'val1',
-            'clicky_var2': 'val2',
-        }))
-        assert re.search(r'var clicky_custom = {.*"var1": "val1", "var2": "val2".*};', r)
+        r = ClickyNode().render(
+            Context(
+                {
+                    'clicky_var1': 'val1',
+                    'clicky_var2': 'val2',
+                }
+            )
+        )
+        assert re.search(
+            r'var clicky_custom = {.*"var1": "val1", "var2": "val2".*};', r
+        )
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):

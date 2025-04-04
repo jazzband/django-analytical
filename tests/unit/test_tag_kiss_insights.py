@@ -20,11 +20,11 @@ class KissInsightsTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('kiss_insights', 'kiss_insights')
-        assert "//s3.amazonaws.com/ki.js/12345/abc.js" in r
+        assert '//s3.amazonaws.com/ki.js/12345/abc.js' in r
 
     def test_node(self):
         r = KissInsightsNode().render(Context())
-        assert "//s3.amazonaws.com/ki.js/12345/abc.js" in r
+        assert '//s3.amazonaws.com/ki.js/12345/abc.js' in r
 
     @override_settings(KISS_INSIGHTS_ACCOUNT_NUMBER=None)
     def test_no_account_number(self):

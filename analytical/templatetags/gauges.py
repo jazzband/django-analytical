@@ -46,8 +46,8 @@ def gauges(parser, token):
 class GaugesNode(Node):
     def __init__(self):
         self.site_id = get_required_setting(
-                'GAUGES_SITE_ID', SITE_ID_RE,
-                "must be a string looking like 'XXXXXXX'")
+            'GAUGES_SITE_ID', SITE_ID_RE, "must be a string looking like 'XXXXXXX'"
+        )
 
     def render(self, context):
         html = TRACKING_CODE % {'site_id': self.site_id}

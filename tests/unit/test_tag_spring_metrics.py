@@ -39,9 +39,13 @@ class SpringMetricsTagTestCase(TagTestCase):
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify(self):
-        r = SpringMetricsNode().render(Context({
-            'user': User(email='test@test.com'),
-        }))
+        r = SpringMetricsNode().render(
+            Context(
+                {
+                    'user': User(email='test@test.com'),
+                }
+            )
+        )
         assert "_springMetq.push(['setdata', {'email': 'test@test.com'}]);" in r
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
@@ -50,10 +54,14 @@ class SpringMetricsTagTestCase(TagTestCase):
         assert "_springMetq.push(['setdata', {'email':" not in r
 
     def test_custom(self):
-        r = SpringMetricsNode().render(Context({
-            'spring_metrics_var1': 'val1',
-            'spring_metrics_var2': 'val2',
-        }))
+        r = SpringMetricsNode().render(
+            Context(
+                {
+                    'spring_metrics_var1': 'val1',
+                    'spring_metrics_var2': 'val2',
+                }
+            )
+        )
         assert "_springMetq.push(['setdata', {'var1': 'val1'}]);" in r
         assert "_springMetq.push(['setdata', {'var2': 'val2'}]);" in r
 

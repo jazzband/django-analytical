@@ -21,11 +21,17 @@ class KissMetricsTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('kiss_metrics', 'kiss_metrics')
-        assert "//doug1izaerwt3.cloudfront.net/0123456789abcdef0123456789abcdef01234567.1.js" in r
+        assert (
+            '//doug1izaerwt3.cloudfront.net/0123456789abcdef0123456789abcdef01234567.1.js'
+            in r
+        )
 
     def test_node(self):
         r = KissMetricsNode().render(Context())
-        assert "//doug1izaerwt3.cloudfront.net/0123456789abcdef0123456789abcdef01234567.1.js" in r
+        assert (
+            '//doug1izaerwt3.cloudfront.net/0123456789abcdef0123456789abcdef01234567.1.js'
+            in r
+        )
 
     @override_settings(KISS_METRICS_API_KEY=None)
     def test_no_api_key(self):
@@ -53,22 +59,37 @@ class KissMetricsTagTestCase(TagTestCase):
         assert "_kmq.push(['identify', " not in r
 
     def test_event(self):
-        r = KissMetricsNode().render(Context({
-            'kiss_metrics_event': ('test_event', {'prop1': 'val1', 'prop2': 'val2'}),
-        }))
+        r = KissMetricsNode().render(
+            Context(
+                {
+                    'kiss_metrics_event': (
+                        'test_event',
+                        {'prop1': 'val1', 'prop2': 'val2'},
+                    ),
+                }
+            )
+        )
         assert "_kmq.push(['record', 'test_event', "
         '{"prop1": "val1", "prop2": "val2"}]);' in r
 
     def test_property(self):
-        r = KissMetricsNode().render(Context({
-            'kiss_metrics_properties': {'prop1': 'val1', 'prop2': 'val2'},
-        }))
+        r = KissMetricsNode().render(
+            Context(
+                {
+                    'kiss_metrics_properties': {'prop1': 'val1', 'prop2': 'val2'},
+                }
+            )
+        )
         assert '_kmq.push([\'set\', {"prop1": "val1", "prop2": "val2"}]);' in r
 
     def test_alias(self):
-        r = KissMetricsNode().render(Context({
-            'kiss_metrics_alias': {'test': 'test_alias'},
-        }))
+        r = KissMetricsNode().render(
+            Context(
+                {
+                    'kiss_metrics_alias': {'test': 'test_alias'},
+                }
+            )
+        )
         assert "_kmq.push(['alias', 'test', 'test_alias']);" in r
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])

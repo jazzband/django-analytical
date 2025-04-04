@@ -9,10 +9,10 @@ from django.template import Library, Node, TemplateSyntaxError
 from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
-SETUP_CODE = '<script type="text/javascript" src="{placeholder_url}">' \
-             '</script>'.\
-    format(placeholder_url='//dnn506yrbagrg.cloudfront.net/pages/scripts/'
-                           '%(account_nr_1)s/%(account_nr_2)s.js')
+SETUP_CODE = '<script type="text/javascript" src="{placeholder_url}"></script>'.format(
+    placeholder_url='//dnn506yrbagrg.cloudfront.net/pages/scripts/'
+    '%(account_nr_1)s/%(account_nr_2)s.js'
+)
 USERVAR_CODE = "CE2.set(%(varnr)d, '%(value)s');"
 
 
@@ -38,7 +38,8 @@ class CrazyEggNode(Node):
     def __init__(self):
         self.account_nr = get_required_setting(
             'CRAZY_EGG_ACCOUNT_NUMBER',
-            ACCOUNT_NUMBER_RE, "must be (a string containing) a number"
+            ACCOUNT_NUMBER_RE,
+            'must be (a string containing) a number',
         )
 
     def render(self, context):
@@ -49,12 +50,15 @@ class CrazyEggNode(Node):
         values = (context.get('crazy_egg_var%d' % i) for i in range(1, 6))
         params = [(i, v) for i, v in enumerate(values, 1) if v is not None]
         if params:
-            js = " ".join(USERVAR_CODE % {
-                'varnr': varnr,
-                'value': value,
-            } for (varnr, value) in params)
-            html = '%s\n' \
-                   '<script type="text/javascript">%s</script>' % (html, js)
+            js = ' '.join(
+                USERVAR_CODE
+                % {
+                    'varnr': varnr,
+                    'value': value,
+                }
+                for (varnr, value) in params
+            )
+            html = '%s\n<script type="text/javascript">%s</script>' % (html, js)
         if is_internal_ip(context, 'CRAZY_EGG'):
             html = disable_html(html, 'Crazy Egg')
         return html

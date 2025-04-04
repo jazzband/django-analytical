@@ -29,8 +29,10 @@ pygments_style = 'sphinx'
 
 intersphinx_mapping = {
     'python': ('http://docs.python.org/3.13', None),
-    'django': ('http://docs.djangoproject.com/en/stable',
-        'http://docs.djangoproject.com/en/stable/_objects/'),
+    'django': (
+        'http://docs.djangoproject.com/en/stable',
+        'http://docs.djangoproject.com/en/stable/_objects/',
+    ),
 }
 
 
@@ -43,6 +45,11 @@ htmlhelp_basename = 'analyticaldoc'
 # -- Options for LaTeX output -----------------------------------------------
 
 latex_documents = [
-    ('index', 'django-analytical.tex', 'Documentation for django-analytical',
-     'Joost Cassee', 'manual'),
+    (
+        'index',
+        'django-analytical.tex',
+        'Documentation for django-analytical',
+        'Joost Cassee',
+        'manual',
+    ),
 ]

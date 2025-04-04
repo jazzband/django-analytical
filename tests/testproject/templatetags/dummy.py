@@ -12,7 +12,8 @@ register = Library()
 def _location_node(location):
     class DummyNode(Node):
         def render(self, context):
-            return "<!-- dummy_%s -->" % location
+            return '<!-- dummy_%s -->' % location
+
     return DummyNode
 
 
@@ -25,6 +26,7 @@ def _location_tag(location):
         if len(bits) > 1:
             raise TemplateSyntaxError("'%s' tag takes no arguments" % bits[0])
         return _location_nodes[location]
+
     return dummy_tag
 
 

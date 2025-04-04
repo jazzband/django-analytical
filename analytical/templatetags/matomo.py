@@ -40,9 +40,11 @@ TRACKING_CODE = """
 <noscript><p><img src="//%(url)s/matomo.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
 """  # noqa
 
-VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
+VARIABLE_CODE = (
+    '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
+)
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
-DISABLE_COOKIES_CODE = '_paq.push([\'disableCookies\']);'
+DISABLE_COOKIES_CODE = "_paq.push(['disableCookies']);"
 
 DEFAULT_SCOPE = 'page'
 
@@ -75,23 +77,27 @@ def matomo(parser, token):
 
 class MatomoNode(Node):
     def __init__(self):
-        self.domain_path = \
-            get_required_setting('MATOMO_DOMAIN_PATH', DOMAINPATH_RE,
-                                 "must be a domain name, optionally followed "
-                                 "by an URI path, no trailing slash (e.g. "
-                                 "matomo.example.com or my.matomo.server/path)")
-        self.site_id = \
-            get_required_setting('MATOMO_SITE_ID', SITEID_RE,
-                                 "must be a (string containing a) number")
+        self.domain_path = get_required_setting(
+            'MATOMO_DOMAIN_PATH',
+            DOMAINPATH_RE,
+            'must be a domain name, optionally followed '
+            'by an URI path, no trailing slash (e.g. '
+            'matomo.example.com or my.matomo.server/path)',
+        )
+        self.site_id = get_required_setting(
+            'MATOMO_SITE_ID', SITEID_RE, 'must be a (string containing a) number'
+        )
 
     def render(self, context):
         custom_variables = context.get('matomo_vars', ())
 
-        complete_variables = (var if len(var) >= 4 else var + (DEFAULT_SCOPE,)
-                              for var in custom_variables)
+        complete_variables = (
+            var if len(var) >= 4 else var + (DEFAULT_SCOPE,) for var in custom_variables
+        )
 
-        variables_code = (VARIABLE_CODE % MatomoVar(*var)._asdict()
-                          for var in complete_variables)
+        variables_code = (
+            VARIABLE_CODE % MatomoVar(*var)._asdict() for var in complete_variables
+        )
 
         commands = []
         if getattr(settings, 'MATOMO_DISABLE_COOKIES', False):
@@ -99,15 +105,15 @@ class MatomoNode(Node):
 
         userid = get_identity(context, 'matomo')
         if userid is not None:
-            variables_code = chain(variables_code, (
-                IDENTITY_CODE % {'userid': userid},
-            ))
+            variables_code = chain(
+                variables_code, (IDENTITY_CODE % {'userid': userid},)
+            )
 
         html = TRACKING_CODE % {
             'url': self.domain_path,
             'siteid': self.site_id,
             'variables': '\n  '.join(variables_code),
-            'commands': '\n  '.join(commands)
+            'commands': '\n  '.join(commands),
         }
         if is_internal_ip(context, 'MATOMO'):
             html = disable_html(html, 'Matomo')

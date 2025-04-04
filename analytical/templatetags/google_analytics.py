@@ -45,8 +45,9 @@ DOMAIN_CODE = "_gaq.push(['_setDomainName', '%s']);"
 NO_ALLOW_HASH_CODE = "_gaq.push(['_setAllowHash', false]);"
 TRACK_PAGE_VIEW = "_gaq.push(['_trackPageview']);"
 ALLOW_LINKER_CODE = "_gaq.push(['_setAllowLinker', true]);"
-CUSTOM_VAR_CODE = "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', " \
-                  "'%(value)s', %(scope)s]);"
+CUSTOM_VAR_CODE = (
+    "_gaq.push(['_setCustomVar', %(index)s, '%(name)s', '%(value)s', %(scope)s]);"
+)
 SITE_SPEED_CODE = "_gaq.push(['_trackPageLoadTime']);"
 ANONYMIZE_IP_CODE = "_gaq.push(['_gat._anonymizeIp']);"
 SAMPLE_RATE_CODE = "_gaq.push(['_setSampleRate', '%s']);"
@@ -54,7 +55,10 @@ SITE_SPEED_SAMPLE_RATE_CODE = "_gaq.push(['_setSiteSpeedSampleRate', '%s']);"
 SESSION_COOKIE_TIMEOUT_CODE = "_gaq.push(['_setSessionCookieTimeout', '%s']);"
 VISITOR_COOKIE_TIMEOUT_CODE = "_gaq.push(['_setVisitorCookieTimeout', '%s']);"
 DEFAULT_SOURCE = ("'https://ssl' : 'http://www'", "'.google-analytics.com/ga.js'")
-DISPLAY_ADVERTISING_SOURCE = ("'https://' : 'http://'", "'stats.g.doubleclick.net/dc.js'")
+DISPLAY_ADVERTISING_SOURCE = (
+    "'https://' : 'http://'",
+    "'stats.g.doubleclick.net/dc.js'",
+)
 
 ZEROPLACES = decimal.Decimal('0')
 TWOPLACES = decimal.Decimal('0.01')
@@ -80,8 +84,10 @@ def google_analytics(parser, token):
 class GoogleAnalyticsNode(Node):
     def __init__(self):
         self.property_id = get_required_setting(
-            'GOOGLE_ANALYTICS_PROPERTY_ID', PROPERTY_ID_RE,
-            "must be a string looking like 'UA-XXXXXX-Y'")
+            'GOOGLE_ANALYTICS_PROPERTY_ID',
+            PROPERTY_ID_RE,
+            "must be a string looking like 'UA-XXXXXX-Y'",
+        )
 
     def render(self, context):
         commands = self._get_domain_commands(context)
@@ -94,7 +100,7 @@ class GoogleAnalyticsNode(Node):
             source = DEFAULT_SOURCE
         html = SETUP_CODE % {
             'property_id': self.property_id,
-            'commands': " ".join(commands),
+            'commands': ' '.join(commands),
             'source_scheme': source[0],
             'source_url': source[1],
         }
@@ -104,15 +110,17 @@ class GoogleAnalyticsNode(Node):
 
     def _get_domain_commands(self, context):
         commands = []
-        tracking_type = getattr(settings, 'GOOGLE_ANALYTICS_TRACKING_STYLE',
-                                TRACK_SINGLE_DOMAIN)
+        tracking_type = getattr(
+            settings, 'GOOGLE_ANALYTICS_TRACKING_STYLE', TRACK_SINGLE_DOMAIN
+        )
         if tracking_type == TRACK_SINGLE_DOMAIN:
             pass
         else:
             domain = get_domain(context, 'google_analytics')
             if domain is None:
                 raise AnalyticalException(
-                    "tracking multiple domains with Google Analytics requires a domain name")
+                    'tracking multiple domains with Google Analytics requires a domain name'
+                )
             commands.append(DOMAIN_CODE % domain)
             commands.append(NO_ALLOW_HASH_CODE)
             if tracking_type == TRACK_MULTIPLE_DOMAINS:
@@ -120,9 +128,7 @@ class GoogleAnalyticsNode(Node):
         return commands
 
     def _get_custom_var_commands(self, context):
-        values = (
-            context.get('google_analytics_var%s' % i) for i in range(1, 6)
-        )
+        values = (context.get('google_analytics_var%s' % i) for i in range(1, 6))
         params = [(i, v) for i, v in enumerate(values, 1) if v is not None]
         commands = []
         for index, var in params:
@@ -132,12 +138,15 @@ class GoogleAnalyticsNode(Node):
                 scope = var[2]
             except IndexError:
                 scope = SCOPE_PAGE
-            commands.append(CUSTOM_VAR_CODE % {
-                'index': index,
-                'name': name,
-                'value': value,
-                'scope': scope,
-            })
+            commands.append(
+                CUSTOM_VAR_CODE
+                % {
+                    'index': index,
+                    'name': name,
+                    'value': value,
+                    'scope': scope,
+                }
+            )
         return commands
 
     def _get_other_commands(self, context):
@@ -152,29 +161,42 @@ class GoogleAnalyticsNode(Node):
         if sampleRate is not False:
             value = decimal.Decimal(sampleRate)
             if not 0 <= value <= 100:
-                raise AnalyticalException("'GOOGLE_ANALYTICS_SAMPLE_RATE' must be >= 0 and <= 100")
+                raise AnalyticalException(
+                    "'GOOGLE_ANALYTICS_SAMPLE_RATE' must be >= 0 and <= 100"
+                )
             commands.append(SAMPLE_RATE_CODE % value.quantize(TWOPLACES))
 
-        siteSpeedSampleRate = getattr(settings, 'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE', False)
+        siteSpeedSampleRate = getattr(
+            settings, 'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE', False
+        )
         if siteSpeedSampleRate is not False:
             value = decimal.Decimal(siteSpeedSampleRate)
             if not 0 <= value <= 100:
                 raise AnalyticalException(
-                    "'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE' must be >= 0 and <= 100")
+                    "'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE' must be >= 0 and <= 100"
+                )
             commands.append(SITE_SPEED_SAMPLE_RATE_CODE % value.quantize(TWOPLACES))
 
-        sessionCookieTimeout = getattr(settings, 'GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT', False)
+        sessionCookieTimeout = getattr(
+            settings, 'GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT', False
+        )
         if sessionCookieTimeout is not False:
             value = decimal.Decimal(sessionCookieTimeout)
             if value < 0:
-                raise AnalyticalException("'GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT' must be >= 0")
+                raise AnalyticalException(
+                    "'GOOGLE_ANALYTICS_SESSION_COOKIE_TIMEOUT' must be >= 0"
+                )
             commands.append(SESSION_COOKIE_TIMEOUT_CODE % value.quantize(ZEROPLACES))
 
-        visitorCookieTimeout = getattr(settings, 'GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT', False)
+        visitorCookieTimeout = getattr(
+            settings, 'GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT', False
+        )
         if visitorCookieTimeout is not False:
             value = decimal.Decimal(visitorCookieTimeout)
             if value < 0:
-                raise AnalyticalException("'GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT' must be >= 0")
+                raise AnalyticalException(
+                    "'GOOGLE_ANALYTICS_VISITOR_COOKIE_TIMEOUT' must be >= 0"
+                )
             commands.append(VISITOR_COOKIE_TIMEOUT_CODE % value.quantize(ZEROPLACES))
         return commands
 

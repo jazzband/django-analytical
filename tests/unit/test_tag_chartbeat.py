@@ -22,21 +22,25 @@ class ChartbeatTagTestCaseNoSites(TestCase):
         self.assertTrue('var _sf_async_config={"uid": "12345"};' in r, r)
 
 
-@override_settings(INSTALLED_APPS=(
-    'analytical',
-    'django.contrib.sites',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-))
+@override_settings(
+    INSTALLED_APPS=(
+        'analytical',
+        'django.contrib.sites',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+    )
+)
 @override_settings(CHARTBEAT_USER_ID='12345')
 class ChartbeatTagTestCaseWithSites(TestCase):
     def setUp(self):
         from django.core.management import call_command
-        call_command("migrate", verbosity=0)
+
+        call_command('migrate', verbosity=0)
 
     def test_rendering_setup_site(self):
         from django.contrib.sites.models import Site
-        site = Site.objects.create(domain="test.com", name="test")
+
+        site = Site.objects.create(domain='test.com', name='test')
         with override_settings(SITE_ID=site.id):
             r = ChartbeatBottomNode().render(Context())
             assert re.search('var _sf_async_config={.*"uid": "12345".*};', r)
@@ -60,24 +64,36 @@ class ChartbeatTagTestCase(TagTestCase):
     """
 
     def test_top_tag(self):
-        r = self.render_tag('chartbeat', 'chartbeat_top', {'chartbeat_domain': "test.com"})
+        r = self.render_tag(
+            'chartbeat', 'chartbeat_top', {'chartbeat_domain': 'test.com'}
+        )
         assert 'var _sf_startpt=(new Date()).getTime()' in r
 
     def test_bottom_tag(self):
-        r = self.render_tag('chartbeat', 'chartbeat_bottom', {'chartbeat_domain': "test.com"})
+        r = self.render_tag(
+            'chartbeat', 'chartbeat_bottom', {'chartbeat_domain': 'test.com'}
+        )
         assert re.search('var _sf_async_config={.*"uid": "12345".*};', r)
         assert re.search('var _sf_async_config={.*"domain": "test.com".*};', r)
 
     def test_top_node(self):
-        r = ChartbeatTopNode().render(Context({
-            'chartbeat_domain': "test.com",
-        }))
+        r = ChartbeatTopNode().render(
+            Context(
+                {
+                    'chartbeat_domain': 'test.com',
+                }
+            )
+        )
         assert 'var _sf_startpt=(new Date()).getTime()' in r
 
     def test_bottom_node(self):
-        r = ChartbeatBottomNode().render(Context({
-            'chartbeat_domain': "test.com",
-        }))
+        r = ChartbeatBottomNode().render(
+            Context(
+                {
+                    'chartbeat_domain': 'test.com',
+                }
+            )
+        )
         assert re.search('var _sf_async_config={.*"uid": "12345".*};', r)
         assert re.search('var _sf_async_config={.*"domain": "test.com".*};', r)
 

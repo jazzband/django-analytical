@@ -15,7 +15,7 @@ TRACKING_CODE = """
   heap.load("%(tracker_id)s");
 </script>
 
-""" # noqa
+"""  # noqa
 
 register = Library()
 
@@ -41,9 +41,9 @@ def heap(parser, token):
 
 class HeapNode(Node):
     def __init__(self):
-        self.tracker_id = get_required_setting('HEAP_TRACKER_ID',
-                                               HEAP_TRACKER_ID_RE,
-                                               "must be an numeric string")
+        self.tracker_id = get_required_setting(
+            'HEAP_TRACKER_ID', HEAP_TRACKER_ID_RE, 'must be an numeric string'
+        )
 
     def render(self, context):
         html = TRACKING_CODE % {'tracker_id': self.tracker_id}

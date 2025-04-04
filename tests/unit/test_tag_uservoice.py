@@ -19,11 +19,11 @@ class UserVoiceTagTestCase(TagTestCase):
 
     def test_node(self):
         r = UserVoiceNode().render(Context())
-        assert "widget.uservoice.com/abcdefghijklmnopqrst.js" in r
+        assert 'widget.uservoice.com/abcdefghijklmnopqrst.js' in r
 
     def test_tag(self):
         r = self.render_tag('uservoice', 'uservoice')
-        assert "widget.uservoice.com/abcdefghijklmnopqrst.js" in r
+        assert 'widget.uservoice.com/abcdefghijklmnopqrst.js' in r
 
     @override_settings(USERVOICE_WIDGET_KEY=None)
     def test_no_key(self):
@@ -43,7 +43,7 @@ class UserVoiceTagTestCase(TagTestCase):
     def test_overridden_key(self):
         vars = {'uservoice_widget_key': 'defghijklmnopqrstuvw'}
         r = UserVoiceNode().render(Context(vars))
-        assert "widget.uservoice.com/defghijklmnopqrstuvw.js" in r
+        assert 'widget.uservoice.com/defghijklmnopqrstuvw.js' in r
 
     @override_settings(USERVOICE_WIDGET_OPTIONS={'key1': 'val1'})
     def test_options(self):

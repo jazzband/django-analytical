@@ -57,29 +57,34 @@ def google_analytics_js(parser, token):
 class GoogleAnalyticsJsNode(Node):
     def __init__(self):
         self.property_id = get_required_setting(
-            'GOOGLE_ANALYTICS_JS_PROPERTY_ID', PROPERTY_ID_RE,
-            "must be a string looking like 'UA-XXXXXX-Y'")
+            'GOOGLE_ANALYTICS_JS_PROPERTY_ID',
+            PROPERTY_ID_RE,
+            "must be a string looking like 'UA-XXXXXX-Y'",
+        )
 
     def render(self, context):
         import json
+
         create_fields = self._get_domain_fields(context)
         create_fields.update(self._get_other_create_fields(context))
         commands = self._get_custom_var_commands(context)
         commands.extend(self._get_other_commands(context))
-        display_features = getattr(settings, 'GOOGLE_ANALYTICS_DISPLAY_ADVERTISING', False)
+        display_features = getattr(
+            settings, 'GOOGLE_ANALYTICS_DISPLAY_ADVERTISING', False
+        )
         if display_features:
             commands.insert(0, REQUIRE_DISPLAY_FEATURES)
 
         js_source = getattr(
             settings,
             'GOOGLE_ANALYTICS_JS_SOURCE',
-            'https://www.google-analytics.com/analytics.js'
+            'https://www.google-analytics.com/analytics.js',
         )
 
         html = SETUP_CODE.format(
             property_id=self.property_id,
             create_fields=json.dumps(create_fields),
-            commands="".join(commands),
+            commands=''.join(commands),
             js_source=js_source,
         )
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
@@ -88,14 +93,17 @@ class GoogleAnalyticsJsNode(Node):
 
     def _get_domain_fields(self, context):
         domain_fields = {}
-        tracking_type = getattr(settings, 'GOOGLE_ANALYTICS_TRACKING_STYLE', TRACK_SINGLE_DOMAIN)
+        tracking_type = getattr(
+            settings, 'GOOGLE_ANALYTICS_TRACKING_STYLE', TRACK_SINGLE_DOMAIN
+        )
         if tracking_type == TRACK_SINGLE_DOMAIN:
             pass
         else:
             domain = get_domain(context, 'google_analytics')
             if domain is None:
                 raise AnalyticalException(
-                    "tracking multiple domains with Google Analytics requires a domain name")
+                    'tracking multiple domains with Google Analytics requires a domain name'
+                )
             domain_fields['legacyCookieDomain'] = domain
             if tracking_type == TRACK_MULTIPLE_DOMAINS:
                 domain_fields['allowLinker'] = True
@@ -104,34 +112,39 @@ class GoogleAnalyticsJsNode(Node):
     def _get_other_create_fields(self, context):
         other_fields = {}
 
-        site_speed_sample_rate = getattr(settings, 'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE', False)
+        site_speed_sample_rate = getattr(
+            settings, 'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE', False
+        )
         if site_speed_sample_rate is not False:
             value = int(decimal.Decimal(site_speed_sample_rate))
             if not 0 <= value <= 100:
                 raise AnalyticalException(
-                    "'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE' must be >= 0 and <= 100")
+                    "'GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE' must be >= 0 and <= 100"
+                )
             other_fields['siteSpeedSampleRate'] = value
 
         sample_rate = getattr(settings, 'GOOGLE_ANALYTICS_SAMPLE_RATE', False)
         if sample_rate is not False:
             value = int(decimal.Decimal(sample_rate))
             if not 0 <= value <= 100:
-                raise AnalyticalException("'GOOGLE_ANALYTICS_SAMPLE_RATE' must be >= 0 and <= 100")
+                raise AnalyticalException(
+                    "'GOOGLE_ANALYTICS_SAMPLE_RATE' must be >= 0 and <= 100"
+                )
             other_fields['sampleRate'] = value
 
         cookie_expires = getattr(settings, 'GOOGLE_ANALYTICS_COOKIE_EXPIRATION', False)
         if cookie_expires is not False:
             value = int(decimal.Decimal(cookie_expires))
             if value < 0:
-                raise AnalyticalException("'GOOGLE_ANALYTICS_COOKIE_EXPIRATION' must be >= 0")
+                raise AnalyticalException(
+                    "'GOOGLE_ANALYTICS_COOKIE_EXPIRATION' must be >= 0"
+                )
             other_fields['cookieExpires'] = value
 
         return other_fields
 
     def _get_custom_var_commands(self, context):
-        values = (
-            context.get('google_analytics_var%s' % i) for i in range(1, 6)
-        )
+        values = (context.get('google_analytics_var%s' % i) for i in range(1, 6))
         params = [(i, v) for i, v in enumerate(values, 1) if v is not None]
         commands = []
         for _, var in params:
@@ -141,10 +154,12 @@ class GoogleAnalyticsJsNode(Node):
                 float(value)
             except ValueError:
                 value = f"'{value}'"
-            commands.append(CUSTOM_VAR_CODE.format(
-                name=name,
-                value=value,
-            ))
+            commands.append(
+                CUSTOM_VAR_CODE.format(
+                    name=name,
+                    value=value,
+                )
+            )
         return commands
 
     def _get_other_commands(self, context):

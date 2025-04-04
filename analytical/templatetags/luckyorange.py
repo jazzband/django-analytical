@@ -39,12 +39,11 @@ def luckyorange(parser, token):
 
 
 class LuckyOrangeNode(Node):
-
     def __init__(self):
         self.site_id = get_required_setting(
             'LUCKYORANGE_SITE_ID',
             re.compile(r'^\d+$'),
-            "must be (a string containing) a number",
+            'must be (a string containing) a number',
         )
 
     def render(self, context):

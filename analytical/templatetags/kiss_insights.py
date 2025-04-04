@@ -41,11 +41,15 @@ def kiss_insights(parser, token):
 class KissInsightsNode(Node):
     def __init__(self):
         self.account_number = get_required_setting(
-            'KISS_INSIGHTS_ACCOUNT_NUMBER', ACCOUNT_NUMBER_RE,
-            "must be (a string containing) a number")
+            'KISS_INSIGHTS_ACCOUNT_NUMBER',
+            ACCOUNT_NUMBER_RE,
+            'must be (a string containing) a number',
+        )
         self.site_code = get_required_setting(
-            'KISS_INSIGHTS_SITE_CODE', SITE_CODE_RE,
-            "must be a string containing three characters")
+            'KISS_INSIGHTS_SITE_CODE',
+            SITE_CODE_RE,
+            'must be a string containing three characters',
+        )
 
     def render(self, context):
         commands = []
@@ -59,7 +63,7 @@ class KissInsightsNode(Node):
         html = SETUP_CODE % {
             'account_number': self.account_number,
             'site_code': self.site_code,
-            'commands': " ".join(commands),
+            'commands': ' '.join(commands),
         }
         return html
 

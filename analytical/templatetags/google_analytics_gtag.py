@@ -13,7 +13,9 @@ from analytical.utils import (
     is_internal_ip,
 )
 
-PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$|^G-[a-zA-Z0-9]+$|^AW-[a-zA-Z0-9]+$|^DC-[a-zA-Z0-9]+$')
+PROPERTY_ID_RE = re.compile(
+    r'^UA-\d+-\d+$|^G-[a-zA-Z0-9]+$|^AW-[a-zA-Z0-9]+$|^DC-[a-zA-Z0-9]+$'
+)
 SETUP_CODE = """
 <script async src="https://www.googletagmanager.com/gtag/js?id={property_id}"></script>
 <script>
@@ -49,10 +51,12 @@ def google_analytics_gtag(parser, token):
 class GoogleAnalyticsGTagNode(Node):
     def __init__(self):
         self.property_id = get_required_setting(
-            'GOOGLE_ANALYTICS_GTAG_PROPERTY_ID', PROPERTY_ID_RE,
-            '''must be a string looking like one of these patterns
+            'GOOGLE_ANALYTICS_GTAG_PROPERTY_ID',
+            PROPERTY_ID_RE,
+            """must be a string looking like one of these patterns
             ('UA-XXXXXX-Y' , 'AW-XXXXXXXXXX',
-            'G-XXXXXXXX', 'DC-XXXXXXXX')''')
+            'G-XXXXXXXX', 'DC-XXXXXXXX')""",
+        )
 
     def render(self, context):
         other_fields = {}
@@ -61,9 +65,12 @@ class GoogleAnalyticsGTagNode(Node):
         if identity is not None:
             other_fields['user_id'] = identity
 
-        extra = '\n'.join([
-            GTAG_SET_CODE.format(key=key, value=value) for key, value in other_fields.items()
-        ])
+        extra = '\n'.join(
+            [
+                GTAG_SET_CODE.format(key=key, value=value)
+                for key, value in other_fields.items()
+            ]
+        )
         html = SETUP_CODE.format(
             property_id=self.property_id,
             extra=extra,

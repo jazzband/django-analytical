@@ -53,8 +53,8 @@ def spring_metrics(parser, token):
 class SpringMetricsNode(Node):
     def __init__(self):
         self.tracking_id = get_required_setting(
-                'SPRING_METRICS_TRACKING_ID',
-                TRACKING_ID_RE, "must be a hexadecimal string")
+            'SPRING_METRICS_TRACKING_ID', TRACKING_ID_RE, 'must be a hexadecimal string'
+        )
 
     def render(self, context):
         custom = {}
@@ -63,8 +63,7 @@ class SpringMetricsNode(Node):
                 if var.startswith('spring_metrics_'):
                     custom[var[15:]] = val
         if 'email' not in custom:
-            identity = get_identity(context, 'spring_metrics',
-                                    lambda u: u.email)
+            identity = get_identity(context, 'spring_metrics', lambda u: u.email)
             if identity is not None:
                 custom['email'] = identity
 
@@ -81,9 +80,11 @@ class SpringMetricsNode(Node):
         convert = params.pop('convert', None)
         if convert is not None:
             commands.append("_springMetq.push(['convert', '%s'])" % convert)
-        commands.extend("_springMetq.push(['setdata', {'%s': '%s'}]);"
-                        % (var, val) for var, val in params.items())
-        return " ".join(commands)
+        commands.extend(
+            "_springMetq.push(['setdata', {'%s': '%s'}]);" % (var, val)
+            for var, val in params.items()
+        )
+        return ' '.join(commands)
 
 
 def contribute_to_analytical(add_node):
