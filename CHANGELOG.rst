@@ -205,7 +205,7 @@ Version 0.5.0
 -------------
 * Split off Geckoboard support into django-geckoboard_.
 
-.. _django-geckoboard: http://pypi.python.org/pypi/django-geckoboard
+.. _django-geckoboard: https://pypi.org/project/django-geckoboard
 
 Version 0.4.0
 -------------
