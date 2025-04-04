@@ -1,6 +1,6 @@
-==================================
+====================================================
 Matomo (formerly Piwik) -- open source web analytics
-==================================
+====================================================
 
 Matomo_ is an open analytics platform currently used by individuals,
 companies and governments all over the world.
