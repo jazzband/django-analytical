@@ -15,7 +15,7 @@ from analytical.utils import (
 
 TOKEN_RE = re.compile(r'^\S+-\S+-\S+$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
       var GoSquared={};
       %(config)s
       (function(w){

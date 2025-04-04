@@ -16,7 +16,7 @@ from analytical.utils import (
 
 API_KEY_RE = re.compile(r'^[0-9a-f]{40}$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
       var _kmq = _kmq || [];
       %(commands)s
       function _kms(u){

@@ -12,7 +12,7 @@ from analytical.utils import get_identity, get_required_setting
 
 WIDGET_KEY_RE = re.compile(r'^[a-zA-Z0-9]*$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
 
     UserVoice=window.UserVoice||[];(function(){
             var uv=document.createElement('script');uv.type='text/javascript';

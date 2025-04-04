@@ -10,7 +10,7 @@ from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 SITE_ID_RE = re.compile(r'[\da-f]+$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
       var _gauges = _gauges || [];
       (function() {
         var t   = document.createElement('script');

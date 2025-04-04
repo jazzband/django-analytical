@@ -22,7 +22,7 @@ class GaugesTagTestCase(TagTestCase):
         assert (
             self.render_tag('gauges', 'gauges')
             == """
-    <script type="text/javascript">
+    <script>
       var _gauges = _gauges || [];
       (function() {
         var t   = document.createElement('script');
@@ -42,7 +42,7 @@ class GaugesTagTestCase(TagTestCase):
         assert (
             GaugesNode().render(Context())
             == """
-    <script type="text/javascript">
+    <script>
       var _gauges = _gauges || [];
       (function() {
         var t   = document.createElement('script');

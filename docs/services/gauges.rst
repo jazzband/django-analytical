@@ -56,7 +56,7 @@ site id by clicking the *Tracking Code* link when logged into
 the on the gaug.es website.  A page will display containing
 HTML code looking like this::
 
-    <script type="text/javascript">
+    <script>
       var _gauges = _gauges || [];
       (function() {
         var t   = document.createElement('script');
@@ -88,6 +88,6 @@ Internal IP addresses
 Usually you do not want to track clicks from your development or
 internal IP addresses.  By default, if the tags detect that the client
 comes from any address in the :const:`ANALYTICAL_INTERNAL_IPS` setting
-(which is :const:`INTERNAL_IPS` by default,) the tracking code is 
+(which is :const:`INTERNAL_IPS` by default,) the tracking code is
 commented out. See :ref:`identifying-visitors` for important information
 about detecting the visitor IP address.

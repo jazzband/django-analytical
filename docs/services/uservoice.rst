@@ -62,7 +62,7 @@ find the Javascript embed code of the widget.  The widget key is the
 alphanumerical string contained in the URL of the script imported by the
 embed code::
 
-    <script type="text/javascript">
+    <script>
 
       UserVoice=window.UserVoice||[];(function(){
             var uv=document.createElement('script');uv.type='text/javascript';

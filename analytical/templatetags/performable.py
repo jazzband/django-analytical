@@ -16,17 +16,17 @@ from analytical.utils import (
 
 API_KEY_RE = re.compile(r'^\w+$')
 SETUP_CODE = """
-    <script src="//d1nu2rn22elx8m.cloudfront.net/performable/pax/%(api_key)s.js" type="text/javascript"></script>
+    <script src="//d1nu2rn22elx8m.cloudfront.net/performable/pax/%(api_key)s.js"></script>
 """  # noqa
 IDENTIFY_CODE = """
-    <script type="text/javascript">
+    <script>
       var _paq = _paq || [];
       _paq.push(["identify", {identity: "%s"}]);
     </script>
 """
 EMBED_CODE = """
-    <script type="text/javascript" src="//d1nu2rn22elx8m.cloudfront.net/performable/embed/page.js"></script>
-    <script type="text/javascript">
+    <script src="//d1nu2rn22elx8m.cloudfront.net/performable/embed/page.js"></script>
+    <script>
       (function() {
       var $f = new PerformableEmbed();
       $f.initialize({'host': '%(hostname)s', 'page': '%(page_id)s'});

@@ -9,7 +9,7 @@ from django.template import Library, Node, TemplateSyntaxError
 from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 ACCOUNT_NUMBER_RE = re.compile(r'^\d+$')
-SETUP_CODE = '<script type="text/javascript" src="{placeholder_url}"></script>'.format(
+SETUP_CODE = '<script src="{placeholder_url}"></script>'.format(
     placeholder_url='//dnn506yrbagrg.cloudfront.net/pages/scripts/'
     '%(account_nr_1)s/%(account_nr_2)s.js'
 )
@@ -58,7 +58,7 @@ class CrazyEggNode(Node):
                 }
                 for (varnr, value) in params
             )
-            html = '%s\n<script type="text/javascript">%s</script>' % (html, js)
+            html = '%s\n<script>%s</script>' % (html, js)
         if is_internal_ip(context, 'CRAZY_EGG'):
             html = disable_html(html, 'Crazy Egg')
         return html

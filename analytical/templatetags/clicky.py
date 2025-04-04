@@ -16,7 +16,7 @@ from analytical.utils import (
 
 SITE_ID_RE = re.compile(r'^\d+$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
     var clicky = { log: function(){ return; }, goal: function(){ return; }};
     var clicky_site_ids = clicky_site_ids || [];
     clicky_site_ids.push(%(site_id)s);
