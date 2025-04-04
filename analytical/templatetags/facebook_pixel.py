@@ -60,11 +60,12 @@ class _FacebookPixelNode(Node):
     """
     Base class: override and provide code_template.
     """
+
     def __init__(self):
         self.pixel_id = get_required_setting(
             'FACEBOOK_PIXEL_ID',
             re.compile(r'^\d+$'),
-            "must be (a string containing) a number",
+            'must be (a string containing) a number',
         )
 
     def render(self, context):

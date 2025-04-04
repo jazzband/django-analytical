@@ -41,8 +41,9 @@ def hubspot(parser, token):
 
 class HubSpotNode(Node):
     def __init__(self):
-        self.portal_id = get_required_setting('HUBSPOT_PORTAL_ID', PORTAL_ID_RE,
-                                              "must be a (string containing a) number")
+        self.portal_id = get_required_setting(
+            'HUBSPOT_PORTAL_ID', PORTAL_ID_RE, 'must be a (string containing a) number'
+        )
 
     def render(self, context):
         html = TRACKING_CODE % {'portal_id': self.portal_id}

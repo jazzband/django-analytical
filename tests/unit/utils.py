@@ -16,7 +16,7 @@ class TagTestCase(TestCase):
     def render_tag(self, library, tag, vars=None, request=None):
         if vars is None:
             vars = {}
-        t = Template("{%% load %s %%}{%% %s %%}" % (library, tag))
+        t = Template('{%% load %s %%}{%% %s %%}' % (library, tag))
         if request is not None:
             context = RequestContext(request, vars)
         else:

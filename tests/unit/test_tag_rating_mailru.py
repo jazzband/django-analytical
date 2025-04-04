@@ -20,11 +20,11 @@ class RatingMailruTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('rating_mailru', 'rating_mailru')
-        assert "counter?id=1234567;js=na" in r
+        assert 'counter?id=1234567;js=na' in r
 
     def test_node(self):
         r = RatingMailruNode().render(Context({}))
-        assert "counter?id=1234567;js=na" in r
+        assert 'counter?id=1234567;js=na' in r
 
     @override_settings(RATING_MAILRU_COUNTER_ID=None)
     def test_no_site_id(self):

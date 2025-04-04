@@ -5,8 +5,7 @@ Utility function for django-analytical.
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-HTML_COMMENT = "<!-- %(service)s disabled on internal IP " \
-               "address\n%(html)s\n-->"
+HTML_COMMENT = '<!-- %(service)s disabled on internal IP address\n%(html)s\n-->'
 
 
 def get_required_setting(setting, value_re, invalid_msg):
@@ -19,13 +18,14 @@ def get_required_setting(setting, value_re, invalid_msg):
     try:
         value = getattr(settings, setting)
     except AttributeError:
-        raise AnalyticalException("%s setting: not found" % setting)
+        raise AnalyticalException('%s setting: not found' % setting)
     if not value:
-        raise AnalyticalException("%s setting is not set" % setting)
+        raise AnalyticalException('%s setting is not set' % setting)
     value = str(value)
     if not value_re.search(value):
-        raise AnalyticalException("%s setting: %s: '%s'"
-                                  % (setting, invalid_msg, value))
+        raise AnalyticalException(
+            "%s setting: %s: '%s'" % (setting, invalid_msg, value)
+        )
     return value
 
 
@@ -112,6 +112,7 @@ def get_domain(context, prefix):
     if domain is None:
         if 'django.contrib.sites' in settings.INSTALLED_APPS:
             from django.contrib.sites.models import Site
+
             try:
                 domain = Site.objects.get_current().domain
             except (ImproperlyConfigured, Site.DoesNotExist):
@@ -162,4 +163,5 @@ class AnalyticalException(Exception):
     Raised when an exception occurs in any django-analytical code that should
     be silenced in templates.
     """
+
     silent_variable_failure = True

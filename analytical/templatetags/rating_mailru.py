@@ -48,8 +48,10 @@ def rating_mailru(parser, token):
 class RatingMailruNode(Node):
     def __init__(self):
         self.counter_id = get_required_setting(
-            'RATING_MAILRU_COUNTER_ID', COUNTER_ID_RE,
-            "must be (a string containing) a number'")
+            'RATING_MAILRU_COUNTER_ID',
+            COUNTER_ID_RE,
+            "must be (a string containing) a number'",
+        )
 
     def render(self, context):
         html = COUNTER_CODE % {

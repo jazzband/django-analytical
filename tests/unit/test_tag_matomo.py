@@ -31,20 +31,19 @@ class MatomoTagTestCase(TagTestCase):
         assert "_paq.push(['setSiteId', 345]);" in r
         assert 'img src="//example.com/matomo.php?idsite=345"' in r
 
-    @override_settings(MATOMO_DOMAIN_PATH='example.com/matomo',
-                       MATOMO_SITE_ID='345')
+    @override_settings(MATOMO_DOMAIN_PATH='example.com/matomo', MATOMO_SITE_ID='345')
     def test_domain_path_valid(self):
         r = self.render_tag('matomo', 'matomo')
         assert '"//example.com/matomo/"' in r
 
-    @override_settings(MATOMO_DOMAIN_PATH='example.com:1234',
-                       MATOMO_SITE_ID='345')
+    @override_settings(MATOMO_DOMAIN_PATH='example.com:1234', MATOMO_SITE_ID='345')
     def test_domain_port_valid(self):
         r = self.render_tag('matomo', 'matomo')
         assert '"//example.com:1234/";' in r
 
-    @override_settings(MATOMO_DOMAIN_PATH='example.com:1234/matomo',
-                       MATOMO_SITE_ID='345')
+    @override_settings(
+        MATOMO_DOMAIN_PATH='example.com:1234/matomo', MATOMO_SITE_ID='345'
+    )
     def test_domain_port_path_valid(self):
         r = self.render_tag('matomo', 'matomo')
         assert '"//example.com:1234/matomo/"' in r
@@ -104,46 +103,54 @@ class MatomoTagTestCase(TagTestCase):
         assert r.endswith('-->')
 
     def test_uservars(self):
-        context = Context({'matomo_vars': [(1, 'foo', 'foo_val'),
-                                           (2, 'bar', 'bar_val', 'page'),
-                                           (3, 'spam', 'spam_val', 'visit')]})
+        context = Context(
+            {
+                'matomo_vars': [
+                    (1, 'foo', 'foo_val'),
+                    (2, 'bar', 'bar_val', 'page'),
+                    (3, 'spam', 'spam_val', 'visit'),
+                ]
+            }
+        )
         r = MatomoNode().render(context)
-        for var_code in ['_paq.push(["setCustomVariable", 1, "foo", "foo_val", "page"]);',
-                         '_paq.push(["setCustomVariable", 2, "bar", "bar_val", "page"]);',
-                         '_paq.push(["setCustomVariable", 3, "spam", "spam_val", "visit"]);']:
+        for var_code in [
+            '_paq.push(["setCustomVariable", 1, "foo", "foo_val", "page"]);',
+            '_paq.push(["setCustomVariable", 2, "bar", "bar_val", "page"]);',
+            '_paq.push(["setCustomVariable", 3, "spam", "spam_val", "visit"]);',
+        ]:
             assert var_code in r
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_default_usertrack(self):
-        context = Context({
-            'user': User(username='BDFL', first_name='Guido', last_name='van Rossum')
-        })
+        context = Context(
+            {'user': User(username='BDFL', first_name='Guido', last_name='van Rossum')}
+        )
         r = MatomoNode().render(context)
         var_code = '_paq.push(["setUserId", "BDFL"]);'
         assert var_code in r
 
     def test_matomo_usertrack(self):
-        context = Context({
-            'matomo_identity': 'BDFL'
-        })
+        context = Context({'matomo_identity': 'BDFL'})
         r = MatomoNode().render(context)
         var_code = '_paq.push(["setUserId", "BDFL"]);'
         assert var_code in r
 
     def test_analytical_usertrack(self):
-        context = Context({
-            'analytical_identity': 'BDFL'
-        })
+        context = Context({'analytical_identity': 'BDFL'})
         r = MatomoNode().render(context)
         var_code = '_paq.push(["setUserId", "BDFL"]);'
         assert var_code in r
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_disable_usertrack(self):
-        context = Context({
-            'user': User(username='BDFL', first_name='Guido', last_name='van Rossum'),
-            'matomo_identity': None
-        })
+        context = Context(
+            {
+                'user': User(
+                    username='BDFL', first_name='Guido', last_name='van Rossum'
+                ),
+                'matomo_identity': None,
+            }
+        )
         r = MatomoNode().render(context)
         var_code = '_paq.push(["setUserId", "BDFL"]);'
         assert var_code not in r

@@ -1,6 +1,7 @@
 """
 Tests for the Facebook Pixel template tags.
 """
+
 import pytest
 from django.http import HttpRequest
 from django.template import Context, Template, TemplateSyntaxError
@@ -39,7 +40,6 @@ expected_body_html = """\
 
 @override_settings(FACEBOOK_PIXEL_ID='1234567890')
 class FacebookPixelTagTestCase(TagTestCase):
-
     maxDiff = None
 
     def test_head_tag(self):
@@ -60,11 +60,15 @@ class FacebookPixelTagTestCase(TagTestCase):
 
     def test_tags_take_no_args(self):
         template = '{%% load facebook_pixel %%}{%% facebook_pixel_%s "arg" %%}'
-        with pytest.raises(TemplateSyntaxError, match="'facebook_pixel_head' takes no arguments"):
-            Template(template % "head").render(Context({}))
+        with pytest.raises(
+            TemplateSyntaxError, match="'facebook_pixel_head' takes no arguments"
+        ):
+            Template(template % 'head').render(Context({}))
 
-        with pytest.raises(TemplateSyntaxError, match="'facebook_pixel_body' takes no arguments"):
-            Template(template % "body").render(Context({}))
+        with pytest.raises(
+            TemplateSyntaxError, match="'facebook_pixel_body' takes no arguments"
+        ):
+            Template(template % 'body').render(Context({}))
 
     @override_settings(FACEBOOK_PIXEL_ID=None)
     def test_no_id(self):
@@ -76,9 +80,7 @@ class FacebookPixelTagTestCase(TagTestCase):
 
     @override_settings(FACEBOOK_PIXEL_ID='invalid')
     def test_invalid_id(self):
-        expected_pattern = (
-            r"FACEBOOK_PIXEL_ID setting: must be \(a string containing\) a number: 'invalid'$"
-        )
+        expected_pattern = r"FACEBOOK_PIXEL_ID setting: must be \(a string containing\) a number: 'invalid'$"
         with pytest.raises(AnalyticalException, match=expected_pattern):
             FacebookPixelHeadNode()
         with pytest.raises(AnalyticalException, match=expected_pattern):
@@ -91,11 +93,13 @@ class FacebookPixelTagTestCase(TagTestCase):
         context = Context({'request': request})
 
         def _disabled(html):
-            return '\n'.join([
-                '<!-- Facebook Pixel disabled on internal IP address',
-                html,
-                '-->',
-            ])
+            return '\n'.join(
+                [
+                    '<!-- Facebook Pixel disabled on internal IP address',
+                    html,
+                    '-->',
+                ]
+            )
 
         head_html = FacebookPixelHeadNode().render(context)
         assert _disabled(expected_head_html) == head_html

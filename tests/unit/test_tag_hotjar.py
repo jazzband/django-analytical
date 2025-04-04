@@ -1,6 +1,7 @@
 """
 Tests for the Hotjar template tags.
 """
+
 import pytest
 from django.http import HttpRequest
 from django.template import Context, Template, TemplateSyntaxError
@@ -27,7 +28,6 @@ expected_html = """\
 
 @override_settings(HOTJAR_SITE_ID='123456789')
 class HotjarTagTestCase(TagTestCase):
-
     maxDiff = None
 
     def test_tag(self):
@@ -44,13 +44,14 @@ class HotjarTagTestCase(TagTestCase):
 
     @override_settings(HOTJAR_SITE_ID=None)
     def test_no_id(self):
-        with pytest.raises(AnalyticalException, match="HOTJAR_SITE_ID setting is not set"):
+        with pytest.raises(
+            AnalyticalException, match='HOTJAR_SITE_ID setting is not set'
+        ):
             HotjarNode()
 
     @override_settings(HOTJAR_SITE_ID='invalid')
     def test_invalid_id(self):
-        expected_pattern = (
-            r"^HOTJAR_SITE_ID setting: must be \(a string containing\) a number: 'invalid'$")
+        expected_pattern = r"^HOTJAR_SITE_ID setting: must be \(a string containing\) a number: 'invalid'$"
         with pytest.raises(AnalyticalException, match=expected_pattern):
             HotjarNode()
 
@@ -61,11 +62,13 @@ class HotjarTagTestCase(TagTestCase):
         context = Context({'request': request})
 
         actual_html = HotjarNode().render(context)
-        disabled_html = '\n'.join([
+        disabled_html = '\n'.join(
+            [
                 '<!-- Hotjar disabled on internal IP address',
                 expected_html,
                 '-->',
-            ])
+            ]
+        )
         assert disabled_html == actual_html
 
     def test_contribute_to_analytical(self):

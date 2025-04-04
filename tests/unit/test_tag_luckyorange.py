@@ -1,6 +1,7 @@
 """
 Tests for the Lucky Orange template tags.
 """
+
 import pytest
 from django.http import HttpRequest
 from django.template import Context, Template, TemplateSyntaxError
@@ -25,7 +26,6 @@ window.__lo_site_id = 123456;
 
 @override_settings(LUCKYORANGE_SITE_ID='123456')
 class LuckyOrangeTagTestCase(TagTestCase):
-
     maxDiff = None
 
     def test_tag(self):
@@ -37,18 +37,23 @@ class LuckyOrangeTagTestCase(TagTestCase):
         assert expected_html == html
 
     def test_tags_take_no_args(self):
-        with pytest.raises(TemplateSyntaxError, match="'luckyorange' takes no arguments"):
-            Template('{% load luckyorange %}{% luckyorange "arg" %}').render(Context({}))
+        with pytest.raises(
+            TemplateSyntaxError, match="'luckyorange' takes no arguments"
+        ):
+            Template('{% load luckyorange %}{% luckyorange "arg" %}').render(
+                Context({})
+            )
 
     @override_settings(LUCKYORANGE_SITE_ID=None)
     def test_no_id(self):
-        with pytest.raises(AnalyticalException, match="LUCKYORANGE_SITE_ID setting is not set"):
+        with pytest.raises(
+            AnalyticalException, match='LUCKYORANGE_SITE_ID setting is not set'
+        ):
             LuckyOrangeNode()
 
     @override_settings(LUCKYORANGE_SITE_ID='invalid')
     def test_invalid_id(self):
-        expected_pattern = (
-            r"^LUCKYORANGE_SITE_ID setting: must be \(a string containing\) a number: 'invalid'$")
+        expected_pattern = r"^LUCKYORANGE_SITE_ID setting: must be \(a string containing\) a number: 'invalid'$"
         with pytest.raises(AnalyticalException, match=expected_pattern):
             LuckyOrangeNode()
 
@@ -59,11 +64,13 @@ class LuckyOrangeTagTestCase(TagTestCase):
         context = Context({'request': request})
 
         actual_html = LuckyOrangeNode().render(context)
-        disabled_html = '\n'.join([
+        disabled_html = '\n'.join(
+            [
                 '<!-- Lucky Orange disabled on internal IP address',
                 expected_html,
                 '-->',
-            ])
+            ]
+        )
         assert disabled_html == actual_html
 
     def test_contribute_to_analytical(self):

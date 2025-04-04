@@ -66,7 +66,7 @@ class AnalyticalNode(Node):
         self.nodes = [node_cls() for node_cls in template_nodes[location]]
 
     def render(self, context):
-        return "".join([node.render(context) for node in self.nodes])
+        return ''.join([node.render(context) for node in self.nodes])
 
 
 def _load_template_nodes():
@@ -82,14 +82,15 @@ def _load_template_nodes():
         except AnalyticalException as e:
             logger.debug("not loading tags from '%s': %s", path, e)
     for location in TAG_LOCATIONS:
-        template_nodes[location] = sum((template_nodes[location][p]
-                                        for p in TAG_POSITIONS), [])
+        template_nodes[location] = sum(
+            (template_nodes[location][p] for p in TAG_POSITIONS), []
+        )
     return template_nodes
 
 
 def _import_tag_module(path):
     app_name, lib_name = path.rsplit('.', 1)
-    return import_module("%s.templatetags.%s" % (app_name, lib_name))
+    return import_module('%s.templatetags.%s' % (app_name, lib_name))
 
 
 template_nodes = _load_template_nodes()

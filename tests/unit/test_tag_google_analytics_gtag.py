@@ -64,21 +64,29 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         The user_id variable must be set according to
         google_analytics_gtag_identity variable in the context.
         """
-        r = GoogleAnalyticsGTagNode().render(Context({
-            'google_analytics_gtag_identity': 'foo_gtag_identity',
-            'analytical_identity': 'bar_analytical_identity',
-            'user': User(username='test'),
-        }))
+        r = GoogleAnalyticsGTagNode().render(
+            Context(
+                {
+                    'google_analytics_gtag_identity': 'foo_gtag_identity',
+                    'analytical_identity': 'bar_analytical_identity',
+                    'user': User(username='test'),
+                }
+            )
+        )
         assert "gtag('set', {'user_id': 'foo_gtag_identity'});" in r
 
     def test_identity_context_general(self):
         """
         The user_id variable must be set according to analytical_identity variable in the context.
         """
-        r = GoogleAnalyticsGTagNode().render(Context({
-            'analytical_identity': 'bar_analytical_identity',
-            'user': User(username='test'),
-        }))
+        r = GoogleAnalyticsGTagNode().render(
+            Context(
+                {
+                    'analytical_identity': 'bar_analytical_identity',
+                    'user': User(username='test'),
+                }
+            )
+        )
         assert "gtag('set', {'user_id': 'bar_analytical_identity'});" in r
 
     @override_settings(GOOGLE_ANALYTICS_GTAG_PROPERTY_ID='G-12345678')

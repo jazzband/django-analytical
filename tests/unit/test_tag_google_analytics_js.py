@@ -17,8 +17,10 @@ from analytical.templatetags.google_analytics_js import (
 from analytical.utils import AnalyticalException
 
 
-@override_settings(GOOGLE_ANALYTICS_JS_PROPERTY_ID='UA-123456-7',
-                   GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_SINGLE_DOMAIN)
+@override_settings(
+    GOOGLE_ANALYTICS_JS_PROPERTY_ID='UA-123456-7',
+    GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_SINGLE_DOMAIN,
+)
 class GoogleAnalyticsTagTestCase(TagTestCase):
     """
     Tests for the ``google_analytics_js`` template tag.
@@ -26,19 +28,25 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
 
     def test_tag(self):
         r = self.render_tag('google_analytics_js', 'google_analytics_js')
-        assert """(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        assert (
+            """(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');""" in r
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');"""
+            in r
+        )
         assert "ga('create', 'UA-123456-7', 'auto', {});" in r
         assert "ga('send', 'pageview');" in r
 
     def test_node(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        assert """(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        assert (
+            """(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');""" in r
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');"""
+            in r
+        )
         assert "ga('create', 'UA-123456-7', 'auto', {});" in r
         assert "ga('send', 'pageview');" in r
 
@@ -52,27 +60,36 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         with pytest.raises(AnalyticalException):
             GoogleAnalyticsJsNode()
 
-    @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_SUBDOMAINS,
-                       GOOGLE_ANALYTICS_DOMAIN='example.com')
+    @override_settings(
+        GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_SUBDOMAINS,
+        GOOGLE_ANALYTICS_DOMAIN='example.com',
+    )
     def test_track_multiple_subdomains(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        assert """ga('create', 'UA-123456-7', 'auto', {"legacyCookieDomain": "example.com"}""" in r
+        assert (
+            """ga('create', 'UA-123456-7', 'auto', {"legacyCookieDomain": "example.com"}"""
+            in r
+        )
 
-    @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
-                       GOOGLE_ANALYTICS_DOMAIN='example.com')
+    @override_settings(
+        GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
+        GOOGLE_ANALYTICS_DOMAIN='example.com',
+    )
     def test_track_multiple_domains(self):
         r = GoogleAnalyticsJsNode().render(Context())
         assert "ga('create', 'UA-123456-7', 'auto', {" in r
         assert '"legacyCookieDomain": "example.com"' in r
-        assert '"allowLinker\": true' in r
+        assert '"allowLinker": true' in r
 
     def test_custom_vars(self):
-        context = Context({
-            'google_analytics_var1': ('test1', 'foo'),
-            'google_analytics_var2': ('test2', 'bar'),
-            'google_analytics_var4': ('test4', 1),
-            'google_analytics_var5': ('test5', 2.2),
-        })
+        context = Context(
+            {
+                'google_analytics_var1': ('test1', 'foo'),
+                'google_analytics_var2': ('test2', 'bar'),
+                'google_analytics_var4': ('test4', 1),
+                'google_analytics_var5': ('test5', 2.2),
+            }
+        )
         r = GoogleAnalyticsJsNode().render(context)
         assert "ga('set', 'test1', 'foo');" in r
         assert "ga('set', 'test2', 'bar');" in r
@@ -82,9 +99,12 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     def test_display_advertising(self):
         with override_settings(GOOGLE_ANALYTICS_DISPLAY_ADVERTISING=True):
             r = GoogleAnalyticsJsNode().render(Context())
-            assert """ga('create', 'UA-123456-7', 'auto', {});
+            assert (
+                """ga('create', 'UA-123456-7', 'auto', {});
 ga('require', 'displayfeatures');
-ga('send', 'pageview');""" in r
+ga('send', 'pageview');"""
+                in r
+            )
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
@@ -92,8 +112,7 @@ ga('send', 'pageview');""" in r
         req.META['REMOTE_ADDR'] = '1.1.1.1'
         context = Context({'request': req})
         r = GoogleAnalyticsJsNode().render(context)
-        assert r.startswith(
-            '<!-- Google Analytics disabled on internal IP address')
+        assert r.startswith('<!-- Google Analytics disabled on internal IP address')
         assert r.endswith('-->')
 
     @override_settings(GOOGLE_ANALYTICS_ANONYMIZE_IP=True)
@@ -131,12 +150,17 @@ ga('send', 'pageview');""" in r
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=0.0)
     def test_set_site_speed_sample_rate_min(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        assert """ga('create', 'UA-123456-7', 'auto', {"siteSpeedSampleRate": 0});""" in r
+        assert (
+            """ga('create', 'UA-123456-7', 'auto', {"siteSpeedSampleRate": 0});""" in r
+        )
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE='100.00')
     def test_set_site_speed_sample_rate_max(self):
         r = GoogleAnalyticsJsNode().render(Context())
-        assert """ga('create', 'UA-123456-7', 'auto', {"siteSpeedSampleRate": 100});""" in r
+        assert (
+            """ga('create', 'UA-123456-7', 'auto', {"siteSpeedSampleRate": 100});"""
+            in r
+        )
 
     @override_settings(GOOGLE_ANALYTICS_SITE_SPEED_SAMPLE_RATE=-1)
     def test_exception_whenset_site_speed_sample_rate_too_small(self):
@@ -167,10 +191,12 @@ ga('send', 'pageview');""" in r
             GoogleAnalyticsJsNode().render(context)
 
 
-@override_settings(GOOGLE_ANALYTICS_JS_PROPERTY_ID='UA-123456-7',
-                   GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
-                   GOOGLE_ANALYTICS_DOMAIN=None,
-                   ANALYTICAL_DOMAIN=None)
+@override_settings(
+    GOOGLE_ANALYTICS_JS_PROPERTY_ID='UA-123456-7',
+    GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
+    GOOGLE_ANALYTICS_DOMAIN=None,
+    ANALYTICAL_DOMAIN=None,
+)
 class NoDomainTestCase(TestCase):
     def test_exception_without_domain(self):
         context = Context()

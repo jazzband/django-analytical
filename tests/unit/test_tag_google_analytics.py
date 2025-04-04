@@ -20,8 +20,10 @@ from analytical.templatetags.google_analytics import (
 from analytical.utils import AnalyticalException
 
 
-@override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
-                   GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_SINGLE_DOMAIN)
+@override_settings(
+    GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
+    GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_SINGLE_DOMAIN,
+)
 class GoogleAnalyticsTagTestCase(TagTestCase):
     """
     Tests for the ``google_analytics`` template tag.
@@ -47,15 +49,19 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         with pytest.raises(AnalyticalException):
             GoogleAnalyticsNode()
 
-    @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_SUBDOMAINS,
-                       GOOGLE_ANALYTICS_DOMAIN='example.com')
+    @override_settings(
+        GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_SUBDOMAINS,
+        GOOGLE_ANALYTICS_DOMAIN='example.com',
+    )
     def test_track_multiple_subdomains(self):
         r = GoogleAnalyticsNode().render(Context())
         assert "_gaq.push(['_setDomainName', 'example.com']);" in r
         assert "_gaq.push(['_setAllowHash', false]);" in r
 
-    @override_settings(GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
-                       GOOGLE_ANALYTICS_DOMAIN='example.com')
+    @override_settings(
+        GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
+        GOOGLE_ANALYTICS_DOMAIN='example.com',
+    )
     def test_track_multiple_domains(self):
         r = GoogleAnalyticsNode().render(Context())
         assert "_gaq.push(['_setDomainName', 'example.com']);" in r
@@ -63,12 +69,14 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
         assert "_gaq.push(['_setAllowLinker', true]);" in r
 
     def test_custom_vars(self):
-        context = Context({
-            'google_analytics_var1': ('test1', 'foo'),
-            'google_analytics_var2': ('test2', 'bar', SCOPE_VISITOR),
-            'google_analytics_var4': ('test4', 'baz', SCOPE_SESSION),
-            'google_analytics_var5': ('test5', 'qux', SCOPE_PAGE),
-        })
+        context = Context(
+            {
+                'google_analytics_var1': ('test1', 'foo'),
+                'google_analytics_var2': ('test2', 'bar', SCOPE_VISITOR),
+                'google_analytics_var4': ('test4', 'baz', SCOPE_SESSION),
+                'google_analytics_var5': ('test5', 'qux', SCOPE_PAGE),
+            }
+        )
         r = GoogleAnalyticsNode().render(context)
         assert "_gaq.push(['_setCustomVar', 1, 'test1', 'foo', 3]);" in r
         assert "_gaq.push(['_setCustomVar', 2, 'test2', 'bar', 1]);" in r
@@ -83,10 +91,10 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
     def test_display_advertising(self):
         with override_settings(GOOGLE_ANALYTICS_DISPLAY_ADVERTISING=False):
             r = GoogleAnalyticsNode().render(Context())
-            assert "google-analytics.com/ga.js" in r
+            assert 'google-analytics.com/ga.js' in r
         with override_settings(GOOGLE_ANALYTICS_DISPLAY_ADVERTISING=True):
             r = GoogleAnalyticsNode().render(Context())
-            assert "stats.g.doubleclick.net/dc.js" in r
+            assert 'stats.g.doubleclick.net/dc.js' in r
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):
@@ -185,10 +193,12 @@ class GoogleAnalyticsTagTestCase(TagTestCase):
             GoogleAnalyticsNode().render(context)
 
 
-@override_settings(GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
-                   GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
-                   GOOGLE_ANALYTICS_DOMAIN=None,
-                   ANALYTICAL_DOMAIN=None)
+@override_settings(
+    GOOGLE_ANALYTICS_PROPERTY_ID='UA-123456-7',
+    GOOGLE_ANALYTICS_TRACKING_STYLE=TRACK_MULTIPLE_DOMAINS,
+    GOOGLE_ANALYTICS_DOMAIN=None,
+    ANALYTICAL_DOMAIN=None,
+)
 class NoDomainTestCase(TestCase):
     def test_exception_without_domain(self):
         context = Context()

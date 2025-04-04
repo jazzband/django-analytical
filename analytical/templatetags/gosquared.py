@@ -52,8 +52,10 @@ def gosquared(parser, token):
 class GoSquaredNode(Node):
     def __init__(self):
         self.site_token = get_required_setting(
-                'GOSQUARED_SITE_TOKEN', TOKEN_RE,
-                "must be a string looking like XXX-XXXXXX-X")
+            'GOSQUARED_SITE_TOKEN',
+            TOKEN_RE,
+            'must be a string looking like XXX-XXXXXX-X',
+        )
 
     def render(self, context):
         configs = [TOKEN_CODE % self.site_token]

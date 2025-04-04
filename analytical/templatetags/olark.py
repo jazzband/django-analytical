@@ -24,16 +24,29 @@ EMAIL_CODE = "olark('api.visitor.updateEmailAddress', {{emailAddress: '{0}'}});"
 EMAIL_CONTEXT_KEY = 'olark_email'
 STATUS_CODE = "olark('api.chat.updateVisitorStatus', {snippet: %s});"
 STATUS_CONTEXT_KEY = 'olark_status'
-MESSAGE_CODE = "olark.configure('locale.%(key)s', \"%(msg)s\");"
+MESSAGE_CODE = 'olark.configure(\'locale.%(key)s\', "%(msg)s");'
 MESSAGE_KEYS = {
-    "welcome_title", "chatting_title", "unavailable_title",
-    "busy_title", "away_message", "loading_title", "welcome_message",
-    "busy_message", "chat_input_text", "name_input_text",
-    "email_input_text", "offline_note_message", "send_button_text",
-    "offline_note_thankyou_text", "offline_note_error_text",
-    "offline_note_sending_text", "operator_is_typing_text",
-    "operator_has_stopped_typing_text", "introduction_error_text",
-    "introduction_messages", "introduction_submit_button_text",
+    'welcome_title',
+    'chatting_title',
+    'unavailable_title',
+    'busy_title',
+    'away_message',
+    'loading_title',
+    'welcome_message',
+    'busy_message',
+    'chat_input_text',
+    'name_input_text',
+    'email_input_text',
+    'offline_note_message',
+    'send_button_text',
+    'offline_note_thankyou_text',
+    'offline_note_error_text',
+    'offline_note_sending_text',
+    'operator_is_typing_text',
+    'operator_has_stopped_typing_text',
+    'introduction_error_text',
+    'introduction_messages',
+    'introduction_submit_button_text',
 }
 
 register = Library()
@@ -56,8 +69,10 @@ def olark(parser, token):
 class OlarkNode(Node):
     def __init__(self):
         self.site_id = get_required_setting(
-            'OLARK_SITE_ID', SITE_ID_RE,
-            "must be a string looking like 'XXXX-XXX-XX-XXXX'")
+            'OLARK_SITE_ID',
+            SITE_ID_RE,
+            "must be a string looking like 'XXXX-XXX-XX-XXXX'",
+        )
 
     def render(self, context):
         extra_code = []
@@ -76,21 +91,22 @@ class OlarkNode(Node):
         except KeyError:
             pass
         try:
-            extra_code.append(STATUS_CODE % json.dumps(context[STATUS_CONTEXT_KEY],
-                                                       sort_keys=True))
+            extra_code.append(
+                STATUS_CODE % json.dumps(context[STATUS_CONTEXT_KEY], sort_keys=True)
+            )
         except KeyError:
             pass
         extra_code.extend(self._get_configuration(context))
         html = SETUP_CODE % {
             'site_id': self.site_id,
-            'extra_code': " ".join(extra_code),
+            'extra_code': ' '.join(extra_code),
         }
         return html
 
     def _get_nickname(self, user):
         name = user.get_full_name()
         if name:
-            return "%s (%s)" % (name, user.username)
+            return '%s (%s)' % (name, user.username)
         else:
             return user.username
 

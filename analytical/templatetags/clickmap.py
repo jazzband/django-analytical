@@ -42,9 +42,11 @@ def clickmap(parser, token):
 
 class ClickmapNode(Node):
     def __init__(self):
-        self.tracker_id = get_required_setting('CLICKMAP_TRACKER_ID',
-                                               CLICKMAP_TRACKER_ID_RE,
-                                               "must be an alphanumeric string")
+        self.tracker_id = get_required_setting(
+            'CLICKMAP_TRACKER_ID',
+            CLICKMAP_TRACKER_ID_RE,
+            'must be an alphanumeric string',
+        )
 
     def render(self, context):
         html = TRACKING_CODE % {'tracker_id': self.tracker_id}

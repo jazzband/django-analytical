@@ -76,8 +76,8 @@ def intercom(parser, token):
 class IntercomNode(Node):
     def __init__(self):
         self.app_id = get_required_setting(
-                'INTERCOM_APP_ID', APP_ID_RE,
-                "must be a string looking like 'XXXXXXX'")
+            'INTERCOM_APP_ID', APP_ID_RE, "must be a string looking like 'XXXXXXX'"
+        )
 
     def _identify(self, user):
         name = user.get_full_name()
@@ -95,8 +95,7 @@ class IntercomNode(Node):
         user = get_user_from_context(context)
         if user is not None and get_user_is_authenticated(user):
             if 'name' not in params:
-                params['name'] = get_identity(
-                        context, 'intercom', self._identify, user)
+                params['name'] = get_identity(context, 'intercom', self._identify, user)
             if 'email' not in params and user.email:
                 params['email'] = user.email
 
@@ -120,10 +119,8 @@ class IntercomNode(Node):
 
     def render(self, context):
         params = self._get_custom_attrs(context)
-        params["app_id"] = self.app_id
-        html = TRACKING_CODE % {
-            "settings_json": json.dumps(params, sort_keys=True)
-        }
+        params['app_id'] = self.app_id
+        html = TRACKING_CODE % {'settings_json': json.dumps(params, sort_keys=True)}
 
         if is_internal_ip(context, 'INTERCOM'):
             html = disable_html(html, 'Intercom')

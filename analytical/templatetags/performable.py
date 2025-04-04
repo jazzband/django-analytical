@@ -56,14 +56,14 @@ def performable(parser, token):
 class PerformableNode(Node):
     def __init__(self):
         self.api_key = get_required_setting(
-            'PERFORMABLE_API_KEY', API_KEY_RE,
-            "must be a string looking like 'XXXXX'")
+            'PERFORMABLE_API_KEY', API_KEY_RE, "must be a string looking like 'XXXXX'"
+        )
 
     def render(self, context):
         html = SETUP_CODE % {'api_key': self.api_key}
         identity = get_identity(context, 'performable')
         if identity is not None:
-            html = "%s%s" % (IDENTIFY_CODE % identity, html)
+            html = '%s%s' % (IDENTIFY_CODE % identity, html)
         if is_internal_ip(context, 'PERFORMABLE'):
             html = disable_html(html, 'Performable')
         return html
@@ -74,10 +74,13 @@ def performable_embed(hostname, page_id):
     """
     Include a Performable landing page.
     """
-    return mark_safe(EMBED_CODE % {
-        'hostname': hostname,
-        'page_id': page_id,
-    })
+    return mark_safe(
+        EMBED_CODE
+        % {
+            'hostname': hostname,
+            'page_id': page_id,
+        }
+    )
 
 
 def contribute_to_analytical(add_node):

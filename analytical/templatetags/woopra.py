@@ -49,8 +49,8 @@ def woopra(parser, token):
 class WoopraNode(Node):
     def __init__(self):
         self.domain = get_required_setting(
-            'WOOPRA_DOMAIN', DOMAIN_RE,
-            "must be a domain name")
+            'WOOPRA_DOMAIN', DOMAIN_RE, 'must be a domain name'
+        )
 
     def render(self, context):
         settings = self._get_settings(context)
@@ -81,8 +81,7 @@ class WoopraNode(Node):
         if 'name' not in params and 'email' not in params:
             user = get_user_from_context(context)
             if user is not None and get_user_is_authenticated(user):
-                params['name'] = get_identity(
-                    context, 'woopra', self._identify, user)
+                params['name'] = get_identity(context, 'woopra', self._identify, user)
                 if user.email:
                     params['email'] = user.email
         return params
