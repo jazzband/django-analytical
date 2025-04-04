@@ -8,7 +8,7 @@ from django.test import override_settings
 from utils import TagTestCase
 
 from analytical.templatetags.analytical import _load_template_nodes
-from analytical.templatetags.contentsquare import ContentsquareNode
+from analytical.templatetags.content_square import ContentsquareNode
 from analytical.utils import AnalyticalException
 
 expected_html = """\
