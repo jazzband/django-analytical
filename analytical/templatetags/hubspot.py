@@ -11,7 +11,7 @@ from analytical.utils import disable_html, get_required_setting, is_internal_ip
 PORTAL_ID_RE = re.compile(r'^\d+$')
 TRACKING_CODE = """
     <!-- Start of Async HubSpot Analytics Code -->
-      <script type="text/javascript">
+      <script>
         (function(d,s,i,r) {
           if (d.getElementById(i)){return;}
           var n=d.createElement(s),e=d.getElementsByTagName(s)[0];

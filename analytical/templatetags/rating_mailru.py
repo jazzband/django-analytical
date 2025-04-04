@@ -10,7 +10,7 @@ from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 COUNTER_ID_RE = re.compile(r'^\d{7}$')
 COUNTER_CODE = """
-    <script type="text/javascript">
+    <script>
     var _tmr = window._tmr || (window._tmr = []);
     _tmr.push({id: "%(counter_id)s", type: "pageView", start: (new Date()).getTime()});
     (function (d, w, id) {

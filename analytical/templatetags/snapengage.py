@@ -28,8 +28,8 @@ WIDGET_ID_RE = re.compile(
     r'^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$'
 )
 SETUP_CODE = """
-    <script type="text/javascript">
-      document.write(unescape("%%3Cscript src='" + ((document.location.protocol=="https:")?"https://snapabug.appspot.com":"http://www.snapengage.com") + "/snapabug.js' type='text/javascript'%%3E%%3C/script%%3E"));</script><script type="text/javascript">
+    <script>
+      document.write(unescape("%%3Cscript src='" + ((document.location.protocol=="https:")?"https://snapabug.appspot.com":"http://www.snapengage.com") + "/snapabug.js' type='text/javascript'%%3E%%3C/script%%3E"));</script><script>
       %(settings_code)s
     </script>
 """  # noqa

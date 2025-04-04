@@ -23,7 +23,7 @@ DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)
 SITEID_RE = re.compile(r'^\d+$')
 
 TRACKING_CODE = """
-<script type="text/javascript">
+<script>
   var _paq = window._paq || [];
   %(variables)s
   %(commands)s

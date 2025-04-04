@@ -12,7 +12,7 @@ from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 COUNTER_ID_RE = re.compile(r'^\d{8}$')
 COUNTER_CODE = """
-    <script type="text/javascript">
+    <script>
         (function (d, w, c) {
             (w[c] = w[c] || []).push(function() {
                 try {

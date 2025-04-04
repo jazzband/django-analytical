@@ -3,6 +3,7 @@ Unreleased
 * Remove deprecated Piwik integration. Use Matomo instead! (Peter Bittner)
 * Migrate packaging from setup.py to pyproject.toml with Ruff for linting
   and formatting (Peter Bittner)
+* Remove obsolete type attribute in script tags for JavaScript (Peter Bittner)
 
 Version 3.1.0
 -------------

@@ -28,7 +28,7 @@ SCOPE_PAGE = 3
 
 PROPERTY_ID_RE = re.compile(r'^UA-\d+-\d+$')
 SETUP_CODE = """
-    <script type="text/javascript">
+    <script>
 
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', '%(property_id)s']);

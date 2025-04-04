@@ -10,7 +10,7 @@ from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 CLICKMAP_TRACKER_ID_RE = re.compile(r'^\w+$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
     var clickmapConfig = {tracker: '%(tracker_id)s', version:'2'};
     window.clickmapAsyncInit = function(){ __clickmap.init(clickmapConfig); };
     (function() { var _cmf = document.createElement('script'); _cmf.async = true;
