@@ -1,20 +1,115 @@
-[tool.bandit]
-# Exclude/ignore of files and TOML reading is currently broken in Bandit
-exclude = [".cache",".git",".github",".tox","build","dist","docs","tests"]
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=64"]
 
-[tool.black]
-color = true
+[project]
+name = "django-analytical"
+dynamic = ["version"]
+description = "Analytics service integration for Django projects"
+readme = "README.rst"
+authors = [
+    {name = "Joost Cassee", email = "joost@cassee.net"},
+    {name = "Joshua Krall", email = "joshuakrall@pobox.com"},
+    {name = "Aleck Landgraf", email = "aleck.landgraf@buildingenergy.com"},
+    {name = "Alexandre Pocquet", email = "apocquet@lecko.fr"},
+    {name = "Bateau Knowledge", email = "info@bateauknowledge.nl"},
+    {name = "Bogdan Bodnar", email = "bogdanbodnar@mail.com"},
+    {name = "Brad Pitcher", email = "bradpitcher@gmail.com"},
+    {name = "Corentin Mercier", email = "corentin@mercier.link"},
+    {name = "Craig Bruce", email = "craig@eyesopen.com"},
+    {name = "Daniel Vitiello", email = "ezdismissal@gmail.com"},
+    {name = "David Smith", email = "smithdc@gmail.com"},
+    {name = "Diederik van der Boor", email = "vdboor@edoburu.nl"},
+    {name = "Eric Amador", email = "eric.amador14@gmail.com"},
+    {name = "Eric Davis", email = "eric@davislv.com"},
+    {name = "Eric Wang", email = "gnawrice@gmail.com"},
+    {name = "Garrett Coakley", email = "garrettc@users.noreply.github.com"},
+    {name = "Garrett Robinson", email = "garrett.f.robinson@gmail.com"},
+    {name = "GreenKahuna", email = "info@greenkahuna.com"},
+    {name = "Hugo Osvaldo Barrera", email = "hugo@barrera.io"},
+    {name = "Ian Ramsay", email = "ianalexr@yahoo.com"},
+    {name = "Iván Raskovsky", email = "raskovsky+git@gmail.com"},
+    {name = "James Paden", email = "james@xemion.com"},
+    {name = "Jannis Leidel", email = "jannis@leidel.info"},
+    {name = "Julien Grenier", email = "julien.grenier42@gmail.com"},
+    {name = "Kevin Olbrich", email = "ko@sv01.de"},
+    {name = "Marc Bourqui", email = "m.bourqui@edsi-tech.com"},
+    {name = "Martey Dodoo", email = "martey@mobolic.com"},
+    {name = "Martín Gaitán", email = "gaitan@gmail.com"},
+    {name = "Matthäus G. Chajdas", email = "dev@anteru.net"},
+    {name = "Max Arnold", email = "arnold.maxim@gmail.com"},
+    {name = "Nikolay Korotkiy", email = "sikmir@gmail.com"},
+    {name = "Paul Oswald", email = "pauloswald@gmail.com"},
+    {name = "Peter Bittner", email = "django@bittner.it"},
+    {name = "Petr Dlouhý", email = "petr.dlouhy@email.cz"},
+    {name = "Philippe O. Wagner", email = "admin@arteria.ch"},
+    {name = "Pi Delport", email = "pjdelport@gmail.com"},
+    {name = "Sandra Mau", email = "sandra.mau@gmail.com"},
+    {name = "Scott Adams", email = "scottadams80@gmail.com"},
+    {name = "Scott Karlin", email = "gitlab@karlin-online.com"},
+    {name = "Sean Wallace", email = "sean@lowpro.ca"},
+    {name = "Sid Mitra", email = "sidmitra.del@gmail.com"},
+    {name = "Simon Ye", email = "sye737@gmail.com"},
+    {name = "Steve Schwarz", email = "steve@agilitynerd.com"},
+    {name = "Steven Skoczen", email = "steven.skoczen@wk.com"},
+    {name = "Tim Gates", email = "tim.gates@iress.com"},
+    {name = "Tinnet Coronam", email = "tinnet@coronam.net"},
+    {name = "Uros Trebec", email = "uros@trebec.org"},
+    {name = "Walter Renner", email = "walter.renner@me.com"},
+]
+maintainers = [
+    {name = "Jazzband community", email = "jazzband-bot@users.noreply.github.com"},
+    {name = "Peter Bittner", email = "django@bittner.it"},
+]
+keywords=[
+    "django",
+    "analytics",
+]
+classifiers=[
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.1",
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "django>=4.2",
+]
 
-[tool.coverage.xml]
-output = "tests/coverage-report.xml"
-
-[tool.isort]
-color_output = true
-profile = "black"
-
-[tool.pylint.master]
-output-format = "colorized"
+[project.urls]
+Homepage = "https://github.com/jazzband/django-analytical"
+Documentation = "https://django-analytical.readthedocs.io/"
 
 [tool.pytest.ini_options]
 addopts = "--junitxml=tests/unittests-report.xml --color=yes --verbose"
 DJANGO_SETTINGS_MODULE = "tests.testproject.settings"
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+
+[tool.setuptools]
+packages = [
+    "analytical",
+    "analytical.templatetags",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "analytical.__version__"}
