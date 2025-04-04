@@ -15,21 +15,21 @@ jobs:
       fail-fast: false
       matrix:
         env:
-        - isort
-        - flake8
-        - bandit
-        - readme
+        - lint
+        - format
+        - audit
+        - package
         - docs
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v5
       with:
-        python-version: '3.8'
+        python-version: '3.12'
 
     - name: Install prerequisites
-      run: python -m pip install --upgrade setuptools pip wheel tox
+      run: python -m pip install tox
 
     - name: Run ${{ matrix.env }}
       run: tox -e ${{ matrix.env }}

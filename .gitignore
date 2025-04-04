@@ -18,3 +18,6 @@
 /docs/_templates/layout.html
 /MANIFEST
 *.egg-info
+
+/requirements.txt
+/uv.lock

@@ -28,9 +28,9 @@ add_function_parentheses = True
 pygments_style = 'sphinx'
 
 intersphinx_mapping = {
-    'http://docs.python.org/2.7': None,
-    'http://docs.djangoproject.com/en/1.9':
-        'http://docs.djangoproject.com/en/1.9/_objects/',
+    'python': ('http://docs.python.org/3.13', None),
+    'django': ('http://docs.djangoproject.com/en/stable',
+        'http://docs.djangoproject.com/en/stable/_objects/'),
 }
 
 
