@@ -68,13 +68,7 @@ class IntercomTagTestCase(TagTestCase):
             email='test@example.com',
             date_joined=now,
         )
-        r = IntercomNode().render(
-            Context(
-                {
-                    'user': user,
-                }
-            )
-        )
+        r = IntercomNode().render(Context({'user': user}))
         assert (
             'window.intercomSettings = {"app_id": "abc123xyz", "created_at": 1397074500, '
             f'"email": "test@example.com", "name": "Firstname Lastname", "user_id": {user.pk}}};'
