@@ -28,9 +28,9 @@ jobs:
         - '5.1'
         - '5.2'
         include:
-        - { django-version: '4.2', python-version: '3.9' }
+        - { python-version: '3.9', django-version: '4.2' }
         exclude:
-        - { django-version: '4.2', python-version: '3.13' }
+        - { python-version: '3.13', django-version: '4.2' }
 
     steps:
     - uses: actions/checkout@v4
