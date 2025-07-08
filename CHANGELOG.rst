@@ -4,6 +4,8 @@ Unreleased
 * Migrate packaging from setup.py to pyproject.toml with Ruff for linting
   and formatting (Peter Bittner)
 * Remove obsolete type attribute in script tags for JavaScript (Peter Bittner)
+* Drop the end-of-life Python 3.8 as required by changed semantics of the
+  license metadata field (Peter Bittner)
 
 Version 3.1.0
 -------------
