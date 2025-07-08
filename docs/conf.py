@@ -13,7 +13,7 @@ import analytical  # noqa
 # -- General configuration --------------------------------------------------
 
 project = 'django-analytical'
-copyright = '2011-2020, Joost Cassee <joost@cassee.net>'
+copyright = '2011, Joost Cassee <joost@cassee.net>'
 
 release = analytical.__version__
 # The short X.Y version.
@@ -21,18 +21,15 @@ version = release.rsplit('.', 1)[0]
 
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'local']
 templates_path = ['_templates']
-source_suffix = '.rst'
+source_suffix = {'.rst': 'restructuredtext'}
 master_doc = 'index'
 
 add_function_parentheses = True
 pygments_style = 'sphinx'
 
 intersphinx_mapping = {
-    'python': ('http://docs.python.org/3.13', None),
-    'django': (
-        'http://docs.djangoproject.com/en/stable',
-        'http://docs.djangoproject.com/en/stable/_objects/',
-    ),
+    'python': ('https://docs.python.org/3.13', None),
+    'django': ('https://docs.djangoproject.com/en/stable', None),
 }
 
 
