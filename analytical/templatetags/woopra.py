@@ -4,11 +4,13 @@ Woopra template tags and filters.
 
 import json
 import re
+from contextlib import suppress
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import (
+    AnalyticalException,
     disable_html,
     get_identity,
     get_required_setting,
@@ -66,10 +68,42 @@ class WoopraNode(Node):
 
     def _get_settings(self, context):
         variables = {'domain': self.domain}
-        try:
-            variables['idle_timeout'] = str(settings.WOOPRA_IDLE_TIMEOUT)
-        except AttributeError:
-            pass
+        woopra_int_settings = {
+            'idle_timeout': 'WOOPRA_IDLE_TIMEOUT',
+        }
+        woopra_str_settings = {
+            'cookie_name': 'WOOPRA_COOKIE_NAME',
+            'cookie_domain': 'WOOPRA_COOKIE_DOMAIN',
+            'cookie_path': 'WOOPRA_COOKIE_PATH',
+            'cookie_expire': 'WOOPRA_COOKIE_EXPIRE',
+        }
+        woopra_bool_settings = {
+            'click_tracking': 'WOOPRA_CLICK_TRACKING',
+            'download_tracking': 'WOOPRA_DOWNLOAD_TRACKING',
+            'outgoing_tracking': 'WOOPRA_OUTGOING_TRACKING',
+            'outgoing_ignore_subdomain': 'WOOPRA_OUTGOING_IGNORE_SUBDOMAIN',
+            'ignore_query_url': 'WOOPRA_IGNORE_QUERY_URL',
+            'hide_campaign': 'WOOPRA_HIDE_CAMPAIGN',
+        }
+
+        for key, name in woopra_int_settings.items():
+            with suppress(AttributeError):
+                variables[key] = getattr(settings, name)
+                if type(variables[key]) is not int:
+                    raise AnalyticalException(f'{name} must be an int value')
+
+        for key, name in woopra_str_settings.items():
+            with suppress(AttributeError):
+                variables[key] = getattr(settings, name)
+                if type(variables[key]) is not str:
+                    raise AnalyticalException(f'{name} must be a string value')
+
+        for key, name in woopra_bool_settings.items():
+            with suppress(AttributeError):
+                variables[key] = getattr(settings, name)
+                if type(variables[key]) is not bool:
+                    raise AnalyticalException(f'{name} must be a boolean value')
+
         return variables
 
     def _get_visitor(self, context):

@@ -8,6 +8,7 @@ Unreleased
   license metadata field (Peter Bittner)
 * Remove AUTHORS file to avoid confusion; this is now metadata maintained
   in pyproject.toml (Peter Bittner)
+* Add more configuration options for Woopra (Peter Bittner)
 
 Version 3.1.0
 -------------
