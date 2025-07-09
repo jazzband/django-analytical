@@ -23,19 +23,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
-
-      - name: Cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: release-${{ hashFiles('**/setup.py') }}
-          restore-keys: |
-            release-
+          cache: pip
+          cache-dependency-path: |
+            **/pyproject.toml
 
       - name: Install dependencies
         run: |
