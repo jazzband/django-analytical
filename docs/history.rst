@@ -23,8 +23,21 @@ considered to be a backward-incompatible change.
 Credits
 =======
 
-.. include:: ../AUTHORS.rst
+The django-analytical package was originally written by `Joost Cassee`_
+and is now maintained by `Peter Bittner`_ and the `Jazzband community`_.
+All known contributors are listed as ``authors`` in the `project metadata`_.
 
+Included JavaScript code snippets for integration of the analytics services
+were written by the respective service providers.
+
+The application was inspired by and uses ideas from Analytical_, Joshua
+Krall's all-purpose analytics front-end for Rails.
+
+.. _`Joost Cassee`: https://github.com/jcassee
+.. _`Peter Bittner`: https://github.com/bittner
+.. _`Jazzband community`: https://jazzband.co/
+.. _`project metadata`: https://github.com/jazzband/django-analytical/blob/main/pyproject.toml#L15-L60
+.. _`Analytical`: https://github.com/jkrall/analytical
 
 .. _helping-out:
 
