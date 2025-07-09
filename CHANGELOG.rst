@@ -1,5 +1,5 @@
-Unreleased
-----------
+Version 3.2.0
+-------------
 * Remove deprecated Piwik integration. Use Matomo instead! (Peter Bittner)
 * Migrate packaging from setup.py to pyproject.toml with Ruff for linting
   and formatting (Peter Bittner)

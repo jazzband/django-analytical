@@ -2,4 +2,4 @@
 Analytics service integration for Django projects.
 """
 
-__version__ = '3.2.0.dev0'
+__version__ = '3.2.0'
