@@ -97,6 +97,13 @@ dependencies = [
 Homepage = "https://github.com/jazzband/django-analytical"
 Documentation = "https://django-analytical.readthedocs.io/"
 
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.coverage.run]
+source = ["analytical"]
+
 [tool.pytest.ini_options]
 addopts = "--junitxml=tests/unittests-report.xml --color=yes --verbose"
 DJANGO_SETTINGS_MODULE = "tests.testproject.settings"
