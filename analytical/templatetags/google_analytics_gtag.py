@@ -1,7 +1,9 @@
 """
-Google Analytics template tags and filters, using the new analytics.js library.
+Google Analytics template tags and filters, using the new gtag.js library.
+https://developers.google.com/tag-platform/gtagjs/reference
 """
 
+import json
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
@@ -23,12 +25,9 @@ SETUP_CODE = """
   function gtag(){{dataLayer.push(arguments);}}
   gtag('js', new Date());
 
-  {extra}
-  gtag('config', '{property_id}');
+  gtag('config', '{property_id}', {custom_dimensions});
 </script>
 """
-
-GTAG_SET_CODE = """gtag('set', {{'{key}': '{value}'}});"""
 
 register = Library()
 
@@ -59,21 +58,15 @@ class GoogleAnalyticsGTagNode(Node):
         )
 
     def render(self, context):
-        other_fields = {}
+        custom_dimensions = context.get('google_analytics_custom_dimensions', {})
 
-        identity = get_identity(context, 'google_analytics_gtag')
+        identity = get_identity(context, prefix='google_analytics_gtag')
         if identity is not None:
-            other_fields['user_id'] = identity
+            custom_dimensions['user_id'] = identity
 
-        extra = '\n'.join(
-            [
-                GTAG_SET_CODE.format(key=key, value=value)
-                for key, value in other_fields.items()
-            ]
-        )
         html = SETUP_CODE.format(
             property_id=self.property_id,
-            extra=extra,
+            custom_dimensions=json.dumps(custom_dimensions),
         )
         if is_internal_ip(context, 'GOOGLE_ANALYTICS'):
             html = disable_html(html, 'Google Analytics')
