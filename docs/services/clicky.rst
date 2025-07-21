@@ -53,7 +53,7 @@ Setting the Site ID
 -------------------
 
 Every website you track with Clicky gets its own Site ID, and the
-:ttag:`clicky` tag will include it in the rendered Javascript code.
+:ttag:`clicky` tag will include it in the rendered JavaScript code.
 You can find the Site ID in the *Info* tab of the website *Preferences*
 page, in your Clicky account.  Set :const:`CLICKY_SITE_ID` in the
 project :file:`settings.py` file::
@@ -84,7 +84,7 @@ Custom data
 
 As described in the Clicky `customized tracking`_ documentation page,
 the data that is tracked by Clicky can be customized by setting the
-:data:`clicky_custom` Javascript variable before loading the tracking
+:data:`clicky_custom` JavaScript variable before loading the tracking
 code.  Using template context variables, you can let the :ttag:`clicky`
 tag pass custom data to Clicky automatically.  You can set the context
 variables in your view when you render a template containing the

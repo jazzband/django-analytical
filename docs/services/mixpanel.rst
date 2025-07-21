@@ -24,7 +24,7 @@ step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`mixpanel-configuration`.
 
-The Mixpanel Javascript code is inserted into templates using a
+The Mixpanel JavaScript code is inserted into templates using a
 template tag.  Load the :mod:`mixpanel` template tag library and
 insert the :ttag:`mixpanel` tag.  Because every page that you want
 to track must have the tag, it is useful to add it to your base
@@ -53,7 +53,7 @@ Setting the token
 -----------------
 
 Every website you track events for with Mixpanel gets its own token,
-and the :ttag:`mixpanel` tag will include it in the rendered Javascript
+and the :ttag:`mixpanel` tag will include it in the rendered JavaScript
 code.  You can find the project token on the Mixpanel *projects* page.
 Set :const:`MIXPANEL_API_TOKEN` in the project :file:`settings.py`
 file::
@@ -137,16 +137,16 @@ For example::
 Tracking events
 ===============
 
-The django-analytical app integrates the Mixpanel Javascript API in
+The django-analytical app integrates the Mixpanel JavaScript API in
 templates.  To tracking events in views or other parts of Django, you
 can use Wes Winham's `mixpanel-celery`_ package.
 
-If you want to track an event in Javascript, use the asynchronous
+If you want to track an event in JavaScript, use the asynchronous
 notation, as described in the section titled
-`"Asynchronous Tracking with Javascript"`_ in the Mixpanel
+`"Asynchronous Tracking with JavaScript"`_ in the Mixpanel
 documentation. For example::
 
     mixpanel.track("play-game", {"level": "12", "weapon": "sword", "character": "knight"});
 
 .. _mixpanel-celery: http://github.com/winhamwr/mixpanel-celery
-.. _`"Asynchronous Tracking with Javascript"`: http://mixpanel.com/api/docs/guides/integration/js#async
+.. _`"Asynchronous Tracking with JavaScript"`: http://mixpanel.com/api/docs/guides/integration/js#async

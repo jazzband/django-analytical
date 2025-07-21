@@ -1,3 +1,8 @@
+(unreleased)
+------------
+* Change spelling of "JavaScript" across all files in docstrings and docs
+  (Peter Bittner)
+
 Version 3.2.0
 -------------
 * Remove deprecated Piwik integration. Use Matomo instead! (Peter Bittner)

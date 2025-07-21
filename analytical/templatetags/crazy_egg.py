@@ -24,7 +24,7 @@ def crazy_egg(parser, token):
     """
     Crazy Egg tracking template tag.
 
-    Renders Javascript code to track page clicks.  You must supply
+    Renders JavaScript code to track page clicks.  You must supply
     your Crazy Egg account number (as a string) in the
     ``CRAZY_EGG_ACCOUNT_NUMBER`` setting.
     """

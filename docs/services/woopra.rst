@@ -37,7 +37,7 @@ the tag at the bottom of the HTML head::
     </head>
     ...
 
-Because Javascript code is asynchronous, putting the tag in the head
+Because JavaScript code is asynchronous, putting the tag in the head
 section increases the chances that a page view is going to be tracked
 before the visitor leaves the page.  See for details the `Asynchronous
 JavaScript Developer’s Guide`_ on the Woopra website.

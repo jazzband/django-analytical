@@ -68,7 +68,7 @@ file of your project:
 Adding the template tags to the base template
 =============================================
 
-Because every analytics service uses own specific Javascript code that
+Because every analytics service uses own specific JavaScript code that
 should be added to the top or bottom of either the head or body of the
 HTML page, django-analytical provides four general-purpose template tags
 that will render the code needed for the services you are using.  Your

@@ -24,7 +24,7 @@ This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`snapengage-configuration`.
 
-The SnapEngage Javascript code is inserted into templates using a
+The SnapEngage JavaScript code is inserted into templates using a
 template tag.  Load the :mod:`SnapEngage` template tag library and
 insert the :ttag:`SnapEngage` tag.  Because every page that you want to
 track must have the tag, it is useful to add it to your base template.

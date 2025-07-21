@@ -31,7 +31,7 @@ def heap(parser, token):
     """
     Heap tracker template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your heap tracker ID (as a string) in the ``HEAP_TRACKER_ID``
     setting.
     """

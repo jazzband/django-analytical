@@ -24,7 +24,7 @@ step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`olark-configuration`.
 
-The Olark Javascript code is inserted into templates using a template
+The Olark JavaScript code is inserted into templates using a template
 tag.  Load the :mod:`olark` template tag library and insert the
 :ttag:`olark` tag.  Because every page that you want to track
 must have the tag, it is useful to add it to your base template.  Insert
@@ -52,7 +52,7 @@ Setting the site ID
 -------------------
 
 In order to install the chat code, you need to set your Olark site ID.
-The :ttag:`olark` tag will include it in the rendered Javascript code.
+The :ttag:`olark` tag will include it in the rendered JavaScript code.
 You can find the site ID on `installation page`_ of you Olark account.
 Set :const:`OLARK_SITE_ID` in the project :file:`settings.py` file::
 
@@ -93,7 +93,7 @@ Just remember that if you set the same context variable in the
 :class:`~django.template.context.RequestContext` constructor and in a
 context processor, the latter clobbers the former.
 
-See also `api.chat.updateVisitorNickname`_ in the Olark Javascript API
+See also `api.chat.updateVisitorNickname`_ in the Olark JavaScript API
 documentation.
 
 .. _`api.chat.updateVisitorNickname`: http://www.olark.com/documentation/javascript/api.chat.updateVisitorNickname
@@ -113,7 +113,7 @@ and the :ttag:`olark` tag will pass them to Olark as status messages::
     ]})
     return some_template.render(context)
 
-See also `api.chat.updateVisitorStatus`_ in the Olark Javascript API
+See also `api.chat.updateVisitorStatus`_ in the Olark JavaScript API
 documentation.
 
 .. _`api.chat.updateVisitorStatus`: http://www.olark.com/documentation/javascript/api.chat.updateVisitorStatus

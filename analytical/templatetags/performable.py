@@ -43,7 +43,7 @@ def performable(parser, token):
     """
     Performable template tag.
 
-    Renders Javascript code to set-up Performable tracking.  You must
+    Renders JavaScript code to set-up Performable tracking.  You must
     supply your Performable API key in the ``PERFORMABLE_API_KEY``
     setting.
     """

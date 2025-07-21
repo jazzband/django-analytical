@@ -40,7 +40,7 @@ def gosquared(parser, token):
     """
     GoSquared tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your GoSquared site token in the ``GOSQUARED_SITE_TOKEN`` setting.
     """
     bits = token.split_contents()
