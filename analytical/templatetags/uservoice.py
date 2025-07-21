@@ -35,7 +35,7 @@ def uservoice(parser, token):
     """
     UserVoice tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your UserVoice Widget Key in the ``USERVOICE_WIDGET_KEY``
     setting or the ``uservoice_widget_key`` template context variable.
     """

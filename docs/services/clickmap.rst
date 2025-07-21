@@ -23,7 +23,7 @@ This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`clickmap-configuration`.
 
-The Clickmap Javascript code is inserted into templates using a template
+The Clickmap JavaScript code is inserted into templates using a template
 tag. Load the :mod:`clickmap` template tag library and insert the
 :ttag:`clickmap` tag.  Because every page that you want to track must
 have the tag, it is useful to add it to your base template. Insert
@@ -54,7 +54,7 @@ Setting the Tracker ID
 ----------------------
 
 Clickmap gives you a unique Tracker ID, and the :ttag:`clickmap`
-tag will include it in the rendered Javascript code. You can find your
+tag will include it in the rendered JavaScript code. You can find your
 Tracker ID clicking the link named "Tracker" in the dashboard
 of your Clickmap account. Set :const:`CLICKMAP_TRACKER_ID` in the project
 :file:`settings.py` file::

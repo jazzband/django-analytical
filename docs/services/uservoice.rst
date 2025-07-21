@@ -29,7 +29,7 @@ This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`uservoice-configuration`.
 
-The UserVoice Javascript code is inserted into templates using a
+The UserVoice JavaScript code is inserted into templates using a
 template tag.  Load the :mod:`uservoice` template tag library and insert
 the :ttag:`uservoice` tag.  Because every page that you want to have
 the feedback tab to appear on must have the tag, it is useful to add
@@ -57,8 +57,8 @@ Setting the widget key
 
 In order to use the feedback widget, you need to configure which widget
 you want to show.  You can find the widget keys in the *Channels* tab on
-your UserVoice *Settings* page.  Under the *Javascript Widget* heading,
-find the Javascript embed code of the widget.  The widget key is the
+your UserVoice *Settings* page.  Under the *JavaScript Widget* heading,
+find the JavaScript embed code of the widget.  The widget key is the
 alphanumerical string contained in the URL of the script imported by the
 embed code::
 

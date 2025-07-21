@@ -63,7 +63,7 @@ def intercom(parser, token):
     """
     Intercom.io template tag.
 
-    Renders Javascript code to intercom.io testing.  You must supply
+    Renders JavaScript code to intercom.io testing.  You must supply
     your APP ID account number in the ``INTERCOM_APP_ID``
     setting.
     """

@@ -20,7 +20,7 @@ def optimizely(parser, token):
     """
     Optimizely template tag.
 
-    Renders Javascript code to set-up A/B testing.  You must supply
+    Renders JavaScript code to set-up A/B testing.  You must supply
     your Optimizely account number in the ``OPTIMIZELY_ACCOUNT_NUMBER``
     setting.
     """

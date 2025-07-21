@@ -53,7 +53,7 @@ Setting the account number
 --------------------------
 
 Crazy Egg gives you a unique account number, and the :ttag:`crazy egg`
-tag will include it in the rendered Javascript code. You can find your
+tag will include it in the rendered JavaScript code. You can find your
 account number by clicking the link named "What's my code?" in the
 dashboard of your Crazy Egg account.  Set
 :const:`CRAZY_EGG_ACCOUNT_NUMBER` in the project :file:`settings.py`

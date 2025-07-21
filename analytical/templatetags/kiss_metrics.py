@@ -50,7 +50,7 @@ def kiss_metrics(parser, token):
     """
     KISSinsights tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your KISSmetrics API key in the ``KISS_METRICS_API_KEY``
     setting.
     """

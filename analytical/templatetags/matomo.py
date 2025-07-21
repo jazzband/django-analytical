@@ -59,7 +59,7 @@ def matomo(parser, token):
     """
     Matomo tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your Matomo domain (plus optional URI path), and tracked site ID
     in the ``MATOMO_DOMAIN_PATH`` and the ``MATOMO_SITE_ID`` setting.
 

@@ -39,7 +39,7 @@ def woopra(parser, token):
     """
     Woopra tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your Woopra domain in the ``WOOPRA_DOMAIN`` setting.
     """
     bits = token.split_contents()

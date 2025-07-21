@@ -96,7 +96,7 @@ important information about detecting the visitor IP address.
 Setting the domain
 ------------------
 
-The Javascript tracking code can send the website domain to Chartbeat.
+The JavaScript tracking code can send the website domain to Chartbeat.
 If you use multiple subdomains this enables you to treat them as one
 website in Chartbeat.  If your project uses the sites framework, the
 domain name of the current :class:`~django.contrib.sites.models.Site`

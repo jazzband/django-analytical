@@ -61,7 +61,7 @@ Setting the property ID
 
 Every website you track with Google Analytics gets its own property ID,
 and the :ttag:`google_analytics_js` tag will include it in the rendered
-Javascript code.  You can find the web property ID on the overview page
+JavaScript code.  You can find the web property ID on the overview page
 of your account.  Set :const:`GOOGLE_ANALYTICS_JS_PROPERTY_ID` in the
 project :file:`settings.py` file::
 
@@ -229,7 +229,7 @@ The value is the cookie expiration in seconds or 0 to delete the cookie when the
 
 .. _`Cookie Expiration`: https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_setsessioncookietimeout
 
-Custom Javascript Source
+Custom JavaScript Source
 ------------------------
 
 You can configure a custom URL for the javascript file by setting the

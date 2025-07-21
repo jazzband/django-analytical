@@ -25,7 +25,7 @@ This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`optimizely-configuration`.
 
-The Optimizely Javascript code is inserted into templates using a
+The Optimizely JavaScript code is inserted into templates using a
 template tag.  Load the :mod:`optimizely` template tag library and
 insert the :ttag:`optimizely` tag.  Because every page that you want to
 track must have the tag, it is useful to add it to your base template.
@@ -53,7 +53,7 @@ Setting the account number
 --------------------------
 
 Optimizely gives you a unique account number, and the :ttag:`optimizely`
-tag will include it in the rendered Javascript code.  You can find your
+tag will include it in the rendered JavaScript code.  You can find your
 account number by clicking the *Implementation* link in the top
 right-hand corner of the Optimizely website.  A pop-up window will
 appear containing HTML code looking like this::
@@ -66,7 +66,7 @@ file::
 
     OPTIMIZELY_ACCOUNT_NUMBER = 'XXXXXXX'
 
-If you do not set an account number, the Javascript code will not be
+If you do not set an account number, the JavaScript code will not be
 rendered.
 
 

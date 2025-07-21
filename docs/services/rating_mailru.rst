@@ -53,7 +53,7 @@ Setting the counter ID
 
 Every website you track with Rating\@Mail.ru gets its own counter ID,
 and the :ttag:`rating_mailru` tag will include it in the rendered
-Javascript code.  You can find the web counter ID on the overview page
+JavaScript code.  You can find the web counter ID on the overview page
 of your account.  Set :const:`RATING_MAILRU_COUNTER_ID` in the
 project :file:`settings.py` file::
 

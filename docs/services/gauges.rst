@@ -23,7 +23,7 @@ This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`gauges-configuration`.
 
-The Gaug.es Javascript code is inserted into templates using a
+The Gaug.es JavaScript code is inserted into templates using a
 template tag.  Load the :mod:`gauges` template tag library and
 insert the :ttag:`gauges` tag.  Because every page that you want to
 track must have the tag, it is useful to add it to your base template.
@@ -51,7 +51,7 @@ Setting the site id
 --------------------------
 
 Gaug.es gives you a unique site id, and the :ttag:`gauges`
-tag will include it in the rendered Javascript code.  You can find your
+tag will include it in the rendered JavaScript code.  You can find your
 site id by clicking the *Tracking Code* link when logged into
 the on the gaug.es website.  A page will display containing
 HTML code looking like this::
@@ -76,7 +76,7 @@ file::
 
     GAUGES_SITE_ID = 'XXXXXXXXXXXXXXXXXXXXXXX'
 
-If you do not set an site id, the Javascript code will not be
+If you do not set an site id, the JavaScript code will not be
 rendered.
 
 

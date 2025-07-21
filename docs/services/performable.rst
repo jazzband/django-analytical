@@ -25,7 +25,7 @@ This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`performable-configuration`.
 
-The Performable Javascript code is inserted into templates using a
+The Performable JavaScript code is inserted into templates using a
 template tag.  Load the :mod:`performable` template tag library and
 insert the :ttag:`performable` tag.  Because every page that you want to
 track must have the tag, it is useful to add it to your base template.
@@ -53,14 +53,14 @@ Setting the API key
 -------------------
 
 You Performable account has its own API key, which :ttag:`performable`
-tag will include it in the rendered Javascript code.  You can find your
+tag will include it in the rendered JavaScript code.  You can find your
 API key on the *Account Settings* page (click 'Account Settings' in the
 top right-hand corner of your Performable dashboard).  Set
 :const:`PERFORMABLE_API_KEY` in the project :file:`settings.py` file::
 
     PERFORMABLE_API_KEY = 'XXXXXX'
 
-If you do not set an API key, the Javascript code will not be rendered.
+If you do not set an API key, the JavaScript code will not be rendered.
 
 
 .. _performable-identity-user:
@@ -116,7 +116,7 @@ Embedding a landing page
 ========================
 
 You can embed a Performable landing page in your Django website.  The
-:ttag:`performable_embed` template tag adds the Javascript code to embed
+:ttag:`performable_embed` template tag adds the JavaScript code to embed
 the page.  It takes two arguments: the hostname and the page ID::
 
     {% performable_embed HOSTNAME PAGE_ID %}
