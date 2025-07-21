@@ -1,7 +1,7 @@
 django-analytical |latest-version|
 ==================================
 
-|build-status| |coverage| |python-support| |license| |gitter| |jazzband|
+|build-status| |coverage| |python-support| |license| |jazzband|
 
 The django-analytical application integrates analytics services into a
 Django_ project.
@@ -38,12 +38,9 @@ an asynchronous version of the Javascript code if possible.
 .. |license| image:: https://img.shields.io/pypi/l/django-analytical.svg
    :alt: Software license
    :target: https://github.com/jazzband/django-analytical/blob/main/LICENSE.txt
-.. |gitter| image:: https://img.shields.io/gitter/room/jazzband/django-analytical.svg
-   :alt: Gitter chat room
-   :target: https://gitter.im/jazzband/django-analytical
 .. |jazzband| image:: https://jazzband.co/static/img/badge.svg
    :alt: Jazzband
-   :target: https://jazzband.co/
+   :target: https://jazzband.co/projects/django-analytical
 .. _`Django`: http://www.djangoproject.com/
 
 Currently Supported Services
@@ -108,9 +105,7 @@ Documentation and Support
 
 The documentation can be found in the ``docs`` directory or `read
 online`_.  The source code and issue tracker are generously `hosted by
-GitHub`_.  Bugs should be reported there, whereas for lengthy chats
-and coding support when implementing new service integrations you're
-welcome to use our `Gitter chat room`_.
+GitHub`_.
 
 .. _`read online`: https://django-analytical.readthedocs.io/
 .. _`hosted by GitHub`: https://github.com/jazzband/django-analytical
@@ -128,11 +123,17 @@ services to support, or suggesting documentation improvements, use the
 the repository, make changes and place a `pull request`_.  Creating an
 issue to discuss your plans is useful.
 
+At the end, don't forget to add yourself to the `list of authors`_ and
+update the `changelog`_ with a short description of your contribution.
+We want you to stand out from the crowd as an open source superstar! ✦
+
 This is a `Jazzband`_ project.  By contributing you agree to abide by the
 `Contributor Code of Conduct`_ and follow the `guidelines`_.
 
 .. _`issue tracker`: https://github.com/jazzband/django-analytical/issues
 .. _`pull request`: https://github.com/jazzband/django-analytical/pulls
+.. _`list of authors`: https://github.com/jazzband/django-analytical/blob/main/pyproject.toml
+.. _`changelog`: https://github.com/jazzband/django-analytical/blob/main/CHANGELOG.rst
 .. _`Jazzband`: https://jazzband.co
 .. _`Contributor Code of Conduct`: https://jazzband.co/about/conduct
 .. _`guidelines`: https://jazzband.co/about/guidelines
