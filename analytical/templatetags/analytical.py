@@ -25,7 +25,7 @@ TAG_MODULES = [
     'analytical.gosquared',
     'analytical.heap',
     'analytical.hotjar',
-    'analytical.contentsquare',
+    'analytical.content_square',
     'analytical.hubspot',
     'analytical.intercom',
     'analytical.kiss_insights',
