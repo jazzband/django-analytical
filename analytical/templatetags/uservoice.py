@@ -2,19 +2,17 @@
 UserVoice template tags.
 """
 
-from __future__ import absolute_import
-
 import json
 import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
-from analytical.utils import get_required_setting, get_identity
 
+from analytical.utils import get_identity, get_required_setting
 
 WIDGET_KEY_RE = re.compile(r'^[a-zA-Z0-9]*$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
 
     UserVoice=window.UserVoice||[];(function(){
             var uv=document.createElement('script');uv.type='text/javascript';
@@ -37,7 +35,7 @@ def uservoice(parser, token):
     """
     UserVoice tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your UserVoice Widget Key in the ``USERVOICE_WIDGET_KEY``
     setting or the ``uservoice_widget_key`` template context variable.
     """
@@ -50,7 +48,8 @@ def uservoice(parser, token):
 class UserVoiceNode(Node):
     def __init__(self):
         self.default_widget_key = get_required_setting(
-            'USERVOICE_WIDGET_KEY', WIDGET_KEY_RE, "must be an alphanumeric string")
+            'USERVOICE_WIDGET_KEY', WIDGET_KEY_RE, 'must be an alphanumeric string'
+        )
 
     def render(self, context):
         widget_key = context.get('uservoice_widget_key')
@@ -67,13 +66,16 @@ class UserVoiceNode(Node):
         if identity:
             identity = IDENTITY % {'options': json.dumps(identity, sort_keys=True)}
 
-        trigger = context.get('uservoice_add_trigger',
-                              getattr(settings, 'USERVOICE_ADD_TRIGGER', True))
+        trigger = context.get(
+            'uservoice_add_trigger', getattr(settings, 'USERVOICE_ADD_TRIGGER', True)
+        )
 
-        html = TRACKING_CODE % {'widget_key': widget_key,
-                                'options':  json.dumps(options, sort_keys=True),
-                                'trigger': TRIGGER if trigger else '',
-                                'identity': identity if identity else ''}
+        html = TRACKING_CODE % {
+            'widget_key': widget_key,
+            'options': json.dumps(options, sort_keys=True),
+            'trigger': TRIGGER if trigger else '',
+            'identity': identity if identity else '',
+        }
         return html
 
     def _identify(self, user):

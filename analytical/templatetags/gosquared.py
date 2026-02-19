@@ -2,19 +2,20 @@
 GoSquared template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_identity, \
-        is_internal_ip, disable_html, get_required_setting
-
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
 TOKEN_RE = re.compile(r'^\S+-\S+-\S+$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
       var GoSquared={};
       %(config)s
       (function(w){
@@ -39,7 +40,7 @@ def gosquared(parser, token):
     """
     GoSquared tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your GoSquared site token in the ``GOSQUARED_SITE_TOKEN`` setting.
     """
     bits = token.split_contents()
@@ -51,8 +52,10 @@ def gosquared(parser, token):
 class GoSquaredNode(Node):
     def __init__(self):
         self.site_token = get_required_setting(
-                'GOSQUARED_SITE_TOKEN', TOKEN_RE,
-                "must be a string looking like XXX-XXXXXX-X")
+            'GOSQUARED_SITE_TOKEN',
+            TOKEN_RE,
+            'must be a string looking like XXX-XXXXXX-X',
+        )
 
     def render(self, context):
         configs = [TOKEN_CODE % self.site_token]

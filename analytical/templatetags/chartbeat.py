@@ -2,8 +2,6 @@
 Chartbeat template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import json
 import re
 
@@ -11,13 +9,12 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 USER_ID_RE = re.compile(r'^\d+$')
-INIT_CODE = """<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>"""
+INIT_CODE = """<script>var _sf_startpt=(new Date()).getTime()</script>"""
 SETUP_CODE = """
-    <script type="text/javascript">
+    <script>
       var _sf_async_config=%(config)s;
       (function(){
         function loadChartbeat() {
@@ -47,7 +44,7 @@ def chartbeat_top(parser, token):
     """
     Top Chartbeat template tag.
 
-    Render the top Javascript code for Chartbeat.
+    Render the top JavaScript code for Chartbeat.
     """
     bits = token.split_contents()
     if len(bits) > 1:
@@ -58,7 +55,7 @@ def chartbeat_top(parser, token):
 class ChartbeatTopNode(Node):
     def render(self, context):
         if is_internal_ip(context):
-            return disable_html(INIT_CODE, "Chartbeat")
+            return disable_html(INIT_CODE, 'Chartbeat')
         return INIT_CODE
 
 
@@ -67,7 +64,7 @@ def chartbeat_bottom(parser, token):
     """
     Bottom Chartbeat template tag.
 
-    Render the bottom Javascript code for Chartbeat.  You must supply
+    Render the bottom JavaScript code for Chartbeat.  You must supply
     your Chartbeat User ID (as a string) in the ``CHARTBEAT_USER_ID``
     setting.
     """
@@ -79,8 +76,9 @@ def chartbeat_bottom(parser, token):
 
 class ChartbeatBottomNode(Node):
     def __init__(self):
-        self.user_id = get_required_setting('CHARTBEAT_USER_ID', USER_ID_RE,
-                                            "must be (a string containing) a number")
+        self.user_id = get_required_setting(
+            'CHARTBEAT_USER_ID', USER_ID_RE, 'must be (a string containing) a number'
+        )
 
     def render(self, context):
         config = {'uid': self.user_id}
@@ -109,6 +107,7 @@ def _get_domain(context):
             return
         elif getattr(settings, 'CHARTBEAT_AUTO_DOMAIN', True):
             from django.contrib.sites.models import Site
+
             try:
                 return Site.objects.get_current().domain
             except (ImproperlyConfigured, Site.DoesNotExist):  # pylint: disable=E1101

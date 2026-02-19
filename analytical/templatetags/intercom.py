@@ -2,21 +2,22 @@
 intercom.io template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import hashlib
 import hmac
 import json
-import sys
 import re
-import time
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import disable_html, get_required_setting, \
-        is_internal_ip, get_user_from_context, get_identity, \
-        get_user_is_authenticated
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    get_user_from_context,
+    get_user_is_authenticated,
+    is_internal_ip,
+)
 
 APP_ID_RE = re.compile(r'[\da-z]+$')
 TRACKING_CODE = """
@@ -27,14 +28,6 @@ TRACKING_CODE = """
 """  # noqa
 
 register = Library()
-
-
-def _timestamp(when):
-    """
-    Python 2 compatibility for `datetime.timestamp()`.
-    """
-    return (time.mktime(when.timetuple()) if sys.version_info < (3,) else
-            when.timestamp())
 
 
 def _hashable_bytes(data):
@@ -70,7 +63,7 @@ def intercom(parser, token):
     """
     Intercom.io template tag.
 
-    Renders Javascript code to intercom.io testing.  You must supply
+    Renders JavaScript code to intercom.io testing.  You must supply
     your APP ID account number in the ``INTERCOM_APP_ID``
     setting.
     """
@@ -83,8 +76,8 @@ def intercom(parser, token):
 class IntercomNode(Node):
     def __init__(self):
         self.app_id = get_required_setting(
-                'INTERCOM_APP_ID', APP_ID_RE,
-                "must be a string looking like 'XXXXXXX'")
+            'INTERCOM_APP_ID', APP_ID_RE, "must be a string looking like 'XXXXXXX'"
+        )
 
     def _identify(self, user):
         name = user.get_full_name()
@@ -102,14 +95,13 @@ class IntercomNode(Node):
         user = get_user_from_context(context)
         if user is not None and get_user_is_authenticated(user):
             if 'name' not in params:
-                params['name'] = get_identity(
-                        context, 'intercom', self._identify, user)
+                params['name'] = get_identity(context, 'intercom', self._identify, user)
             if 'email' not in params and user.email:
                 params['email'] = user.email
 
             params.setdefault('user_id', user.pk)
 
-            params['created_at'] = int(_timestamp(user.date_joined))
+            params['created_at'] = int(user.date_joined.timestamp())
         else:
             params['created_at'] = None
 
@@ -127,10 +119,8 @@ class IntercomNode(Node):
 
     def render(self, context):
         params = self._get_custom_attrs(context)
-        params["app_id"] = self.app_id
-        html = TRACKING_CODE % {
-            "settings_json": json.dumps(params, sort_keys=True)
-        }
+        params['app_id'] = self.app_id
+        html = TRACKING_CODE % {'settings_json': json.dumps(params, sort_keys=True)}
 
         if is_internal_ip(context, 'INTERCOM'):
             html = disable_html(html, 'Intercom')

@@ -2,18 +2,15 @@
 Clickmap template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 CLICKMAP_TRACKER_ID_RE = re.compile(r'^\w+$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
     var clickmapConfig = {tracker: '%(tracker_id)s', version:'2'};
     window.clickmapAsyncInit = function(){ __clickmap.init(clickmapConfig); };
     (function() { var _cmf = document.createElement('script'); _cmf.async = true;
@@ -33,7 +30,7 @@ def clickmap(parser, token):
     """
     Clickmap tracker template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your clickmap tracker ID (as a string) in the ``CLICKMAP_TRACKER_ID``
     setting.
     """
@@ -45,9 +42,11 @@ def clickmap(parser, token):
 
 class ClickmapNode(Node):
     def __init__(self):
-        self.tracker_id = get_required_setting('CLICKMAP_TRACKER_ID',
-                                               CLICKMAP_TRACKER_ID_RE,
-                                               "must be an alphanumeric string")
+        self.tracker_id = get_required_setting(
+            'CLICKMAP_TRACKER_ID',
+            CLICKMAP_TRACKER_ID_RE,
+            'must be an alphanumeric string',
+        )
 
     def render(self, context):
         html = TRACKING_CODE % {'tracker_id': self.tracker_id}

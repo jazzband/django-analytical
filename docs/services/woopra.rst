@@ -37,7 +37,7 @@ the tag at the bottom of the HTML head::
     </head>
     ...
 
-Because Javascript code is asynchronous, putting the tag in the head
+Because JavaScript code is asynchronous, putting the tag in the head
 section increases the chances that a page view is going to be tracked
 before the visitor leaves the page.  See for details the `Asynchronous
 JavaScript Developer’s Guide`_ on the Woopra website.
@@ -92,6 +92,38 @@ Keep in mind that increasing this number will not only show you more
 visitors on your site at a time, but will also skew your average time on
 a page reporting.  So it’s important to keep the number reasonable in
 order to accurately make predictions.
+
+
+Cookie control
+--------------
+
+Optional settings that influence the cookie behavior::
+
+    WOOPRA_COOKIE_NAME = "wooTracker"
+    WOOPRA_COOKIE_DOMAIN = ".example.com"
+    WOOPRA_COOKIE_PATH = "/"
+    WOOPRA_COOKIE_EXPIRE = "Fri Jan 01 2027 15:00:00 GMT+0000"
+
+See the `Woopra documentation`_ for more specific details.
+
+
+Tracking control
+----------------
+
+Optional settings that influence the tracking as such::
+
+    WOOPRA_CLICK_TRACKING = False
+    WOOPRA_DOWNLOAD_TRACKING = False
+    WOOPRA_OUTGOING_TRACKING = False
+    WOOPRA_OUTGOING_IGNORE_SUBDOMAIN = True
+    WOOPRA_IGNORE_QUERY_URL = True
+    WOOPRA_HIDE_CAMPAIGN = False
+
+See the `Woopra documentation`_ for more specific details.
+
+
+.. _`Woopra documentation`:
+    https://docs.woopra.com/reference/woopraconfig#configuring-your-tracker
 
 
 Internal IP addresses

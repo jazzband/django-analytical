@@ -23,7 +23,7 @@ This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`intercom-configuration`.
 
-The Intercom.io Javascript code is inserted into templates using a
+The Intercom.io JavaScript code is inserted into templates using a
 template tag.  Load the :mod:`intercom` template tag library and
 insert the :ttag:`intercom` tag.  Because every page that you want to
 track must have the tag, it is useful to add it to your base template.
@@ -55,7 +55,7 @@ Setting the app id
 --------------------------
 
 Intercom.io gives you a unique app id, and the :ttag:`intercom`
-tag will include it in the rendered Javascript code.  You can find your
+tag will include it in the rendered JavaScript code.  You can find your
 app id by clicking the *Tracking Code* link when logged into
 the on the intercom.io website.  A page will display containing
 HTML code looking like this::
@@ -71,7 +71,7 @@ file::
 
     INTERCOM_APP_ID = 'XXXXXXXXXXXXXXXXXXXXXXX'
 
-If you do not set an app id, the Javascript code will not be
+If you do not set an app id, the JavaScript code will not be
 rendered.
 
 

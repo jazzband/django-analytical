@@ -68,3 +68,52 @@ and is enabled by default.  To disable:
     Alternatively, add one of the variables to the context yourself
     when you render the template.
 
+Changing the identity
+*********************
+
+If you want to override the identity of the logged-in user that the various
+providers send you can do it by setting the ``analytical_identity`` context
+variable in your view code:
+
+.. code-block:: python
+
+    context = RequestContext({'analytical_identity': user.uuid})
+    return some_template.render(context)
+
+or in the template:
+
+.. code-block:: django
+
+    {% with analytical_identity=request.user.uuid|default:None %}
+        {% analytical_head_top %}
+    {% endwith %}
+
+or by implementing a context processor, e.g.
+
+.. code-block:: python
+
+    # FILE: myproject/context_processors.py
+    from django.conf import settings
+
+    def get_identity(request):
+        return {
+            'analytical_identity': 'some-value-here',
+        }
+
+    # FILE: myproject/settings.py
+    TEMPLATES = [
+        {
+            'OPTIONS': {
+                'context_processors': [
+                    'myproject.context_processors.get_identity',
+                ],
+            },
+        },
+    ]
+
+That allows you as a developer to leave your view code untouched and
+make sure that the variable is injected for all templates.
+
+If you want to change the identity only for specific provider use the
+``*_identity`` context variable, where the ``*`` prefix is the module name
+of the specific provider.

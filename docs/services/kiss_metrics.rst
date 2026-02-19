@@ -24,7 +24,7 @@ This step is only needed if you are not using the generic
 :ttag:`analytical.*` tags.  If you are, skip to
 :ref:`kiss-metrics-configuration`.
 
-The KISSmetrics Javascript code is inserted into templates using a
+The KISSmetrics JavaScript code is inserted into templates using a
 template tag.  Load the :mod:`kiss_metrics` template tag library and
 insert the :ttag:`kiss_metrics` tag.  Because every page that you want
 to track must have the tag, it is useful to add it to your base
@@ -53,7 +53,7 @@ Setting the API key
 
 Every website you track events for with KISSmetrics gets its own API
 key, and the :ttag:`kiss_metrics` tag will include it in the rendered
-Javascript code.  You can find the website API key by visiting the
+JavaScript code.  You can find the website API key by visiting the
 website *Product center* on your KISSmetrics dashboard.  Set
 :const:`KISS_METRICS_API_KEY` in the project :file:`settings.py` file::
 
@@ -144,7 +144,7 @@ For example::
     })
     return some_template.render(context)
 
-The output script tag will then include the corresponding Javascript event as
+The output script tag will then include the corresponding JavaScript event as
 documented in the `KISSmetrics record API`_ docs.
 
 

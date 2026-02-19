@@ -2,19 +2,15 @@
 Rating@Mail.ru template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, \
-        get_required_setting
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 COUNTER_ID_RE = re.compile(r'^\d{7}$')
 COUNTER_CODE = """
-    <script type="text/javascript">
+    <script>
     var _tmr = window._tmr || (window._tmr = []);
     _tmr.push({id: "%(counter_id)s", type: "pageView", start: (new Date()).getTime()});
     (function (d, w, id) {
@@ -39,7 +35,7 @@ def rating_mailru(parser, token):
     """
     Rating@Mail.ru counter template tag.
 
-    Renders Javascript code to track page visits. You must supply
+    Renders JavaScript code to track page visits. You must supply
     your website counter ID (as a string) in the
     ``RATING_MAILRU_COUNTER_ID`` setting.
     """
@@ -52,8 +48,10 @@ def rating_mailru(parser, token):
 class RatingMailruNode(Node):
     def __init__(self):
         self.counter_id = get_required_setting(
-            'RATING_MAILRU_COUNTER_ID', COUNTER_ID_RE,
-            "must be (a string containing) a number'")
+            'RATING_MAILRU_COUNTER_ID',
+            COUNTER_ID_RE,
+            "must be (a string containing) a number'",
+        )
 
     def render(self, context):
         html = COUNTER_CODE % {

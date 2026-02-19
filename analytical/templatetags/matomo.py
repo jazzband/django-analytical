@@ -2,18 +2,19 @@
 Matomo template tags and filters.
 """
 
-from __future__ import absolute_import
-
+import re
 from collections import namedtuple
 from itertools import chain
-import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import (is_internal_ip, disable_html,
-                              get_required_setting, get_identity)
-
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
 # domain name (characters separated by a dot), optional port, optional URI path, no slash
 DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)*$')
@@ -22,7 +23,7 @@ DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)
 SITEID_RE = re.compile(r'^\d+$')
 
 TRACKING_CODE = """
-<script type="text/javascript">
+<script>
   var _paq = window._paq || [];
   %(variables)s
   %(commands)s
@@ -36,10 +37,12 @@ TRACKING_CODE = """
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<noscript><p><img src="//%(url)s/piwik.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
+<noscript><p><img src="//%(url)s/matomo.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
 """  # noqa
 
-VARIABLE_CODE = '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
+VARIABLE_CODE = (
+    '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
+)
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
 DISABLE_COOKIES_CODE = "_paq.push(['disableCookies']);"
 
@@ -80,7 +83,7 @@ def matomo(parser, token):
     """
     Matomo tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your Matomo domain (plus optional URI path), and tracked site ID
     in the ``MATOMO_DOMAIN_PATH`` and the ``MATOMO_SITE_ID`` setting.
 
@@ -98,23 +101,27 @@ def matomo(parser, token):
 
 class MatomoNode(Node):
     def __init__(self):
-        self.domain_path = \
-            get_required_setting('MATOMO_DOMAIN_PATH', DOMAINPATH_RE,
-                                 "must be a domain name, optionally followed "
-                                 "by an URI path, no trailing slash (e.g. "
-                                 "matomo.example.com or my.matomo.server/path)")
-        self.site_id = \
-            get_required_setting('MATOMO_SITE_ID', SITEID_RE,
-                                 "must be a (string containing a) number")
+        self.domain_path = get_required_setting(
+            'MATOMO_DOMAIN_PATH',
+            DOMAINPATH_RE,
+            'must be a domain name, optionally followed '
+            'by an URI path, no trailing slash (e.g. '
+            'matomo.example.com or my.matomo.server/path)',
+        )
+        self.site_id = get_required_setting(
+            'MATOMO_SITE_ID', SITEID_RE, 'must be a (string containing a) number'
+        )
 
     def render(self, context):
         custom_variables = context.get('matomo_vars', ())
 
-        complete_variables = (var if len(var) >= 4 else var + (DEFAULT_SCOPE,)
-                              for var in custom_variables)
+        complete_variables = (
+            var if len(var) >= 4 else var + (DEFAULT_SCOPE,) for var in custom_variables
+        )
 
-        variables_code = (VARIABLE_CODE % MatomoVar(*var)._asdict()
-                          for var in complete_variables)
+        variables_code = (
+            VARIABLE_CODE % MatomoVar(*var)._asdict() for var in complete_variables
+        )
 
         commands = []
         if getattr(settings, 'MATOMO_DISABLE_COOKIES', False):
@@ -125,15 +132,15 @@ class MatomoNode(Node):
 
         userid = get_identity(context, 'matomo')
         if userid is not None:
-            variables_code = chain(variables_code, (
-                IDENTITY_CODE % {'userid': userid},
-            ))
+            variables_code = chain(
+                variables_code, (IDENTITY_CODE % {'userid': userid},)
+            )
 
         html = TRACKING_CODE % {
             'url': self.domain_path,
             'siteid': self.site_id,
             'variables': '\n  '.join(variables_code),
-            'commands': '\n  '.join(commands)
+            'commands': '\n  '.join(commands),
         }
         if is_internal_ip(context, 'MATOMO'):
             html = disable_html(html, 'Matomo')

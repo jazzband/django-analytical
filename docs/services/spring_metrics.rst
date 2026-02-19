@@ -2,7 +2,7 @@
 Spring Metrics -- conversion tracking
 =====================================
 
-`Spring Metrics`_ is a convesions analysis tool.  It shows you the top
+`Spring Metrics`_ is a conversions analysis tool.  It shows you the top
 converting sources, search keywords and landing pages.  The real-time
 dashboard shows you how customers interact with your website and how
 to increase conversion.
@@ -53,7 +53,7 @@ Setting the Tracking ID
 
 Every website you track with Spring Metrics gets its own Tracking ID,
 and the :ttag:`spring_metrics` tag will include it in the rendered
-Javascript code.  You can find the Tracking ID in the `Site Settings`_
+JavaScript code.  You can find the Tracking ID in the `Site Settings`_
 of your Spring Metrics account.  Set :const:`SPRING_METRICS_TRACKING_ID`
 in the project :file:`settings.py` file::
 

@@ -53,7 +53,7 @@ Setting the counter ID
 
 Every website you track with Yandex.Metrica gets its own counter ID,
 and the :ttag:`yandex_metrica` tag will include it in the rendered
-Javascript code.  You can find the web counter ID on the overview page
+JavaScript code.  You can find the web counter ID on the overview page
 of your account.  Set :const:`YANDEX_METRICA_COUNTER_ID` in the
 project :file:`settings.py` file::
 

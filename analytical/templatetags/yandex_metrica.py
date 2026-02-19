@@ -2,21 +2,17 @@
 Yandex.Metrica template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import json
 import re
 
 from django.conf import settings
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, \
-        get_required_setting
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 COUNTER_ID_RE = re.compile(r'^\d{8}$')
 COUNTER_CODE = """
-    <script type="text/javascript">
+    <script>
         (function (d, w, c) {
             (w[c] = w[c] || []).push(function() {
                 try {
@@ -48,7 +44,7 @@ def yandex_metrica(parser, token):
     """
     Yandex.Metrica counter template tag.
 
-    Renders Javascript code to track page visits. You must supply
+    Renders JavaScript code to track page visits. You must supply
     your website counter ID (as a string) in the
     ``YANDEX_METRICA_COUNTER_ID`` setting.
     """
@@ -61,15 +57,17 @@ def yandex_metrica(parser, token):
 class YandexMetricaNode(Node):
     def __init__(self):
         self.counter_id = get_required_setting(
-                'YANDEX_METRICA_COUNTER_ID', COUNTER_ID_RE,
-                "must be (a string containing) a number'")
+            'YANDEX_METRICA_COUNTER_ID',
+            COUNTER_ID_RE,
+            "must be (a string containing) a number'",
+        )
 
     def render(self, context):
         options = {
             'id': int(self.counter_id),
             'clickmap': True,
             'trackLinks': True,
-            'accurateTrackBounce': True
+            'accurateTrackBounce': True,
         }
         if getattr(settings, 'YANDEX_METRICA_WEBVISOR', False):
             options['webvisor'] = True

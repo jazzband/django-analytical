@@ -2,17 +2,15 @@
 Gaug.es template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 SITE_ID_RE = re.compile(r'[\da-f]+$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
       var _gauges = _gauges || [];
       (function() {
         var t   = document.createElement('script');
@@ -35,7 +33,7 @@ def gauges(parser, token):
     """
     Gaug.es template tag.
 
-    Renders Javascript code to gaug.es testing.  You must supply
+    Renders JavaScript code to gaug.es testing.  You must supply
     your Site ID account number in the ``GAUGES_SITE_ID``
     setting.
     """
@@ -48,8 +46,8 @@ def gauges(parser, token):
 class GaugesNode(Node):
     def __init__(self):
         self.site_id = get_required_setting(
-                'GAUGES_SITE_ID', SITE_ID_RE,
-                "must be a string looking like 'XXXXXXX'")
+            'GAUGES_SITE_ID', SITE_ID_RE, "must be a string looking like 'XXXXXXX'"
+        )
 
     def render(self, context):
         html = TRACKING_CODE % {'site_id': self.site_id}

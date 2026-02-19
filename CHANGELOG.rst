@@ -1,8 +1,53 @@
+(unreleased)
+------------
+* Fix GA gtag user_id setup and add support for custom dimensions (Erick Massip)
+* Change spelling of "JavaScript" across all files in docstrings and docs
+  (Peter Bittner)
+
+Version 3.2.0
+-------------
+* Remove deprecated Piwik integration. Use Matomo instead! (Peter Bittner)
+* Migrate packaging from setup.py to pyproject.toml with Ruff for linting
+  and formatting (Peter Bittner)
+* Remove obsolete type attribute in script tags for JavaScript (Peter Bittner)
+* Drop the end-of-life Python 3.8 as required by changed semantics of the
+  license metadata field (Peter Bittner)
+* Remove AUTHORS file to avoid confusion; this is now metadata maintained
+  in pyproject.toml (Peter Bittner)
+* Add more configuration options for Woopra (Peter Bittner)
+
+Version 3.1.0
+-------------
+* Rename default branch from master to main (Peter Bittner, Jannis Leidel)
+* Modernize packaging setup, add pyproject.toml (Peter Bittner)
+* Integrate isort, reorganize imports (David Smith)
+* Refactor test suite from Python unit tests to Pytest (David Smith)
+* Add Heap integration (Garrett Coakley)
+* Drop Django 3.1, cover Django 4.0 and Python 3.10 in test suite (David Smith)
+
+Version 3.0.0
+-------------
+* Add support for Lucky Orange (Peter Bittner)
+* Add missing instructions in Installation chapter of the docs (Peter Bittner)
+* Migrate test setup to Pytest (David Smith, Peter Bittner, Pi Delport)
+* Support Django 3.1 and Python 3.9, drop Django 1.11 and Python 2.7/3.5 (David Smith)
+* Migrate from Travis CI to GitHub Actions (Jannis Leidel)
+* Update accepted patterns (regex) for Google Analytics GTag (Taha Rushain)
+* Scope Piwik warning to use of Piwik (Hugo Barrera)
+* Add ``user_id`` to Google Analytics GTag (Sean Wallace)
+
+Version 2.6.0
+-------------
+* Support Django 3.0 and Python 3.8, drop Django 2.1
+* Add support for Google Analytics Tag Manager (Marc Bourqui)
+* Add Matomo, the renamed version of Piwik (Scott Karlin)
+* Move Joost's project over to the Jazzband
+
 Version 2.5.0
 -------------
 * Add support for Google analytics.js (Marc Bourqui)
 * Add support for Intercom HMAC identity verification (Pi Delport)
-* Add support for HotJar (Pi Delport)
+* Add support for Hotjar (Pi Delport)
 * Make sure _trackPageview happens before other settings in Google Analytics
   (Diederik van der Boor)
 
@@ -172,7 +217,7 @@ Version 0.5.0
 -------------
 * Split off Geckoboard support into django-geckoboard_.
 
-.. _django-geckoboard: http://pypi.python.org/pypi/django-geckoboard
+.. _django-geckoboard: https://pypi.org/project/django-geckoboard
 
 Version 0.4.0
 -------------

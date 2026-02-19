@@ -2,19 +2,16 @@
 HubSpot template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_required_setting
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 PORTAL_ID_RE = re.compile(r'^\d+$')
 TRACKING_CODE = """
     <!-- Start of Async HubSpot Analytics Code -->
-      <script type="text/javascript">
+      <script>
         (function(d,s,i,r) {
           if (d.getElementById(i)){return;}
           var n=d.createElement(s),e=d.getElementsByTagName(s)[0];
@@ -33,7 +30,7 @@ def hubspot(parser, token):
     """
     HubSpot tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your portal ID (as a string) in the ``HUBSPOT_PORTAL_ID`` setting.
     """
     bits = token.split_contents()
@@ -44,8 +41,9 @@ def hubspot(parser, token):
 
 class HubSpotNode(Node):
     def __init__(self):
-        self.portal_id = get_required_setting('HUBSPOT_PORTAL_ID', PORTAL_ID_RE,
-                                              "must be a (string containing a) number")
+        self.portal_id = get_required_setting(
+            'HUBSPOT_PORTAL_ID', PORTAL_ID_RE, 'must be a (string containing a) number'
+        )
 
     def render(self, context):
         html = TRACKING_CODE % {'portal_id': self.portal_id}

@@ -34,7 +34,7 @@ get the development code:
 
     $ git clone https://github.com/jazzband/django-analytical.git
 
-.. _PyPI: http://pypi.python.org/pypi/django-analytical/
+.. _PyPI: https://pypi.org/project/django-analytical/
 .. _GitHub: http://github.com/jazzband/django-analytical
 
 Then install the package by running the setup script:
@@ -68,7 +68,7 @@ file of your project:
 Adding the template tags to the base template
 =============================================
 
-Because every analytics service uses own specific Javascript code that
+Because every analytics service uses own specific JavaScript code that
 should be added to the top or bottom of either the head or body of the
 HTML page, django-analytical provides four general-purpose template tags
 that will render the code needed for the services you are using.  Your
@@ -133,9 +133,17 @@ settings required to enable each service are listed here:
 
     GAUGES_SITE_ID = '0123456789abcdef0123456789abcdef'
 
-* :doc:`Google Analytics <services/google_analytics>`::
+* :doc:`Google Analytics (legacy) <services/google_analytics>`::
 
     GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-1234567-8'
+
+* :doc:`Google Analytics (gtag.js) <services/google_analytics_gtag>`::
+
+    GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = 'UA-1234567-8'
+
+* :doc:`Google Analytics (analytics.js) <services/google_analytics_js>`::
+
+    GOOGLE_ANALYTICS_JS_PROPERTY_ID = 'UA-12345678-9'
 
 * :doc:`HubSpot <services/hubspot>`::
 
@@ -154,6 +162,10 @@ settings required to enable each service are listed here:
 * :doc:`KISSmetrics <services/kiss_metrics>`::
 
     KISS_METRICS_API_KEY = '0123456789abcdef0123456789abcdef01234567'
+
+* :doc:`Lucky Orange <services/luckyorange>`::
+
+    LUCKYORANGE_SITE_ID = '123456'
 
 * :doc:`Matomo (formerly Piwik) <services/matomo>`::
 
@@ -176,14 +188,13 @@ settings required to enable each service are listed here:
 
     PERFORMABLE_API_KEY = '123abc'
 
-* :doc:`Piwik (deprecated, see Matomo) <services/piwik>`::
-
-    PIWIK_DOMAIN_PATH = 'your.piwik.server/optional/path'
-    PIWIK_SITE_ID = '123'
-
 * :doc:`Rating\@Mail.ru <services/rating_mailru>`::
 
     RATING_MAILRU_COUNTER_ID = '1234567'
+
+* :doc:`SnapEngage <services/snapengage>`::
+
+    SNAPENGAGE_WIDGET_ID = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
 
 * :doc:`Woopra <services/woopra>`::
 

@@ -2,20 +2,21 @@
 KISSmetrics template tags.
 """
 
-from __future__ import absolute_import
-
 import json
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import is_internal_ip, disable_html, get_identity, \
-        get_required_setting
-
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
 API_KEY_RE = re.compile(r'^[0-9a-f]{40}$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
       var _kmq = _kmq || [];
       %(commands)s
       function _kms(u){
@@ -49,7 +50,7 @@ def kiss_metrics(parser, token):
     """
     KISSinsights tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your KISSmetrics API key in the ``KISS_METRICS_API_KEY``
     setting.
     """
@@ -62,8 +63,10 @@ def kiss_metrics(parser, token):
 class KissMetricsNode(Node):
     def __init__(self):
         self.api_key = get_required_setting(
-            'KISS_METRICS_API_KEY', API_KEY_RE,
-            "must be a string containing a 40-digit hexadecimal number")
+            'KISS_METRICS_API_KEY',
+            API_KEY_RE,
+            'must be a string containing a 40-digit hexadecimal number',
+        )
 
     def render(self, context):
         commands = []
@@ -78,22 +81,28 @@ class KissMetricsNode(Node):
             pass
         try:
             name, properties = context[EVENT_CONTEXT_KEY]
-            commands.append(EVENT_CODE % {
-                'name': name,
-                'properties': json.dumps(properties, sort_keys=True),
-            })
+            commands.append(
+                EVENT_CODE
+                % {
+                    'name': name,
+                    'properties': json.dumps(properties, sort_keys=True),
+                }
+            )
         except KeyError:
             pass
         try:
             properties = context[PROPERTY_CONTEXT_KEY]
-            commands.append(PROPERTY_CODE % {
-                'properties': json.dumps(properties, sort_keys=True),
-            })
+            commands.append(
+                PROPERTY_CODE
+                % {
+                    'properties': json.dumps(properties, sort_keys=True),
+                }
+            )
         except KeyError:
             pass
         html = TRACKING_CODE % {
             'api_key': self.api_key,
-            'commands': " ".join(commands),
+            'commands': ' '.join(commands),
         }
         if is_internal_ip(context, 'KISS_METRICS'):
             html = disable_html(html, 'KISSmetrics')

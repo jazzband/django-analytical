@@ -54,10 +54,10 @@ Setting the account number and site code
 
 In order to install the survey code, you need to set your KISSinsights
 account number and website code.  The :ttag:`kiss_insights` tag will
-include it in the rendered Javascript code.  You can find the account
+include it in the rendered JavaScript code.  You can find the account
 number and website code by visiting the code installation page of the
 website you want to place the surveys on.  You will see some HTML code
-with a Javascript tag with a ``src`` attribute containing
+with a JavaScript tag with a ``src`` attribute containing
 ``//s3.amazonaws.com/ki.js/XXXXX/YYY.js``.  Here ``XXXXX`` is the
 account number and ``YYY`` the website code.  Set
 :const:`KISS_INSIGHTS_ACCOUNT_NUMBER` and

@@ -4,23 +4,21 @@
 /.tox
 /.vscode
 /.envrc
+/playground
 
 *.pyc
 *.pyo
 
 /.coverage
+/coverage.xml
+/tests/*-report.json
+/tests/*-report.xml
 
 /build
 /dist
 /docs/_build
-/MANIFEST
-/playground
-
 /docs/_templates/layout.html
-
-*.pyc
-*.pyo
-
+/MANIFEST
 *.egg-info
 
 /requirements.txt

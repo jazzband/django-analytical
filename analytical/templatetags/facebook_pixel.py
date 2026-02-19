@@ -1,14 +1,12 @@
 """
 Facebook Pixel template tags and filters.
 """
-from __future__ import absolute_import
 
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_required_setting, is_internal_ip, disable_html
-
+from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 FACEBOOK_PIXEL_HEAD_CODE = """\
 <script>
@@ -62,11 +60,12 @@ class _FacebookPixelNode(Node):
     """
     Base class: override and provide code_template.
     """
+
     def __init__(self):
         self.pixel_id = get_required_setting(
             'FACEBOOK_PIXEL_ID',
             re.compile(r'^\d+$'),
-            "must be (a string containing) a number",
+            'must be (a string containing) a number',
         )
 
     def render(self, context):

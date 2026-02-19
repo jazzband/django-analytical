@@ -2,20 +2,21 @@
 Clicky template tags and filters.
 """
 
-from __future__ import absolute_import
-
 import json
 import re
 
 from django.template import Library, Node, TemplateSyntaxError
 
-from analytical.utils import get_identity, is_internal_ip, disable_html, \
-        get_required_setting
-
+from analytical.utils import (
+    disable_html,
+    get_identity,
+    get_required_setting,
+    is_internal_ip,
+)
 
 SITE_ID_RE = re.compile(r'^\d+$')
 TRACKING_CODE = """
-    <script type="text/javascript">
+    <script>
     var clicky = { log: function(){ return; }, goal: function(){ return; }};
     var clicky_site_ids = clicky_site_ids || [];
     clicky_site_ids.push(%(site_id)s);
@@ -39,7 +40,7 @@ def clicky(parser, token):
     """
     Clicky tracking template tag.
 
-    Renders Javascript code to track page visits.  You must supply
+    Renders JavaScript code to track page visits.  You must supply
     your Clicky Site ID (as a string) in the ``CLICKY_SITE_ID``
     setting.
     """
@@ -52,8 +53,8 @@ def clicky(parser, token):
 class ClickyNode(Node):
     def __init__(self):
         self.site_id = get_required_setting(
-            'CLICKY_SITE_ID', SITE_ID_RE,
-            "must be a (string containing) a number")
+            'CLICKY_SITE_ID', SITE_ID_RE, 'must be a (string containing) a number'
+        )
 
     def render(self, context):
         custom = {}

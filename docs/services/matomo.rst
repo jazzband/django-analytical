@@ -1,6 +1,6 @@
-==================================
+====================================================
 Matomo (formerly Piwik) -- open source web analytics
-==================================
+====================================================
 
 Matomo_ is an open analytics platform currently used by individuals,
 companies and governments all over the world.
@@ -98,7 +98,7 @@ other parameters should be strings. ::
     return some_template.render(context)
 
 Matomo default settings allow up to 5 custom variables for both scope. Variable
-mapping betweeen index and name must stay constant, or the latest name
+mapping between index and name must stay constant, or the latest name
 override the previous one.
 
 If you use the same user variables in different views and its value can
