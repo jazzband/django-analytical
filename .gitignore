@@ -2,12 +2,19 @@
 /*.geany
 /.idea
 /.tox
+/.vscode
+/.envrc
+
+*.pyc
+*.pyo
+
 /.coverage
 
 /build
 /dist
 /docs/_build
 /MANIFEST
+/playground
 
 /docs/_templates/layout.html
 
@@ -15,3 +22,6 @@
 *.pyo
 
 *.egg-info
+
+/requirements.txt
+/uv.lock
