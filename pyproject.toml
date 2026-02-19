@@ -108,7 +108,7 @@ source = ["analytical"]
 [tool.pytest.ini_options]
 addopts = "--junitxml=tests/unittests-report.xml --color=yes --verbose"
 DJANGO_SETTINGS_MODULE = "tests.testproject.settings"
-# norecursedirs = ["playground"]
+norecursedirs = ["playground"]
 
 [tool.ruff.format]
 quote-style = "single"
