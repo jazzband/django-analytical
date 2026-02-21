@@ -3,8 +3,6 @@
 /.idea
 /.tox
 /.vscode
-/.envrc
-/playground
 
 *.pyc
 *.pyo
