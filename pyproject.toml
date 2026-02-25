@@ -59,6 +59,8 @@ authors = [
     {name = "Tinnet Coronam", email = "tinnet@coronam.net"},
     {name = "Uros Trebec", email = "uros@trebec.org"},
     {name = "Walter Renner", email = "walter.renner@me.com"},
+    {name = "Julian Haluska", email = "mail@julianhaluska.de"},
+    {name = "Ronard Luna", email = "rlunag@proton.me"},
 ]
 maintainers = [
     {name = "Jazzband community", email = "jazzband-bot@users.noreply.github.com"},
