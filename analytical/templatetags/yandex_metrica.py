@@ -12,25 +12,15 @@ from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
 COUNTER_ID_RE = re.compile(r'^\d{8}$')
 COUNTER_CODE = """
-    <script>
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter%(counter_id)s = new Ya.Metrika(%(options)s);
-                } catch(e) { }
-            });
+    <script type="text/javascript">
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
+        ym(%(counter_id)s, "init", %(options)s);
+       
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/%(counter_id)s" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 """  # noqa
