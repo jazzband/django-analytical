@@ -27,8 +27,9 @@ class IntercomTagTestCase(TagTestCase):
             '<script id="IntercomSettingsScriptTag">'
         )
 
+    @override_settings(USE_TZ=True)
     def test_node(self):
-        now = datetime.datetime(2014, 4, 9, 15, 15, 0)
+        now = datetime.datetime(2014, 4, 9, 20, 15, 0, tzinfo=datetime.timezone.utc)
         user = User.objects.create(
             username='test',
             first_name='Firstname',
@@ -59,8 +60,9 @@ class IntercomTagTestCase(TagTestCase):
         with pytest.raises(AnalyticalException):
             IntercomNode()
 
+    @override_settings(USE_TZ=True)
     def test_identify_name_email_and_created_at(self):
-        now = datetime.datetime(2014, 4, 9, 15, 15, 0)
+        now = datetime.datetime(2014, 4, 9, 20, 15, 0, tzinfo=datetime.timezone.utc)
         user = User.objects.create(
             username='test',
             first_name='Firstname',
