@@ -59,11 +59,9 @@ class ClickyNode(Node):
             'CLICKY_SITE_ID', SITE_ID_RE, 'must be a (string containing) a number'
         )
         policy = settings.SECURE_REFERRER_POLICY
-        policies = (
-            [value.strip() for value in policy.split(',')]
-            if isinstance(policy, str)
-            else policy or ()
-        )
+        if not isinstance(policy, str):
+            policy = ','.join(policy or ())
+        policies = [value.strip() for value in policy.split(',')]
         # Browsers use the last recognized policy in a fallback list.
         for value in reversed(list(policies)):
             if value in {

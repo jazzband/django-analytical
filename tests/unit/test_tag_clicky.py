@@ -83,6 +83,8 @@ class ClickyTagTestCase(TagTestCase):
         'same-origin',
         'no-referrer',
         ['origin', 'same-origin'],
+        ['origin', ' same-origin '],
+        ['origin, same-origin'],
         'origin, no-referrer',
         'same-origin, unknown-policy',
     ],
