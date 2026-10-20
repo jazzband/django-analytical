@@ -61,6 +61,7 @@ authors = [
     {name = "Walter Renner", email = "walter.renner@me.com"},
     {name = "Julian Haluska", email = "mail@julianhaluska.de"},
     {name = "Ronard Luna", email = "rlunag@proton.me"},
+    {name = "jihtsan", email = "15151999611@163.com"},
 ]
 maintainers = [
     {name = "Jazzband community", email = "jazzband-bot@users.noreply.github.com"},

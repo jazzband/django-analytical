@@ -1,5 +1,6 @@
 (unreleased)
 ------------
+* Avoid exponential backtracking in Matomo domain validation (jihtsan)
 * Fix GA gtag user_id setup and add support for custom dimensions (Erick Massip)
 * Change spelling of "JavaScript" across all files in docstrings and docs
   (Peter Bittner)
