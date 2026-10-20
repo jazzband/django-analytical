@@ -4,6 +4,9 @@ Clicky template tags and filters.
 
 import json
 import re
+import warnings
+
+from django.conf import settings
 
 from django.template import Library, Node, TemplateSyntaxError
 
@@ -55,6 +58,33 @@ class ClickyNode(Node):
         self.site_id = get_required_setting(
             'CLICKY_SITE_ID', SITE_ID_RE, 'must be a (string containing) a number'
         )
+        policy = settings.SECURE_REFERRER_POLICY
+        policies = (
+            [value.strip() for value in policy.split(',')]
+            if isinstance(policy, str)
+            else policy or ()
+        )
+        # Browsers use the last recognized policy in a fallback list.
+        for value in reversed(list(policies)):
+            if value in {
+                'no-referrer',
+                'no-referrer-when-downgrade',
+                'same-origin',
+                'origin',
+                'strict-origin',
+                'origin-when-cross-origin',
+                'strict-origin-when-cross-origin',
+                'unsafe-url',
+            }:
+                if value in {'no-referrer', 'same-origin'}:
+                    warnings.warn(
+                        'Clicky domain validation requires a cross-origin referrer. '
+                        'Set SECURE_REFERRER_POLICY to a policy such as '
+                        '"origin-when-cross-origin" if domain validation is enabled.',
+                        RuntimeWarning,
+                        stacklevel=2,
+                    )
+                break
 
     def render(self, context):
         custom = {}

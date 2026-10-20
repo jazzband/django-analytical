@@ -3,6 +3,7 @@ Tests for the Clicky template tags and filters.
 """
 
 import re
+import warnings
 
 import pytest
 from django.contrib.auth.models import AnonymousUser, User
@@ -15,7 +16,9 @@ from analytical.templatetags.clicky import ClickyNode
 from analytical.utils import AnalyticalException
 
 
-@override_settings(CLICKY_SITE_ID='12345678')
+@override_settings(
+    CLICKY_SITE_ID='12345678', SECURE_REFERRER_POLICY='origin-when-cross-origin'
+)
 class ClickyTagTestCase(TagTestCase):
     """
     Tests for the ``clicky`` template tag.
@@ -72,3 +75,48 @@ class ClickyTagTestCase(TagTestCase):
         r = ClickyNode().render(context)
         assert r.startswith('<!-- Clicky disabled on internal IP address')
         assert r.endswith('-->')
+
+
+@pytest.mark.parametrize(
+    'policy',
+    [
+        'same-origin',
+        'no-referrer',
+        ['origin', 'same-origin'],
+        'origin, no-referrer',
+        'same-origin, unknown-policy',
+    ],
+)
+@override_settings(CLICKY_SITE_ID='12345678')
+def test_clicky_warns_for_restrictive_referrer_policy(policy):
+    with override_settings(SECURE_REFERRER_POLICY=policy):
+        with pytest.warns(RuntimeWarning, match='Clicky domain validation'):
+            ClickyNode()
+
+
+@pytest.mark.parametrize(
+    'policy',
+    [
+        None,
+        '',
+        [],
+        'origin',
+        'origin-when-cross-origin',
+        'strict-origin-when-cross-origin',
+        ['same-origin', 'origin'],
+        'no-referrer, origin-when-cross-origin',
+    ],
+)
+@override_settings(CLICKY_SITE_ID='12345678')
+def test_clicky_allows_referrer_policy(policy):
+    with override_settings(SECURE_REFERRER_POLICY=policy):
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter('always')
+            ClickyNode()
+        assert not caught
+
+
+@override_settings(CLICKY_SITE_ID='12345678', SECURE_REFERRER_POLICY='same-origin')
+def test_clicky_tag_warns_for_default_referrer_policy():
+    with pytest.warns(RuntimeWarning, match='SECURE_REFERRER_POLICY'):
+        TagTestCase().render_tag('clicky', 'clicky')

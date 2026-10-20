@@ -63,6 +63,28 @@ project :file:`settings.py` file::
 If you do not set a Site ID, the tracking code will not be rendered.
 
 
+Referrer policy
+---------------
+
+Clicky's domain validation requires the browser to send a referrer to its
+tracking endpoint. Django's default ``SECURE_REFERRER_POLICY`` has been
+``same-origin`` since Django 3.1. Both ``same-origin`` and ``no-referrer``
+suppress this cross-origin referrer and prevent domain validation.
+The Clicky tag emits a ``RuntimeWarning`` for these settings.
+
+If you use Clicky's domain validation, choose a policy that sends the origin
+to Clicky, for example::
+
+    SECURE_REFERRER_POLICY = 'origin-when-cross-origin'
+
+This sends only the origin, rather than the full page URL, for cross-origin
+requests. Review the policy's effect on your other integrations before
+changing it. Also check any ``Referrer-Policy`` header set by your views,
+web server, or proxy, as the tag can only inspect the Django setting.
+See `Clicky's domain validation documentation
+<https://clicky.com/help/faq/tips/different/domain-validation>`_ for details.
+
+
 .. _clicky-internal-ips:
 
 Internal IP addresses
