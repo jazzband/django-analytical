@@ -4,10 +4,9 @@ Clicky template tags and filters.
 
 import json
 import re
-import warnings
 
 from django.conf import settings
-
+from django.core import checks
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import (
@@ -38,6 +37,47 @@ TRACKING_CODE = """
 register = Library()
 
 
+@checks.register(checks.Tags.security)
+def check_referrer_policy(app_configs, **kwargs):
+    """Warn if Django's configured policy prevents Clicky domain validation."""
+    if (
+        not getattr(settings, 'CLICKY_SITE_ID', None)
+        or 'django.middleware.security.SecurityMiddleware' not in settings.MIDDLEWARE
+    ):
+        return []
+    policy = settings.SECURE_REFERRER_POLICY
+    if not isinstance(policy, str):
+        policy = ','.join(policy or ())
+    policies = [value.strip() for value in policy.split(',')]
+    # Browsers use the last recognized policy in a fallback list.
+    for value in reversed(policies):
+        if value in {
+            'no-referrer',
+            'no-referrer-when-downgrade',
+            'same-origin',
+            'origin',
+            'strict-origin',
+            'origin-when-cross-origin',
+            'strict-origin-when-cross-origin',
+            'unsafe-url',
+        }:
+            if value in {'no-referrer', 'same-origin'}:
+                return [
+                    checks.Warning(
+                        'The configured referrer policy prevents Clicky domain validation.',
+                        hint=(
+                            'If Clicky domain validation is enabled, set '
+                            'SECURE_REFERRER_POLICY to a policy such as '
+                            '"origin-when-cross-origin". If validation is disabled, '
+                            'silence analytical.W001 via SILENCED_SYSTEM_CHECKS.'
+                        ),
+                        id='analytical.W001',
+                    )
+                ]
+            break
+    return []
+
+
 @register.tag
 def clicky(parser, token):
     """
@@ -58,31 +98,6 @@ class ClickyNode(Node):
         self.site_id = get_required_setting(
             'CLICKY_SITE_ID', SITE_ID_RE, 'must be a (string containing) a number'
         )
-        policy = settings.SECURE_REFERRER_POLICY
-        if not isinstance(policy, str):
-            policy = ','.join(policy or ())
-        policies = [value.strip() for value in policy.split(',')]
-        # Browsers use the last recognized policy in a fallback list.
-        for value in reversed(list(policies)):
-            if value in {
-                'no-referrer',
-                'no-referrer-when-downgrade',
-                'same-origin',
-                'origin',
-                'strict-origin',
-                'origin-when-cross-origin',
-                'strict-origin-when-cross-origin',
-                'unsafe-url',
-            }:
-                if value in {'no-referrer', 'same-origin'}:
-                    warnings.warn(
-                        'Clicky domain validation requires a cross-origin referrer. '
-                        'Set SECURE_REFERRER_POLICY to a policy such as '
-                        '"origin-when-cross-origin" if domain validation is enabled.',
-                        RuntimeWarning,
-                        stacklevel=2,
-                    )
-                break
 
     def render(self, context):
         custom = {}

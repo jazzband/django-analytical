@@ -70,7 +70,11 @@ Clicky's domain validation requires the browser to send a referrer to its
 tracking endpoint. Django's default ``SECURE_REFERRER_POLICY`` has been
 ``same-origin`` since Django 3.1. Both ``same-origin`` and ``no-referrer``
 suppress this cross-origin referrer and prevent domain validation.
-The Clicky tag emits a ``RuntimeWarning`` for these settings.
+When ``CLICKY_SITE_ID`` is configured and Django's ``SecurityMiddleware`` is
+enabled, the ``analytical.W001`` security system check warns for these
+settings. It runs with ``manage.py check`` (or ``manage.py check --tag security``)
+and commands that run Django's checks, such as ``runserver``. Rendering a
+Clicky tag does not emit a warning.
 
 If you use Clicky's domain validation, choose a policy that sends the origin
 to Clicky, for example::
@@ -80,7 +84,15 @@ to Clicky, for example::
 This sends only the origin, rather than the full page URL, for cross-origin
 requests. Review the policy's effect on your other integrations before
 changing it. Also check any ``Referrer-Policy`` header set by your views,
-web server, or proxy, as the tag can only inspect the Django setting.
+web server, or proxy, as the check can only inspect the Django setting.
+The check does not change response headers or verify your Clicky account's
+preferences. If you have intentionally disabled Clicky's optional domain
+validation, you can silence this check::
+
+    SILENCED_SYSTEM_CHECKS = ['analytical.W001']
+
+System checks are not automatically run by Django's deployment WSGI stack;
+run ``manage.py check`` explicitly as part of deployment if needed.
 See `Clicky's domain validation documentation
 <https://clicky.com/help/faq/tips/different/domain-validation>`_ for details.
 
