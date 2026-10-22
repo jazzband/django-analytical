@@ -119,19 +119,22 @@ def test_clicky_check_registered_on_application_startup():
         [
             sys.executable,
             '-c',
-            "import os; os.environ['DJANGO_SETTINGS_MODULE'] = "
-            "'tests.testproject.settings'; import django; django.setup(); "
-            'import json; from django.core import checks; '
-            'from django.test.utils import override_settings; '
-            "settings = override_settings(CLICKY_SITE_ID='12345678', "
-            "SECURE_REFERRER_POLICY='same-origin', "
-            "MIDDLEWARE=['django.middleware.security.SecurityMiddleware']); "
-            'settings.enable(); '
-            'print(json.dumps([m.id for m in '
-            'checks.run_checks(tags=[checks.Tags.security]) '
-            "if m.id.startswith('analytical.')]))",
+            (
+                "import os; os.environ['DJANGO_SETTINGS_MODULE'] = "
+                "'tests.testproject.settings'; import django; django.setup(); "
+                'import json; from django.core import checks; '
+                'from django.test.utils import override_settings; '
+                "settings = override_settings(CLICKY_SITE_ID='12345678', "
+                "SECURE_REFERRER_POLICY='same-origin', "
+                "MIDDLEWARE=['django.middleware.security.SecurityMiddleware']); "
+                'settings.enable(); '
+                'print(json.dumps([m.id for m in '
+                'checks.run_checks(tags=[checks.Tags.security]) '
+                "if m.id.startswith('analytical.')]))"
+            ),
         ],
         cwd=Path(__file__).resolve().parents[2],
+        check=False,
         capture_output=True,
         text=True,
         timeout=20,
