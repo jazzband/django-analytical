@@ -5,6 +5,8 @@ Clicky template tags and filters.
 import json
 import re
 
+from django.conf import settings
+from django.core import checks
 from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import (
@@ -33,6 +35,47 @@ TRACKING_CODE = """
 """  # noqa
 
 register = Library()
+
+
+@checks.register(checks.Tags.security)
+def check_referrer_policy(app_configs, **kwargs):
+    """Warn if Django's configured policy prevents Clicky domain validation."""
+    if (
+        not getattr(settings, 'CLICKY_SITE_ID', None)
+        or 'django.middleware.security.SecurityMiddleware' not in settings.MIDDLEWARE
+    ):
+        return []
+    policy = settings.SECURE_REFERRER_POLICY
+    if not isinstance(policy, str):
+        policy = ','.join(policy or ())
+    policies = [value.strip() for value in policy.split(',')]
+    # Browsers use the last recognized policy in a fallback list.
+    for value in reversed(policies):
+        if value in {
+            'no-referrer',
+            'no-referrer-when-downgrade',
+            'same-origin',
+            'origin',
+            'strict-origin',
+            'origin-when-cross-origin',
+            'strict-origin-when-cross-origin',
+            'unsafe-url',
+        }:
+            if value in {'no-referrer', 'same-origin'}:
+                return [
+                    checks.Warning(
+                        'The configured referrer policy prevents Clicky domain validation.',
+                        hint=(
+                            'If Clicky domain validation is enabled, set '
+                            'SECURE_REFERRER_POLICY to a policy such as '
+                            '"origin-when-cross-origin". If validation is disabled, '
+                            'silence analytical.W001 via SILENCED_SYSTEM_CHECKS.'
+                        ),
+                        id='analytical.W001',
+                    )
+                ]
+            break
+    return []
 
 
 @register.tag

@@ -63,6 +63,25 @@ project :file:`settings.py` file::
 If you do not set a Site ID, the tracking code will not be rendered.
 
 
+Referrer policy
+---------------
+
+Clicky's optional `domain validation
+<https://clicky.com/help/faq/tips/different/domain-validation>`_ requires a
+cross-origin referrer. With ``CLICKY_SITE_ID`` configured and Django's
+``SecurityMiddleware`` enabled, ``manage.py check`` reports ``analytical.W001``
+if ``SECURE_REFERRER_POLICY`` is ``same-origin`` (Django's default) or
+``no-referrer``.
+
+If you use domain validation, choose a compatible policy, for example::
+
+    SECURE_REFERRER_POLICY = 'origin-when-cross-origin'
+
+If you disable domain validation in Clicky, silence the check::
+
+    SILENCED_SYSTEM_CHECKS = ['analytical.W001']
+
+
 .. _clicky-internal-ips:
 
 Internal IP addresses
