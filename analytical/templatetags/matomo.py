@@ -17,7 +17,8 @@ from analytical.utils import (
 )
 
 # domain name (characters separated by a dot), optional port, optional URI path, no slash
-DOMAINPATH_RE = re.compile(r'^(([^./?#@:]+\.)*[^./?#@:]+)+(:[0-9]+)?(/[^/?#@:]+)*$')
+# Keep domain labels unambiguous to avoid exponential backtracking on bad input.
+DOMAINPATH_RE = re.compile(r'^([^./?#@:]+\.)*[^./?#@:]+(:[0-9]+)?(/[^/?#@:]+)*$')
 
 # numeric ID
 SITEID_RE = re.compile(r'^\d+$')

@@ -2,6 +2,10 @@
 Tests for the Matomo template tags and filters.
 """
 
+import subprocess
+import sys
+import textwrap
+
 import pytest
 from django.contrib.auth.models import User
 from django.http import HttpRequest
@@ -164,3 +168,51 @@ class MatomoTagTestCase(TagTestCase):
     def test_ask_for_consent(self):
         r = MatomoNode().render(Context({}))
         self.assertTrue("_paq.push(['requireConsent']);" in r, r)
+
+
+def test_invalid_domain_validation_finishes():
+    """Reject long invalid domains without exponential regex backtracking."""
+    code = textwrap.dedent(
+        """
+        from django.conf import settings
+        settings.configure(MATOMO_DOMAIN_PATH='a' * 1024 + '?', MATOMO_SITE_ID='345')
+        from analytical.templatetags.matomo import MatomoNode
+        from analytical.utils import AnalyticalException
+        try:
+            MatomoNode()
+        except AnalyticalException:
+            pass
+        else:
+            raise AssertionError('Invalid domain was accepted')
+        """
+    )
+    subprocess.run(
+        [sys.executable, '-c', code], check=True, capture_output=True, timeout=5
+    )
+
+
+@pytest.mark.parametrize(
+    'domain_path',
+    ['localhost', 'a.b.c', '127.0.0.1:8080/matomo', 'example.com/path/to.matomo'],
+)
+def test_domain_forms_remain_valid(domain_path):
+    with override_settings(MATOMO_DOMAIN_PATH=domain_path, MATOMO_SITE_ID='345'):
+        assert MatomoNode().domain_path == domain_path
+
+
+@pytest.mark.parametrize(
+    'domain_path',
+    [
+        '.example.com',
+        'example..com',
+        'example.com.',
+        'example.com/a//b',
+        'example.com/a?b',
+        'example.com/a#b',
+        'example.com/a@b',
+    ],
+)
+def test_domain_forms_remain_invalid(domain_path):
+    with override_settings(MATOMO_DOMAIN_PATH=domain_path, MATOMO_SITE_ID='345'):
+        with pytest.raises(AnalyticalException):
+            MatomoNode()
