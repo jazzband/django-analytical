@@ -10,7 +10,7 @@ from django.template import Library, Node, TemplateSyntaxError
 
 from analytical.utils import disable_html, get_required_setting, is_internal_ip
 
-COUNTER_ID_RE = re.compile(r'^\d{8}$')
+COUNTER_ID_RE = re.compile(r'^\d+$')
 COUNTER_CODE = """
     <script>
         (function (d, w, c) {

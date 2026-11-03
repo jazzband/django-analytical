@@ -26,6 +26,11 @@ class YandexMetricaTagTestCase(TagTestCase):
         r = YandexMetricaNode().render(Context({}))
         assert 'w.yaCounter12345678 = new Ya.Metrika' in r
 
+    @override_settings(YANDEX_METRICA_COUNTER_ID='104609315')
+    def test_9_digit_counter_id(self):
+        r = self.render_tag('yandex_metrica', 'yandex_metrica')
+        assert 'w.yaCounter104609315 = new Ya.Metrika' in r
+
     @override_settings(YANDEX_METRICA_COUNTER_ID=None)
     def test_no_site_id(self):
         with pytest.raises(AnalyticalException):
