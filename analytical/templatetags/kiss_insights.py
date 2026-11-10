@@ -13,7 +13,7 @@ SITE_CODE_RE = re.compile(r'^[\w]+$')
 SETUP_CODE = """
     <script>var _kiq = _kiq || []; %(commands)s</script>
     <script src="//s3.amazonaws.com/ki.js/%(account_number)s/%(site_code)s.js" async="true"></script>
-"""  # noqa
+"""
 IDENTIFY_CODE = "_kiq.push(['identify', '%s']);"
 SHOW_SURVEY_CODE = "_kiq.push(['showSurvey', %s]);"
 SHOW_SURVEY_CONTEXT_KEY = 'kiss_insights_show_survey'
@@ -34,7 +34,7 @@ def kiss_insights(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return KissInsightsNode()
 
 

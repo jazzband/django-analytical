@@ -93,13 +93,7 @@ class FacebookPixelTagTestCase(TagTestCase):
         context = Context({'request': request})
 
         def _disabled(html):
-            return '\n'.join(
-                [
-                    '<!-- Facebook Pixel disabled on internal IP address',
-                    html,
-                    '-->',
-                ]
-            )
+            return f'<!-- Facebook Pixel disabled on internal IP address\n{html}\n-->'
 
         head_html = FacebookPixelHeadNode().render(context)
         assert _disabled(expected_head_html) == head_html

@@ -32,7 +32,7 @@ TRACKING_CODE = """
     })();
     </script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/%(site_id)sns.gif" /></p></noscript>
-"""  # noqa
+"""
 
 register = Library()
 
@@ -89,7 +89,7 @@ def clicky(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return ClickyNode()
 
 

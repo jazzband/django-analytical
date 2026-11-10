@@ -17,7 +17,7 @@ from analytical.utils import (
 API_KEY_RE = re.compile(r'^\w+$')
 SETUP_CODE = """
     <script src="//d1nu2rn22elx8m.cloudfront.net/performable/pax/%(api_key)s.js"></script>
-"""  # noqa
+"""
 IDENTIFY_CODE = """
     <script>
       var _paq = _paq || [];
@@ -33,7 +33,7 @@ EMBED_CODE = """
       $f.write();
     })()
     </script>
-"""  # noqa
+"""
 
 register = Library()
 
@@ -49,7 +49,7 @@ def performable(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return PerformableNode()
 
 
@@ -63,7 +63,7 @@ class PerformableNode(Node):
         html = SETUP_CODE % {'api_key': self.api_key}
         identity = get_identity(context, 'performable')
         if identity is not None:
-            html = '%s%s' % (IDENTIFY_CODE % identity, html)
+            html = f'{IDENTIFY_CODE % identity}{html}'
         if is_internal_ip(context, 'PERFORMABLE'):
             html = disable_html(html, 'Performable')
         return html

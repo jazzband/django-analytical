@@ -69,8 +69,10 @@ class KissMetricsTagTestCase(TagTestCase):
                 }
             )
         )
-        assert "_kmq.push(['record', 'test_event', "
-        '{"prop1": "val1", "prop2": "val2"}]);' in r
+        assert (
+            "_kmq.push(['record', 'test_event', "
+            '{"prop1": "val1", "prop2": "val2"}]);'
+        ) in r
 
     def test_property(self):
         r = KissMetricsNode().render(

@@ -32,7 +32,7 @@ SETUP_CODE = """
       document.write(unescape("%%3Cscript src='" + ((document.location.protocol=="https:")?"https://snapabug.appspot.com":"http://www.snapengage.com") + "/snapabug.js' type='text/javascript'%%3E%%3C/script%%3E"));</script><script>
       %(settings_code)s
     </script>
-"""  # noqa
+"""
 DOMAIN_CODE = 'SnapABug.setDomain("%s");'
 SECURE_CONNECTION_CODE = 'SnapABug.setSecureConnexion();'
 INIT_CODE = 'SnapABug.init("%s");'
@@ -64,7 +64,7 @@ def snapengage(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return SnapEngageNode()
 
 

@@ -30,7 +30,7 @@ TRACKING_CODE = """
      )();
      %(custom_commands)s
     </script>
-"""  # noqa
+"""
 
 register = Library()
 
@@ -46,7 +46,7 @@ def spring_metrics(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return SpringMetricsNode()
 
 
@@ -79,9 +79,9 @@ class SpringMetricsNode(Node):
         commands = []
         convert = params.pop('convert', None)
         if convert is not None:
-            commands.append("_springMetq.push(['convert', '%s'])" % convert)
+            commands.append(f"_springMetq.push(['convert', '{convert}'])")
         commands.extend(
-            "_springMetq.push(['setdata', {'%s': '%s'}]);" % (var, val)
+            f"_springMetq.push(['setdata', {{'{var}': '{val}'}}]);"
             for var, val in params.items()
         )
         return ' '.join(commands)

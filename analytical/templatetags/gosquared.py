@@ -27,7 +27,7 @@ TRACKING_CODE = """
         w.addEventListener?w.addEventListener("load",gs,false):w.attachEvent("onload",gs);
       })(window);
     </script>
-"""  # noqa
+"""
 TOKEN_CODE = 'GoSquared.acct = "%s";'
 IDENTIFY_CODE = 'GoSquared.UserName = "%s";'
 
@@ -45,7 +45,7 @@ def gosquared(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return GoSquaredNode()
 
 

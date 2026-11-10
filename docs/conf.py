@@ -8,7 +8,7 @@ import sys
 sys.path.append(os.path.join(os.path.abspath('.'), '_ext'))
 sys.path.append(os.path.dirname(os.path.abspath('.')))
 
-import analytical  # noqa
+import analytical
 
 # -- General configuration --------------------------------------------------
 

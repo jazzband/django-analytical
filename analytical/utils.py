@@ -18,14 +18,12 @@ def get_required_setting(setting, value_re, invalid_msg):
     try:
         value = getattr(settings, setting)
     except AttributeError:
-        raise AnalyticalException('%s setting: not found' % setting)
+        raise AnalyticalException(f'{setting} setting: not found')
     if not value:
-        raise AnalyticalException('%s setting is not set' % setting)
+        raise AnalyticalException(f'{setting} setting is not set')
     value = str(value)
     if not value_re.search(value):
-        raise AnalyticalException(
-            "%s setting: %s: '%s'" % (setting, invalid_msg, value)
-        )
+        raise AnalyticalException(f"{setting} setting: {invalid_msg}: '{value}'")
     return value
 
 
@@ -72,7 +70,7 @@ def get_identity(context, prefix=None, identity_func=None, user=None):
     """
     if prefix is not None:
         try:
-            return context['%s_identity' % prefix]
+            return context[f'{prefix}_identity']
         except KeyError:
             pass
     try:
@@ -102,21 +100,20 @@ def get_domain(context, prefix):
     If no explicit domain is found in either the context or the
     settings, try to get the domain from the contrib sites framework.
     """
-    domain = context.get('%s_domain' % prefix)
+    domain = context.get(f'{prefix}_domain')
     if domain is None:
         domain = context.get('analytical_domain')
     if domain is None:
-        domain = getattr(settings, '%s_DOMAIN' % prefix.upper(), None)
+        domain = getattr(settings, f'{prefix.upper()}_DOMAIN', None)
     if domain is None:
         domain = getattr(settings, 'ANALYTICAL_DOMAIN', None)
-    if domain is None:
-        if 'django.contrib.sites' in settings.INSTALLED_APPS:
-            from django.contrib.sites.models import Site
+    if domain is None and 'django.contrib.sites' in settings.INSTALLED_APPS:
+        from django.contrib.sites.models import Site
 
-            try:
-                domain = Site.objects.get_current().domain
-            except (ImproperlyConfigured, Site.DoesNotExist):
-                pass
+        try:
+            domain = Site.objects.get_current().domain
+        except (ImproperlyConfigured, Site.DoesNotExist):
+            pass
     return domain
 
 
@@ -138,7 +135,7 @@ def is_internal_ip(context, prefix=None):
 
         internal_ips = None
         if prefix is not None:
-            internal_ips = getattr(settings, '%s_INTERNAL_IPS' % prefix, None)
+            internal_ips = getattr(settings, f'{prefix}_INTERNAL_IPS', None)
         if internal_ips is None:
             internal_ips = getattr(settings, 'ANALYTICAL_INTERNAL_IPS', None)
         if internal_ips is None:

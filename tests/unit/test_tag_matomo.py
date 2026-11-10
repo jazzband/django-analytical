@@ -213,6 +213,8 @@ def test_domain_forms_remain_valid(domain_path):
     ],
 )
 def test_domain_forms_remain_invalid(domain_path):
-    with override_settings(MATOMO_DOMAIN_PATH=domain_path, MATOMO_SITE_ID='345'):
-        with pytest.raises(AnalyticalException):
-            MatomoNode()
+    with (
+        override_settings(MATOMO_DOMAIN_PATH=domain_path, MATOMO_SITE_ID='345'),
+        pytest.raises(AnalyticalException),
+    ):
+        MatomoNode()

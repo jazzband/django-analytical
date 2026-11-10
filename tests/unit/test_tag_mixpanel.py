@@ -63,8 +63,9 @@ class MixpanelTagTestCase(TagTestCase):
                 }
             )
         )
-        assert "mixpanel.track('test_event', "
-        '{"prop1": "val1", "prop2": "val2"});' in r
+        assert (
+            'mixpanel.track(\'test_event\', {"prop1": "val1", "prop2": "val2"});'
+        ) in r
 
     @override_settings(ANALYTICAL_INTERNAL_IPS=['1.1.1.1'])
     def test_render_internal_ip(self):

@@ -32,7 +32,7 @@ SETUP_CODE = """
            loadChartbeat : function() { oldonload(); loadChartbeat(); };
       })();
     </script>
-"""  # noqa
+"""
 DOMAIN_CONTEXT_KEY = 'chartbeat_domain'
 
 
@@ -48,7 +48,7 @@ def chartbeat_top(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return ChartbeatTopNode()
 
 
@@ -70,7 +70,7 @@ def chartbeat_bottom(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return ChartbeatBottomNode()
 
 

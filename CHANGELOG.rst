@@ -1,5 +1,7 @@
 (unreleased)
 ------------
+* Drop end-of-life Python 3.9 and 3.10, and Django 4.2 and 5.1; add Python
+  3.14 and 3.15, and Django 6.0 and 6.1 to the test suite (Peter Bittner)
 * Add a configurable system check for referrer policies that prevent Clicky
   domain validation and document a compatible configuration (jihtsan)
 * Avoid exponential backtracking in Matomo domain validation (jihtsan)

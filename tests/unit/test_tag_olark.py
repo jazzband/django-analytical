@@ -61,8 +61,9 @@ class OlarkTestCase(TagTestCase):
 
     def test_status_string(self):
         r = OlarkNode().render(Context({'olark_status': 'teststatus'}))
-        assert "olark('api.chat.updateVisitorStatus', "
-        '{snippet: "teststatus"});' in r
+        assert (
+            'olark(\'api.chat.updateVisitorStatus\', {snippet: "teststatus"});'
+        ) in r
 
     def test_status_string_list(self):
         r = OlarkNode().render(
@@ -72,8 +73,10 @@ class OlarkTestCase(TagTestCase):
                 }
             )
         )
-        assert "olark('api.chat.updateVisitorStatus', "
-        '{snippet: ["teststatus1", "teststatus2"]});' in r
+        assert (
+            "olark('api.chat.updateVisitorStatus', "
+            '{snippet: ["teststatus1", "teststatus2"]});'
+        ) in r
 
     def test_messages(self):
         messages = [
