@@ -160,8 +160,10 @@ class WoopraTagTestCase(TagTestCase):
                 }
             )
         )
-        assert 'var woo_visitor = '
-        '{"email": "test@example.com", "name": "Firstname Lastname"};' in r
+        assert (
+            'var woo_visitor = '
+            '{"email": "test@example.com", "name": "Firstname Lastname"};'
+        ) in r
 
     @override_settings(ANALYTICAL_AUTO_IDENTIFY=True)
     def test_identify_username_no_email(self):

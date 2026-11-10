@@ -64,12 +64,8 @@ class LuckyOrangeTagTestCase(TagTestCase):
         context = Context({'request': request})
 
         actual_html = LuckyOrangeNode().render(context)
-        disabled_html = '\n'.join(
-            [
-                '<!-- Lucky Orange disabled on internal IP address',
-                expected_html,
-                '-->',
-            ]
+        disabled_html = (
+            f'<!-- Lucky Orange disabled on internal IP address\n{expected_html}\n-->'
         )
         assert disabled_html == actual_html
 

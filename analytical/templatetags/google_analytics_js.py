@@ -50,7 +50,7 @@ def google_analytics_js(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return GoogleAnalyticsJsNode()
 
 
@@ -144,7 +144,7 @@ class GoogleAnalyticsJsNode(Node):
         return other_fields
 
     def _get_custom_var_commands(self, context):
-        values = (context.get('google_analytics_var%s' % i) for i in range(1, 6))
+        values = (context.get(f'google_analytics_var{i}') for i in range(1, 6))
         params = [(i, v) for i, v in enumerate(values, 1) if v is not None]
         commands = []
         for _, var in params:

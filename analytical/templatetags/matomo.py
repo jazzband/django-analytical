@@ -39,20 +39,20 @@ TRACKING_CODE = """
   })();
 </script>
 <noscript><p><img src="//%(url)s/matomo.php?idsite=%(siteid)s" style="border:0;" alt="" /></p></noscript>
-"""  # noqa
+"""
 
 VARIABLE_CODE = (
-    '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'  # noqa
+    '_paq.push(["setCustomVariable", %(index)s, "%(name)s", "%(value)s", "%(scope)s"]);'
 )
 IDENTITY_CODE = '_paq.push(["setUserId", "%(userid)s"]);'
 DISABLE_COOKIES_CODE = "_paq.push(['disableCookies']);"
 
 GIVE_CONSENT_CLASS = 'matomo_give_consent'
 REMOVE_CONSENT_CLASS = 'matomo_remove_consent'
-ASK_FOR_CONSENT_CODE = """
+ASK_FOR_CONSENT_CODE = f"""
 _paq.push(['requireConsent']);
 
-var elements = document.getElementsByClassName("{}");
+var elements = document.getElementsByClassName("{REMOVE_CONSENT_CLASS}");
 for (var i = 0; i < elements.length; i++) {{
     elements[i].addEventListener("click",
       function () {{
@@ -61,7 +61,7 @@ for (var i = 0; i < elements.length; i++) {{
     );
 }}
 
-var elements = document.getElementsByClassName("{}");
+var elements = document.getElementsByClassName("{GIVE_CONSENT_CLASS}");
 for (var i = 0; i < elements.length; i++) {{
     elements[i].addEventListener("click",
       function () {{
@@ -69,7 +69,7 @@ for (var i = 0; i < elements.length; i++) {{
       }}
     );
 }}
-""".format(REMOVE_CONSENT_CLASS, GIVE_CONSENT_CLASS)
+"""
 
 DEFAULT_SCOPE = 'page'
 
@@ -96,7 +96,7 @@ def matomo(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return MatomoNode()
 
 

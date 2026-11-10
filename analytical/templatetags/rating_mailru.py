@@ -24,7 +24,7 @@ COUNTER_CODE = """
     <noscript><div style="position:absolute;left:-10000px;">
     <img src="//top-fwz1.mail.ru/counter?id=%(counter_id)s;js=na" style="border:0;" height="1" width="1" alt="Rating@Mail.ru" />
     </div></noscript>
-"""  # noqa
+"""
 
 
 register = Library()
@@ -41,7 +41,7 @@ def rating_mailru(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return RatingMailruNode()
 
 

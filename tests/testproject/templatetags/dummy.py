@@ -12,7 +12,7 @@ register = Library()
 def _location_node(location):
     class DummyNode(Node):
         def render(self, context):
-            return '<!-- dummy_%s -->' % location
+            return f'<!-- dummy_{location} -->'
 
     return DummyNode
 
@@ -24,14 +24,14 @@ def _location_tag(location):
     def dummy_tag(parser, token):
         bits = token.split_contents()
         if len(bits) > 1:
-            raise TemplateSyntaxError("'%s' tag takes no arguments" % bits[0])
+            raise TemplateSyntaxError(f"'{bits[0]}' tag takes no arguments")
         return _location_nodes[location]
 
     return dummy_tag
 
 
 for loc in TAG_LOCATIONS:
-    register.tag('dummy_%s' % loc, _location_tag(loc))
+    register.tag(f'dummy_{loc}', _location_tag(loc))
 
 
 def contribute_to_analytical(add_node_cls):

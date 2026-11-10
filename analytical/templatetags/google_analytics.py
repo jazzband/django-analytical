@@ -60,7 +60,7 @@ DISPLAY_ADVERTISING_SOURCE = (
     "'stats.g.doubleclick.net/dc.js'",
 )
 
-ZEROPLACES = decimal.Decimal('0')
+ZEROPLACES = decimal.Decimal(0)
 TWOPLACES = decimal.Decimal('0.01')
 
 register = Library()
@@ -77,7 +77,7 @@ def google_analytics(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return GoogleAnalyticsNode()
 
 
@@ -128,7 +128,7 @@ class GoogleAnalyticsNode(Node):
         return commands
 
     def _get_custom_var_commands(self, context):
-        values = (context.get('google_analytics_var%s' % i) for i in range(1, 6))
+        values = (context.get(f'google_analytics_var{i}') for i in range(1, 6))
         params = [(i, v) for i, v in enumerate(values, 1) if v is not None]
         commands = []
         for index, var in params:

@@ -30,7 +30,7 @@ def crazy_egg(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return CrazyEggNode()
 
 
@@ -47,7 +47,7 @@ class CrazyEggNode(Node):
             'account_nr_1': self.account_nr[:4],
             'account_nr_2': self.account_nr[4:],
         }
-        values = (context.get('crazy_egg_var%d' % i) for i in range(1, 6))
+        values = (context.get(f'crazy_egg_var{i}') for i in range(1, 6))
         params = [(i, v) for i, v in enumerate(values, 1) if v is not None]
         if params:
             js = ' '.join(
@@ -58,7 +58,7 @@ class CrazyEggNode(Node):
                 }
                 for (varnr, value) in params
             )
-            html = '%s\n<script>%s</script>' % (html, js)
+            html = f'{html}\n<script>{js}</script>'
         if is_internal_ip(context, 'CRAZY_EGG'):
             html = disable_html(html, 'Crazy Egg')
         return html

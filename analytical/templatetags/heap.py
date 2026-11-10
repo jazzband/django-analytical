@@ -15,7 +15,7 @@ TRACKING_CODE = """
   heap.load("%(tracker_id)s");
 </script>
 
-"""  # noqa
+"""
 
 register = Library()
 
@@ -23,7 +23,7 @@ register = Library()
 def _validate_no_args(token):
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
 
 
 @register.tag

@@ -23,7 +23,7 @@ e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
     mixpanel.init('%(token)s');
     %(commands)s
     </script>
-"""  # noqa
+"""
 IDENTIFY_CODE = "mixpanel.identify('%s');"
 IDENTIFY_PROPERTIES = 'mixpanel.people.set(%s);'
 EVENT_CODE = "mixpanel.track('%(name)s', %(properties)s);"
@@ -42,7 +42,7 @@ def mixpanel(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return MixpanelNode()
 
 

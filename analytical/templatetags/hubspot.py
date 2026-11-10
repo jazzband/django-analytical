@@ -20,7 +20,7 @@ TRACKING_CODE = """
         })(document,"script","hs-analytics",300000);
       </script>
     <!-- End of Async HubSpot Analytics Code -->
-"""  # noqa
+"""
 
 register = Library()
 
@@ -35,7 +35,7 @@ def hubspot(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return HubSpotNode()
 
 

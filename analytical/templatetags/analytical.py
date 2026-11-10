@@ -4,6 +4,7 @@ Analytical template tags and filters.
 
 import logging
 from importlib import import_module
+from itertools import chain
 
 from django import template
 from django.template import Node, TemplateSyntaxError
@@ -51,14 +52,14 @@ def _location_tag(location):
     def analytical_tag(parser, token):
         bits = token.split_contents()
         if len(bits) > 1:
-            raise TemplateSyntaxError("'%s' tag takes no arguments" % bits[0])
+            raise TemplateSyntaxError(f"'{bits[0]}' tag takes no arguments")
         return AnalyticalNode(location)
 
     return analytical_tag
 
 
 for loc in TAG_LOCATIONS:
-    register.tag('analytical_%s' % loc, _location_tag(loc))
+    register.tag(f'analytical_{loc}', _location_tag(loc))
 
 
 class AnalyticalNode(Node):
@@ -82,15 +83,15 @@ def _load_template_nodes():
         except AnalyticalException as e:
             logger.debug("not loading tags from '%s': %s", path, e)
     for location in TAG_LOCATIONS:
-        template_nodes[location] = sum(
-            (template_nodes[location][p] for p in TAG_POSITIONS), []
+        template_nodes[location] = list(
+            chain.from_iterable(template_nodes[location][p] for p in TAG_POSITIONS)
         )
     return template_nodes
 
 
 def _import_tag_module(path):
     app_name, lib_name = path.rsplit('.', 1)
-    return import_module('%s.templatetags.%s' % (app_name, lib_name))
+    return import_module(f'{app_name}.templatetags.{lib_name}')
 
 
 template_nodes = _load_template_nodes()

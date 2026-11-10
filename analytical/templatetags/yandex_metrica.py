@@ -33,7 +33,7 @@ COUNTER_CODE = """
         })(document, window, "yandex_metrika_callbacks");
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/%(counter_id)s" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-"""  # noqa
+"""
 
 
 register = Library()
@@ -50,7 +50,7 @@ def yandex_metrica(parser, token):
     """
     bits = token.split_contents()
     if len(bits) > 1:
-        raise TemplateSyntaxError("'%s' takes no arguments" % bits[0])
+        raise TemplateSyntaxError(f"'{bits[0]}' takes no arguments")
     return YandexMetricaNode()
 
 
